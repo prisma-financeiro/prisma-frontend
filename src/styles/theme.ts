@@ -1,12 +1,14 @@
 
 export const darkTheme = {
-  backgroundColor: "#333333",
-  textColor: "#000000",
-  primary: "#77ccdd"
+  backgroundColor: "#323432",
+  colorPrimaryText: "#F3F3F3",
+  primaryColor: "#20AD48",
+  highlightColor: "#E4D75F",
 }
 
 export const lightTheme = {
-  backgroundColor: "#e0e0e0",
-  textColor: "#ffffff",
-  primary: "#55aacc"
+  backgroundColor: "#323432",
+  colorPrimaryText: "#F3F3F3",
+  primaryColor: "#20AD48",
+  highlightColor: "#E4D75F",
 }
