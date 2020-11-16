@@ -1,17 +1,17 @@
 import React from 'react';
-import logo from './fintech.svg';
-import './App.css';
+
+import Routes from './routes';
+
+import { darkTheme } from './styles/theme';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyle from './styles/global';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This is our fintech app :)
-        </p>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyle />
+      <Routes />
+    </ThemeProvider>
   );
 }
 
