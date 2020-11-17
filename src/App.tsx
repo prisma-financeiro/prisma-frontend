@@ -6,7 +6,7 @@ import { darkTheme } from './styles/theme';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/global';
 
-function App() {
+const App: React.FC = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
