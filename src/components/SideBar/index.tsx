@@ -3,7 +3,8 @@ import React from 'react';
 import { Wrapper, AnimatedContainer } from './styles';
 import Accordion from './Accordion';
 
-import { DEFAULT_TRANSITION, SIDE_BAR_NAVIGATION } from '../../../constants';
+import { DEFAULT_TRANSITION } from '../../constants';
+import { SideBarOptions } from '../../constants/sidebar-navigation';
 
 const animation = {
   unMounted: { opacity: 0, y: -50 },
@@ -14,12 +15,18 @@ const animation = {
   },
 };
 
-const SideBar  = () => {
+interface SideBarProps {
+  title: string;
+  sideBarOptions: SideBarOptions[],
+}
+
+const SideBar: React.FC<SideBarProps>  = ({ sideBarOptions, title }) => {
   return (
     <Wrapper>
       <AnimatedContainer variants={animation}>
-        {Object.entries(SIDE_BAR_NAVIGATION).map(([key, value]) => (
-          <Accordion key={key} icon={value.icon} sectionName={key} />
+        <p>{title}</p>
+        {sideBarOptions.map(item => (
+          <Accordion key={item.name} icon={item.icon} sectionName={item.name} expand={item.expand}/>
         ))}
       </AnimatedContainer>
     </Wrapper>

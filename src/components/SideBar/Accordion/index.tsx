@@ -7,14 +7,15 @@ import { Container } from './styles';
 export type AccordionProps = {
   icon: React.ReactNode;
   sectionName: string;
+  expand: boolean;
 };
 
-const Accordion = ({ icon, sectionName }: AccordionProps) => {
+const Accordion = ({ icon, sectionName, expand }: AccordionProps) => {
   return (
     <Container variant="transparent">
       <div>{icon}</div>
       {sectionName}
-      <FiChevronDown />
+      {expand ?? <FiChevronDown />}
     </Container>
   );
 };

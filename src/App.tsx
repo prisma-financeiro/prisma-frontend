@@ -7,6 +7,8 @@ import GlobalStyle from './styles/global';
 import * as themes from './styles/themes';
 import useAppTheme from './contexts/theme';
 import { AuthProvider } from './contexts/auth';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 const App: React.FC = () => {
 
@@ -16,7 +18,9 @@ const App: React.FC = () => {
     <ThemeProvider theme={themes[currentTheme]}>
       <AuthProvider>
         <GlobalStyle />
+        <Header />
         <Routes />
+        <Footer />
       </AuthProvider>
     </ThemeProvider>
   );

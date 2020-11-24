@@ -11,7 +11,6 @@ import Gradient from './Gradient';
 import Button from '../Button';
 import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
 
-import { Logo } from '../../assets/images';
 import useAuth from '../../contexts/auth';
 
 const Header = () => {
@@ -26,7 +25,6 @@ const Header = () => {
     >
       <Wrapper>
         <AnimatedLeftNav variants={NAVS_ANIMATION}>
-          <Logo onClick={signOut} />
         </AnimatedLeftNav>
         <AnimatedRightNav variants={NAVS_ANIMATION}>
           <Button variant="secondary">Pesquisa</Button>

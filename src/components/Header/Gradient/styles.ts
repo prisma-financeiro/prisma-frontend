@@ -10,3 +10,22 @@ export const AnimatedContainer = styled(motion.aside)`
   background: ${({ theme }) =>
     `linear-gradient(90deg, ${theme.colors.secondary} 0%, ${theme.colors.primary} 100%);`};
 `;
+
+export const MenuItems = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+`;
+
+export const MenuItem = styled.div`
+  margin-right: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Icon = styled.div`
+  font-size: 24px;
+`;
