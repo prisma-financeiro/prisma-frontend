@@ -14,13 +14,9 @@ export const Wrapper = styled.div`
 
 export const AnimatedContainer = styled(motion.section)`
   ${({ theme }) => css`
-    background: ${theme.colors.background};
-
     max-height: 60rem;
     width: 100%;
     height: 100%;
-    border-radius: ${theme.radii.default};
-    box-shadow: ${theme.shadows.default};
     padding: 2.4rem;
   `}
 `;

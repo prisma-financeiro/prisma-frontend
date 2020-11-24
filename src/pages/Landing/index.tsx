@@ -1,30 +1,32 @@
 import React from 'react';
 
 import { Container, AnimatedWrapper } from './styles';
-import SideBar from './SideBar';
-import MainContent from './MainContent';
+import SideBar from '../../components/SideBar';
+import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import { sideBarOptionLanding } from '../../constants';
+import Favorites from './Favorites';
+import MarketToday from './MarketToday';
+import SideCard from '../../components/SideCard';
 
 const Landing = () => {
   return (
-    <>
-    <Header />
-      <Container>
-        <AnimatedWrapper
-          variants={DASHBOARD_ANIMATION}
-          initial="unMounted"
-          animate="mounted"
-          exit="unMounted"
-          transition={{ duration: 1.5 }}
-        >
-          <SideBar />
-          <MainContent />
-        </AnimatedWrapper>
-      </Container>
-      <Footer />
-    </>
+    <Container>
+      <AnimatedWrapper
+        variants={DASHBOARD_ANIMATION}
+        initial="unMounted"
+        animate="mounted"
+        exit="unMounted"
+        transition={{ duration: 1.5 }}
+      >
+        <SideBar sideBarOptions={sideBarOptionLanding} title="Seus Favoritos"/>
+        <MainContent>
+          <Favorites />
+          <MarketToday />
+        </MainContent>
+        <SideCard title="Últimos Eventos"/>
+      </AnimatedWrapper>
+    </Container>
   );
 };
 

@@ -1,23 +1,33 @@
 import React from 'react';
 
 import {
-  FiUsers,
-  FiBookOpen,
   FiGlobe,
-  FiMessageCircle,
 } from 'react-icons/fi';
+export interface SideBarOptions {
+  name: string;
+  icon: any;
+  expand: boolean;
+}
 
-export default {
-  'Fonte de dados': {
+export const sideBarOptionLanding: SideBarOptions[] = [
+  {
+    name: 'Acoes',
     icon: <FiGlobe />,
+    expand: false,
   },
-  'Blog': {
-    icon: <FiBookOpen />,
+  {
+    name: 'Fundos Imobiliarios',
+    icon: <FiGlobe />,
+    expand: false,
   },
-  'Sobre nós': {
-    icon: <FiUsers />,
+  {
+    name: 'Fundos de investimentos',
+    icon: <FiGlobe />,
+    expand: false,
   },
-  'Contato': {
-    icon: <FiMessageCircle />,
+  {
+    name: 'BDRs',
+    icon: <FiGlobe />,
+    expand: false,
   },
-} as const;
+];
