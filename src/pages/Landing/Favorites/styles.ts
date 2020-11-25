@@ -22,8 +22,41 @@ export const Header = styled.div`
 
     > h2 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      text-transform: uppercase;
+      color: ${theme.colors.greyLowerOpacity};
       font-size: ${theme.fontSizes.large};
+    }
+  `}
+`;
+
+
+export const ContentHeader = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 0.3rem;    
+
+    > h2 {
+      font-weight: 400;
+      text-transform: uppercase;      
+      color: ${theme.colors.greyLowerOpacity};
+      font-size: ${theme.fontSizes.large};
+    }
+
+    > svg {
+      width: 2.2rem;
+      height: 2.2rem;
+      margin-left: 0.5rem;
+      align-self: center;
+      color: ${theme.colors.greyLowerOpacity};
+      font-size: ${theme.fontSizes.large};
+      cursor: pointer;
+
+      :hover {
+        border-radius: 50%;
+        background: ${({ theme }) => theme.colors.background};
+      }
+     
     }
   `}
 `;

@@ -30,63 +30,60 @@ const Favorites = () => {
         variants={CARDS_ANIMATION}
         transition={DEFAULT_TRANSITION}
       >
-        <Header>
-          <h2>Seus Favoritos</h2>
-        </Header>
         <SubHeader>
           <h3>Ações</h3>
         </SubHeader>
 
         <DataWrapper>
-          <CompanyTickerCard 
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
-          <CompanyTickerCard 
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
             companyLogo={fakeData.companyLogo}
             companyName={fakeData.companyName}
             tickerCode={fakeData.tickerCode}
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}/>
+            variationReal={fakeData.variationReal} />
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>

@@ -14,17 +14,24 @@ export const AnimatedContainer = styled(motion.aside)`
 export const MenuItems = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;  
   align-items: center;
-  height: 100%;
-  color: ${({ theme }) => theme.colors.background};
+  height: 100%;  
+  color: ${({ theme }) => theme.colors.background}; 
 `;
 
 export const MenuItem = styled.div`
   margin-right: 5rem;
+  margin-left: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.darkGrey};
+    cursor: pointer;
+    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.darkGrey};
+  }  
 `;
 
 export const Icon = styled.div`
