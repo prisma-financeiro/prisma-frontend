@@ -17,6 +17,7 @@ export const MenuItems = styled.div`
   justify-content: space-evenly;
   align-items: center;
   height: 100%;
+  color: ${({ theme }) => theme.colors.background};
 `;
 
 export const MenuItem = styled.div`

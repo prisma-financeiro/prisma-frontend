@@ -15,7 +15,7 @@ import CompanyTickerCard from '../../../components/CompanyTickerCard';
 const Favorites = () => {
 
   return (
-    <ContentBlock>
+    <ContentBlock title="Seus Favoritos">
       <AnimatedCard
         key="statement"
         variants={CARDS_ANIMATION}
