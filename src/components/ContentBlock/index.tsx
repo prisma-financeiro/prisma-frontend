@@ -9,7 +9,7 @@ const ContentBlock: React.FC<{ title?: string }> = ({ title, children }) => {
   const [toggled, setToggle] = useState(true);
 
   return (
-    <div>
+    <>
       <ContentHeader onClick={() => setToggle(!toggled)}>
         <h2>{title}</h2>
         {toggled ? <FiChevronUp /> : <FiChevronDown />}
@@ -17,7 +17,7 @@ const ContentBlock: React.FC<{ title?: string }> = ({ title, children }) => {
       <AnimatedContainer hidden={!toggled} variants={CONTAINER_ANIMATION}>
         {children}
       </AnimatedContainer>
-    </div>
+    </>
   );
 }
 
