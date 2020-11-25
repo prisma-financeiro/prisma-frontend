@@ -14,6 +14,15 @@ import CompanyTickerCard from '../../../components/CompanyTickerCard';
 
 const Favorites = () => {
 
+  const fakeData = {
+    companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
+    tickerCode: 'MGLU3',
+    companyName: 'Magazine Luiza',
+    stockPrice: 10.58,
+    variationReal: -0.18,
+    variationPercentage: -0.51,
+  }
+
   return (
     <ContentBlock>
       <AnimatedCard
@@ -29,13 +38,55 @@ const Favorites = () => {
         </SubHeader>
 
         <DataWrapper>
-          <CompanyTickerCard />
-          <CompanyTickerCard />
-          <CompanyTickerCard />
-          <CompanyTickerCard />
-          <CompanyTickerCard />
-          <CompanyTickerCard />
-          <CompanyTickerCard />
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
+          <CompanyTickerCard 
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal}/>
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>
