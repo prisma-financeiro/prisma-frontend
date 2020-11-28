@@ -77,3 +77,18 @@ export const StockVariation = styled.div`
       font-size: ${theme.fontSizes.default};
   `}
 `
+
+export const ButtonContent = styled.div`
+  ${({ theme }) => css`
+      margin: 15px;
+      height: 100%;
+      border-radius: 10px;
+      color: ${theme.colors.primary};
+      border-color: ${theme.colors.primary};
+      border-style: dotted;
+      border-width: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  `}
+`
