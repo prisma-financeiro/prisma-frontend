@@ -44,6 +44,6 @@ export const SubHeader = styled.div`
 
 export const DataWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   grid-gap: 2.1rem;
+  grid-template-columns: auto auto;
 `;

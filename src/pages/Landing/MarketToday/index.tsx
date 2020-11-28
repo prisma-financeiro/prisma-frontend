@@ -10,6 +10,7 @@ import { CARDS_ANIMATION } from '../../../constants/animations';
 import { DEFAULT_TRANSITION } from '../../../constants';
 import ContentBlock from '../../../components/ContentBlock';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
+import ContentDivisor from '../../../components/ContentDivisor';
 
 
 const MarketToday = () => {
@@ -31,6 +32,71 @@ const MarketToday = () => {
       >
         <SubHeader>
           <h3>Ibovespa</h3>
+        </SubHeader>
+
+        <DataWrapper>
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+          <CompanyTickerCard
+            companyLogo={fakeData.companyLogo}
+            companyName={fakeData.companyName}
+            tickerCode={fakeData.tickerCode}
+            stockPrice={fakeData.stockPrice}
+            variationPercentage={fakeData.variationPercentage}
+            variationReal={fakeData.variationReal} />
+        </DataWrapper>
+
+        <ContentDivisor />
+
+        <SubHeader>
+          <h3>IFIX</h3>
         </SubHeader>
 
         <DataWrapper>

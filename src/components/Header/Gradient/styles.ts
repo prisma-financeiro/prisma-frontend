@@ -32,6 +32,11 @@ export const MenuItem = styled.div`
     cursor: pointer;
     border-bottom: 0.3rem solid ${({ theme }) => theme.colors.darkGrey};
   }  
+
+  @media (max-width: 470px) {
+    margin-right: 4rem;
+    margin-left: 3rem;
+  }
 `;
 
 export const Icon = styled.div`

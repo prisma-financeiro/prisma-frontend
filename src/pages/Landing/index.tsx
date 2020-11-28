@@ -19,7 +19,7 @@ const Landing = () => {
         exit="unMounted"
         transition={{ duration: 1.5 }}
       >
-        <SideBar sideBarOptions={sideBarOptionLanding} title="Seus Favoritos"/>
+        <SideBar sideBarOptions={sideBarOptionLanding} />
         <MainContent>
           <Favorites />
           <MarketToday />
