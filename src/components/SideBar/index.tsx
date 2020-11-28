@@ -5,7 +5,7 @@ import Accordion from './Accordion';
 
 import { DEFAULT_TRANSITION } from '../../constants';
 import { SideBarItem, SideBarOption } from '../../constants/sidebar-navigation';
-import { Divisor } from '../ContentDivisor/styles';
+import { Divider } from '../ContentDivider/styles';
 
 const animation = {
   unMounted: { opacity: 0, y: -50 },
@@ -27,7 +27,7 @@ const SideBar: React.FC<SideBarProps> = ({ sideBarOptions }) => {
         {sideBarOptions.map((option: SideBarOption, index: number) => {
           return (
             <>
-              {index > 0 && (<Divisor />)}
+              {index > 0 && (<Divider />)}
               <p>{option.title}</p>
               {option.items.map((item: SideBarItem) => (<Accordion key={item.name} icon={item.icon} sectionName={item.name} expand={item.expand} />))}
             </>

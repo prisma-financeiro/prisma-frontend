@@ -45,5 +45,5 @@ export const SubHeader = styled.div`
 export const DataWrapper = styled.div`
   display: grid;
   grid-gap: 2.1rem;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
 `;

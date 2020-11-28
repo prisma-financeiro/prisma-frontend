@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Divisor = styled.div`
+export const Divider = styled.div`
 ${() => css`  
   margin-top: 1.0rem;  
   margin-bottom: 1.0rem;  

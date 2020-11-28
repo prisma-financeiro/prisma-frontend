@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   AnimatedCard,
-  Header,
   DataWrapper,
   SubHeader
 } from './styles';
@@ -10,7 +9,7 @@ import { CARDS_ANIMATION } from '../../../constants/animations';
 import { DEFAULT_TRANSITION } from '../../../constants';
 import ContentBlock from '../../../components/ContentBlock';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
-import ContentDivisor from '../../../components/ContentDivisor';
+import ContentDivider from '../../../components/ContentDivider';
 
 
 const MarketToday = () => {
@@ -93,7 +92,7 @@ const MarketToday = () => {
             variationReal={fakeData.variationReal} />
         </DataWrapper>
 
-        <ContentDivisor />
+        <ContentDivider />
 
         <SubHeader>
           <h3>IFIX</h3>
