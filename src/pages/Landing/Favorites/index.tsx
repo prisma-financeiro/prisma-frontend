@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AnimatedCard,
-  Header,
   DataWrapper,
   SubHeader
 } from './styles';
@@ -11,10 +10,21 @@ import { DEFAULT_TRANSITION } from '../../../constants';
 import ContentBlock from '../../../components/ContentBlock';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 
+interface CardData {
+  companyLogo: string,
+  tickerCode: string,
+  companyName: string,
+  stockPrice: number,
+  variationReal: number,
+  variationPercentage: number,
+}
 
 const Favorites = () => {
 
-  const fakeData = {
+  const [companyTickerCards, setCompanyTickerCards] = useState<CardData[]>([]);
+  const CARDS_LIMIT = 10;
+
+  const fakeData: CardData = {
     companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
     tickerCode: 'MGLU3',
     companyName: 'Magazine Luiza',
@@ -22,6 +32,13 @@ const Favorites = () => {
     variationReal: -0.18,
     variationPercentage: -0.51,
   }
+
+  const createNewCompanyTickerCard = () => {
+    const newCard: CardData = fakeData;
+    setCompanyTickerCards([...companyTickerCards, newCard]);
+  }
+
+
 
   return (
     <ContentBlock title="Seus Favoritos">
@@ -35,55 +52,27 @@ const Favorites = () => {
         </SubHeader>
 
         <DataWrapper>
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal} />
+          {companyTickerCards.map(ticker => {
+            return (
+              <CompanyTickerCard
+                key={Math.random()}
+                companyLogo={ticker.companyLogo}
+                companyName={ticker.companyName}
+                tickerCode={ticker.tickerCode}
+                stockPrice={ticker.stockPrice}
+                variationPercentage={ticker.variationPercentage}
+                variationReal={ticker.variationReal}
+                emptyCard={false}
+                callback={()=>{}}
+              />
+            );
+          })}
+          {companyTickerCards.length < CARDS_LIMIT && (
+            <CompanyTickerCard
+              emptyCard={true}
+              callback={createNewCompanyTickerCard}
+            />
+          )}
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>
