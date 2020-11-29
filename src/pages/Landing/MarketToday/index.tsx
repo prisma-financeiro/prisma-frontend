@@ -41,7 +41,8 @@ const MarketToday = () => {
             stockPrice={fakeData.stockPrice}
             variationPercentage={fakeData.variationPercentage}
             variationReal={fakeData.variationReal} 
-            buttonMode={false}/>
+            emptyCard={false}
+            callback={() => {}}/>
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>

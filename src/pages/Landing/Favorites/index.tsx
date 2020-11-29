@@ -38,6 +38,8 @@ const Favorites = () => {
     setCompanyTickerCards([...companyTickerCards, newCard]);
   }
 
+
+
   return (
     <ContentBlock title="Seus Favoritos">
       <AnimatedCard
@@ -53,21 +55,24 @@ const Favorites = () => {
           {companyTickerCards.map(ticker => {
             return (
               <CompanyTickerCard
+                key={Math.random()}
                 companyLogo={ticker.companyLogo}
                 companyName={ticker.companyName}
                 tickerCode={ticker.tickerCode}
                 stockPrice={ticker.stockPrice}
                 variationPercentage={ticker.variationPercentage}
                 variationReal={ticker.variationReal}
-                buttonMode={false}
+                emptyCard={false}
+                callback={()=>{}}
               />
             );
           })}
-          {companyTickerCards.length < CARDS_LIMIT ? (
+          {companyTickerCards.length < CARDS_LIMIT && (
             <CompanyTickerCard
-              buttonMode={true}
+              emptyCard={true}
+              callback={createNewCompanyTickerCard}
             />
-          ): null}
+          )}
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>

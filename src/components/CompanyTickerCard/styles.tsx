@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Container = styled.div`
+export const Container = styled(motion.div)`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
@@ -78,17 +79,19 @@ export const StockVariation = styled.div`
   `}
 `
 
-export const ButtonContent = styled.div`
+export const ButtonContent = styled.button`
   ${({ theme }) => css`
       margin: 15px;
       height: 100%;
       border-radius: 10px;
       color: ${theme.colors.primary};
       border-color: ${theme.colors.primary};
+      background-color: ${theme.colors.lightGrey};
+      font-size: ${theme.fontSizes.large};
       border-style: dotted;
       border-width: 2px;
       display: flex;
       justify-content: center;
       align-items: center;
-  `}
+  `} 
 `

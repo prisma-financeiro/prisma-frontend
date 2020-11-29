@@ -15,6 +15,7 @@ import {
   FiArrowDown,
   FiPlus
 } from 'react-icons/fi';
+import { DEFAULT_TRANSITION } from '../../constants';
 
 interface CompanyTickerCardProps {
   companyLogo?: string;
@@ -23,14 +24,17 @@ interface CompanyTickerCardProps {
   stockPrice?: number;
   variationReal?: number;
   variationPercentage?: number;
-  buttonMode: boolean
+  emptyCard: boolean;
+  callback: () => void;
 }
 
-const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, buttonMode}) => {
+const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, callback}) => {
   return (
-    <Container>
-      { buttonMode ? (
-        <ButtonContent>
+    <Container 
+      whileHover={{ y: -2, transition: DEFAULT_TRANSITION }} 
+      whileTap={{ y: 2, transition: DEFAULT_TRANSITION }} >
+      { emptyCard ? (
+        <ButtonContent onClick={callback}>
           <FiPlus />
         </ButtonContent>
       ) : (
