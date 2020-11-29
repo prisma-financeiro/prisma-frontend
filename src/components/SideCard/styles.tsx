@@ -8,6 +8,7 @@ ${({ theme }) => css`
     width: 100%;
     max-width: 30rem;
     min-height: 12rem;
+    height: 80%;
     border-radius: 5px;
   `}
 `;

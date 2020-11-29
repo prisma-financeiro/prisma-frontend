@@ -8,7 +8,8 @@ export const AnimatedContainer = styled(motion.header)`
   align-items: center;
   width: 100%;
   background: ${({ theme }) => theme.colors.background};
-  position: relative;
+  position: fixed;  
+  top: 0;  
 `;
 
 export const Wrapper = styled.div`
