@@ -7,24 +7,26 @@ export const AnimatedContainer = styled(motion.header)`
   justify-content: center;
   align-items: center;
   width: 100%;
+  z-index: 1;
   background: ${({ theme }) => theme.colors.background};
   position: fixed;  
-  top: 0;  
+  top: 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};   
 `;
 
-export const Wrapper = styled.div`
-  max-width: 116.2rem;
+export const Wrapper = styled.div`  
   padding: 0 1.6rem;
   width: 100%;
-  height: 10.4rem;
+  height: 8rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 export const AnimatedLeftNav = styled(motion.div)`
+  width: 20%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 
   > svg {
@@ -36,17 +38,60 @@ export const AnimatedLeftNav = styled(motion.div)`
 
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: 700;
-`;
 
-export const AnimatedRightNav = styled(motion.div)`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1;
-
-  @media (max-width: 470px) {
+  @media (max-width: 470px) {    
     > button {
       display: none;
     }
+`;
+
+export const AnimatedRightNav = styled(motion.div)`
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;  
   }
+`;
+
+export const MenuItems = styled.div`  
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+  align-items: center;
+  height: 100%;  
+  color: ${({ theme }) => theme.colors.primary};   
+`;
+
+export const MenuItem = styled.div`
+  margin-right: 5rem;
+  margin-left: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  :hover {
+    color: ${({ theme }) => theme.colors.darkGrey};
+    cursor: pointer;
+    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.darkGrey};
+  }  
+
+  @media (max-width: 780px) {
+    margin-right: 3rem;
+    margin-left: 3rem;
+    
+    > p {
+      display: none;
+    }
+  }
+
+  @media (max-width: 470px) {
+    margin-right: 4rem;
+    margin-left: 3rem;    
+  }
+`;
+
+export const Icon = styled.div`
+  font-size: 24px;
 `;

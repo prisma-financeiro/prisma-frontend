@@ -6,13 +6,13 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 0 1.6rem;
-  padding-top: 10rem;  
+  padding: 0 1.6rem;   
 `;
 
-export const AnimatedWrapper = styled(motion.div)`
+export const AnimatedWrapper = styled(motion.div)`  
   width: 100%;
   display: flex;  
+  flex-direction: row;
   justify-content: center;
 
   @media (max-width: 670px) {

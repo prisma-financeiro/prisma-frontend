@@ -13,9 +13,9 @@ export const Container = styled(Button)`
       justify-content: flex-start;
       padding: 1.1rem 1.1rem;
 
-      :not(:last-child) {
-        border-bottom: 0.1rem solid ${theme.colors.lightGrey};
-      }
+      // :not(:last-child) {
+      //   border-bottom: 0.1rem solid ${theme.colors.lightGrey};
+      // }
 
       > div {
         :first-child {

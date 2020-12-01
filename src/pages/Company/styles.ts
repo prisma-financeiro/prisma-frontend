@@ -2,18 +2,12 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const Container = styled.div`
-  // margin-top: 8rem;
+  margin-top: 8rem;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  // padding: 0 1.6rem;
-  padding-top: 17rem;
-  justify-content: center;
-
-  @media (max-width: 1080px) {
-    justify-content: center;
-  }  
+  flex-direction: column;    
+  justify-content: center;  
 `;
 
 export const AnimatedCard = styled(motion.article)`
@@ -43,32 +37,89 @@ ${() => css`
 
 export const HeaderContainer = styled.div`
 ${({ theme }) => css`
+  background: ${theme.colors.background};  
+  border-radius: ${theme.radii.default};
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: sticky;
-  top: 16.5rem;
-
-  // @media (max-width: 1080px) {
-  //   justify-content: center;
-  // }
+  top: 8.1rem;
+  z-index: 0;
+  margin-bottom: 1.0rem;
+ 
+  @media (max-width: 1080px) {
+    flex-direction: column;
+    justify-content: center;
+  }
   `}  
 `;
 
 export const CompanyHeader = styled.div`
 ${({ theme }) => css`
-  background: ${theme.colors.background};
-  padding: 1.6rem 2.4rem;
-  // border-radius: ${theme.radii.default};
+  padding: 1.6rem 2.4rem;  
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  `}  
+`;
+
+
+export const CompanyLogo = styled.img`
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+`
+
+export const Title = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+
+    > h1 {
+      font-weight: 500;
+      color: ${theme.colors.darkGrey};
+      font-size: 2rem;
+    }
+
+    > p {
+      color: ${theme.colors.grey};
+      font-size: ${theme.fontSizes.small};
+    }
+  `}
+`
+
+export const ValueContainer = styled.div`
+${({ theme }) => css`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;  
+  justify-content: center;
+  align-items: center;
+  
+  > * {
+    margin: 2rem;    
+  }
+  `}  
+`;
 
-  // @media (max-width: 1080px) {
-  //   justify-content: center;
-  // }
+
+export const ButtonContainer = styled.div`
+${({ theme }) => css`    
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;  
+  justify-content: center;
+  align-items: center;
+  
+  > * {
+    margin: 1rem;    
+  }  
   `}  
 `;
 

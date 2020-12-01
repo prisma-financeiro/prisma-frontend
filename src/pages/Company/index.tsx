@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, AnimatedWrapper, CompanyHeader, Divider, HeaderContainer } from './styles';
+import { Container, AnimatedWrapper, CompanyHeader, Divider, HeaderContainer, ValueContainer, ButtonContainer, CompanyLogo, Title } from './styles';
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
@@ -9,7 +9,7 @@ import ContentBlock from '../../components/ContentBlock';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
 import fakeData from "./fakeData";
-import { CompanyLogo, Title } from '../../components/CompanyTickerCard/styles';
+import Button from '../../components/Button';
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
@@ -19,6 +19,12 @@ const companyFakeData = {
   variationReal: -0.18,
   variationPercentage: -0.51,
 }
+
+const companyFakeTickers = [
+  { stockCode: 'MGLU3', type: 'ON' },
+  { stockCode: 'MGLU4', type: 'PN' },
+  { stockCode: 'MGLU5', type: 'PN' }
+]
 
 const Company: React.FC<{}> = () => {
 
@@ -37,14 +43,21 @@ const Company: React.FC<{}> = () => {
             <CompanyHeader>
               <CompanyLogo src={companyFakeData.companyLogo} />
               <Title>
-                <h1>{companyFakeData.companyName}</h1>
-                <p>{companyFakeData.cnpj}</p>
+                <h1>{companyFakeData.tickerCode}</h1>
+                <p>{companyFakeData.companyName}</p>
               </Title>
             </CompanyHeader>
-            <Divider />
-            <CompanyHeader>
-            </CompanyHeader>
-            <Divider />
+            <ButtonContainer>
+              <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
+              <Button onClick={() => alert('test')} variant="secondary">Comparar</Button>
+            </ButtonContainer>
+            <ValueContainer>
+              <h1>Valor</h1>
+              <h1>Valor</h1>
+              <h1>Valor</h1>
+              <h1>Valor</h1>
+            </ValueContainer>
+
           </HeaderContainer>
           <ContentBlock title="Valuation">
             <AnimatedCard>
@@ -60,7 +73,6 @@ const Company: React.FC<{}> = () => {
               }
             </AnimatedCard>
           </ContentBlock>
-
           <ContentBlock title="Rentabilidade">
             <AnimatedCard>
               {
