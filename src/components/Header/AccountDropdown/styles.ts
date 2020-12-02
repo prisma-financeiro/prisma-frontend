@@ -24,8 +24,8 @@ export const AnimatedDropdown = styled(motion.nav)`
     top: 128%;
     right: 0;
     min-width: 14.6rem;
-    border-radius: ${theme.radii.small};
-    background: ${theme.colors.lightGrey};
+    border-radius: ${theme.radio.small};
+    background: ${theme.colors.darkGrey};
     box-shadow: 0 0.6rem 0.6rem rgba(0, 0, 0, 0.12);
 
     ::before {
@@ -34,7 +34,7 @@ export const AnimatedDropdown = styled(motion.nav)`
       position: absolute;
       top: -18%;
       right: 11%;
-      border-color: ${`transparent transparent ${theme.colors.lightGrey} transparent `};
+      border-color: ${`transparent transparent ${theme.colors.darkGrey} transparent `};
       border-style: solid;
       border-width: 0.8rem;
     }
@@ -47,18 +47,18 @@ export const NavButton = styled(Button)`
     padding: 1.2rem 1.6rem;
     justify-content: space-between;
     font-size: ${theme.fontSizes.default};
-    background: ${theme.colors.lightGrey};
+    background: ${theme.colors.darkGrey};
 
     :hover {
       background: ${theme.colors.background};
     }
 
     :first-child {
-      border-radius: ${theme.radii.smallTop};
+      border-radius: ${theme.radio.smallTop};
     }
 
     :last-child {
-      border-radius: ${theme.radii.smallBottom};
+      border-radius: ${theme.radio.smallBottom};
     }
   `}
 `;

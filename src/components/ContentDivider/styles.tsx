@@ -5,7 +5,7 @@ ${() => css`
   margin-top: 1.0rem;  
   margin-bottom: 1.0rem;  
   border-bottom: 0.1rem solid;  
-  border-color: ${({ theme }) => theme.colors.divider};  
+  border-color: ${({ theme }) => theme.colors.greyLowerOpacity};  
   width: 100%  
   `}
 `;

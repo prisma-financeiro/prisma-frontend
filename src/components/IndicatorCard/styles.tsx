@@ -4,7 +4,7 @@ export const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    background: ${theme.colors.lightGrey};
+    background: ${theme.colors.darkGrey};
     width: 18rem;
     height: 15rem;
     border-radius: 5px;
@@ -29,7 +29,7 @@ export const Title = styled.div`
 
     > h1 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.lightGrey};
       font-size: ${theme.fontSizes.large};
     }
 

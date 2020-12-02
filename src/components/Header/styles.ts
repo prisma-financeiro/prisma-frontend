@@ -11,7 +11,7 @@ export const AnimatedContainer = styled(motion.header)`
   background: ${({ theme }) => theme.colors.background};
   position: fixed;  
   top: 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};   
+  border-bottom: 1px solid ${({ theme }) => theme.colors.greyLowerOpacity};   
 `;
 
 export const Wrapper = styled.div`  
@@ -28,6 +28,8 @@ export const AnimatedLeftNav = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-weight: 700;
 
   > svg {
     cursor: pointer;
@@ -36,13 +38,11 @@ export const AnimatedLeftNav = styled(motion.div)`
     margin: 0 2.4rem 0.4rem -0.4rem;
   }
 
-  font-size: ${({ theme }) => theme.fontSizes.small};
-  font-weight: 700;
-
-  @media (max-width: 470px) {    
+  @media (max-width: 470px) { 
     > button {
       display: none;
     }
+  }
 `;
 
 export const AnimatedRightNav = styled(motion.div)`
@@ -50,8 +50,7 @@ export const AnimatedRightNav = styled(motion.div)`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  flex: 1;  
-  }
+  flex: 1;
 `;
 
 export const MenuItems = styled.div`  
@@ -72,9 +71,9 @@ export const MenuItem = styled.div`
   align-items: center;
 
   :hover {
-    color: ${({ theme }) => theme.colors.darkGrey};
+    color: ${({ theme }) => theme.colors.lightGrey};
     cursor: pointer;
-    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.darkGrey};
+    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.lightGrey};
   }  
 
   @media (max-width: 780px) {

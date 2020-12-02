@@ -28,9 +28,9 @@ export const MenuItem = styled.div`
   align-items: center;
 
   :hover {
-    color: ${({ theme }) => theme.colors.darkGrey};
+    color: ${({ theme }) => theme.colors.lightGrey};
     cursor: pointer;
-    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.darkGrey};
+    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.lightGrey};
   }  
 
   @media (max-width: 470px) {

@@ -17,7 +17,7 @@ const AccountDropdown = () => {
   const history = useHistory();
   const { signOut } = useAuth();
   const { currentTheme, toggleTheme } = useAppTheme();
-  const { lightGrey, secondary } = useTheme().colors;
+  const { darkGrey, secondary } = useTheme().colors;
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -51,7 +51,7 @@ const AccountDropdown = () => {
     <Container onClick={handleDropdownVisibility}>
       <img
         src={`https://ui-avatars.com/api/?rounded=true&format=svg&background=${removeHashFromColor(
-          lightGrey,
+          darkGrey,
         )}&color=${removeHashFromColor(secondary)}&name=Daniel`}
         alt={`Conta de Daniel`}
       />

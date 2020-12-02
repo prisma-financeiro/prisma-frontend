@@ -42,7 +42,8 @@ const MarketToday = () => {
             variationPercentage={fakeData.variationPercentage}
             variationReal={fakeData.variationReal}
             emptyCard={false}
-            callback={() => { }} />
+            removeCardCallback={()=>{}}
+            addNewCardCallback={() => { }} />
         </DataWrapper>
 
         <ContentDivider />
@@ -60,7 +61,8 @@ const MarketToday = () => {
             variationPercentage={fakeData.variationPercentage}
             variationReal={fakeData.variationReal}
             emptyCard={false}
-            callback={() => { }} />
+            removeCardCallback={()=>{}}
+            addNewCardCallback={() => { }} />
         </DataWrapper>
       </AnimatedCard>
     </ContentBlock>

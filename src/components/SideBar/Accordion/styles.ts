@@ -14,14 +14,14 @@ export const Container = styled(Button)`
       padding: 1.1rem 1.1rem;
 
       // :not(:last-child) {
-      //   border-bottom: 0.1rem solid ${theme.colors.lightGrey};
+      //   border-bottom: 0.1rem solid ${theme.colors.darkGrey};
       // }
 
       > div {
         :first-child {
           width: 3.2rem;
           height: 3.2rem;
-          background: ${theme.colors.lightGrey};
+          background: ${theme.colors.darkGrey};
           display: flex;
           justify-content: center;
           align-items: center;

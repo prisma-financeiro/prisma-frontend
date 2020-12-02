@@ -20,7 +20,7 @@ export const Header = styled.div`
 
     > h2 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.h2};
       font-size: ${theme.fontSizes.large};
     }
   `}

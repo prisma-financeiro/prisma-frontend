@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { 
   Container, 
@@ -9,6 +9,7 @@ import {
   StockPrice, 
   StockVariation, 
   Icon,
+  CloseButton,
   ButtonContent } from './styles';
 
 import {
@@ -25,16 +26,26 @@ interface CompanyTickerCardProps {
   variationReal?: number;
   variationPercentage?: number;
   emptyCard: boolean;
-  callback: () => void;
+  addNewCardCallback: () => void;
+  removeCardCallback: () => void;
 }
 
-const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, callback}) => {
+const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback}) => {
+
+  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
+
+  const handleMouseHover = (isVisible: boolean) => {
+    setIsCloseButtonVisible(isVisible);
+  }
+
   return (
     <Container 
-      whileHover={{ y: -2, transition: DEFAULT_TRANSITION }} 
-      whileTap={{ y: 2, transition: DEFAULT_TRANSITION }} >
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.9 }}
+      onMouseEnter={() => handleMouseHover(true)}
+      onMouseLeave={() => handleMouseHover(false)}>
       { emptyCard ? (
-        <ButtonContent onClick={callback}>
+        <ButtonContent onClick={addNewCardCallback}>
           <FiPlus />
         </ButtonContent>
       ) : (
@@ -57,6 +68,14 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
               {variationReal} ({variationPercentage}%)
             </StockVariation>
           </Content>
+          {isCloseButtonVisible && (
+            <CloseButton 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={removeCardCallback}>
+                x
+            </CloseButton>
+          )}
         </React.Fragment>
       )}
     </Container>
