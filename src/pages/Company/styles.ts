@@ -16,7 +16,7 @@ export const AnimatedCard = styled(motion.article)`
     width: 100%;
     height: 100%;
     min-height: 17.6rem;
-    border-radius: ${theme.radii.default};
+    border-radius: ${theme.radio.default};
     padding: 1.6rem 2.4rem;
     box-shadow: ${theme.shadows.flat};
     display: flex;
@@ -38,7 +38,7 @@ ${() => css`
 export const HeaderContainer = styled.div`
 ${({ theme }) => css`
   background: ${theme.colors.background};  
-  border-radius: ${theme.radii.default};
+  border-radius: ${theme.radio.default};
   width: 100%;
   height: 100%;
   display: flex;
@@ -81,7 +81,7 @@ export const Title = styled.div`
 
     > h1 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.lightGrey};
       font-size: 2rem;
     }
 

@@ -4,15 +4,16 @@ export default {
     primaryDark: '#20AD48',
     secondary: '#20C05C',
     grey: '#8C91A5',
-    greyLowerOpacity: '#abaebf',
-    lightGrey: '#F5F6FA',
-    darkGrey: '#6C757D',
+    greyLowerOpacity: '#505050',
+    lightGrey: '#F3F3F3',
+    darkGrey: '#F2F2F2F2',
     success: '#20C05C',
     error: '#FD4F48',
-    label: '#fff',
     background: '#fff',
     yellow: '#FFED00',
-    divider: '#5C5C60',
+    h1: '#505050',
+    h2: '#505050',
+    h3: '#505050'
   },
   fontSizes: {
     default: '1.4rem',
@@ -29,7 +30,7 @@ export default {
   transition: {
     default: '180ms ease-in-out',
   },
-  radii: {
+  radio: {
     default: '0.8rem',
     small: '0.4rem',
     smallTop: '0.4rem 0.4rem 0 0',

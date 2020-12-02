@@ -11,6 +11,7 @@ import ContentBlock from '../../../components/ContentBlock';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 
 interface CardData {
+  id: number
   companyLogo: string,
   tickerCode: string,
   companyName: string,
@@ -25,6 +26,7 @@ const Favorites = () => {
   const CARDS_LIMIT = 10;
 
   const fakeData: CardData = {
+    id: 1,
     companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
     tickerCode: 'MGLU3',
     companyName: 'Magazine Luiza',
@@ -35,10 +37,14 @@ const Favorites = () => {
 
   const createNewCompanyTickerCard = () => {
     const newCard: CardData = fakeData;
+    newCard.id = Math.random();
     setCompanyTickerCards([...companyTickerCards, newCard]);
   }
 
-
+  const removeCompanyTickerCard = (tickerId: number) => {
+    //chamada para o backend para remover o card da lista salva pelo usuario;
+    setCompanyTickerCards(companyTickerCards.filter(ticker => ticker.id !== tickerId));
+  }
 
   return (
     <ContentBlock title="Seus Favoritos">
@@ -55,7 +61,7 @@ const Favorites = () => {
           {companyTickerCards.map(ticker => {
             return (
               <CompanyTickerCard
-                key={Math.random()}
+                key={ticker.id}
                 companyLogo={ticker.companyLogo}
                 companyName={ticker.companyName}
                 tickerCode={ticker.tickerCode}
@@ -63,14 +69,16 @@ const Favorites = () => {
                 variationPercentage={ticker.variationPercentage}
                 variationReal={ticker.variationReal}
                 emptyCard={false}
-                callback={()=>{}}
+                addNewCardCallback={()=>{}}
+                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
               />
             );
           })}
           {companyTickerCards.length < CARDS_LIMIT && (
             <CompanyTickerCard
               emptyCard={true}
-              callback={createNewCompanyTickerCard}
+              removeCardCallback={()=>{}}
+              addNewCardCallback={createNewCompanyTickerCard}
             />
           )}
         </DataWrapper>

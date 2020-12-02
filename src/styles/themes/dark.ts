@@ -5,9 +5,12 @@ const dark: typeof light = {
   colors: {
     ...light.colors,
     grey: '#d4d6e0',
-    lightGrey: '#343233',
-    darkGrey: '#F3F3F3',
+    lightGrey: '#F3F3F3',
+    darkGrey: '#343233',
     background: '#272727',
+    h1: '#F3F3F3',
+    h2: '#F3F3F3',
+    h3: '#F3F3F3'
   },
 };
 

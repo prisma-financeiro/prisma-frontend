@@ -7,7 +7,7 @@ export const AnimatedCard = styled(motion.article)`
     width: 100%;
     height: 100%;
     min-height: 17.6rem;
-    border-radius: ${theme.radii.default};
+    border-radius: ${theme.radio.default};
     padding: 1.6rem 2.4rem;
     box-shadow: ${theme.shadows.flat};
     display: flex;
@@ -22,7 +22,7 @@ export const Header = styled.div`
 
     > h2 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.h2};
       font-size: ${theme.fontSizes.large};
     }
   `}
@@ -36,7 +36,7 @@ export const SubHeader = styled.div`
 
     > h3 {
       font-weight: 500;
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.h3};
       font-size: ${theme.fontSizes.default};
     }
   `}
