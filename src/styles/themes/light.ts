@@ -12,6 +12,7 @@ export default {
     label: '#fff',
     background: '#fff',
     yellow: '#FFED00',
+    divider: '#5C5C60',
   },
   fontSizes: {
     default: '1.4rem',
