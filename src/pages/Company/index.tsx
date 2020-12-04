@@ -87,10 +87,6 @@ const Company: React.FC<{}> = () => {
                 <p>{companyFakeData.companyName}</p>
               </Title>
             </CompanyHeader>
-            <ButtonContainer>
-              <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
-              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
-            </ButtonContainer>
             <ValueContainer>
               <ValueCard>
                 <Title>Valor Atual</Title>
