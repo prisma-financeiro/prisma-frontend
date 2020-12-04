@@ -7,7 +7,7 @@ import {
 import { CARDS_ANIMATION } from '../../../constants/animations';
 
 import { DEFAULT_TRANSITION } from '../../../constants';
-import ContentBlock from '../../../components/ContentBlock';
+import Card, { CardSizes } from '../../../components/Card';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import ContentDivider from '../../../components/ContentDivider';
 
@@ -23,49 +23,45 @@ const MarketToday = () => {
   }
 
   return (
-    <ContentBlock title="Mercado hoje">
-      <AnimatedCard
-        key="statement"
-        variants={CARDS_ANIMATION}
-        transition={DEFAULT_TRANSITION}
-      >
-        <SubHeader>
-          <h3>Ibovespa</h3>
-        </SubHeader>
+    <Card 
+      title="Mercado hoje"
+      size={CardSizes.large}>
+      <SubHeader>
+        <h3>Ibovespa</h3>
+      </SubHeader>
 
-        <DataWrapper>
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}
-            emptyCard={false}
-            removeCardCallback={()=>{}}
-            addNewCardCallback={() => { }} />
-        </DataWrapper>
+      <DataWrapper>
+        <CompanyTickerCard
+          companyLogo={fakeData.companyLogo}
+          companyName={fakeData.companyName}
+          tickerCode={fakeData.tickerCode}
+          stockPrice={fakeData.stockPrice}
+          variationPercentage={fakeData.variationPercentage}
+          variationReal={fakeData.variationReal}
+          emptyCard={false}
+          removeCardCallback={()=>{}}
+          addNewCardCallback={() => { }} />
+      </DataWrapper>
 
-        <ContentDivider />
+      <ContentDivider />
 
-        <SubHeader>
-          <h3>IFIX</h3>
-        </SubHeader>
+      <SubHeader>
+        <h3>IFIX</h3>
+      </SubHeader>
 
-        <DataWrapper>
-          <CompanyTickerCard
-            companyLogo={fakeData.companyLogo}
-            companyName={fakeData.companyName}
-            tickerCode={fakeData.tickerCode}
-            stockPrice={fakeData.stockPrice}
-            variationPercentage={fakeData.variationPercentage}
-            variationReal={fakeData.variationReal}
-            emptyCard={false}
-            removeCardCallback={()=>{}}
-            addNewCardCallback={() => { }} />
-        </DataWrapper>
-      </AnimatedCard>
-    </ContentBlock>
+      <DataWrapper>
+        <CompanyTickerCard
+          companyLogo={fakeData.companyLogo}
+          companyName={fakeData.companyName}
+          tickerCode={fakeData.tickerCode}
+          stockPrice={fakeData.stockPrice}
+          variationPercentage={fakeData.variationPercentage}
+          variationReal={fakeData.variationReal}
+          emptyCard={false}
+          removeCardCallback={()=>{}}
+          addNewCardCallback={() => { }} />
+      </DataWrapper>
+    </Card>
   );
 };
 
