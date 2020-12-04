@@ -16,7 +16,6 @@ import {
   FiArrowDown,
   FiPlus
 } from 'react-icons/fi';
-import { DEFAULT_TRANSITION } from '../../constants';
 
 interface CompanyTickerCardProps {
   companyLogo?: string;
@@ -41,7 +40,7 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
   return (
     <Container 
       whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.99 }}
       onMouseEnter={() => handleMouseHover(true)}
       onMouseLeave={() => handleMouseHover(false)}>
       { emptyCard ? (

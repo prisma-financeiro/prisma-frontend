@@ -3,15 +3,24 @@ import styled, { css } from 'styled-components';
 import { ButtonProps } from '.';
 
 const variants = {
-  secondary: css`
-    background: transparent;
-    border: 0.1rem solid ${({ theme }) => theme.colors.secondary};
+  primary: css`
+    background: ${({ theme }) => theme.colors.primary};
+    border: 0.1rem solid ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.darkGrey};
 
     :hover {
       background: ${({ theme }) => theme.colors.secondary};
-      color: ${({ theme }) => theme.colors.lightGrey};
     }
   `,
+  secondary: css`
+  background: transparent;
+  border: 0.1rem solid ${({ theme }) => theme.colors.secondary};
+
+  :hover {
+    background: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.lightGrey};
+  }
+`,
   transparent: css`
     background: transparent;
   `,

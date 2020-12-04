@@ -48,8 +48,8 @@ const Company: React.FC<{}> = () => {
               </Title>
             </CompanyHeader>
             <ButtonContainer>
-              <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
-              <Button onClick={() => alert('test')} variant="secondary">Comparar</Button>
+              <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
             </ButtonContainer>
             <ValueContainer>
               <h1>Valor</h1>
