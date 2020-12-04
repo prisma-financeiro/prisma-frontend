@@ -1,6 +1,19 @@
 import React from 'react';
 
-import { Container, AnimatedWrapper, CompanyHeader, HeaderContainer, ValueContainer, ButtonContainer, CompanyLogo, Title, ValueCard, Value } from './styles';
+import {
+  Container,
+  AnimatedWrapper,
+  CompanyHeader,
+  HeaderContainer,
+  ValueContainer,
+  ButtonContainer,
+  CompanyLogo,
+  Title,
+  ValueCard,
+  Value,
+  Interval,
+  IntervalItem
+} from './styles';
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
@@ -8,8 +21,10 @@ import { sideBarOptionCompany } from '../../constants';
 import ContentBlock from '../../components/ContentBlock';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
-import fakeData from "./fakeData";
+import { indicator, hitoricoCotacao } from "./fakeData";
 import Button from '../../components/Button';
+import Chart from 'chart.js';
+import LineChart from '../../components/LineChart';
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
@@ -20,11 +35,35 @@ const companyFakeData = {
   variationPercentage: -0.51,
 }
 
-const companyFakeTickers = [
-  { stockCode: 'MGLU3', type: 'ON' },
-  { stockCode: 'MGLU4', type: 'PN' },
-  { stockCode: 'MGLU5', type: 'PN' }
-]
+const cotacaoFake = [
+  { time: '2020-11-01', value: 11.34 },
+  { time: '2020-11-02', value: 11.89 },
+  { time: '2020-11-03', value: 11.05 },
+  { time: '2020-11-04', value: 10.34 },
+  { time: '2020-11-05', value: 11.52 },
+  { time: '2020-11-06', value: 12.87 },
+  { time: '2020-11-07', value: 12.56 },
+  { time: '2020-11-08', value: 13.49 },
+  { time: '2020-11-09', value: 14.01 },
+  { time: '2020-11-10', value: 14.22 },
+  { time: '2020-11-11', value: 15.99 },
+  { time: '2020-11-12', value: 17.48 },
+  { time: '2020-11-13', value: 16.42 },
+  { time: '2020-11-14', value: 17.63 },
+  { time: '2020-11-15', value: 17.04 },
+  { time: '2020-11-16', value: 12.23 },
+  { time: '2020-11-17', value: 12.56 },
+  { time: '2020-11-18', value: 9.45 },
+  { time: '2020-11-20', value: 8.88 },
+  { time: '2020-11-21', value: 9.41 },
+  { time: '2020-11-22', value: 5.52 },
+  { time: '2020-11-23', value: 4.46 },
+  { time: '2020-11-24', value: 12.28 },
+  { time: '2020-11-25', value: 13.88 },
+  { time: '2020-11-26', value: 14.52 },
+];
+
+const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
 const Company: React.FC<{}> = () => {
 
@@ -72,7 +111,7 @@ const Company: React.FC<{}> = () => {
           <ContentBlock title="Valuation">
             <AnimatedCard>
               {
-                fakeData.content[0].valuation.map((indicator: any) => {
+                indicator.content[0].valuation.map((indicator: any) => {
                   return indicator && (
                     <IndicatorCard
                       indicatorName={indicator.indicatorName}
@@ -86,7 +125,7 @@ const Company: React.FC<{}> = () => {
           <ContentBlock title="Rentabilidade">
             <AnimatedCard>
               {
-                fakeData.content[0].rentabilidade.map((indicator: any) => {
+                indicator.content[0].rentabilidade.map((indicator: any) => {
                   return indicator && (
                     <IndicatorCard
                       indicatorName={indicator.indicatorName}
@@ -101,7 +140,7 @@ const Company: React.FC<{}> = () => {
           <ContentBlock title="Lucratividade">
             <AnimatedCard>
               {
-                fakeData.content[0].eficiencia.map((indicator: any) => {
+                indicator.content[0].eficiencia.map((indicator: any) => {
                   return indicator && (
                     <IndicatorCard
                       indicatorName={indicator.indicatorName}
@@ -116,7 +155,7 @@ const Company: React.FC<{}> = () => {
           <ContentBlock title="Endividamento">
             <AnimatedCard>
               {
-                fakeData.content[0].endividamento.map((indicator: any) => {
+                indicator.content[0].endividamento.map((indicator: any) => {
                   return indicator && (
                     <IndicatorCard
                       indicatorName={indicator.indicatorName}
@@ -130,7 +169,12 @@ const Company: React.FC<{}> = () => {
 
           <ContentBlock title="Cotacao">
             <AnimatedCard>
-              <h1>Cotacao content</h1>
+              <Interval>
+                {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
+              </Interval>
+              <LineChart
+                data={cotacaoFake}
+              />
             </AnimatedCard>
           </ContentBlock>
           <ContentBlock title="Proventos">

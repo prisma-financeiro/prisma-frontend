@@ -20,14 +20,13 @@ export const AnimatedCard = styled(motion.article)`
     padding: 1.6rem 2.4rem;
     box-shadow: ${theme.shadows.flat};
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-flow: wrap;
   `}
 `;
 
 export const Divider = styled.div`
 ${() => css`
-  border-bottom: 0.1rem solid;
   border-color: ${({ theme }) => theme.colors.greyLowerOpacity};
   opacity: 50%;
   width: 100%
@@ -158,4 +157,25 @@ export const AnimatedWrapper = styled(motion.div)`
   }
 `;
 
+
+export const Interval = styled.div` 
+  // border: 1px solid red; 
+  width: 100%;
+  display: flex;  
+  flex-direction: row;  
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const IntervalItem = styled.p`  
+${({ theme }) => css`
+  margin: 2rem;
+  font-weight: 500;
+
+  :hover {    
+    color: ${theme.colors.primary};
+    cursor: pointer;
+  }
+`}  
+`;
 
