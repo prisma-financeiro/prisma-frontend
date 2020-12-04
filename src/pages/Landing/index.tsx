@@ -7,7 +7,7 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { sideBarOptionLanding } from '../../constants';
 import Favorites from './Favorites';
 import MarketToday from './MarketToday';
-import SideCard from '../../components/SideCard';
+import Card, { CardSizes } from '../../components/Card';
 
 const Landing = () => {
   return (
@@ -24,7 +24,11 @@ const Landing = () => {
           <Favorites />
           <MarketToday />
         </MainContent>
-        <SideCard title="Últimos Eventos"/>
+        <Card 
+          title="Últimos Eventos"
+          size={CardSizes.small}>
+          Olá
+        </Card>
       </AnimatedWrapper>
     </Container>
   );

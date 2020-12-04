@@ -11,6 +11,7 @@ export const Container = styled.div`
 
 export const AnimatedWrapper = styled(motion.div)`  
   width: 100%;
+  height: 100%;
   display: flex;  
   flex-direction: row;
   justify-content: center;

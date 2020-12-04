@@ -15,6 +15,7 @@ import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
 import { TOP_NAVIGATION } from '../../constants';
 
 import useAuth from '../../contexts/auth';
+import Input from '../Input';
 
 const Header = () => {
   const { signOut } = useAuth();
@@ -28,7 +29,6 @@ const Header = () => {
     >
       <Wrapper>
         <AnimatedLeftNav variants={NAVS_ANIMATION}>
-          <Button variant="secondary">Pesquisa</Button>
         </AnimatedLeftNav>
         <MenuItems>
           {Object.entries(TOP_NAVIGATION).map(([key, value]) => (
@@ -39,6 +39,9 @@ const Header = () => {
           ))}
         </MenuItems>
         <AnimatedRightNav variants={NAVS_ANIMATION}>
+          <div>
+            <Input  showIcon={true} placeholder="Ação, Empresa, Índice"/>
+          </div>
           <AccountDropdown />
         </AnimatedRightNav>
       </Wrapper>

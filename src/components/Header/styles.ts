@@ -10,8 +10,7 @@ export const AnimatedContainer = styled(motion.header)`
   z-index: 1;
   background: ${({ theme }) => theme.colors.background};
   position: fixed;  
-  top: 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.greyLowerOpacity};   
+  top: 0;   
 `;
 
 export const Wrapper = styled.div`  
@@ -23,7 +22,7 @@ export const Wrapper = styled.div`
 `;
 
 export const AnimatedLeftNav = styled(motion.div)`
-  width: 20%;
+  width: 31rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,25 +38,36 @@ export const AnimatedLeftNav = styled(motion.div)`
   }
 
   @media (max-width: 470px) { 
+    width: 0;
+
     > button {
       display: none;
     }
   }
+
+  @media (max-width: 670px) { 
+    width: 0;
+  }
 `;
 
 export const AnimatedRightNav = styled(motion.div)`
-  width: 20%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div:first-child {
+    width: 100%;
+  }
+  
 `;
 
 export const MenuItems = styled.div`  
-  width: 100%;
+  min-width: 50%;
+  max-width: 70%;
   display: flex;
   flex-direction: row;
-  justify-content: center;  
+  justify-content: start;  
   align-items: center;
   height: 100%;  
   color: ${({ theme }) => theme.colors.primary};   
@@ -65,7 +75,7 @@ export const MenuItems = styled.div`
 
 export const MenuItem = styled.div`
   margin-right: 5rem;
-  margin-left: 5rem;
+  margin-left: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;

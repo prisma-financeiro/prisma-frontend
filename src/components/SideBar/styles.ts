@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   position: fixed;
   left: 0;
-  width: 30rem;
+  max-width: 30%;
   height: 100%;
 
   @media (max-width: 670px) {
@@ -17,7 +17,6 @@ export const Wrapper = styled.div`
 
 export const AnimatedContainer = styled(motion.section)`
   ${({ theme }) => css`
-    background: ${theme.colors.background};
     width: 100%;
     height: 100%;
     padding: 2.4rem;

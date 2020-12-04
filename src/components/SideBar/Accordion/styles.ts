@@ -12,6 +12,7 @@ export const Container = styled(Button)`
       width: 100%;
       justify-content: flex-start;
       padding: 1.1rem 1.1rem;
+      text-align: left;
 
       // :not(:last-child) {
       //   border-bottom: 0.1rem solid ${theme.colors.darkGrey};
@@ -32,10 +33,6 @@ export const Container = styled(Button)`
             stroke: ${theme.colors.primary};
           }
         }
-      }
-
-      > svg {
-        margin-left: auto;
       }
 
       :hover {

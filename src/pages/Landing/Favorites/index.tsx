@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import {
-  AnimatedCard,
   DataWrapper,
   SubHeader
 } from './styles';
-import { CARDS_ANIMATION } from '../../../constants/animations';
-
-import { DEFAULT_TRANSITION } from '../../../constants';
-import ContentBlock from '../../../components/ContentBlock';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import Modal from '../../../components/Modal';
 import Input from '../../../components/Input';
 import { debounce } from '../../../utils/debounce';
+import Card, { CardSizes } from '../../../components/Card';
 
 interface CardData {
   id: number
@@ -74,12 +70,10 @@ const Favorites = () => {
   }
 
   return (
-    <ContentBlock title="Seus Favoritos">
-      <AnimatedCard
-        key="statement"
-        variants={CARDS_ANIMATION}
-        transition={DEFAULT_TRANSITION}
-      >
+    <>
+      <Card
+        title="Meus Favoritos"
+        size={CardSizes.large}>
         <SubHeader>
           <h3>Ações</h3>
         </SubHeader>
@@ -96,7 +90,7 @@ const Favorites = () => {
                 variationPercentage={ticker.variationPercentage}
                 variationReal={ticker.variationReal}
                 emptyCard={false}
-                addNewCardCallback={()=>{}}
+                addNewCardCallback={() => { }}
                 removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
               />
             );
@@ -104,24 +98,24 @@ const Favorites = () => {
           {companyTickerCards.length < CARDS_LIMIT && (
             <CompanyTickerCard
               emptyCard={true}
-              removeCardCallback={()=>{}}
+              removeCardCallback={() => { }}
               addNewCardCallback={createNewCompanyTickerCard}
             />
           )}
         </DataWrapper>
-      </AnimatedCard>
+      </Card>
       <Modal
-          title="Adicionar um favorito"
-          show={isModalOpen}
-          modalClosed={handleCloseModal}
-          modalConfirmed={handleModalConfirmed}>
-          <Input 
-            placeholder="Digite o código do ativo"
-            onChange={debounce(handleCodeSearch, 1000)}
-            showIcon={true} 
-            isLoading={isSpinnerInModalLoading}/>
+        title="Adicionar um favorito"
+        show={isModalOpen}
+        modalClosed={handleCloseModal}
+        modalConfirmed={handleModalConfirmed}>
+        <Input
+          placeholder="Digite o código do ativo"
+          onChange={debounce(handleCodeSearch, 1000)}
+          showIcon={true}
+          isLoading={isSpinnerInModalLoading} />
       </Modal>
-    </ContentBlock>
+    </>
   );
 };
 

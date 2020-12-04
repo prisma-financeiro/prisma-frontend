@@ -14,11 +14,12 @@ import {
   Interval,
   IntervalItem
 } from './styles';
+
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
 import { sideBarOptionCompany } from '../../constants';
-import ContentBlock from '../../components/ContentBlock';
+import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
 import { indicator, hitoricoCotacao } from "./fakeData";
@@ -86,6 +87,10 @@ const Company: React.FC<{}> = () => {
                 <p>{companyFakeData.companyName}</p>
               </Title>
             </CompanyHeader>
+            <ButtonContainer>
+              <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+            </ButtonContainer>
             <ValueContainer>
               <ValueCard>
                 <Title>Valor Atual</Title>
@@ -108,7 +113,7 @@ const Company: React.FC<{}> = () => {
               <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
             </ButtonContainer>
           </HeaderContainer>
-          <ContentBlock title="Valuation">
+          <Card title="Valuation" size={CardSizes.large}>
             <AnimatedCard>
               {
                 indicator.content[0].valuation.map((indicator: any) => {
@@ -121,8 +126,8 @@ const Company: React.FC<{}> = () => {
                 })
               }
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Rentabilidade">
+          </Card>
+          <Card title="Rentabilidade" size={CardSizes.large}>
             <AnimatedCard>
               {
                 indicator.content[0].rentabilidade.map((indicator: any) => {
@@ -135,9 +140,9 @@ const Company: React.FC<{}> = () => {
                 })
               }
             </AnimatedCard>
-          </ContentBlock>
+          </Card>
 
-          <ContentBlock title="Lucratividade">
+          <Card title="Lucratividade" size={CardSizes.large}>
             <AnimatedCard>
               {
                 indicator.content[0].eficiencia.map((indicator: any) => {
@@ -150,9 +155,9 @@ const Company: React.FC<{}> = () => {
                 })
               }
             </AnimatedCard>
-          </ContentBlock>
+          </Card>
 
-          <ContentBlock title="Endividamento">
+          <Card title="Endividamento" size={CardSizes.large}>
             <AnimatedCard>
               {
                 indicator.content[0].endividamento.map((indicator: any) => {
@@ -165,9 +170,9 @@ const Company: React.FC<{}> = () => {
                 })
               }
             </AnimatedCard>
-          </ContentBlock>
+          </Card>
 
-          <ContentBlock title="Cotacao">
+          <Card title="Cotacao" size={CardSizes.large}>
             <AnimatedCard>
               <Interval>
                 {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
@@ -176,42 +181,42 @@ const Company: React.FC<{}> = () => {
                 data={cotacaoFake}
               />
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Proventos">
+          </Card>
+          <Card title="Proventos" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Proventos content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="DRE">
+          </Card>
+          <Card title="DRE" size={CardSizes.large}>
             <AnimatedCard>
               <h1>DRE content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Balanço Patrimonial">
+          </Card>
+          <Card title="Balanço Patrimonial" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Balanço Patrimonial content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Fluxo de Caixa">
+          </Card>
+          <Card title="Fluxo de Caixa" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Fluxo de Caixa content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Dados Gerais">
+          </Card>
+          <Card title="Dados Gerais" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Dados Gerais content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Contato">
+          </Card>
+          <Card title="Contato" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Contato content</h1>
             </AnimatedCard>
-          </ContentBlock>
-          <ContentBlock title="Notícias sobra a Empresa">
+          </Card>
+          <Card title="Notícias sobra a Empresa" size={CardSizes.large}>
             <AnimatedCard>
               <h1>Notícias sobra a Empresa</h1>
             </AnimatedCard>
-          </ContentBlock>
+          </Card>
         </MainContent>
       </AnimatedWrapper>
     </Container>
