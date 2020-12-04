@@ -62,11 +62,13 @@ ${({ theme }) => css`
   height: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   `}  
 `;
 
 
 export const CompanyLogo = styled.img`
+  margin-right: 1rem;
   height: 6rem;
   width: 6rem;
   border-radius: 50%;
@@ -77,7 +79,6 @@ export const Title = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 10px;
 
     > h1 {
       font-weight: 500;
@@ -102,10 +103,34 @@ ${({ theme }) => css`
   align-items: center;
   
   > * {
-    margin: 2rem;    
+    margin: 2rem;
   }
   `}  
 `;
+
+export const ValueCard = styled.div`
+${({ theme }) => css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  > p:last-child {
+    color: ${theme.colors.grey};
+    font-size: ${theme.fontSizes.small};
+  }
+  `}  
+`;
+
+export const Value = styled.p`
+  ${({ theme }) => css`
+      font-weight: 700;
+      color: ${theme.colors.yellow};
+      font-size: ${theme.fontSizes.large};
+  `}
+`
 
 
 export const ButtonContainer = styled.div`

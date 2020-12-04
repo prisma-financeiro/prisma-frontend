@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, AnimatedWrapper, CompanyHeader, Divider, HeaderContainer, ValueContainer, ButtonContainer, CompanyLogo, Title } from './styles';
+import { Container, AnimatedWrapper, CompanyHeader, HeaderContainer, ValueContainer, ButtonContainer, CompanyLogo, Title, ValueCard, Value } from './styles';
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
@@ -13,7 +13,7 @@ import Button from '../../components/Button';
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
-  tickerCode: 'MGLU3',
+  tickerCode: 'MGLU3 ON',
   companyName: 'Magazine Luiza',
   cnpj: '01.145.123/0001-02',
   variationReal: -0.18,
@@ -47,17 +47,27 @@ const Company: React.FC<{}> = () => {
                 <p>{companyFakeData.companyName}</p>
               </Title>
             </CompanyHeader>
+            <ValueContainer>
+              <ValueCard>
+                <Title>Valor Atual</Title>
+                <Value>R$17,45</Value>
+                <p>1.23%</p>
+              </ValueCard>
+              <ValueCard>
+                <Title>Máxima Mês</Title>
+                <Value>R$19,12</Value>
+                <p>1.23%</p>
+              </ValueCard>
+              <ValueCard>
+                <Title>Mínima Mês</Title>
+                <Value>R$14,08</Value>
+                <p>1.23%</p>
+              </ValueCard>
+            </ValueContainer>
             <ButtonContainer>
               <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
               <Button onClick={() => alert('test')} variant="secondary">Comparar</Button>
             </ButtonContainer>
-            <ValueContainer>
-              <h1>Valor</h1>
-              <h1>Valor</h1>
-              <h1>Valor</h1>
-              <h1>Valor</h1>
-            </ValueContainer>
-
           </HeaderContainer>
           <ContentBlock title="Valuation">
             <AnimatedCard>
