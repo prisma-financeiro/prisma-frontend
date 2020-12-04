@@ -16,10 +16,11 @@ export default {
     h3: '#505050'
   },
   fontSizes: {
+    tiny: '1rem',
+    small: '1.2rem',
     default: '1.4rem',
     large: '1.6rem',
-    small: '1.2rem',
-    tiny: '1rem',
+    xlarge: '2rem'
   },
   spacing: {
     default: '1.6rem',
@@ -31,6 +32,7 @@ export default {
     default: '180ms ease-in-out',
   },
   radio: {
+    medium: '1rem',
     default: '0.8rem',
     small: '0.4rem',
     smallTop: '0.4rem 0.4rem 0 0',
