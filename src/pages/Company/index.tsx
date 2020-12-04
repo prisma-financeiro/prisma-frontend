@@ -65,8 +65,8 @@ const Company: React.FC<{}> = () => {
               </ValueCard>
             </ValueContainer>
             <ButtonContainer>
-              <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
-              <Button onClick={() => alert('test')} variant="secondary">Comparar</Button>
+              <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
             </ButtonContainer>
           </HeaderContainer>
           <ContentBlock title="Valuation">
