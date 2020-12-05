@@ -15,6 +15,7 @@ export const AnimatedContainer = styled(motion.footer)`
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 500;
 `;
 
 export const Wrapper = styled(HeaderWrapper)`
@@ -48,7 +49,7 @@ export const Wrapper = styled(HeaderWrapper)`
   `}
 `;
 
-export const FooterSection = styled(AnimatedContainer)<{ background?: string }>`
+export const FooterSection = styled(AnimatedContainer) <{ background?: string }>`
   ${({ theme, background }) => css`
     background: ${background || transparentize(0.92, theme.colors.grey)};
     margin-top: 0;

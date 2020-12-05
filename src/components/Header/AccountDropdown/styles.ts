@@ -20,7 +20,7 @@ export const Container = styled.div`
 export const AnimatedDropdown = styled(motion.nav)`
   ${({ theme }) => css`
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     top: 128%;
     right: 0;
     min-width: 14.6rem;

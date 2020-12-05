@@ -71,7 +71,7 @@ const Favorites = () => {
 
   return (
     <>
-      <Card 
+      <Card
         title="Meus Favoritos"
         size={CardSizes.large}>
         <SubHeader>
@@ -90,7 +90,7 @@ const Favorites = () => {
                 variationPercentage={ticker.variationPercentage}
                 variationReal={ticker.variationReal}
                 emptyCard={false}
-                addNewCardCallback={()=>{}}
+                addNewCardCallback={() => { }}
                 removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
               />
             );
@@ -98,22 +98,22 @@ const Favorites = () => {
           {companyTickerCards.length < CARDS_LIMIT && (
             <CompanyTickerCard
               emptyCard={true}
-              removeCardCallback={()=>{}}
+              removeCardCallback={() => { }}
               addNewCardCallback={createNewCompanyTickerCard}
             />
           )}
         </DataWrapper>
       </Card>
       <Modal
-          title="Adicionar um favorito"
-          show={isModalOpen}
-          modalClosed={handleCloseModal}
-          modalConfirmed={handleModalConfirmed}>
-          <Input 
-            placeholder="Digite o código do ativo"
-            onChange={debounce(handleCodeSearch, 1000)}
-            showIcon={true} 
-            isLoading={isSpinnerInModalLoading}/>
+        title="Adicionar um favorito"
+        show={isModalOpen}
+        modalClosed={handleCloseModal}
+        modalConfirmed={handleModalConfirmed}>
+        <Input
+          placeholder="Digite o código do ativo"
+          onChange={debounce(handleCodeSearch, 1000)}
+          showIcon={true}
+          isLoading={isSpinnerInModalLoading} />
       </Modal>
     </>
   );

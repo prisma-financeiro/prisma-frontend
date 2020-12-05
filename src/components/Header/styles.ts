@@ -7,7 +7,7 @@ export const AnimatedContainer = styled(motion.header)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  z-index: 1;
+  z-index: 1000;
   background: ${({ theme }) => theme.colors.background};
   position: fixed;  
   top: 0;   

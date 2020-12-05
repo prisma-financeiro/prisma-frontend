@@ -36,7 +36,7 @@ export const Container = styled(Button)`
       }
 
       :hover {
-        background: ${({ theme }) => theme.colors.background};
+        background: ${({ theme }) => theme.colors.greyLowerOpacity};
       }
 
       @media (max-width: 670px) {
