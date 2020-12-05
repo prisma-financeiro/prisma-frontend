@@ -25,42 +25,51 @@ export const AnimatedCard = styled(motion.article)`
 `;
 
 export const Divider = styled.div`
-${() => css`
-  border-color: ${({ theme }) => theme.colors.greyLowerOpacity};
-  opacity: 50%;
-  width: 100%
+  ${() => css`
+    border-color: ${({ theme }) => theme.colors.greyLowerOpacity};
+    opacity: 50%;
+    width: 100%;
   `}
 `;
 
 
 export const HeaderContainer = styled.div`
-${({ theme }) => css`
-  background: ${theme.colors.background};  
-  border-radius: ${theme.radio.default};
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  position: sticky;
-  top: 8.0rem;
-  z-index: 10;
-  margin-bottom: 1.0rem;
- 
-  @media (max-width: 1080px) {
-    flex-direction: column;
-    justify-content: center;
-  }
+  ${({ theme }) => css`
+    background: ${theme.colors.background};  
+    border-radius: ${theme.radio.default};
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    position: sticky;
+    top: 10.5rem; 
+    z-index: 10;
+    border: 0;
+    margin-bottom: 4rem;
+    box-shadow: 0px 10px 15px 20px ${theme.colors.darkGrey}, 0px -10px 10px 30px ${theme.colors.darkGrey};
+  
+    @media (max-width: 1080px) {
+      flex-direction: column;
+      justify-content: center;
+    }
   `}  
 `;
 
+export const CardContainer = styled.div`  
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+  `}
+`;
+
 export const CompanyHeader = styled.div`
-${({ theme }) => css`
-  padding: 1.6rem 2.4rem;  
-  width: 40%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  ${({ theme }) => css`
+    padding: 1.6rem 2.4rem;  
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   `}  
 `;
 
@@ -92,33 +101,33 @@ export const Title = styled.div`
 `
 
 export const ValueContainer = styled.div`
-${({ theme }) => css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;  
-  justify-content: center;
-  align-items: center;
-  
-  > * {
-    margin: 2rem;
-  }
+  ${({ theme }) => css`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;  
+    justify-content: center;
+    align-items: center;
+    
+    > * {
+      margin: 2rem;
+    }
   `}  
 `;
 
 export const ValueCard = styled.div`
-${({ theme }) => css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  ${({ theme }) => css`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-  > p:last-child {
-    color: ${theme.colors.grey};
-    font-size: ${theme.fontSizes.small};
-  }
+    > p:last-child {
+      color: ${theme.colors.grey};
+      font-size: ${theme.fontSizes.small};
+    }
   `}  
 `;
 
@@ -132,17 +141,17 @@ export const Value = styled.p`
 
 
 export const ButtonContainer = styled.div`
-${({ theme }) => css`    
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;  
-  justify-content: center;
-  align-items: center;
-  
-  > * {
-    margin: 1rem;    
-  }  
+  ${({ theme }) => css`    
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;  
+    justify-content: center;
+    align-items: center;
+    
+    > * {
+      margin: 1rem;    
+    }  
   `}  
 `;
 
@@ -167,14 +176,14 @@ export const Interval = styled.div`
 `;
 
 export const IntervalItem = styled.p`  
-${({ theme }) => css`
-  margin: 2rem;
-  font-weight: 500;
+  ${({ theme }) => css`
+    margin: 2rem;
+    font-weight: 500;
 
-  :hover {    
-    color: ${theme.colors.primary};
-    cursor: pointer;
-  }
-`}  
+    :hover {    
+      color: ${theme.colors.primary};
+      cursor: pointer;
+    }
+  `}
 `;
 

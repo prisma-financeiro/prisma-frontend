@@ -12,7 +12,7 @@ export const AnimatedContainer = styled(motion.footer)`
   width: 100%;
   margin-top: 3.2rem;
   transform-origin: bottom;
-  position: fixed;
+  position: relative;
   left: 0;
   bottom: 0;
   z-index: 500;
