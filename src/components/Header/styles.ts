@@ -7,10 +7,11 @@ export const AnimatedContainer = styled(motion.header)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  z-index: 1000;
   background: ${({ theme }) => theme.colors.background};
-  position: fixed;  
-  top: 0;   
+  position: fixed;
+  top: 0;
+  border: 0;
+  z-index: 15;
 `;
 
 export const Wrapper = styled.div`  

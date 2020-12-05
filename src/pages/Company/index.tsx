@@ -12,7 +12,8 @@ import {
   ValueCard,
   Value,
   Interval,
-  IntervalItem
+  IntervalItem,
+  CardContainer
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -22,7 +23,7 @@ import { sideBarOptionCompany } from '../../constants';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
-import { indicator, hitoricoCotacao } from "./fakeData";
+import { indicator } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import BarChart from '../../components/BarChart';
@@ -110,126 +111,125 @@ const Company: React.FC<{}> = () => {
               <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
             </ButtonContainer>
           </HeaderContainer>
-          <Card
-            title="Valuation"
-            size={CardSizes.large}>
-            <AnimatedCard>
+          <CardContainer>
+            <Card
+              title="Valuation"
+              size={CardSizes.large}>
+              <AnimatedCard>
+                {
+                  indicator.content[0].valuation.map((indicator: any) => {
+                    return indicator && (
+                      <IndicatorCard
+                        indicatorName={indicator.indicatorName}
+                        value={indicator.value}
+                      />
+                    )
+                  })
+                }
+              </AnimatedCard>
+            </Card>
+            <Card
+              title="Rentabilidade"
+              size={CardSizes.large}
+              chart={{
+                display: true,
+                onClick: () => setRentabilidadeChart(!rentabilidadeChart),
+              }}>
               {
-                indicator.content[0].valuation.map((indicator: any) => {
-                  return indicator && (
-                    <IndicatorCard
-                      indicatorName={indicator.indicatorName}
-                      value={indicator.value}
-                    />
-                  )
-                })
+                rentabilidadeChart
+                  ?
+                  <BarChart
+                    data={indicator.content[1].rentabilidade.map((indicator: any) => { return { value: indicator.value } })} />
+                  :
+                  <AnimatedCard>
+                    {
+                      indicator.content[1].rentabilidade.map((indicator: any) => {
+                        return indicator && (
+                          <IndicatorCard
+                            indicatorName={indicator.indicatorName}
+                            value={indicator.value}
+                          />
+                        )
+                      })
+                    }
+                  </AnimatedCard>
               }
-            </AnimatedCard>
-          </Card>
-          <Card
-            title="Rentabilidade"
-            size={CardSizes.large}
-            chart={{
-              display: true,
-              onClick: () => setRentabilidadeChart(!rentabilidadeChart),
-            }}>
-            {
-              rentabilidadeChart
-                ?
-                <BarChart
-                  data={indicator.content[1].rentabilidade.map((indicator: any) => { return { value: indicator.value } })} />
-                :
-                <AnimatedCard>
-                  {
-                    indicator.content[1].rentabilidade.map((indicator: any) => {
-                      return indicator && (
-                        <IndicatorCard
-                          indicatorName={indicator.indicatorName}
-                          value={indicator.value}
-                        />
-                      )
-                    })
-                  }
-                </AnimatedCard>
-            }
 
-          </Card>
-
-          <Card title="Lucratividade" size={CardSizes.large}>
-            <AnimatedCard>
-              {
-                indicator.content[0].eficiencia.map((indicator: any) => {
-                  return indicator && (
-                    <IndicatorCard
-                      indicatorName={indicator.indicatorName}
-                      value={indicator.value}
-                    />
-                  )
-                })
-              }
-            </AnimatedCard>
-          </Card>
-
-          <Card title="Endividamento" size={CardSizes.large}>
-            <AnimatedCard>
-              {
-                indicator.content[0].endividamento.map((indicator: any) => {
-                  return indicator && (
-                    <IndicatorCard
-                      indicatorName={indicator.indicatorName}
-                      value={indicator.value}
-                    />
-                  )
-                })
-              }
-            </AnimatedCard>
-          </Card>
-
-          <Card title="Cotacao" size={CardSizes.large}>
-            <AnimatedCard>
-              <Interval>
-                {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
-              </Interval>
-              <LineChart
-                data={cotacaoFake}
-              />
-            </AnimatedCard>
-          </Card>
-          <Card title="Proventos" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Proventos content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="DRE" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>DRE content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="Balanço Patrimonial" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Balanço Patrimonial content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="Fluxo de Caixa" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Fluxo de Caixa content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="Dados Gerais" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Dados Gerais content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="Contato" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Contato content</h1>
-            </AnimatedCard>
-          </Card>
-          <Card title="Notícias sobra a Empresa" size={CardSizes.large}>
-            <AnimatedCard>
-              <h1>Notícias sobra a Empresa</h1>
-            </AnimatedCard>
-          </Card>
+            </Card>
+            <Card title="Lucratividade" size={CardSizes.large}>
+              <AnimatedCard>
+                {
+                  indicator.content[0].eficiencia.map((indicator: any) => {
+                    return indicator && (
+                      <IndicatorCard
+                        indicatorName={indicator.indicatorName}
+                        value={indicator.value}
+                      />
+                    )
+                  })
+                }
+              </AnimatedCard>
+            </Card>
+            <Card title="Endividamento" size={CardSizes.large}>
+              <AnimatedCard>
+                {
+                  indicator.content[0].endividamento.map((indicator: any) => {
+                    return indicator && (
+                      <IndicatorCard
+                        indicatorName={indicator.indicatorName}
+                        value={indicator.value}
+                      />
+                    )
+                  })
+                }
+              </AnimatedCard>
+            </Card>
+            <Card title="Cotacao" size={CardSizes.large}>
+              <AnimatedCard>
+                <Interval>
+                  {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
+                </Interval>
+                <LineChart
+                  data={cotacaoFake}
+                />
+              </AnimatedCard>
+            </Card>
+            <Card title="Proventos" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Proventos content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="DRE" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>DRE content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="Balanço Patrimonial" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Balanço Patrimonial content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="Fluxo de Caixa" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Fluxo de Caixa content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="Dados Gerais" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Dados Gerais content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="Contato" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Contato content</h1>
+              </AnimatedCard>
+            </Card>
+            <Card title="Notícias sobra a Empresa" size={CardSizes.large}>
+              <AnimatedCard>
+                <h1>Notícias sobra a Empresa</h1>
+              </AnimatedCard>
+            </Card>
+          </CardContainer>
         </MainContent>
       </AnimatedWrapper>
     </Container>
