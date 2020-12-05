@@ -10,7 +10,6 @@ import {
   Icon,
 } from './styles';
 import AccountDropdown from './AccountDropdown';
-import Button from '../Button';
 import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
 import { TOP_NAVIGATION } from '../../constants';
 
