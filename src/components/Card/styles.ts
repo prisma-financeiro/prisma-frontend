@@ -11,7 +11,8 @@ export const AnimatedCard = styled(motion.div)`
     background: ${theme.colors.background};
     width: ${(props: CardProps) => props.size};
     height: 100%;
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;    
     border-radius: ${theme.radio.default};
     padding: 1.6rem 2.4rem;
     box-shadow: ${theme.shadows.flat};
@@ -30,10 +31,29 @@ export const ContentHeader = styled.div`
       color: ${theme.colors.h2};
       font-size: ${theme.fontSizes.large};
     }
+  `}
+`;
 
-    :hover {
-      cursor: pointer;
+
+export const ButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+    > * {
+      margin-left: 2rem;
+      color: ${theme.colors.primary};
+      width: 2rem;
+      height: 2rem;
+
+      :hover {
+        cursor: pointer;
+        background: ${theme.colors.greyLowerOpacity};
+        border-radius: 50%;
+      }
     }
+    
   `}
 `;
 

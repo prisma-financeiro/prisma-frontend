@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Container,
@@ -24,8 +24,8 @@ import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
 import { indicator, hitoricoCotacao } from "./fakeData";
 import Button from '../../components/Button';
-import Chart from 'chart.js';
 import LineChart from '../../components/LineChart';
+import BarChart from '../../components/BarChart';
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
@@ -67,6 +67,7 @@ const cotacaoFake = [
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
 const Company: React.FC<{}> = () => {
+  const [rentabilidadeChart, setRentabilidadeChart] = useState(false);
 
   return (
     <Container>
@@ -109,7 +110,9 @@ const Company: React.FC<{}> = () => {
               <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
             </ButtonContainer>
           </HeaderContainer>
-          <Card title="Valuation" size={CardSizes.large}>
+          <Card
+            title="Valuation"
+            size={CardSizes.large}>
             <AnimatedCard>
               {
                 indicator.content[0].valuation.map((indicator: any) => {
@@ -123,19 +126,33 @@ const Company: React.FC<{}> = () => {
               }
             </AnimatedCard>
           </Card>
-          <Card title="Rentabilidade" size={CardSizes.large}>
-            <AnimatedCard>
-              {
-                indicator.content[0].rentabilidade.map((indicator: any) => {
-                  return indicator && (
-                    <IndicatorCard
-                      indicatorName={indicator.indicatorName}
-                      value={indicator.value}
-                    />
-                  )
-                })
-              }
-            </AnimatedCard>
+          <Card
+            title="Rentabilidade"
+            size={CardSizes.large}
+            chart={{
+              display: true,
+              onClick: () => setRentabilidadeChart(!rentabilidadeChart),
+            }}>
+            {
+              rentabilidadeChart
+                ?
+                <BarChart
+                  data={indicator.content[1].rentabilidade.map((indicator: any) => { return { value: indicator.value } })} />
+                :
+                <AnimatedCard>
+                  {
+                    indicator.content[1].rentabilidade.map((indicator: any) => {
+                      return indicator && (
+                        <IndicatorCard
+                          indicatorName={indicator.indicatorName}
+                          value={indicator.value}
+                        />
+                      )
+                    })
+                  }
+                </AnimatedCard>
+            }
+
           </Card>
 
           <Card title="Lucratividade" size={CardSizes.large}>

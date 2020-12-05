@@ -1,33 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "chart.js";
+import useAppTheme from "../../contexts/theme";
+import * as themes from '../../styles/themes';
 
 Chart.defaults.global.defaultFontFamily = "'PT Sans', sans-serif";
-// Chart.defaults.global.legend.display = false;
 
 interface BarChartProps {
     data: Array<any>;
-    color: string;
 }
 
-export default class BarChart extends React.Component<BarChartProps, BarChartProps> {
-    chartRef: React.RefObject<any>;
-    myChart!: Chart;
+const BarChart: React.FC<BarChartProps> = ({ data }) => {
+    const chartRef: React.RefObject<any> = React.createRef();
+    const [chart, setChart] = useState<Chart>();
+    const { currentTheme } = useAppTheme();
+    const theme = themes[currentTheme];
 
-    constructor(props: BarChartProps) {
-        super(props);
-        this.chartRef = React.createRef();
-    }
+    useEffect(() => {
 
-    // componentDidUpdate() {
-    //   this.myChart.data.labels = this.props.data.map(d => d.time);
-    //   this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
-    //   this.myChart.update();
-    // }
+        if (!chart) {
+            const newChart = new Chart(chartRef.current, {
+                type: 'bar',
+                options: {
+                    legend: {
+                        display: false
+                    },
+                },
+                data: {
+                    // labels: this.props.data.map(d => d.time),
+                    labels: ['2020-01-01', '2020-04-01', '2020-07-01'],
+                    datasets: [{
+                        // data: this.props.data.map(d => d.value),
+                        data: [5, 4.5, 2.8],
+                        borderColor: 'rgba(32, 226, 47, 1)',
+                        backgroundColor: 'rgba(32, 226, 47, 0.56)',
+                        borderWidth: 1.5,
+                    }]
+                }
+            });
 
-    componentDidMount() {
-        this.myChart = new Chart(this.chartRef.current, {
-            type: 'line',
-            options: {
+            setChart(newChart);
+        }
+
+        if (chart) {
+            chart.options = {
                 legend: {
                     display: false
                 },
@@ -37,50 +52,30 @@ export default class BarChart extends React.Component<BarChartProps, BarChartPro
                             gridLines: {
                                 display: false,
                             },
-                            type: 'time',
-                            distribution: 'series',
-                            time: {
-                                displayFormats: {
-                                    quarter: 'MMM D'
-                                }
-                            }
+                            ticks: {
+                                fontColor: theme.colors.grey,
+                            },
                         }
                     ],
                     yAxes: [
                         {
-                            gridLines: {
-                                color: 'grey',
-                            },
                             ticks: {
-                                min: 0,
-                                max: 20,
-
-                            }
+                                fontColor: theme.colors.grey,
+                            },
+                            gridLines: {
+                                color: theme.colors.grey,
+                            },
                         }
                     ]
                 }
-            },
-            data: {
-                labels: this.props.data.map(d => d.time),
-                datasets: [{
-                    data: this.props.data.map(d => d.value),
-                    fill: 'none',
-                    // backgroundColor: this.props.color,
-                    // borderColor: this.props.color,
-                    borderColor: 'green',
-                    backgroundColor: 'red',
-                    borderWidth: 1.5,
-                    pointBorderWidth: 3,
-                    pointRadius: 2,
-                    lineTension: 0
-                }]
             }
-        });
-    }
+            chart.update();
+        }
+    })
 
-    render() {
-        return (
-            <canvas ref={this.chartRef} />
-        )
-    }
+    return (
+        <canvas ref={chartRef} />
+    )
 }
+
+export default BarChart;

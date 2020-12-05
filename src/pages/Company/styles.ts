@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const Container = styled.div`
-  margin-top: 8rem;
+  margin-top: 8.5rem;
   width: 100%;
   height: 100%;
   display: flex;
@@ -11,14 +11,13 @@ export const Container = styled.div`
 `;
 
 export const AnimatedCard = styled(motion.article)`
-  ${({ theme }) => css`
+  ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
     height: 100%;
     min-height: 17.6rem;
     border-radius: ${theme.radio.default};
-    padding: 1.6rem 2.4rem;
-    box-shadow: ${theme.shadows.flat};
+    padding: 1.6rem 2.4rem;    
     display: flex;
     flex-direction: column;
     flex-flow: wrap;
@@ -43,8 +42,8 @@ ${({ theme }) => css`
   display: flex;
   flex-direction: row;
   position: sticky;
-  top: 8.1rem;
-  z-index: 0;
+  top: 8.0rem;
+  z-index: 10;
   margin-bottom: 1.0rem;
  
   @media (max-width: 1080px) {

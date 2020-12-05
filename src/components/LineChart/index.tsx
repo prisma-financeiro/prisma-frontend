@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createChart, IChartApi, ISeriesApi } from "lightweight-charts";
+import { createChart, IChartApi, ISeriesApi, DeepPartial, ChartOptions } from "lightweight-charts";
 import { Container } from "./styles";
 import useAppTheme from "../../contexts/theme";
 import * as themes from '../../styles/themes';
@@ -8,16 +8,19 @@ interface LineChartProps {
     data: Array<any>;
 }
 
-const chartOptions = {
+const chartOptions: DeepPartial<ChartOptions> = {
     localization: {
         dateFormat: 'yyyy/MM/dd',
     },
     rightPriceScale: {
         borderVisible: false,
+        autoScale: true,
+        entireTextOnly: true,
     },
     timeScale: {
         borderVisible: false,
         fixLeftEdge: true,
+        lockVisibleTimeRangeOnResize: true,
     },
     watermark: {
         color: 'rgba(0, 0, 0, 0)',
@@ -75,9 +78,10 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
     });
 
     return (
-        <Container ref={chartRef}>
-            {/* <Chart  /> */}
-        </Container>
+        <Container
+            ref={chartRef}
+            onChange={() => alert("test")}
+        />
     )
 }
 
