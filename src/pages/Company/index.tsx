@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Container,
@@ -13,8 +13,7 @@ import {
   Value,
   Interval,
   IntervalItem,
-  CardContainer,
-  IconContainer
+  CardContainer
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -24,14 +23,11 @@ import { sideBarOptionCompany } from '../../constants';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
-import { indicator } from "./fakeData";
+import { indicator, indicatorList } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
-import IndicatorChart from "./IndicatorChart";
-import { FiBarChart2 } from 'react-icons/fi';
+import CompanyIndicatorCard from './CompanyIndicatorCard';
 
-import * as themes from '../../styles/themes';
-import useAppTheme from '../../contexts/theme';
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
   tickerCode: 'MGLU3 ON',
@@ -71,20 +67,7 @@ const cotacaoFake = [
 
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
-const displayOptions = [
-  { value: "TRIMESTRAL", label: "TRIMESTRAL" },
-  { value: "ANUAL", label: "ANUAL" },
-]
-
-
-const indicatorSelectionOptions = [
-  { value: "LPA", label: "LPA" },
-  { value: "FPA", label: "FPA" },
-]
-
 const Company: React.FC<{}> = () => {
-  const [rentabilidadeChart, setRentabilidadeChart] = useState(false);
-  const { currentTheme } = useAppTheme();
 
   return (
     <Container>
@@ -144,71 +127,22 @@ const Company: React.FC<{}> = () => {
                 }
               </AnimatedCard>
             </Card>
-            <Card
+            <CompanyIndicatorCard
               title="Rentabilidade"
-              size={CardSizes.large}>
-              <IconContainer 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                color={rentabilidadeChart ? themes[currentTheme].colors.primary : themes[currentTheme].colors.grey} 
-                onClick={() => setRentabilidadeChart(!rentabilidadeChart)} >
-                <FiBarChart2 />
-              </IconContainer>
-              <AnimatedCard>
-                {
-                  rentabilidadeChart
-                    ?
-                    <IndicatorChart
-                      data={indicator.content[1].rentabilidade}
-                      indicatorSelectionOptions={indicatorSelectionOptions}
-                      displayOptions={displayOptions}
-                    />
-                    :
-                    <>
-                      {
-                        indicator.content[1].rentabilidade.map((indicator: any) => {
-                          return indicator && (
-                            <IndicatorCard
-                              indicatorName={indicator.indicatorName}
-                              value={indicator.value}
-                            />
-                          )
-                        })
-                      }
-                    </>
-                }
-              </AnimatedCard>
-
-            </Card>
-            <Card title="Lucratividade" size={CardSizes.large}>
-              <AnimatedCard>
-                {
-                  indicator.content[0].eficiencia.map((indicator: any) => {
-                    return indicator && (
-                      <IndicatorCard
-                        indicatorName={indicator.indicatorName}
-                        value={indicator.value}
-                      />
-                    )
-                  })
-                }
-              </AnimatedCard>
-            </Card>
-            <Card title="Endividamento" size={CardSizes.large}>
-              <AnimatedCard>
-                {
-                  indicator.content[0].endividamento.map((indicator: any) => {
-                    return indicator && (
-                      <IndicatorCard
-                        indicatorName={indicator.indicatorName}
-                        value={indicator.value}
-                      />
-                    )
-                  })
-                }
-              </AnimatedCard>
-            </Card>
-            <Card title="Cotacao" size={CardSizes.large}>
+              indicatorData={indicator.content[1].rentabilidade}
+              indicatorSelectionOptions={indicatorList.content.rentabilidade}
+            />
+            <CompanyIndicatorCard
+              title="Eficiência"
+              indicatorData={indicator.content[1].eficiencia}
+              indicatorSelectionOptions={indicatorList.content.eficiencia}
+            />
+            <CompanyIndicatorCard
+              title="Endividamento"
+              indicatorData={indicator.content[1].endividamento}
+              indicatorSelectionOptions={indicatorList.content.endividamento}
+            />
+            <Card title="Cotação" size={CardSizes.large}>
               <Interval>
                 {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
               </Interval>

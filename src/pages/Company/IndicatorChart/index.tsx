@@ -1,29 +1,106 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Container, SelectContainer } from './styles';
 import BarChart from '../../../components/BarChart';
 import Selection, { Option } from '../../../components/Selection';
+import useAppTheme from '../../../contexts/theme';
+import * as themes from '../../../styles/themes';
 
-interface IndicatorChartOptions {
-    data: Array<any>;
-    indicatorSelectionOptions: Array<Option>;
-    displayOptions: Array<Option>;
+export interface IndicatorData {
+    label: string;
+    value: string;
 }
 
-const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelectionOptions, displayOptions }) => {
+interface IndicatorChartOptions {
+    getIndicatorData: (indicator: string, displayOption: string) => Array<IndicatorData>;
+    indicatorSelectionOptions: Array<Option>;
+}
+
+const displayOptions = [
+    { value: "TRIMESTRAL", label: "TRIMESTRAL" },
+    { value: "ANUAL", label: "ANUAL" },
+];
+
+const IndicatorChart: React.FC<IndicatorChartOptions> = ({ getIndicatorData, indicatorSelectionOptions }) => {
+
+    const [selectedIndicator, setSelectedIndicator] = useState<string>(indicatorSelectionOptions[0].value);
+    const [selectedDisplayOption, setSelectedDisplayOption] = useState<string>(displayOptions[0].value);
+    const [indicatorsData, setIndicatorsData] = useState<Array<IndicatorData>>(getIndicatorData(selectedIndicator, selectedDisplayOption));
+
+    const { currentTheme } = useAppTheme();
+    const theme = themes[currentTheme];
+
+    const chartOptions: Chart.ChartConfiguration = {
+        type: 'bar',
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [
+                    {
+                        gridLines: {
+                            display: false,
+                            drawOnChartArea: true,
+                        },
+                        ticks: {
+                            fontColor: theme.colors.grey,
+                        },
+                    }
+                ],
+                yAxes: [
+                    {
+                        ticks: {
+                            fontColor: theme.colors.grey,
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            color: theme.colors.grey,
+                            zeroLineColor: theme.colors.grey,
+                            zeroLineWidth: 2,
+                        },
+                    }
+                ]
+            }
+        },
+    }
+
+
+    useEffect(() => {
+        if (selectedIndicator && selectedDisplayOption) {
+            const currentData = getIndicatorData(selectedIndicator, selectedDisplayOption);
+
+            setIndicatorsData(currentData);
+        }
+    }, [selectedIndicator, selectedDisplayOption]);
+
+    const getData = (): any => {
+        return {
+            labels: indicatorsData.map(d => d.label),
+            datasets: [{
+                data: indicatorsData.map(d => d.value),
+                borderColor: 'rgba(32, 226, 47, 1)',
+                backgroundColor: 'rgba(32, 226, 47, 0.56)',
+                hoverBackgroundColor: 'rgba(32, 226, 47, 0.40)',
+                borderWidth: 1.5,
+            }]
+        }
+    }
 
     return (
         <Container>
             <SelectContainer>
                 <Selection
                     options={indicatorSelectionOptions}
-                    onChange={() => alert("select")} />
+                    onChange={(event) => setSelectedIndicator(event.target.value)} />
                 <Selection
                     options={displayOptions}
-                    onChange={() => alert("select")} />
+                    onChange={(event) => setSelectedDisplayOption(event.target.value)} />
             </SelectContainer>
             <BarChart
-                data={data.map((indicator: any) => { return { value: indicator.value } })} />
+                data={getData()}
+                options={chartOptions}
+            />
         </Container>
     );
 };
