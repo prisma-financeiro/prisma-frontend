@@ -17,10 +17,10 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
             <SelectContainer>
                 <Selection
                     options={indicatorSelectionOptions}
-                    selectOption={() => alert("select")} />
+                    onChange={() => alert("select")} />
                 <Selection
                     options={displayOptions}
-                    selectOption={() => alert("select")} />
+                    onChange={() => alert("select")} />
             </SelectContainer>
             <BarChart
                 data={data.map((indicator: any) => { return { value: indicator.value } })} />

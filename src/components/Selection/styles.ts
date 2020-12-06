@@ -1,14 +1,27 @@
 import styled, { css } from 'styled-components';
-// import { motion } from 'framer-motion';
 
 export const Select = styled.select`
     ${({ theme }) => css`    
         background: ${theme.colors.darkGrey};
-        min-width: 10rem;
+        width: 100%;
+        max-width: 100%;
         max-height: 4rem;
-        border-radius: ${theme.radio.default};
+        line-height: 1.3;
+        font-weight: 700;
         margin: 0.5rem;
         padding: 1rem;
-        color: ${theme.colors.lightGrey}
+        color: ${theme.colors.lightGrey};
+        border: none;
+        border-radius: ${theme.radio.default};
+
+        > ::-ms-expand {
+    display: none;
+}
     `}
+
+`;
+
+export const StyledOption = styled.option`
+    border: 1px solid #e5e5e5;
+  padding: 10px;
 `;

@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
 
 export const Header = styled.div`
   ${({ theme }) => css`
@@ -10,7 +9,6 @@ export const Header = styled.div`
       font-weight: 500;
       text-transform: uppercase;
       color: ${theme.colors.h2};
-      font-size: ${theme.fontSizes.large};
     }
   `}
 `;
@@ -24,7 +22,6 @@ export const SubHeader = styled.div`
     > h3 {
       font-weight: 500;
       color: ${theme.colors.h3};
-      font-size: ${theme.fontSizes.default};
     }
   `}
 `;
