@@ -23,7 +23,6 @@ export const Header = styled.div`
     > h2 {
       font-weight: 500;
       color: ${theme.colors.h2};
-      font-size: ${theme.fontSizes.large};
     }
   `}
 `;
@@ -37,7 +36,6 @@ export const SubHeader = styled.div`
     > h3 {
       font-weight: 500;
       color: ${theme.colors.h3};
-      font-size: ${theme.fontSizes.default};
     }
   `}
 `;

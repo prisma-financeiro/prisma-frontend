@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
+interface IconProps {
+  color: string;
+}
+
+
 export const Container = styled.div`
   margin-top: 8.5rem;
   width: 100%;
@@ -14,13 +19,9 @@ export const AnimatedCard = styled(motion.article)`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
-    height: 100%;
-    min-height: 17.6rem;
-    border-radius: ${theme.radio.default};
-    padding: 1.6rem 2.4rem;    
+    border-radius: ${theme.radio.default};   
     display: flex;
-    flex-direction: column;
-    flex-flow: wrap;
+    justify-content: flex-start;
   `}
 `;
 
@@ -179,6 +180,20 @@ export const IntervalItem = styled.p`
   ${({ theme }) => css`
     margin: 2rem;
     font-weight: 500;
+
+    :hover {    
+      color: ${theme.colors.primary};
+      cursor: pointer;
+    }
+  `}
+`;
+
+export const IconContainer = styled(motion.button)`  
+  ${({ theme }) => css`
+    margin: 1rem 0;
+    color: ${(props: IconProps) => props.color};
+    background-color: transparent; 
+    font-size: ${theme.fontSizes.xlarge};
 
     :hover {    
       color: ${theme.colors.primary};

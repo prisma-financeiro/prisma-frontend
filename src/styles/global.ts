@@ -47,6 +47,18 @@ export default createGlobalStyle`
     font-weight: 700;
   }
 
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
   a {
     text-decoration: none;
     background: none;

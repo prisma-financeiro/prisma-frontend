@@ -8,7 +8,7 @@ export const Container = styled.div`
     width: 18rem;
     height: 15rem;
     border-radius: 5px;
-    margin: 1.0rem;
+    margin: 1rem 1rem 0 0;
   `}
 `;
 

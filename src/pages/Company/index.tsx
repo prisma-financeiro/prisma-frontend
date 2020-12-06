@@ -13,7 +13,8 @@ import {
   Value,
   Interval,
   IntervalItem,
-  CardContainer
+  CardContainer,
+  IconContainer
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -26,9 +27,11 @@ import IndicatorCard from '../../components/IndicatorCard';
 import { indicator } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
-import BarChart from '../../components/BarChart';
 import IndicatorChart from "./IndicatorChart";
+import { FiBarChart2 } from 'react-icons/fi';
 
+import * as themes from '../../styles/themes';
+import useAppTheme from '../../contexts/theme';
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
   tickerCode: 'MGLU3 ON',
@@ -81,6 +84,7 @@ const indicatorSelectionOptions = [
 
 const Company: React.FC<{}> = () => {
   const [rentabilidadeChart, setRentabilidadeChart] = useState(false);
+  const { currentTheme } = useAppTheme();
 
   return (
     <Container>
@@ -142,33 +146,38 @@ const Company: React.FC<{}> = () => {
             </Card>
             <Card
               title="Rentabilidade"
-              size={CardSizes.large}
-              chart={{
-                display: true,
-                onClick: () => setRentabilidadeChart(!rentabilidadeChart),
-              }}>
-              {
-                rentabilidadeChart
-                  ?
-                  <IndicatorChart
-                    data={indicator.content[1].rentabilidade}
-                    indicatorSelectionOptions={indicatorSelectionOptions}
-                    displayOptions={displayOptions}
-                  />
-                  :
-                  <AnimatedCard>
-                    {
-                      indicator.content[1].rentabilidade.map((indicator: any) => {
-                        return indicator && (
-                          <IndicatorCard
-                            indicatorName={indicator.indicatorName}
-                            value={indicator.value}
-                          />
-                        )
-                      })
-                    }
-                  </AnimatedCard>
-              }
+              size={CardSizes.large}>
+              <IconContainer 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                color={rentabilidadeChart ? themes[currentTheme].colors.primary : themes[currentTheme].colors.grey} 
+                onClick={() => setRentabilidadeChart(!rentabilidadeChart)} >
+                <FiBarChart2 />
+              </IconContainer>
+              <AnimatedCard>
+                {
+                  rentabilidadeChart
+                    ?
+                    <IndicatorChart
+                      data={indicator.content[1].rentabilidade}
+                      indicatorSelectionOptions={indicatorSelectionOptions}
+                      displayOptions={displayOptions}
+                    />
+                    :
+                    <>
+                      {
+                        indicator.content[1].rentabilidade.map((indicator: any) => {
+                          return indicator && (
+                            <IndicatorCard
+                              indicatorName={indicator.indicatorName}
+                              value={indicator.value}
+                            />
+                          )
+                        })
+                      }
+                    </>
+                }
+              </AnimatedCard>
 
             </Card>
             <Card title="Lucratividade" size={CardSizes.large}>
@@ -200,10 +209,10 @@ const Company: React.FC<{}> = () => {
               </AnimatedCard>
             </Card>
             <Card title="Cotacao" size={CardSizes.large}>
+              <Interval>
+                {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
+              </Interval>
               <AnimatedCard>
-                <Interval>
-                  {interval.map(item => (<IntervalItem>{item}</IntervalItem>))}
-                </Interval>
                 <LineChart
                   data={cotacaoFake}
                 />

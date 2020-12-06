@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import { AnimatedCard, ContentHeader, CardBody, ButtonWrapper } from './styles';
 import { CARDS_ANIMATION } from '../../constants/animations';
-import { FiChevronDown, FiChevronUp, FiBarChart2 } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { DEFAULT_TRANSITION } from '../../constants';
-import { Divider } from '../ContentDivider/styles';
 
 export enum CardSizes {
   'small' = '25%',
@@ -15,13 +14,9 @@ export enum CardSizes {
 interface CardProps {
   size: CardSizes;
   title: string;
-  chart?: {
-    display: Boolean;
-    onClick: Function,
-  }
 }
 
-const Card: React.FC<CardProps> = ({ title, size, chart, children }) => {
+const Card: React.FC<CardProps> = ({ title, size, children }) => {
   const [toggled, setToggle] = useState(true);
   return (
     <AnimatedCard
@@ -30,14 +25,12 @@ const Card: React.FC<CardProps> = ({ title, size, chart, children }) => {
       transition={DEFAULT_TRANSITION}
       size={size}
     >
-      <ContentHeader>
+      <ContentHeader onClick={() => setToggle(!toggled)} >
         <h2>{title}</h2>
         <ButtonWrapper>
-          {chart && <FiBarChart2 onClick={() => chart.onClick()} />}
-          {toggled ? <FiChevronUp onClick={() => setToggle(!toggled)} /> : <FiChevronDown onClick={() => setToggle(!toggled)} />}
+          {toggled ? <FiChevronUp onClick={() => setToggle(!toggled)} /> : <FiChevronDown/>}
         </ButtonWrapper>
       </ContentHeader>
-      <Divider hidden={!toggled} />
       <CardBody
         hidden={!toggled}>
         {children}

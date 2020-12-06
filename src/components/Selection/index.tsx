@@ -1,21 +1,20 @@
-import React from 'react';
-import { Select } from './styles';
+import React, { SelectHTMLAttributes } from 'react';
+import { Select, StyledOption } from './styles';
 
 export interface Option {
     value: string;
     label: string;
 }
 
-interface SelectOptions {
+interface SelectOptions extends SelectHTMLAttributes<HTMLSelectElement>{
     options: Array<Option>;
-    selectOption: Function;
 }
 
-const Selection: React.FC<SelectOptions> = ({ options, selectOption }) => {
+const Selection: React.FC<SelectOptions> = (props) => {
 
     return (
-        <Select onChange={() => selectOption()}>
-            {options.map(option => <option value={option.value}>{option.label}</option>)}
+        <Select {...props}>
+            {props.options.map(option => <StyledOption value={option.value}>{option.label}</StyledOption>)}
         </Select>
     );
 };
