@@ -27,6 +27,7 @@ import { indicator } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import BarChart from '../../components/BarChart';
+import IndicatorChart from "./IndicatorChart";
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
@@ -66,6 +67,17 @@ const cotacaoFake = [
 ];
 
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
+
+const displayOptions = [
+  { value: "TRIMESTRAL", label: "TRIMESTRAL" },
+  { value: "ANUAL", label: "ANUAL" },
+]
+
+
+const indicatorSelectionOptions = [
+  { value: "LPA", label: "LPA" },
+  { value: "FPA", label: "FPA" },
+]
 
 const Company: React.FC<{}> = () => {
   const [rentabilidadeChart, setRentabilidadeChart] = useState(false);
@@ -138,8 +150,11 @@ const Company: React.FC<{}> = () => {
               {
                 rentabilidadeChart
                   ?
-                  <BarChart
-                    data={indicator.content[1].rentabilidade.map((indicator: any) => { return { value: indicator.value } })} />
+                  <IndicatorChart
+                    data={indicator.content[1].rentabilidade}
+                    indicatorSelectionOptions={indicatorSelectionOptions}
+                    displayOptions={displayOptions}
+                  />
                   :
                   <AnimatedCard>
                     {

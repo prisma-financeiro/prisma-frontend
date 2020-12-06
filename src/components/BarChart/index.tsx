@@ -27,12 +27,14 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                 },
                 data: {
                     // labels: this.props.data.map(d => d.time),
-                    labels: ['2020-01-01', '2020-04-01', '2020-07-01'],
+                    // labels: ['2020-01-01', '2020-04-01', '2020-07-01'],
+                    labels: ['2020-01-01', '2020-04-01', '2020-07-01', '2020-10-01', '2019-01-01', '2019-04-01', '2019-07-01', '2019-10-01'],
                     datasets: [{
                         // data: this.props.data.map(d => d.value),
-                        data: [5, 4.5, 2.8],
+                        data: [5, 4.5, 2.8, 3.2, 3.8, 4.1, 3.5, 5.4],
                         borderColor: 'rgba(32, 226, 47, 1)',
                         backgroundColor: 'rgba(32, 226, 47, 0.56)',
+                        hoverBackgroundColor: 'rgba(32, 226, 47, 0.40)',
                         borderWidth: 1.5,
                     }]
                 }
@@ -49,8 +51,15 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                 scales: {
                     xAxes: [
                         {
+                            type: 'time',
+                            // distribution: 'linear',
+                            time: {
+                                unit: 'quarter',
+                            },
                             gridLines: {
                                 display: false,
+                                // offsetGridLines: true,
+                                drawOnChartArea: true
                             },
                             ticks: {
                                 fontColor: theme.colors.grey,
@@ -61,9 +70,11 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                         {
                             ticks: {
                                 fontColor: theme.colors.grey,
+                                beginAtZero: true,
                             },
                             gridLines: {
                                 color: theme.colors.grey,
+                                // offsetGridLines: true,
                             },
                         }
                     ]

@@ -26,7 +26,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value }) =
       <Divider />
       <Content>
         <Value>
-          {value}
+          {parseFloat(String(value)).toFixed(2).toString().replace('.', ',')}
         </Value>
       </Content>
     </Container>
