@@ -31,7 +31,7 @@ const Header = () => {
         </AnimatedLeftNav>
         <MenuItems>
           {Object.entries(TOP_NAVIGATION).map(([key, value]) => (
-            <MenuItem>
+            <MenuItem key={key}>
               <Icon>{value.icon}</Icon>
               <p>{key}</p>
             </MenuItem>

@@ -26,11 +26,11 @@ const SideBar: React.FC<SideBarProps> = ({ sideBarOptions }) => {
       <AnimatedContainer variants={animation}>
         {sideBarOptions.map((option: SideBarOption, index: number) => {
           return (
-            <>
+            <React.Fragment key={option.title}>
               {index > 0 && (<Divider />)}
               <p>{option.title}</p>
               {option.items.map((item: SideBarItem) => (<Accordion key={item.name} icon={item.icon} sectionName={item.name} expand={item.expand} />))}
-            </>
+            </React.Fragment>
           )
         })
         }

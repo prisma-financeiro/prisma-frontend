@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  AnimatedCard,
   DataWrapper,
   SubHeader
 } from './styles';
-import { CARDS_ANIMATION } from '../../../constants/animations';
 
-import { DEFAULT_TRANSITION } from '../../../constants';
 import Card, { CardSizes } from '../../../components/Card';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import ContentDivider from '../../../components/ContentDivider';
+import Table from '../../../components/Table';
+import Button from '../../../components/Button';
+import Spinner from '../../../components/Spinner';
 
 
 const MarketToday = () => {
+  const [isTableLoading, setIsTableLoading] = useState(false);
   const fakeData = {
     companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
     tickerCode: 'MGLU3',
@@ -20,6 +21,25 @@ const MarketToday = () => {
     stockPrice: 10.58,
     variationReal: -0.18,
     variationPercentage: -0.51,
+  }
+
+  const fakeTable = [
+    {name: 'daniel', idade: 27, '#': <Button>Teste</Button> }, 
+    {name: <a href="www.google.com">Paulao</a>, idade: 24, "#": <Spinner key={Math.random()} />},
+    {name: 'Rosilene', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Carmelita', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Jose', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Rosi', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Miguelito', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Bilano', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Moises', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: 'Gerald', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+  ]
+
+  const handlePageChange = (pageNumber: number) => {
+    //chamada para o backend aqui
+    console.log(pageNumber);
+    setIsTableLoading(!isTableLoading);
   }
 
   return (
@@ -49,18 +69,16 @@ const MarketToday = () => {
         <h3>IFIX</h3>
       </SubHeader>
 
-      <DataWrapper>
-        <CompanyTickerCard
-          companyLogo={fakeData.companyLogo}
-          companyName={fakeData.companyName}
-          tickerCode={fakeData.tickerCode}
-          stockPrice={fakeData.stockPrice}
-          variationPercentage={fakeData.variationPercentage}
-          variationReal={fakeData.variationReal}
-          emptyCard={false}
-          removeCardCallback={()=>{}}
-          addNewCardCallback={() => { }} />
-      </DataWrapper>
+      <Table 
+        tableHeader={["Name", "Age", ""]} 
+        tableData={fakeTable} 
+        numberOfRows={3}
+        numberOfPages={5}
+        showBottomBorder={false}
+        onPageChange={(pageNumber) => handlePageChange(pageNumber)}
+        isTableLoading={isTableLoading}>
+
+      </Table>
     </Card>
   );
 };
