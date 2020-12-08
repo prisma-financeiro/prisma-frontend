@@ -59,5 +59,7 @@ export const ButtonWrapper = styled.div`
 
 export const CardBody = styled(motion.article)`
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
   `}
 `;

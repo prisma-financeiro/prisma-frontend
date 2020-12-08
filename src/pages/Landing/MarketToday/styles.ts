@@ -45,3 +45,8 @@ export const DataWrapper = styled.div`
   grid-gap: 2.1rem;
   grid-template-columns: 1fr 1fr;
 `;
+
+export const TableWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+`;

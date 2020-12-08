@@ -2,7 +2,7 @@ export default {
   colors: {
     primary: '#20C05C',
     primaryDark: '#20AD48',
-    secondary: '#20C05C',
+    secondary: '#6EDB96',
     grey: '#8C91A5',
     greyLowerOpacity: '#505050',
     lightGrey: '#F3F3F3',
@@ -13,7 +13,8 @@ export default {
     yellow: '#FFED00',
     h1: '#505050',
     h2: '#505050',
-    h3: '#505050'
+    h3: '#505050',
+    a: '#00598a'
   },
   fontSizes: {
     tiny: '1rem',

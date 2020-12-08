@@ -66,6 +66,11 @@ export default createGlobalStyle`
     cursor: pointer;
     border: 0;
     transition: 180ms ease-in-out;
+    color: ${({ theme }) => theme.colors.a};
+
+    :visited {
+      color: ${({ theme }) => theme.colors.a};
+    }
   }
 
   button {
