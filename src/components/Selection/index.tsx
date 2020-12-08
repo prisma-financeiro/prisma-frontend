@@ -6,7 +6,7 @@ export interface Option {
     label: string;
 }
 
-interface SelectOptions extends SelectHTMLAttributes<HTMLSelectElement>{
+interface SelectOptions extends SelectHTMLAttributes<HTMLSelectElement> {
     options: Array<Option>;
 }
 
@@ -14,7 +14,7 @@ const Selection: React.FC<SelectOptions> = (props) => {
 
     return (
         <Select {...props}>
-            {props.options.map(option => <StyledOption value={option.value}>{option.label}</StyledOption>)}
+            {props.options.map((option, index) => <StyledOption key={index} value={option.value}>{option.label}</StyledOption>)}
         </Select>
     );
 };

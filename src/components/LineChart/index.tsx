@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createChart, IChartApi, ISeriesApi, DeepPartial, ChartOptions } from "lightweight-charts";
+import { createChart, IChartApi, ISeriesApi, DeepPartial, ChartOptions } from "lightweight-charts"; // https://github.com/tradingview/lightweight-charts
 import { Container } from "./styles";
 import useAppTheme from "../../contexts/theme";
 import * as themes from '../../styles/themes';

@@ -2,10 +2,9 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    background: ${theme.colors.darkGrey};
-    width: 18rem;
+    position: relative;
+    background: linear-gradient(to top, #232526, #414345);
+    width: 20rem;
     height: 15rem;
     border-radius: 5px;
     margin: 1rem 1rem 0 0;
@@ -14,42 +13,40 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-content: center;
-  margin: 5px 0 5px 5px;
+  flex-direction: column;
+  justify-content: center;  
+  margin-top: 1.5rem;
+  margin-left: 2.0rem;
+  z-index: 10;
 `;
+
+export const Value = styled.h2`
+  ${({ theme }) => css`
+      margin-bottom: 0.5rem;      
+      color: ${theme.colors.lightGrey};
+      font-size: ${theme.fontSizes.xlarge};
+  `}
+`
 
 export const Title = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 10px;
-
-    > h1 {
-      font-weight: 500;
-      color: ${theme.colors.lightGrey};
-      font-size: ${theme.fontSizes.large};
-    }
 
     > p {
-      color: ${theme.colors.grey};
-      font-size: ${theme.fontSizes.small};
+      font-weight: 400;
+      color: ${theme.colors.lightGrey};
+      font-size: ${theme.fontSizes.default};
     }
   `}
 `
 
 export const Content = styled.div`
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-`
-
-export const Value = styled.p`
-  ${({ theme }) => css`
-      font-weight: 700;
-      color: ${theme.colors.yellow};
-      font-size: ${theme.fontSizes.large};
-  `}
+  height: 55%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
 `
