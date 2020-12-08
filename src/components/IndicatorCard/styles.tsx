@@ -3,8 +3,6 @@ import styled, { css } from 'styled-components';
 export const Container = styled.div`
   ${({ theme }) => css`
     position: relative;
-    // background: ${theme.colors.darkGrey};
-    // background: linear-gradient(to top, #000000, #434343);
     background: linear-gradient(to top, #232526, #414345);
     width: 20rem;
     height: 15rem;
@@ -22,10 +20,9 @@ export const Header = styled.div`
   z-index: 10;
 `;
 
-export const Value = styled.p`
+export const Value = styled.h2`
   ${({ theme }) => css`
-      margin-bottom: 0.5rem;
-      font-weight: 500;
+      margin-bottom: 0.5rem;      
       color: ${theme.colors.lightGrey};
       font-size: ${theme.fontSizes.xlarge};
   `}
@@ -37,7 +34,7 @@ export const Title = styled.div`
     flex-direction: column;
     justify-content: center;
 
-    > h1 {
+    > p {
       font-weight: 400;
       color: ${theme.colors.lightGrey};
       font-size: ${theme.fontSizes.default};
@@ -46,8 +43,7 @@ export const Title = styled.div`
 `
 
 export const Content = styled.div`
-  padding: 0.5rem;  
-  height: 50%;
+  height: 55%;
   width: 100%;
   position: absolute;
   bottom: 0;

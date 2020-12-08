@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js";
-import useAppTheme from "../../contexts/theme";
-import * as themes from '../../styles/themes';
 import { CharCanvas } from "./styles";
 
 Chart.defaults.global.defaultFontFamily = "'PT Sans', sans-serif";
