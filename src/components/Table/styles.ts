@@ -11,8 +11,9 @@ interface PaginationButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
 
 export const Container = styled.div`
   ${({ theme }) => css`
-  
-
+    height: 100%;
+    width: 100%;
+    position: relative;
   `}
 `;
 
@@ -23,7 +24,7 @@ export const StyledTable = styled.table<TableStylingProps>`
     width: 100%;
   
     thead {
-      font-size: ${theme.fontSizes.default}
+      font-size: ${theme.fontSizes.xlarge}
     }
 
     tbody {
@@ -66,6 +67,7 @@ export const PaginationButton = styled.button<PaginationButtonProps>`
   ${({ theme, isCurrentPage }) => css`
     margin: 0.5rem;
     height: 4rem;
+    min-width: 3rem;
     width: 4rem;
     cursor: pointer;
     border-radius: ${theme.radio.small};
@@ -82,18 +84,21 @@ export const PaginationNextPrevButton = styled.button`
     color: ${theme.colors.primary};
     background-color: transparent;
     cursor: pointer;
-    font-size: ${theme.fontSizes.xlarge}
+    font-size: ${theme.fontSizes.xlarge};
   `}
 `;
 
 export const SpinnerContainer = styled.div`
   ${({ theme }) => css`
+    position: absolute;
     border-radius: ${theme.radio.small};
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40rem;
+    height: 100%;
     width: 100%;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
     background-color: rgba(0, 0, 0, 0.1);
   `}
 `;

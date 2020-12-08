@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
   DataWrapper,
-  SubHeader
+  SubHeader,
+  TableWrapper
 } from './styles';
 
 import Card, { CardSizes } from '../../../components/Card';
@@ -25,21 +26,24 @@ const MarketToday = () => {
 
   const fakeTable = [
     {name: 'daniel', idade: 27, '#': <Button>Teste</Button> }, 
-    {name: <a href="www.google.com">Paulao</a>, idade: 24, "#": <Spinner key={Math.random()} />},
-    {name: 'Rosilene', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Carmelita', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Jose', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Rosi', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Miguelito', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Bilano', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Moises', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
-    {name: 'Gerald', idade: <h1>2</h1>, '#': <Spinner key={Math.random()}/>},
+    {name: <a href="www.google.com">Paulao</a>, idade: 24, "#": <Button>Teste</Button>},
+    {name: 'Rosilene', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Carmelita', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Jose', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Rosi', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Miguelito', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Bilano', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Moises', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
+    {name: 'Gerald', idade: <h1>2</h1>, '#': <Button>Teste</Button>},
   ]
 
   const handlePageChange = (pageNumber: number) => {
     //chamada para o backend aqui
     console.log(pageNumber);
-    setIsTableLoading(!isTableLoading);
+    setIsTableLoading(true);
+    setTimeout(() => {
+      setIsTableLoading(false);
+    }, 2000);
   }
 
   return (
@@ -74,7 +78,7 @@ const MarketToday = () => {
         tableData={fakeTable} 
         numberOfRows={3}
         numberOfPages={5}
-        showBottomBorder={false}
+        showBottomBorder={true}
         onPageChange={(pageNumber) => handlePageChange(pageNumber)}
         isTableLoading={isTableLoading}>
 

@@ -29,23 +29,17 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
   }
 
   const getHeader = () => {
-    return tableHeader.map((key) => {
-      return (
-        <th key={key}>
-          {key}
-        </th>
-      );
-    });
-  }
-
-  const RenderRow = (props: any) => {
-    return props.keys.map((key: any) => {
-      return (
-        <td key={props.data[key]}>
-          {renderContent(props.data[key])}
-        </td>
-      );
-    });
+    return (
+      <tr>
+        {tableHeader.map((key) => {
+          return (
+            <th key={key}>
+              {key}
+            </th>
+          );
+        })}
+      </tr>
+    )
   }
 
  const getRowsData = () => {
@@ -54,18 +48,17 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     return items.map((row, index)=>{
       return (
         <tr key={index}>
-          <RenderRow key={Math.random()} data={row} keys={keys}/>
+          { keys.map((key: any) => {
+              return (
+                <td key={row[key]}>
+                  {row[key]}
+                </td>
+              );
+            })
+          }
         </tr>
       );
     });
-  }
-
-  const renderContent = (content: any) => {
-    if (typeof content === 'string' || typeof content === 'number') {
-      return content;
-    } else {
-      return content as HTMLElement;
-    }
   }
 
   const generatePaginationButtons = () => {
@@ -80,7 +73,7 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
             key={index}
             isCurrentPage={currentPage === index + 1}
             onClick={() => handleGoToPage(index + 1)}
-            >
+          >
             { index + 1 }
           </PaginationButton>
         );
@@ -119,16 +112,15 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
 
   return (
     <Container>
-      { isTableLoading ? <SpinnerContainer><Spinner /></SpinnerContainer> : (
-         <StyledTable showBottomBorder={showBottomBorder} >
-          <thead>
-            <tr>{getHeader()}</tr>
-          </thead>
-          <tbody>
-            {getRowsData()}
-          </tbody>
-        </StyledTable>
-      )}
+      { isTableLoading && <SpinnerContainer><Spinner /></SpinnerContainer> }
+      <StyledTable showBottomBorder={showBottomBorder} >
+        <thead>
+          { getHeader() }
+        </thead>
+        <tbody>
+          { getRowsData() }
+        </tbody>
+      </StyledTable>
       <Pagination>
         <PaginationNextPrevButton onClick={handlePreviousPage} key="previousButton">
           <FiChevronLeft />

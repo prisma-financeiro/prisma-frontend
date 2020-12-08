@@ -31,10 +31,11 @@ const Card: React.FC<CardProps> = ({ title, size, children }) => {
           {toggled ? <FiChevronUp onClick={() => setToggle(!toggled)} /> : <FiChevronDown/>}
         </ButtonWrapper>
       </ContentHeader>
-      <CardBody
-        hidden={!toggled}>
-        {children}
-      </CardBody>
+      { !toggled && (
+        <CardBody>
+          {children}
+        </CardBody>
+      )}
     </AnimatedCard>
   )
 }
