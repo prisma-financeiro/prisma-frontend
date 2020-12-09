@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 
-import { 
-  Container, 
-  Header, 
-  CompanyLogo, 
-  Title, 
-  Content, 
-  StockPrice, 
-  StockVariation, 
-  Icon,
+import {
+  Container,
   CloseButton,
-  ButtonContent } from './styles';
+  ButtonContent
+} from './styles';
 
 import {
-  FiArrowDown,
   FiPlus
 } from 'react-icons/fi';
+import StockPrice from '../StockPrice';
+import CompanyHeader from '../CompanyHeader';
 
 interface CompanyTickerCardProps {
   companyLogo?: string;
@@ -29,7 +24,7 @@ interface CompanyTickerCardProps {
   removeCardCallback: () => void;
 }
 
-const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback}) => {
+const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
 
   const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
 
@@ -38,7 +33,7 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
   }
 
   return (
-    <Container 
+    <Container
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.99 }}
       onMouseEnter={() => handleMouseHover(true)}
@@ -48,35 +43,36 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
           <FiPlus />
         </ButtonContent>
       ) : (
-        <React.Fragment>
-          <Header>
-            <CompanyLogo src={companyLogo} />
-            <Title>
-              <h1>{tickerCode}</h1>
-              <p>{companyName}</p>
-            </Title>
-          </Header>
-          <Content>
-            <StockPrice>
-              R${stockPrice}
-            </StockPrice>
-            <StockVariation>
-              <Icon>
-                <FiArrowDown />
-              </Icon>
-              {variationReal} ({variationPercentage}%)
-            </StockVariation>
-          </Content>
-          {isCloseButtonVisible && (
-            <CloseButton 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={removeCardCallback}>
+          <React.Fragment>
+            {
+              companyLogo &&
+              companyName &&
+              tickerCode &&
+              <CompanyHeader
+                companyLogo={companyLogo}
+                companyName={companyName}
+                tickerCode={tickerCode}
+              />
+            }
+            {
+              stockPrice &&
+              variationPercentage &&
+              <StockPrice
+                stockPrice={stockPrice}
+                variationPercentage={variationPercentage}
+                variationValue={variationReal}
+              />
+            }
+            {isCloseButtonVisible && (
+              <CloseButton
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={removeCardCallback}>
                 x
-            </CloseButton>
-          )}
-        </React.Fragment>
-      )}
+              </CloseButton>
+            )}
+          </React.Fragment>
+        )}
     </Container>
   );
 }

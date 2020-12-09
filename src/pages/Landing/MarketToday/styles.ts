@@ -41,12 +41,44 @@ export const SubHeader = styled.div`
 `;
 
 export const DataWrapper = styled.div`
-  display: grid;
-  grid-gap: 2.1rem;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;  
+
+  div:last-child {
+    margin-right: 0;
+  }
 `;
 
 export const TableWrapper = styled.div`
+${({ theme }) => css`
+  background: ${theme.colors.darkGrey};
+  display: flex;
+  flex-direction: Column;  
   height: 100%;
-  width: 100%;
+  width: 100%;  
+  border-radius: ${theme.radio.default};
+  padding: 1.6rem 2.4rem;
+  box-shadow: ${theme.shadows.flat};
+  margin-right: 2rem;
+  justify-content: center;
+  align-items: center;
+  `}
 `;
+
+
+export const TableHeader = styled.div`
+  ${({ theme }) => css`    
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  `}
+`;
+
+export const TableHeaderIcon = styled.div`
+  ${({ theme }) => css`
+    min-height: 3rem;
+    min-width: 3rem;
+    margin-left: 2rem;
+  `}
+`;
+
