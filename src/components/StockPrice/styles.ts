@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const Content = styled.div`
-  margin: 10px;
+  margin: 1rem;
   display: flex;
   flex-direction: column;
 `
@@ -15,26 +15,22 @@ ${({ theme }) => css`
 `
 
 export const IconUp = styled.div`
-${({ theme }) => css`
-    font-weight: 500;
+${({ theme }) => css`    
     color: ${theme.colors.success};
     font-size: ${theme.fontSizes.large};
-    margin-right: 5px;
 `}
 `
 
 export const IconDown = styled.div`
-${({ theme }) => css`
-    font-weight: 500;
+${({ theme }) => css`    
     color: ${theme.colors.error};
     font-size: ${theme.fontSizes.large};
-    margin-right: 5px;
 `}
 `
 
 export const StockVariation = styled.div`
 ${({ theme }) => css`
-    margin-top: 5px;
+    margin-top: 0.5rem;
     display: flex;
     font-weight: 500;
     color: ${theme.colors.grey};

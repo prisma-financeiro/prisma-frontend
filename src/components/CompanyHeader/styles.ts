@@ -5,7 +5,7 @@ display: flex;
 flex-direction: row;
 justify-content: start;
 align-content: center;
-margin: 10px 0 10px 10px;
+margin: 1rem 0 1rem 1rem;
 `;
 
 export const CompanyLogo = styled.img`
@@ -18,13 +18,7 @@ ${({ theme }) => css`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 10px;
-
-  > h1 {
-    font-weight: 500;
-    color: ${theme.colors.h1};
-    font-size: ${theme.fontSizes.large};
-  }
+  margin-left: 1rem;
 
   > p {
     color: ${theme.colors.grey};

@@ -36,7 +36,7 @@ const MarketToday = () => {
     }, 5000);
   }
 
-  const getMaioresAltasIndice = (indice: string): Array<any> => {
+  const getHighestIncreaseFromIndex = (index: string): Array<any> => {
     const data = fluationFakeData.content.SctyHghstIncrLst.map(item => {
       return {
         ticker: (
@@ -56,7 +56,7 @@ const MarketToday = () => {
     return data;
   }
 
-  const getMaioresBaixasIndice = (indice: string): Array<any> => {
+  const getHighestDropFromIndex = (index: string): Array<any> => {
     const data = fluationFakeData.content.SctyHghstDrpLst.map(item => {
       return {
         ticker: (
@@ -97,7 +97,7 @@ const MarketToday = () => {
           </TableHeader>
           <Table
             tableHeader={["Ativo", "Cotação"]}
-            tableData={getMaioresAltasIndice("IBOV")}
+            tableData={getHighestIncreaseFromIndex("IBOV")}
             numberOfRows={0}
             numberOfPages={0}
             showBottomBorder={true}
@@ -118,7 +118,7 @@ const MarketToday = () => {
           </TableHeader>
           <Table
             tableHeader={["Ativo", "Cotação"]}
-            tableData={getMaioresBaixasIndice('IBOV')}
+            tableData={getHighestDropFromIndex('IBOV')}
             numberOfRows={0}
             numberOfPages={0}
             showBottomBorder={true}
@@ -147,7 +147,7 @@ const MarketToday = () => {
           </TableHeader>
           <Table
             tableHeader={["Ativo", "Cotação"]}
-            tableData={getMaioresAltasIndice("IFIX")}
+            tableData={getHighestIncreaseFromIndex("IFIX")}
             numberOfRows={0}
             numberOfPages={0}
             showBottomBorder={true}
@@ -168,7 +168,7 @@ const MarketToday = () => {
           </TableHeader>
           <Table
             tableHeader={["Ativo", "Cotação"]}
-            tableData={getMaioresBaixasIndice("IFIX")}
+            tableData={getHighestDropFromIndex("IFIX")}
             numberOfRows={0}
             numberOfPages={0}
             showBottomBorder={true}

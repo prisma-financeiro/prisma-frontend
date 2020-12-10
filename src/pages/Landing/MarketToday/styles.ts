@@ -47,6 +47,15 @@ export const DataWrapper = styled.div`
   div:last-child {
     margin-right: 0;
   }
+
+  @media (max-width: 680px) {
+    flex-direction: column;
+    justify-content: center;   
+    
+    div:last-child {      
+      margin-bottom: 0rem;
+    }
+  }
 `;
 
 export const TableWrapper = styled.div`
@@ -62,6 +71,11 @@ ${({ theme }) => css`
   margin-right: 2rem;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 680px) {
+      margin-right: 0;
+      margin-bottom: 2rem;
+  }
   `}
 `;
 

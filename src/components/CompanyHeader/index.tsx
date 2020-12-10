@@ -18,7 +18,7 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, 
         <Header>
             <CompanyLogo src={companyLogo} />
             <Title>
-                <h1>{tickerCode}</h1>
+                <h2>{tickerCode}</h2>
                 <p>{companyName}</p>
             </Title>
         </Header>
