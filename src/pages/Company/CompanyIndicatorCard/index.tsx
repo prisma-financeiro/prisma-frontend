@@ -12,9 +12,10 @@ interface CompanyIndicatorCardOptions {
     title: string;
     indicatorSelectionOptions: Array<any>;
     indicatorData: Array<any>;
+    anchor?: React.MutableRefObject<any>;
 }
 
-const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ indicatorData, title, indicatorSelectionOptions }) => {
+const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ indicatorData, title, indicatorSelectionOptions, anchor }) => {
     const [chartVisibled, setChartVisibled] = useState(false);
 
     const { currentTheme } = useAppTheme();
@@ -36,6 +37,7 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ indicator
     return (
 
         <Card
+            anchor={anchor}
             title={title}
             size={CardSizes.large}>
             <IconContainer
@@ -56,9 +58,10 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ indicator
                         :
                         <>
                             {
-                                indicatorData.map((indicator: any) => {
+                                indicatorData.map((indicator: any, index: number) => {
                                     return indicator && (
                                         <IndicatorCard
+                                            key={index}
                                             indicatorName={indicator.indicatorName}
                                             value={indicator.value}
                                         />

@@ -9,7 +9,8 @@ export const Container = styled.main`
   margin-left: 30rem;
 
   @media (max-width: 670px) {
-    margin: 2.4rem 0 0;
-    max-width: 95%;    
+    margin: 0;
+    max-width: 100%;
+    align-self: center;
   }
 `;

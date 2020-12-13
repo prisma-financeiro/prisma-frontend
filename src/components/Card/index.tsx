@@ -14,12 +14,14 @@ export enum CardSizes {
 interface CardProps {
   size: CardSizes;
   title: string;
+  anchor?: React.MutableRefObject<any>;
 }
 
-const Card: React.FC<CardProps> = ({ title, size, children }) => {
-  const [toggled, setToggle] = useState(true);
+const Card: React.FC<CardProps> = ({ title, size, children, anchor }) => {
+  const [toggled, setToggle] = useState(false);
   return (
     <AnimatedCard
+      ref={anchor && anchor}
       key="statement"
       variants={CARDS_ANIMATION}
       transition={DEFAULT_TRANSITION}
@@ -28,7 +30,7 @@ const Card: React.FC<CardProps> = ({ title, size, children }) => {
       <ContentHeader onClick={() => setToggle(!toggled)} >
         <h2>{title}</h2>
         <ButtonWrapper>
-          {toggled ? <FiChevronUp onClick={() => setToggle(!toggled)} /> : <FiChevronDown/>}
+          {toggled ? <FiChevronDown onClick={() => setToggle(!toggled)} /> : <FiChevronUp />}
         </ButtonWrapper>
       </ContentHeader>
       { !toggled && (

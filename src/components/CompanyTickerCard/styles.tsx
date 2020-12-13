@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 export const Container = styled(motion.div)`
   ${({ theme }) => css`
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

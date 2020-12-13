@@ -14,7 +14,9 @@ export default {
     h1: '#505050',
     h2: '#505050',
     h3: '#505050',
-    a: '#00598a'
+    a: '#00598a',
+    positiveValue: '#20C05C',
+    negativeValue: '#DF0F00',
   },
   fontSizes: {
     tiny: '1rem',

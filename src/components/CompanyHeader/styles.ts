@@ -1,17 +1,16 @@
 import styled, { css } from 'styled-components';
 
 export const Header = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: start;
-align-content: center;
-margin: 1rem 0 1rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-content: center;
 `;
 
 export const CompanyLogo = styled.img`
-height: 5rem;
-width: 5rem;
-border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
 `
 export const Title = styled.div`
 ${({ theme }) => css`

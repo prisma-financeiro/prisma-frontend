@@ -118,12 +118,7 @@ export const ValueCard = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-
-    > p:last-child {
-      color: ${theme.colors.grey};
-      font-size: ${theme.fontSizes.small};
-    }
+    align-items: flex-start;    
   `}  
 `;
 

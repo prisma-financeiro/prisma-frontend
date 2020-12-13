@@ -62,6 +62,2615 @@ export const indicatorList = {
     }
 }
 
+export const cashFlowTrimestre = 
+{
+    "cache": false,
+    "content": {
+      "columns": [
+        "#",
+        "4T2019",
+        "AH %",
+        "3T2019",
+        "AH %",
+        "2T2019",
+        "AH %",
+        "1T2019",
+        "AH %",
+        "4T2018",
+        "AH %",
+        "3T2018",
+        "AH %",
+        "2T2018",
+        "AH %",
+        "1T2018"
+      ],
+      "rows": [
+        {
+          "0": {
+            "description": "Caixa Líquido Atividades Operacionais",
+            "root": 2
+          },
+          "1": {
+            "type": "value",
+            "data": 9634853
+          },
+          "2": {
+            "type": "percentual",
+            "data": 63.13
+          },
+          "3": {
+            "type": "value",
+            "data": 3552187
+          },
+          "4": {
+            "type": "percentual",
+            "data": 12.33
+          },
+          "5": {
+            "type": "value",
+            "data": 3114074
+          },
+          "6": {
+            "type": "percentual",
+            "data": 33.2
+          },
+          "7": {
+            "type": "value",
+            "data": 2080145
+          },
+          "8": {
+            "type": "percentual",
+            "data": -322.38
+          },
+          "9": {
+            "type": "value",
+            "data": 8786161
+          },
+          "10": {
+            "type": "percentual",
+            "data": 40.16
+          },
+          "11": {
+            "type": "value",
+            "data": 5257317
+          },
+          "12": {
+            "type": "percentual",
+            "data": 41.5
+          },
+          "13": {
+            "type": "value",
+            "data": 3075422
+          },
+          "14": {
+            "type": "percentual",
+            "data": 74.24
+          },
+          "15": {
+            "type": "value",
+            "data": 792295
+          }
+        },
+        {
+          "0": {
+            "description": "Caixa Líquido Atividades de Investimento",
+            "root": 2
+          },
+          "1": {
+            "type": "value",
+            "data": 2174238
+          }
+        },
+        {
+          "0": {
+            "description": "Caixa Líquido Atividades de Financiamento",
+            "root": 2
+          },
+          "1": {
+            "type": "value",
+            "data": 521558
+          }
+        },
+        {
+          "0": {
+            "description": "Variação Cambial s/ Caixa e Equivalentes",
+            "root": 2
+          },
+          "1": {
+            "type": "value",
+            "data": 192039
+          },
+          "2": {
+            "type": "percentual",
+            "data": 76.13
+          },
+          "3": {
+            "type": "value",
+            "data": 45847
+          },
+          "4": {
+            "type": "percentual",
+            "data": -975.52
+          },
+          "5": {
+            "type": "value",
+            "data": 493094
+          }
+        },
+        {
+          "0": {
+            "description": "Aumento (Redução) de Caixa e Equivalentes",
+            "root": 2
+          },
+          "1": {
+            "type": "value",
+            "data": 821372
+          },
+          "2": {
+            "type": "percentual",
+            "data": -67.16
+          },
+          "3": {
+            "type": "value",
+            "data": 1373018
+          },
+          "4": {
+            "type": "percentual",
+            "data": 1.02
+          },
+          "5": {
+            "type": "value",
+            "data": 1359026
+          },
+          "6": {
+            "type": "percentual",
+            "data": -16.5
+          },
+          "7": {
+            "type": "value",
+            "data": 1583271
+          },
+          "8": {
+            "type": "percentual",
+            "data": -68.35
+          },
+          "9": {
+            "type": "value",
+            "data": 2665394
+          }
+        }
+      ]
+    }
+  }
+
+export const incomeStatementTrimestre =
+{
+    "cache": false,
+    "content": {
+        "columns": [
+            "#",
+            "3T2020",
+            "AH %",
+            "2T2020",
+            "AH %",
+            "1T2020",
+            "AH %",
+            "4T2019",
+            "AH %",
+            "3T2019",
+            "AH %",
+            "2T2019",
+            "AH %",
+            "1T2019",
+            "AH %",
+            "4T2018",
+            "AH %",
+            "3T2018",
+            "AH %",
+            "2T2018",
+            "AH %",
+            "1T2018",
+            "AH %",
+            "4T2017",
+            "AH %",
+            "3T2017",
+            "AH %",
+            "2T2017",
+            "AH %",
+            "1T2017"
+        ],
+        "rows": [
+            {
+                "0": {
+                    "description": "Receita de Venda de Bens e/ou Serviços"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 15604498
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 25.56
+                },
+                "3": {
+                    "type": "value",
+                    "data": 11615330
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -8.5
+                },
+                "5": {
+                    "type": "value",
+                    "data": 12602597
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -25.82
+                },
+                "7": {
+                    "type": "value",
+                    "data": 15856798
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 24.59
+                },
+                "9": {
+                    "type": "value",
+                    "data": 11957652
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -1.57
+                },
+                "11": {
+                    "type": "value",
+                    "data": 12145133
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -4.08
+                },
+                "13": {
+                    "type": "value",
+                    "data": 12640126
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -26.72
+                },
+                "15": {
+                    "type": "value",
+                    "data": 16017829
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 30.93
+                },
+                "17": {
+                    "type": "value",
+                    "data": 11063743
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -4.03
+                },
+                "19": {
+                    "type": "value",
+                    "data": 11509545
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -1.14
+                },
+                "21": {
+                    "type": "value",
+                    "data": 11640219
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -29.1
+                },
+                "23": {
+                    "type": "value",
+                    "data": 15027215
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 24.39
+                },
+                "25": {
+                    "type": "value",
+                    "data": 11362303
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 9.63
+                },
+                "27": {
+                    "type": "value",
+                    "data": 10267953
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -9.48
+                },
+                "29": {
+                    "type": "value",
+                    "data": 11241805
+                }
+            },
+            {
+                "0": {
+                    "description": "Custo dos Bens e/ou Serviços Vendidos"
+                },
+                "1": {
+                    "type": "value",
+                    "data": -7423149
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 21.84
+                },
+                "3": {
+                    "type": "value",
+                    "data": -5801877
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 2.74
+                },
+                "5": {
+                    "type": "value",
+                    "data": -5643189
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -13.05
+                },
+                "7": {
+                    "type": "value",
+                    "data": -6379425
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 18.02
+                },
+                "9": {
+                    "type": "value",
+                    "data": -5229732
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": 5.13
+                },
+                "11": {
+                    "type": "value",
+                    "data": -4961301
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -2.95
+                },
+                "13": {
+                    "type": "value",
+                    "data": -5107701
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -18.36
+                },
+                "15": {
+                    "type": "value",
+                    "data": -6045365
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 27.78
+                },
+                "17": {
+                    "type": "value",
+                    "data": -4365818
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -0.38
+                },
+                "19": {
+                    "type": "value",
+                    "data": -4382306
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -1.68
+                },
+                "21": {
+                    "type": "value",
+                    "data": -4455934
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -11.95
+                },
+                "23": {
+                    "type": "value",
+                    "data": -4988326
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 10.15
+                },
+                "25": {
+                    "type": "value",
+                    "data": -4482122
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 9.68
+                },
+                "27": {
+                    "type": "value",
+                    "data": -4048189
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -11.73
+                },
+                "29": {
+                    "type": "value",
+                    "data": -4523141
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Bruto"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 8181349
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 28.94
+                },
+                "3": {
+                    "type": "value",
+                    "data": 5813453
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -19.71
+                },
+                "5": {
+                    "type": "value",
+                    "data": 6959408
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -36.18
+                },
+                "7": {
+                    "type": "value",
+                    "data": 9477373
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 29.01
+                },
+                "9": {
+                    "type": "value",
+                    "data": 6727920
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -6.78
+                },
+                "11": {
+                    "type": "value",
+                    "data": 7183832
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -4.85
+                },
+                "13": {
+                    "type": "value",
+                    "data": 7532425
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -32.39
+                },
+                "15": {
+                    "type": "value",
+                    "data": 9972464
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 32.84
+                },
+                "17": {
+                    "type": "value",
+                    "data": 6697925
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -6.41
+                },
+                "19": {
+                    "type": "value",
+                    "data": 7127239
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -0.8
+                },
+                "21": {
+                    "type": "value",
+                    "data": 7184285
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -39.73
+                },
+                "23": {
+                    "type": "value",
+                    "data": 10038889
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 31.46
+                },
+                "25": {
+                    "type": "value",
+                    "data": 6880181
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 9.6
+                },
+                "27": {
+                    "type": "value",
+                    "data": 6219764
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -8.02
+                },
+                "29": {
+                    "type": "value",
+                    "data": 6718664
+                }
+            },
+            {
+                "0": {
+                    "description": "Despesas/Receitas Operacionais"
+                },
+                "1": {
+                    "type": "value",
+                    "data": -4605533
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 15.07
+                },
+                "3": {
+                    "type": "value",
+                    "data": -3911545
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -0.51
+                },
+                "5": {
+                    "type": "value",
+                    "data": -3931621
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -5.76
+                },
+                "7": {
+                    "type": "value",
+                    "data": -4158061
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 13.52
+                },
+                "9": {
+                    "type": "value",
+                    "data": -3595705
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -1.13
+                },
+                "11": {
+                    "type": "value",
+                    "data": -3636384
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": 4.33
+                },
+                "13": {
+                    "type": "value",
+                    "data": -3478828
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -6.72
+                },
+                "15": {
+                    "type": "value",
+                    "data": -3712557
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 11.3
+                },
+                "17": {
+                    "type": "value",
+                    "data": -3292941
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -4.51
+                },
+                "19": {
+                    "type": "value",
+                    "data": -3441561
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": 1.7
+                },
+                "21": {
+                    "type": "value",
+                    "data": -3382951
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -11.43
+                },
+                "23": {
+                    "type": "value",
+                    "data": -3769479
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 13.23
+                },
+                "25": {
+                    "type": "value",
+                    "data": -3270946
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 2.91
+                },
+                "27": {
+                    "type": "value",
+                    "data": -3175650
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -1.32
+                },
+                "29": {
+                    "type": "value",
+                    "data": -3217725
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Antes do Resultado Financeiro e dos Tributos"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 3575816
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 46.81
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1901908
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -59.2
+                },
+                "5": {
+                    "type": "value",
+                    "data": 3027787
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -75.68
+                },
+                "7": {
+                    "type": "value",
+                    "data": 5319312
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 41.12
+                },
+                "9": {
+                    "type": "value",
+                    "data": 3132215
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -13.26
+                },
+                "11": {
+                    "type": "value",
+                    "data": 3547448
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -14.27
+                },
+                "13": {
+                    "type": "value",
+                    "data": 4053597
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -54.43
+                },
+                "15": {
+                    "type": "value",
+                    "data": 6259907
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 45.61
+                },
+                "17": {
+                    "type": "value",
+                    "data": 3404984
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -8.24
+                },
+                "19": {
+                    "type": "value",
+                    "data": 3685678
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -3.14
+                },
+                "21": {
+                    "type": "value",
+                    "data": 3801334
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -64.93
+                },
+                "23": {
+                    "type": "value",
+                    "data": 6269410
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 42.43
+                },
+                "25": {
+                    "type": "value",
+                    "data": 3609235
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 15.66
+                },
+                "27": {
+                    "type": "value",
+                    "data": 3044114
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -15.01
+                },
+                "29": {
+                    "type": "value",
+                    "data": 3500939
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Financeiro"
+                },
+                "1": {
+                    "type": "value",
+                    "data": -1144776
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 30.66
+                },
+                "3": {
+                    "type": "value",
+                    "data": -793735
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -93.62
+                },
+                "5": {
+                    "type": "value",
+                    "data": -1536867
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -1.78
+                },
+                "7": {
+                    "type": "value",
+                    "data": -1564264
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 80.45
+                },
+                "9": {
+                    "type": "value",
+                    "data": -305798
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -85.56
+                },
+                "11": {
+                    "type": "value",
+                    "data": -567437
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -18.44
+                },
+                "13": {
+                    "type": "value",
+                    "data": -672068
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -148.25
+                },
+                "15": {
+                    "type": "value",
+                    "data": -1668391
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 60.4
+                },
+                "17": {
+                    "type": "value",
+                    "data": -660735
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": -66.78
+                },
+                "19": {
+                    "type": "value",
+                    "data": -1101952
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": 45.62
+                },
+                "21": {
+                    "type": "value",
+                    "data": -599222
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -108.19
+                },
+                "23": {
+                    "type": "value",
+                    "data": -1247547
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 45.9
+                },
+                "25": {
+                    "type": "value",
+                    "data": -674932
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": -3.54
+                },
+                "27": {
+                    "type": "value",
+                    "data": -698822
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -24.87
+                },
+                "29": {
+                    "type": "value",
+                    "data": -872595
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Antes dos Tributos sobre o Lucro"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2431040
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 54.42
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1108173
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -34.54
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1490920
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -151.86
+                },
+                "7": {
+                    "type": "value",
+                    "data": 3755048
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 24.73
+                },
+                "9": {
+                    "type": "value",
+                    "data": 2826417
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -5.43
+                },
+                "11": {
+                    "type": "value",
+                    "data": 2980011
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -13.47
+                },
+                "13": {
+                    "type": "value",
+                    "data": 3381529
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -35.78
+                },
+                "15": {
+                    "type": "value",
+                    "data": 4591516
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 40.23
+                },
+                "17": {
+                    "type": "value",
+                    "data": 2744249
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": 5.85
+                },
+                "19": {
+                    "type": "value",
+                    "data": 2583726
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -23.93
+                },
+                "21": {
+                    "type": "value",
+                    "data": 3202112
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -56.83
+                },
+                "23": {
+                    "type": "value",
+                    "data": 5021863
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 41.57
+                },
+                "25": {
+                    "type": "value",
+                    "data": 2934303
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 20.07
+                },
+                "27": {
+                    "type": "value",
+                    "data": 2345292
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -12.07
+                },
+                "29": {
+                    "type": "value",
+                    "data": 2628344
+                }
+            },
+            {
+                "0": {
+                    "description": "Imposto de Renda e Contribuição Social sobre o Lucro"
+                },
+                "1": {
+                    "type": "value",
+                    "data": -72072
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 326.36
+                },
+                "3": {
+                    "type": "value",
+                    "data": 163143
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 271.43
+                },
+                "5": {
+                    "type": "value",
+                    "data": -279668
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": 265.89
+                },
+                "7": {
+                    "type": "value",
+                    "data": 463930
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 147.86
+                },
+                "9": {
+                    "type": "value",
+                    "data": -222032
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -63.99
+                },
+                "11": {
+                    "type": "value",
+                    "data": -364110
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -73.7
+                },
+                "13": {
+                    "type": "value",
+                    "data": -632461
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -78.32
+                },
+                "15": {
+                    "type": "value",
+                    "data": -1127797
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 112.51
+                },
+                "17": {
+                    "type": "value",
+                    "data": 141109
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": 222.37
+                },
+                "19": {
+                    "type": "value",
+                    "data": -172679
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -255.88
+                },
+                "21": {
+                    "type": "value",
+                    "data": -614526
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -180.3
+                },
+                "23": {
+                    "type": "value",
+                    "data": -1722513
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": -62.43
+                },
+                "25": {
+                    "type": "value",
+                    "data": -2797813
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": 92.12
+                },
+                "27": {
+                    "type": "value",
+                    "data": -220459
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -53.55
+                },
+                "29": {
+                    "type": "value",
+                    "data": -338513
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Líquido das Operações Continuadas"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2358968
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 46.11
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1271316
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 4.72
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1211252
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -248.32
+                },
+                "7": {
+                    "type": "value",
+                    "data": 4218978
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 38.27
+                },
+                "9": {
+                    "type": "value",
+                    "data": 2604385
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -0.44
+                },
+                "11": {
+                    "type": "value",
+                    "data": 2615901
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -5.09
+                },
+                "13": {
+                    "type": "value",
+                    "data": 2749068
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -26
+                },
+                "15": {
+                    "type": "value",
+                    "data": 3463719
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 16.7
+                },
+                "17": {
+                    "type": "value",
+                    "data": 2885358
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": 16.44
+                },
+                "19": {
+                    "type": "value",
+                    "data": 2411047
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -7.32
+                },
+                "21": {
+                    "type": "value",
+                    "data": 2587586
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -27.51
+                },
+                "23": {
+                    "type": "value",
+                    "data": 3299350
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 95.86
+                },
+                "25": {
+                    "type": "value",
+                    "data": 136490
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": -1456.77
+                },
+                "27": {
+                    "type": "value",
+                    "data": 2124833
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -7.77
+                },
+                "29": {
+                    "type": "value",
+                    "data": 2289831
+                }
+            },
+            {
+                "0": {
+                    "description": "Resultado Líquido de Operações Descontinuadas"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 0
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "3": {
+                    "type": "value",
+                    "data": 0
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "5": {
+                    "type": "value",
+                    "data": 0
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "7": {
+                    "type": "value",
+                    "data": 0
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "9": {
+                    "type": "value",
+                    "data": 0
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "11": {
+                    "type": "value",
+                    "data": 0
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "13": {
+                    "type": "value",
+                    "data": 0
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "15": {
+                    "type": "value",
+                    "data": 0
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "17": {
+                    "type": "value",
+                    "data": 0
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "19": {
+                    "type": "value",
+                    "data": 0
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "21": {
+                    "type": "value",
+                    "data": 0
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "23": {
+                    "type": "value",
+                    "data": 0
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "25": {
+                    "type": "value",
+                    "data": 0
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "27": {
+                    "type": "value",
+                    "data": 0
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": null
+                },
+                "29": {
+                    "type": "value",
+                    "data": 0
+                }
+            },
+            {
+                "0": {
+                    "description": "Lucro/Prejuízo Consolidado do Período"
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2358968
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 46.11
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1271316
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 4.72
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1211252
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -248.32
+                },
+                "7": {
+                    "type": "value",
+                    "data": 4218978
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": 38.27
+                },
+                "9": {
+                    "type": "value",
+                    "data": 2604385
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": -0.44
+                },
+                "11": {
+                    "type": "value",
+                    "data": 2615901
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": -5.09
+                },
+                "13": {
+                    "type": "value",
+                    "data": 2749068
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": -26
+                },
+                "15": {
+                    "type": "value",
+                    "data": 3463719
+                },
+                "16": {
+                    "type": "percentual",
+                    "data": 16.7
+                },
+                "17": {
+                    "type": "value",
+                    "data": 2885358
+                },
+                "18": {
+                    "type": "percentual",
+                    "data": 16.44
+                },
+                "19": {
+                    "type": "value",
+                    "data": 2411047
+                },
+                "20": {
+                    "type": "percentual",
+                    "data": -7.32
+                },
+                "21": {
+                    "type": "value",
+                    "data": 2587586
+                },
+                "22": {
+                    "type": "percentual",
+                    "data": -27.51
+                },
+                "23": {
+                    "type": "value",
+                    "data": 3299350
+                },
+                "24": {
+                    "type": "percentual",
+                    "data": 95.86
+                },
+                "25": {
+                    "type": "value",
+                    "data": 136490
+                },
+                "26": {
+                    "type": "percentual",
+                    "data": -1456.77
+                },
+                "27": {
+                    "type": "value",
+                    "data": 2124833
+                },
+                "28": {
+                    "type": "percentual",
+                    "data": -7.77
+                },
+                "29": {
+                    "type": "value",
+                    "data": 2289831
+                }
+            }
+        ]
+    }
+}
+
+export const incomeStatamentAnual = {
+
+    "cache": false,
+    "content": [
+        {
+            "year": 2019,
+            "period": "ANUAL",
+            "accounts": [
+                {
+                    "description": "Receita de Venda de Bens e/ou Serviços",
+                    "amount": "52599709.0000000000"
+                },
+                {
+                    "description": "Custo dos Bens e/ou Serviços Vendidos",
+                    "amount": "-21678159.0000000000"
+                },
+                {
+                    "description": "Resultado Bruto",
+                    "amount": "30921550.0000000000"
+                },
+                {
+                    "description": "Despesas/Receitas Operacionais",
+                    "amount": "-14868978.0000000000"
+                },
+                {
+                    "description": "Resultado Antes do Resultado Financeiro e dos Tributos",
+                    "amount": "16052572.0000000000"
+                },
+                {
+                    "description": "Resultado Financeiro",
+                    "amount": "-3109567.0000000000"
+                },
+                {
+                    "description": "Resultado Antes dos Tributos sobre o Lucro",
+                    "amount": "12943005.0000000000"
+                },
+                {
+                    "description": "Imposto de Renda e Contribuição Social sobre o Lucro",
+                    "amount": "-754673.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido das Operações Continuadas",
+                    "amount": "12188332.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido de Operações Descontinuadas",
+                    "amount": "0.0000000000"
+                },
+                {
+                    "description": "Lucro/Prejuízo Consolidado do Período",
+                    "amount": "12188332.0000000000"
+                }
+            ]
+        },
+        {
+            "year": 2018,
+            "period": "ANUAL",
+            "accounts": [
+                {
+                    "description": "Receita de Venda de Bens e/ou Serviços",
+                    "amount": "50231336.0000000000"
+                },
+                {
+                    "description": "Custo dos Bens e/ou Serviços Vendidos",
+                    "amount": "-19249423.0000000000"
+                },
+                {
+                    "description": "Resultado Bruto",
+                    "amount": "30981913.0000000000"
+                },
+                {
+                    "description": "Despesas/Receitas Operacionais",
+                    "amount": "-13830010.0000000000"
+                },
+                {
+                    "description": "Resultado Antes do Resultado Financeiro e dos Tributos",
+                    "amount": "17151903.0000000000"
+                },
+                {
+                    "description": "Resultado Financeiro",
+                    "amount": "-4030300.0000000000"
+                },
+                {
+                    "description": "Resultado Antes dos Tributos sobre o Lucro",
+                    "amount": "13121603.0000000000"
+                },
+                {
+                    "description": "Imposto de Renda e Contribuição Social sobre o Lucro",
+                    "amount": "-1773893.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido das Operações Continuadas",
+                    "amount": "11347710.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido de Operações Descontinuadas",
+                    "amount": "0.0000000000"
+                },
+                {
+                    "description": "Lucro/Prejuízo Consolidado do Período",
+                    "amount": "11347710.0000000000"
+                }
+            ]
+        },
+        {
+            "year": 2017,
+            "period": "ANUAL",
+            "accounts": [
+                {
+                    "description": "Receita de Venda de Bens e/ou Serviços",
+                    "amount": "47899276.0000000000"
+                },
+                {
+                    "description": "Custo dos Bens e/ou Serviços Vendidos",
+                    "amount": "-18041778.0000000000"
+                },
+                {
+                    "description": "Resultado Bruto",
+                    "amount": "29857498.0000000000"
+                },
+                {
+                    "description": "Despesas/Receitas Operacionais",
+                    "amount": "-13433800.0000000000"
+                },
+                {
+                    "description": "Resultado Antes do Resultado Financeiro e dos Tributos",
+                    "amount": "16423698.0000000000"
+                },
+                {
+                    "description": "Resultado Financeiro",
+                    "amount": "-3493896.0000000000"
+                },
+                {
+                    "description": "Resultado Antes dos Tributos sobre o Lucro",
+                    "amount": "12929802.0000000000"
+                },
+                {
+                    "description": "Imposto de Renda e Contribuição Social sobre o Lucro",
+                    "amount": "-5079298.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido das Operações Continuadas",
+                    "amount": "7850504.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido de Operações Descontinuadas",
+                    "amount": "0.0000000000"
+                },
+                {
+                    "description": "Lucro/Prejuízo Consolidado do Período",
+                    "amount": "7850504.0000000000"
+                }
+            ]
+        },
+        {
+            "year": 2016,
+            "period": "ANUAL",
+            "accounts": [
+                {
+                    "description": "Receita de Venda de Bens e/ou Serviços",
+                    "amount": "47899285.0000000000"
+                },
+                {
+                    "description": "Custo dos Bens e/ou Serviços Vendidos",
+                    "amount": "-18041452.0000000000"
+                },
+                {
+                    "description": "Resultado Bruto",
+                    "amount": "29857498.0000000000"
+                },
+                {
+                    "description": "Despesas/Receitas Operacionais",
+                    "amount": "-13433800.0000000000"
+                },
+                {
+                    "description": "Resultado Antes do Resultado Financeiro e dos Tributos",
+                    "amount": "16423698.0000000000"
+                },
+                {
+                    "description": "Resultado Financeiro",
+                    "amount": "-3493896.0000000000"
+                },
+                {
+                    "description": "Resultado Antes dos Tributos sobre o Lucro",
+                    "amount": "12929802.0000000000"
+                },
+                {
+                    "description": "Imposto de Renda e Contribuição Social sobre o Lucro",
+                    "amount": "-5079298.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido das Operações Continuadas",
+                    "amount": "7850504.0000000000"
+                },
+                {
+                    "description": "Resultado Líquido de Operações Descontinuadas",
+                    "amount": "0.0000000000"
+                },
+                {
+                    "description": "Lucro/Prejuízo Consolidado do Período",
+                    "amount": "7850504.0000000000"
+                }
+            ]
+        }
+    ]
+}
+
+export const balanceSheet =
+{
+    "cache": false,
+    "content": {
+        "columns": [
+            "#",
+            "2019",
+            "AH %",
+            "2018",
+            "AH %",
+            "2017"
+        ],
+        "rows": [
+            {
+                "0": {
+                    "description": "Ativo Total",
+                    "root": 1
+                },
+                "1": {
+                    "type": "value",
+                    "data": 101742944
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 5.93
+                },
+                "3": {
+                    "type": "value",
+                    "data": 95714417
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 9.26
+                },
+                "5": {
+                    "type": "value",
+                    "data": 86851989
+                }
+            },
+            {
+                "0": {
+                    "description": "Ativo Circulante",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 27621137
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 8.3
+                },
+                "3": {
+                    "type": "value",
+                    "data": 25329605
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 2.41
+                },
+                "5": {
+                    "type": "value",
+                    "data": 24718073
+                }
+            },
+            {
+                "0": {
+                    "description": "Caixa e Equivalentes de Caixa",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 11900666
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 3.67
+                },
+                "3": {
+                    "type": "value",
+                    "data": 11463498
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 9.67
+                },
+                "5": {
+                    "type": "value",
+                    "data": 10354527
+                }
+            },
+            {
+                "0": {
+                    "description": "Aplicações Financeiras",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 14558
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 8.02
+                },
+                "3": {
+                    "type": "value",
+                    "data": 13391
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 11.26
+                },
+                "5": {
+                    "type": "value",
+                    "data": 11883
+                }
+            },
+            {
+                "0": {
+                    "description": "Contas a Receber",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 4495525
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -8.54
+                },
+                "3": {
+                    "type": "value",
+                    "data": 4879256
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -1.34
+                },
+                "5": {
+                    "type": "value",
+                    "data": 4944831
+                }
+            },
+            {
+                "0": {
+                    "description": "Estoques",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 5978557
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 9.65
+                },
+                "3": {
+                    "type": "value",
+                    "data": 5401793
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 20.05
+                },
+                "5": {
+                    "type": "value",
+                    "data": 4318973
+                }
+            },
+            {
+                "0": {
+                    "description": "Tributos a Recuperar",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 4074127
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 47.26
+                },
+                "3": {
+                    "type": "value",
+                    "data": 2148714
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -56.86
+                },
+                "5": {
+                    "type": "value",
+                    "data": 3370541
+                }
+            },
+            {
+                "0": {
+                    "description": "Despesas Antecipadas",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 512532
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -44.62
+                },
+                "3": {
+                    "type": "value",
+                    "data": 741222
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -4.08
+                },
+                "5": {
+                    "type": "value",
+                    "data": 771499
+                }
+            },
+            {
+                "0": {
+                    "description": "Outros Ativos Circulantes",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 645172
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -5.67
+                },
+                "3": {
+                    "type": "value",
+                    "data": 681731
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -38.74
+                },
+                "5": {
+                    "type": "value",
+                    "data": 945819
+                }
+            },
+            {
+                "0": {
+                    "description": "Ativo Não Circulante",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 74121807
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 5.04
+                },
+                "3": {
+                    "type": "value",
+                    "data": 70384812
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 11.72
+                },
+                "5": {
+                    "type": "value",
+                    "data": 62133916
+                }
+            },
+            {
+                "0": {
+                    "description": "Ativo Realizável a Longo Prazo",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 9925812
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 15.65
+                },
+                "3": {
+                    "type": "value",
+                    "data": 8372895
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 16.43
+                },
+                "5": {
+                    "type": "value",
+                    "data": 6997050
+                }
+            },
+            {
+                "0": {
+                    "description": "Investimentos",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 303423
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 15.26
+                },
+                "3": {
+                    "type": "value",
+                    "data": 257135
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 7.46
+                },
+                "5": {
+                    "type": "value",
+                    "data": 237961
+                }
+            },
+            {
+                "0": {
+                    "description": "Imobilizado",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 22576299
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 4.16
+                },
+                "3": {
+                    "type": "value",
+                    "data": 21638008
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 13.01
+                },
+                "5": {
+                    "type": "value",
+                    "data": 18822327
+                }
+            },
+            {
+                "0": {
+                    "description": "Intangível",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 41316273
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 2.9
+                },
+                "3": {
+                    "type": "value",
+                    "data": 40116774
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 10.07
+                },
+                "5": {
+                    "type": "value",
+                    "data": 36076578
+                }
+            },
+            {
+                "0": {
+                    "description": "Passivo Total",
+                    "root": 1
+                },
+                "1": {
+                    "type": "value",
+                    "data": 101742944
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 5.93
+                },
+                "3": {
+                    "type": "value",
+                    "data": 95714417
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 9.26
+                },
+                "5": {
+                    "type": "value",
+                    "data": 86851989
+                }
+            },
+            {
+                "0": {
+                    "description": "Passivo Circulante",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 25011033
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -0.79
+                },
+                "3": {
+                    "type": "value",
+                    "data": 25208961
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -13.8
+                },
+                "5": {
+                    "type": "value",
+                    "data": 28688476
+                }
+            },
+            {
+                "0": {
+                    "description": "Obrigações Sociais e Trabalhistas",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 833025
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -2.23
+                },
+                "3": {
+                    "type": "value",
+                    "data": 851619
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -22.96
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1047182
+                }
+            },
+            {
+                "0": {
+                    "description": "Fornecedores",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 14178858
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 9.91
+                },
+                "3": {
+                    "type": "value",
+                    "data": 12774162
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 18.44
+                },
+                "5": {
+                    "type": "value",
+                    "data": 10418429
+                }
+            },
+            {
+                "0": {
+                    "description": "Obrigações Fiscais",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 5502699
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 2.95
+                },
+                "3": {
+                    "type": "value",
+                    "data": 5340211
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -2.88
+                },
+                "5": {
+                    "type": "value",
+                    "data": 5493847
+                }
+            },
+            {
+                "0": {
+                    "description": "Empréstimos e Financiamentos",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 653149
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -197.21
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1941221
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 31.94
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1321122
+                }
+            },
+            {
+                "0": {
+                    "description": "Outras Obrigações",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 3733269
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -10.59
+                },
+                "3": {
+                    "type": "value",
+                    "data": 4128751
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -147.99
+                },
+                "5": {
+                    "type": "value",
+                    "data": 10238939
+                }
+            },
+            {
+                "0": {
+                    "description": "Provisões",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 110033
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -57.22
+                },
+                "3": {
+                    "type": "value",
+                    "data": 172997
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 2.34
+                },
+                "5": {
+                    "type": "value",
+                    "data": 168957
+                }
+            },
+            {
+                "0": {
+                    "description": "Passivo Não Circulante",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 14175906
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 7.94
+                },
+                "3": {
+                    "type": "value",
+                    "data": 13050648
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 21.99
+                },
+                "5": {
+                    "type": "value",
+                    "data": 10180658
+                }
+            },
+            {
+                "0": {
+                    "description": "Empréstimos e Financiamentos",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2409655
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 10.26
+                },
+                "3": {
+                    "type": "value",
+                    "data": 2162442
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 43.03
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1231928
+                }
+            },
+            {
+                "0": {
+                    "description": "Outras Obrigações",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 9024181
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 10.93
+                },
+                "3": {
+                    "type": "value",
+                    "data": 8037412
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 24.02
+                },
+                "5": {
+                    "type": "value",
+                    "data": 6106921
+                }
+            },
+            {
+                "0": {
+                    "description": "Tributos Diferidos",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2371098
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -2.26
+                },
+                "3": {
+                    "type": "value",
+                    "data": 2424567
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 3.93
+                },
+                "5": {
+                    "type": "value",
+                    "data": 2329229
+                }
+            },
+            {
+                "0": {
+                    "description": "Provisões",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 370972
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -14.89
+                },
+                "3": {
+                    "type": "value",
+                    "data": 426227
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -20.26
+                },
+                "5": {
+                    "type": "value",
+                    "data": 512580
+                }
+            },
+            {
+                "0": {
+                    "description": "Patrimônio Líquido Consolidado",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 62556005
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 8.15
+                },
+                "3": {
+                    "type": "value",
+                    "data": 57454808
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 16.49
+                },
+                "5": {
+                    "type": "value",
+                    "data": 47982855
+                }
+            },
+            {
+                "0": {
+                    "description": "Capital Social Realizado",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 57866759
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 0.27
+                },
+                "3": {
+                    "type": "value",
+                    "data": 57710202
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 0.17
+                },
+                "5": {
+                    "type": "value",
+                    "data": 57614140
+                }
+            },
+            {
+                "0": {
+                    "description": "Reservas de Capital",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 54811462
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 0.06
+                },
+                "3": {
+                    "type": "value",
+                    "data": 54781194
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 0.15
+                },
+                "5": {
+                    "type": "value",
+                    "data": 54700909
+                }
+            },
+            {
+                "0": {
+                    "description": "Reservas de Lucros",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 20874268
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 26.51
+                },
+                "3": {
+                    "type": "value",
+                    "data": 15341367
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 43.55
+                },
+                "5": {
+                    "type": "value",
+                    "data": 8660235
+                }
+            },
+            {
+                "0": {
+                    "description": "Participação dos Acionistas Não Controladores",
+                    "root": 3
+                },
+                "1": {
+                    "type": "value",
+                    "data": 1277980
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 5.57
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1206801
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -63.58
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1974041
+                }
+            }
+        ]
+    }
+}
+
 export const indicator =
 {
     "cache": true,

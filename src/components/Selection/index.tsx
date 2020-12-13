@@ -6,7 +6,7 @@ export interface Option {
     label: string;
 }
 
-interface SelectOptions extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectOptions extends SelectHTMLAttributes<HTMLSelectElement> {
     options: Array<Option>;
 }
 

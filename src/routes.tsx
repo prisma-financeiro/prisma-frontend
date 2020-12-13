@@ -14,7 +14,7 @@ const Routes = () => {
       <Route path="/assets-explorer" exact component={AssetsExplorer} />
       <Route path="/assets-compare" exact component={AssetsCompare} />
       <Route path="/ranking" exact component={Ranking} />
-      <Route path="/company" exact component={Company} />
+      <Route path="/company/:ticker" exact component={Company} />
     </BrowserRouter>
   );
 }
