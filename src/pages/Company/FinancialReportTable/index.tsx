@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Selection, { SelectOptions } from '../../../components/Selection';
 import Table from '../../../components/Table';
+import { formatCurrencyCompact } from '../../../utils';
 
 import {
     TableColumnHeader,
@@ -12,62 +13,13 @@ import {
     SelectContainer
 } from './styles';
 
-const FinancialReportsOptions = [
+const financialReportsOptions = [
     { value: "ANUAL", label: "Anual" },
     { value: "TRIMESTRE", label: "Trimestre" },
 ];
 
-const currencyFormatter = Intl.NumberFormat('pt-br', {
-    notation: "compact",
-    minimumFractionDigits: 2,
-})
-
-const buildTableComponents = (data: any) => {
-    if (!data) {
-        return;
-    }
-
-    const formatedColumns: any[] = [];
-    data.columns.map((item: any) => formatedColumns.push(item === "#" ? item : (<TableColumnHeader >{String(item)}</TableColumnHeader>)));
-
-    const formatedRows: any[] = [];
-    data.rows.map((row: any) => {
-
-        let formatedRow: any = {};
-        for (const attr in row) {
-            if (row.hasOwnProperty(attr)) {
-                const attrValue: any = row[attr];
-
-                if (attr === "0") {
-                    formatedRow[attr] = <TableAccountName onClick={() => alert("ops")} root={attrValue.root}>{attrValue.description} (R$)</TableAccountName>;
-                } else {
-                    if (attrValue.type === 'value') {
-                        formatedRow[attr] = (
-                            <TableColumnValue>
-                                {currencyFormatter.format(Number(attrValue.data))}
-                            </TableColumnValue>
-                        )
-                    } else if (attrValue.type === 'percentual') {
-                        const percentual = Number(attrValue.data);
-                        formatedRow[attr] = (
-                            <TableColumnPercentual
-                                percentual={percentual}
-                            >
-                                {`${percentual} %`}
-                            </TableColumnPercentual>
-                        )
-                    }
-                }
-            }
-        }
-        return formatedRows.push(formatedRow);
-    });
-
-    return {
-        columns: formatedColumns,
-        rows: formatedRows
-    }
-}
+const firstTableColumnIndex = "0";
+const firstTableColumnTitle = "#";
 
 interface TableContent {
     columns: Array<any>,
@@ -83,7 +35,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [yearList, setYearList] = useState<SelectOptions>();
     const [data, setData] = useState<TableContent>();
-    const [type, setType] = useState<string>(FinancialReportsOptions[0].value);
+    const [type, setType] = useState<string>(financialReportsOptions[0].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
 
@@ -119,6 +71,53 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
 
     }, [type]);
 
+    const buildTableComponents = (data: any) => {
+        if (!data) {
+            return;
+        }
+
+        const formatedColumns: any[] = [];
+        data.columns.map((item: any) => formatedColumns.push(item === firstTableColumnTitle ? item : (<TableColumnHeader >{String(item)}</TableColumnHeader>)));
+
+        const formatedRows: any[] = [];
+        data.rows.map((row: any) => {
+
+            let formatedRow: any = {};
+            for (const attr in row) {
+                if (row.hasOwnProperty(attr)) {
+                    const attrValue: any = row[attr];
+
+                    if (attr === firstTableColumnIndex) {
+                        formatedRow[attr] = <TableAccountName root={attrValue.root}>{attrValue.description} (R$)</TableAccountName>;
+                    } else {
+                        if (attrValue.type === 'value') {
+                            formatedRow[attr] = (
+                                <TableColumnValue>
+                                    {formatCurrencyCompact(Number(attrValue.data))}
+                                </TableColumnValue>
+                            )
+                        } else if (attrValue.type === 'percentual') {
+                            const percentual = Number(attrValue.data);
+                            formatedRow[attr] = (
+                                <TableColumnPercentual
+                                    percentual={percentual}
+                                >
+                                    {`${percentual} %`}
+                                </TableColumnPercentual>
+                            )
+                        }
+                    }
+                }
+            }
+            return formatedRows.push(formatedRow);
+        });
+
+        return {
+            columns: formatedColumns,
+            rows: formatedRows
+        }
+    }
+
     const handleYearFromClick = (event: any) => {
         const year = event.target.value;
 
@@ -143,9 +142,9 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
         <>
             <SelectContainer>
                 <Selection
-                    options={FinancialReportsOptions}
+                    options={financialReportsOptions}
                     onChange={(event) => setType(event.target.value)}
-                    defaultValue={FinancialReportsOptions[0].value}
+                    defaultValue={financialReportsOptions[0].value}
                     value={type}
                 />
                 <p>de</p>
@@ -165,8 +164,8 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
             <AnimatedCard>
                 <TableScroll>
                     <Table
-                        tableHeader={!data ? [""] : data.columns}
-                        tableData={!data ? [""] : data.rows}
+                        tableHeader={data ? data.columns : [""]}
+                        tableData={data ? data.rows : [""]}
                         numberOfRows={0}
                         numberOfPages={0}
                         showBottomBorder={true}

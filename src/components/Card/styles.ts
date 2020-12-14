@@ -67,7 +67,7 @@ export const CardBody = styled(motion.article)`
     flex-direction: column;
     
     @media (max-width: 670px) {
-      align-items: felx-start;
+      align-items: flex-start;
     }
   `}
 `;

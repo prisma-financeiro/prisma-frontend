@@ -1,6 +1,11 @@
-const formatCurrency = (value: number) =>
+export const formatCurrency = (value: number) =>
   new Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' })
     .format(value)
     .replace(/\u00A0/, ' ');
 
-export default formatCurrency;
+export const formatCurrencyCompact = (value: number) => new Intl.NumberFormat('pt-br', {
+  notation: "compact",
+  minimumFractionDigits: 2,
+}).format(value);
+
+
