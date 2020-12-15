@@ -62,186 +62,186 @@ export const indicatorList = {
     }
 }
 
-export const cashFlowTrimestre = 
+export const cashFlowTrimestre =
 {
     "cache": false,
     "content": {
-      "columns": [
-        "#",
-        "4T2019",
-        "AH %",
-        "3T2019",
-        "AH %",
-        "2T2019",
-        "AH %",
-        "1T2019",
-        "AH %",
-        "4T2018",
-        "AH %",
-        "3T2018",
-        "AH %",
-        "2T2018",
-        "AH %",
-        "1T2018"
-      ],
-      "rows": [
-        {
-          "0": {
-            "description": "Caixa Líquido Atividades Operacionais",
-            "root": 2
-          },
-          "1": {
-            "type": "value",
-            "data": 9634853
-          },
-          "2": {
-            "type": "percentual",
-            "data": 63.13
-          },
-          "3": {
-            "type": "value",
-            "data": 3552187
-          },
-          "4": {
-            "type": "percentual",
-            "data": 12.33
-          },
-          "5": {
-            "type": "value",
-            "data": 3114074
-          },
-          "6": {
-            "type": "percentual",
-            "data": 33.2
-          },
-          "7": {
-            "type": "value",
-            "data": 2080145
-          },
-          "8": {
-            "type": "percentual",
-            "data": -322.38
-          },
-          "9": {
-            "type": "value",
-            "data": 8786161
-          },
-          "10": {
-            "type": "percentual",
-            "data": 40.16
-          },
-          "11": {
-            "type": "value",
-            "data": 5257317
-          },
-          "12": {
-            "type": "percentual",
-            "data": 41.5
-          },
-          "13": {
-            "type": "value",
-            "data": 3075422
-          },
-          "14": {
-            "type": "percentual",
-            "data": 74.24
-          },
-          "15": {
-            "type": "value",
-            "data": 792295
-          }
-        },
-        {
-          "0": {
-            "description": "Caixa Líquido Atividades de Investimento",
-            "root": 2
-          },
-          "1": {
-            "type": "value",
-            "data": 2174238
-          }
-        },
-        {
-          "0": {
-            "description": "Caixa Líquido Atividades de Financiamento",
-            "root": 2
-          },
-          "1": {
-            "type": "value",
-            "data": 521558
-          }
-        },
-        {
-          "0": {
-            "description": "Variação Cambial s/ Caixa e Equivalentes",
-            "root": 2
-          },
-          "1": {
-            "type": "value",
-            "data": 192039
-          },
-          "2": {
-            "type": "percentual",
-            "data": 76.13
-          },
-          "3": {
-            "type": "value",
-            "data": 45847
-          },
-          "4": {
-            "type": "percentual",
-            "data": -975.52
-          },
-          "5": {
-            "type": "value",
-            "data": 493094
-          }
-        },
-        {
-          "0": {
-            "description": "Aumento (Redução) de Caixa e Equivalentes",
-            "root": 2
-          },
-          "1": {
-            "type": "value",
-            "data": 821372
-          },
-          "2": {
-            "type": "percentual",
-            "data": -67.16
-          },
-          "3": {
-            "type": "value",
-            "data": 1373018
-          },
-          "4": {
-            "type": "percentual",
-            "data": 1.02
-          },
-          "5": {
-            "type": "value",
-            "data": 1359026
-          },
-          "6": {
-            "type": "percentual",
-            "data": -16.5
-          },
-          "7": {
-            "type": "value",
-            "data": 1583271
-          },
-          "8": {
-            "type": "percentual",
-            "data": -68.35
-          },
-          "9": {
-            "type": "value",
-            "data": 2665394
-          }
-        }
-      ]
+        "columns": [
+            "#",
+            "4T2019",
+            "AH %",
+            "3T2019",
+            "AH %",
+            "2T2019",
+            "AH %",
+            "1T2019",
+            "AH %",
+            "4T2018",
+            "AH %",
+            "3T2018",
+            "AH %",
+            "2T2018",
+            "AH %",
+            "1T2018"
+        ],
+        "rows": [
+            {
+                "0": {
+                    "description": "Caixa Líquido Atividades Operacionais",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 9634853
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 63.13
+                },
+                "3": {
+                    "type": "value",
+                    "data": 3552187
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 12.33
+                },
+                "5": {
+                    "type": "value",
+                    "data": 3114074
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": 33.2
+                },
+                "7": {
+                    "type": "value",
+                    "data": 2080145
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": -322.38
+                },
+                "9": {
+                    "type": "value",
+                    "data": 8786161
+                },
+                "10": {
+                    "type": "percentual",
+                    "data": 40.16
+                },
+                "11": {
+                    "type": "value",
+                    "data": 5257317
+                },
+                "12": {
+                    "type": "percentual",
+                    "data": 41.5
+                },
+                "13": {
+                    "type": "value",
+                    "data": 3075422
+                },
+                "14": {
+                    "type": "percentual",
+                    "data": 74.24
+                },
+                "15": {
+                    "type": "value",
+                    "data": 792295
+                }
+            },
+            {
+                "0": {
+                    "description": "Caixa Líquido Atividades de Investimento",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 2174238
+                }
+            },
+            {
+                "0": {
+                    "description": "Caixa Líquido Atividades de Financiamento",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 521558
+                }
+            },
+            {
+                "0": {
+                    "description": "Variação Cambial s/ Caixa e Equivalentes",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 192039
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": 76.13
+                },
+                "3": {
+                    "type": "value",
+                    "data": 45847
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": -975.52
+                },
+                "5": {
+                    "type": "value",
+                    "data": 493094
+                }
+            },
+            {
+                "0": {
+                    "description": "Aumento (Redução) de Caixa e Equivalentes",
+                    "root": 2
+                },
+                "1": {
+                    "type": "value",
+                    "data": 821372
+                },
+                "2": {
+                    "type": "percentual",
+                    "data": -67.16
+                },
+                "3": {
+                    "type": "value",
+                    "data": 1373018
+                },
+                "4": {
+                    "type": "percentual",
+                    "data": 1.02
+                },
+                "5": {
+                    "type": "value",
+                    "data": 1359026
+                },
+                "6": {
+                    "type": "percentual",
+                    "data": -16.5
+                },
+                "7": {
+                    "type": "value",
+                    "data": 1583271
+                },
+                "8": {
+                    "type": "percentual",
+                    "data": -68.35
+                },
+                "9": {
+                    "type": "value",
+                    "data": 2665394
+                }
+            }
+        ]
     }
-  }
+}
 
 export const incomeStatementTrimestre =
 {
@@ -2671,320 +2671,268 @@ export const balanceSheet =
     }
 }
 
-export const indicator =
+export const indicatorFake =
 {
-    "cache": true,
-    "content": [
+    "cache": false,
+    "content": {
+      "period": "YA2T",
+      "year": 2020,
+      "valuation": [
         {
-            "aggregation": 1,
-            "period": "YA2T",
-            "year": 2020,
-            "valuation": [
-                {
-                    "indicatorName": "P/L",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "VPA",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "LPA",
-                    "value": "0.4100000000"
-                }
-            ],
-            "endividamento": [
-                {
-                    "indicatorName": "Liquidez Corrente",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "Passivos/Ativos",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "PL/Ativos",
-                    "value": "0.4100000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBIT",
-                    "value": "2.3200000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBITDA",
-                    "value": "2.0600000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./PL",
-                    "value": "0.4500000000"
-                }
-            ],
-            "eficiencia": [
-                {
-                    "indicatorName": "Margem Bruta",
-                    "value": "78.2600000000"
-                },
-                {
-                    "indicatorName": "Margem Líquida",
-                    "value": "26.7400000000"
-                },
-                {
-                    "indicatorName": "Margem EBIT",
-                    "value": "44.9600000000"
-                },
-                {
-                    "indicatorName": "Margem EBITDA",
-                    "value": "50.6700000000"
-                }
-            ],
-            "rentabilidade": [
-                {
-                    "indicatorName": "ROE",
-                    "value": "11.4500000000"
-                },
-                {
-                    "indicatorName": "ROA",
-                    "value": "4.7500000000"
-                },
-                {
-                    "indicatorName": "ROIC",
-                    "value": "11.4800000000"
-                }
-            ]
+          "indicatorName": "VPA",
+          "value": 14.2
         },
         {
-            "aggregation": 1,
-            "period": "YA1T",
-            "year": 2020,
-            "valuation": [
-                {
-                    "indicatorName": "P/L",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "VPA",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "LPA",
-                    "value": "0.4100000000"
-                }
-            ],
-            "endividamento": [
-                {
-                    "indicatorName": "Liquidez Corrente",
-                    "value": "1.7400000000"
-                },
-                {
-                    "indicatorName": "Passivos/Ativos",
-                    "value": "0.6000000000"
-                },
-                {
-                    "indicatorName": "PL/Ativos",
-                    "value": "0.4000000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBIT",
-                    "value": "4.3700000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBITDA",
-                    "value": "3.5700000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./PL",
-                    "value": "0.5100000000"
-                }
-            ],
-            "eficiencia": [
-                {
-                    "indicatorName": "Margem Bruta",
-                    "value": "74.3500000000"
-                },
-                {
-                    "indicatorName": "Margem Líquida",
-                    "value": "34.3700000000"
-                },
-                {
-                    "indicatorName": "Margem EBIT",
-                    "value": "29.3100000000"
-                },
-                {
-                    "indicatorName": "Margem EBITDA",
-                    "value": "35.8600000000"
-                }
-            ],
-            "rentabilidade": [
-                {
-                    "indicatorName": "ROE",
-                    "value": "13.5700000000"
-                },
-                {
-                    "indicatorName": "ROA",
-                    "value": "5.4300000000"
-                },
-                {
-                    "indicatorName": "ROIC",
-                    "value": "6.7100000000"
-                }
-            ]
+          "indicatorName": "LPA",
+          "value": 5.41
         },
         {
-            "aggregation": 1,
-            "period": "2T",
-            "year": 2020,
-            "valuation": [
-                {
-                    "indicatorName": "P/L",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "VPA",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "LPA",
-                    "value": "0.4100000000"
-                }
-            ],
-            "endividamento": [
-                {
-                    "indicatorName": "Liquidez Corrente",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "Passivos/Ativos",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "PL/Ativos",
-                    "value": "0.4100000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBIT",
-                    "value": "4.6600000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBITDA",
-                    "value": "4.3800000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./PL",
-                    "value": "0.4500000000"
-                }
-            ],
-            "eficiencia": [
-                {
-                    "indicatorName": "Margem Bruta",
-                    "value": "87.0300000000"
-                },
-                {
-                    "indicatorName": "Margem Líquida",
-                    "value": "41.4300000000"
-                },
-                {
-                    "indicatorName": "Margem EBIT",
-                    "value": "66.0000000000"
-                },
-                {
-                    "indicatorName": "Margem EBITDA",
-                    "value": "70.1700000000"
-                }
-            ],
-            "rentabilidade": [
-                {
-                    "indicatorName": "ROE",
-                    "value": "6.0200000000"
-                },
-                {
-                    "indicatorName": "ROA",
-                    "value": "2.5000000000"
-                },
-                {
-                    "indicatorName": "ROIC",
-                    "value": "5.7200000000"
-                }
-            ]
+          "indicatorName": "P/L",
+          "value": 7.23
+        }
+      ],
+      "endividamento": [
+        {
+          "indicatorName": "Liquidez Corrente",
+          "value": "1.9100000000",
+          "history": [
+            {
+              "value": "1.5900000000",
+              "year": 2019
+            },
+            {
+              "value": "1.2800000000",
+              "year": 2018
+            },
+            {
+              "value": "1.0900000000",
+              "year": 2017
+            }
+          ]
         },
         {
-            "aggregation": 1,
-            "period": "1T",
-            "year": 2020,
-            "valuation": [
-                {
-                    "indicatorName": "P/L",
-                    "value": "1.8000000000"
-                },
-                {
-                    "indicatorName": "VPA",
-                    "value": "0.5900000000"
-                },
-                {
-                    "indicatorName": "LPA",
-                    "value": "0.4100000000"
-                }
-            ],
-            "endividamento": [
-                {
-                    "indicatorName": "Liquidez Corrente",
-                    "value": "1.7400000000"
-                },
-                {
-                    "indicatorName": "Passivos/Ativos",
-                    "value": "0.6000000000"
-                },
-                {
-                    "indicatorName": "PL/Ativos",
-                    "value": "0.4000000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBIT",
-                    "value": "15.4900000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./EBITDA",
-                    "value": "12.9000000000"
-                },
-                {
-                    "indicatorName": "Dívida Liq./PL",
-                    "value": "0.5100000000"
-                }
-            ],
-            "eficiencia": [
-                {
-                    "indicatorName": "Margem Bruta",
-                    "value": "74.8300000000"
-                },
-                {
-                    "indicatorName": "Margem Líquida",
-                    "value": "4.4100000000"
-                },
-                {
-                    "indicatorName": "Margem EBIT",
-                    "value": "33.5500000000"
-                },
-                {
-                    "indicatorName": "Margem EBITDA",
-                    "value": "40.2900000000"
-                }
-            ],
-            "rentabilidade": [
-                {
-                    "indicatorName": "ROE",
-                    "value": "0.4300000000"
-                },
-                {
-                    "indicatorName": "ROA",
-                    "value": "0.1700000000"
-                },
-                {
-                    "indicatorName": "ROIC",
-                    "value": "1.8900000000"
-                }
-            ]
+          "indicatorName": "Passivos/Ativos",
+          "value": "0.4400000000",
+          "history": [
+            {
+              "value": "0.6000000000",
+              "year": 2019
+            },
+            {
+              "value": "0.6900000000",
+              "year": 2018
+            },
+            {
+              "value": "0.7500000000",
+              "year": 2017
+            }
+          ]
         },
-    ]
-};
+        {
+          "indicatorName": "PL/Ativos",
+          "value": "0.5600000000",
+          "history": [
+            {
+              "value": "0.4000000000",
+              "year": 2019
+            },
+            {
+              "value": "0.3100000000",
+              "year": 2018
+            },
+            {
+              "value": "0.2500000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Dívida Liq./EBIT",
+          "value": "1.9900000000",
+          "history": [
+            {
+              "value": "4.1600000000",
+              "year": 2019
+            },
+            {
+              "value": "2.7300000000",
+              "year": 2018
+            },
+            {
+              "value": "6.0500000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Dívida Liq./EBITDA",
+          "value": "1.9900000000",
+          "history": [
+            {
+              "value": "3.4200000000",
+              "year": 2019
+            },
+            {
+              "value": "2.5700000000",
+              "year": 2018
+            },
+            {
+              "value": "5.1700000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Dívida Liq./PL",
+          "value": "0.2600000000",
+          "history": [
+            {
+              "value": "0.4900000000",
+              "year": 2019
+            },
+            {
+              "value": "0.8400000000",
+              "year": 2018
+            },
+            {
+              "value": "0.8800000000",
+              "year": 2017
+            }
+          ]
+        }
+      ],
+      "eficiencia": [
+        {
+          "indicatorName": "Margem Bruta",
+          "value": "81.1400000000",
+          "history": [
+            {
+              "value": "75.5500000000",
+              "year": 2019
+            },
+            {
+              "value": "78.5200000000",
+              "year": 2018
+            },
+            {
+              "value": "67.8700000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Margem Líquida",
+          "value": "8079.4900000000",
+          "history": [
+            {
+              "value": "38.7500000000",
+              "year": 2019
+            },
+            {
+              "value": "51.7900000000",
+              "year": 2018
+            },
+            {
+              "value": "-5.8600000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Margem EBIT",
+          "value": "9447.9700000000",
+          "history": [
+            {
+              "value": "30.4800000000",
+              "year": 2019
+            },
+            {
+              "value": "67.1500000000",
+              "year": 2018
+            },
+            {
+              "value": "21.1200000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "Margem EBITDA",
+          "value": "9460.3500000000",
+          "history": [
+            {
+              "value": "37.0000000000",
+              "year": 2019
+            },
+            {
+              "value": "71.2900000000",
+              "year": 2018
+            },
+            {
+              "value": "24.7300000000",
+              "year": 2017
+            }
+          ]
+        }
+      ],
+      "rentabilidade": [
+        {
+          "indicatorName": "ROE",
+          "value": "11.3600000000",
+          "history": [
+            {
+              "value": "15.0500000000",
+              "year": 2019
+            },
+            {
+              "value": "23.8300000000",
+              "year": 2018
+            },
+            {
+              "value": "-4.0400000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "ROA",
+          "value": "6.3600000000",
+          "history": [
+            {
+              "value": "6.0500000000",
+              "year": 2019
+            },
+            {
+              "value": "7.3700000000",
+              "year": 2018
+            },
+            {
+              "value": "-1.0000000000",
+              "year": 2017
+            }
+          ]
+        },
+        {
+          "indicatorName": "ROIC",
+          "value": "9.3600000000",
+          "history": [
+            {
+              "value": "7.0100000000",
+              "year": 2019
+            },
+            {
+              "value": "15.4800000000",
+              "year": 2018
+            },
+            {
+              "value": "6.9500000000",
+              "year": 2017
+            }
+          ]
+        }
+      ]
+    }
+  }
 
 export const hitoricoCotacao = {
     "cache": true,

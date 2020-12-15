@@ -21,59 +21,73 @@ const financialReportsOptions = [
 const firstTableColumnIndex = "0";
 const firstTableColumnTitle = "#";
 
-interface TableContent {
+export interface TableContent {
     columns: Array<any>,
     rows: Array<any>
 }
 
-interface FinancialReportTableOptions {
-    getData: (type: string, yearFrom: string, yearTo: string) => Promise<TableContent>;
-    getSelectionOptions: (type: string) => Promise<Array<any>>;
+export interface SelectionOptions {
+    type: string;
+    yearFrom: string;
+    yearTo: string;
 }
 
-const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, getSelectionOptions }) => {
-    const [isTableLoading, setIsTableLoading] = useState(true);
-    const [yearList, setYearList] = useState<SelectOptions>();
-    const [data, setData] = useState<TableContent>();
+interface FinancialReportTableOptions {
+    data: TableContent;
+    selectionOptions: SelectOptions;
+    defaultYearFrom: string;
+    defaultYearTo: string;
+    onPeriodSelectionChange: (options: SelectionOptions) => {};
+    onTypeSelectionChange: (options: SelectionOptions) => {};
+}
+
+const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, defaultYearFrom, defaultYearTo, onPeriodSelectionChange, onTypeSelectionChange }) => {
+    const [tableData, setTableData] = useState<TableContent>(data);
     const [type, setType] = useState<string>(financialReportsOptions[0].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
 
     useEffect(() => {
-        setIsTableLoading(true);
-        if (type && yearFrom && yearTo) {
-            getData(type, yearFrom, yearTo)
-                .then(data => {
-                    if (data.rows.length > 0) {
-                        const tableData = buildTableComponents(data);
-                        setData(tableData);
-                        setIsTableLoading(false);
-                    }
-                });
-        }
-
-    }, [type, yearFrom, yearTo]);
+        defaultYearFrom &&
+            setYearFrom(defaultYearFrom);
+    }, [defaultYearFrom]);
 
     useEffect(() => {
+        defaultYearTo &&
+            setYearTo(defaultYearTo);
+    }, [defaultYearTo]);
 
-        getSelectionOptions(type)
-            .then(list => {
+    useEffect(() => {
+        data &&
+            setTableData(buildTableComponents(data));
+    }, [data]);
 
-                let selectOptions: SelectOptions = { options: [] };
-                list.map((item: any) => {
-                    selectOptions.options.push({ value: item.year, label: item.year });
-                })
+    useEffect(() => {
+        if (type && yearFrom && yearTo) {
+            onPeriodSelectionChange({
+                type,
+                yearFrom,
+                yearTo
+            })
+        }
+    }, [yearFrom, yearTo]);
 
-                setYearList(selectOptions);
-                setYearFrom(selectOptions.options[selectOptions.options.length - 1].value);
-                setYearTo(selectOptions.options[0].value);
+    useEffect(() => {
+        if (type && yearFrom && yearTo) {
+            onTypeSelectionChange({
+                type,
+                yearFrom,
+                yearTo
             });
-
+        }
     }, [type]);
 
-    const buildTableComponents = (data: any) => {
+    const buildTableComponents = (data: any): TableContent => {
         if (!data) {
-            return;
+            return {
+                rows: [],
+                columns: []
+            };
         }
 
         const formatedColumns: any[] = [];
@@ -118,23 +132,30 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
         }
     }
 
+    const handleTypeClick = (event: any) => {
+        const newType = event.target.value;
+        setType(newType);
+    }
+
     const handleYearFromClick = (event: any) => {
-        const year = event.target.value;
+        const newYearFrom = event.target.value;
+        let newYearTo = yearTo;
 
-        setYearFrom(year);
+        setYearFrom(newYearFrom);
 
-        if (year > yearTo) {
-            setYearTo(year);
+        if (newYearFrom > yearTo) {
+            newYearTo = newYearFrom;
+            setYearTo(newYearTo);
         }
     }
 
     const handleYearToClick = (event: any) => {
-        const year = event.target.value;
+        const selectedYear = event.target.value;
 
-        setYearTo(year);
+        setYearTo(selectedYear);
 
-        if (year < yearFrom) {
-            setYearFrom(year);
+        if (selectedYear < yearFrom) {
+            setYearFrom(selectedYear);
         }
     }
 
@@ -142,39 +163,50 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ getData, 
         <>
             <SelectContainer>
                 <Selection
+                    key="type"
                     options={financialReportsOptions}
-                    onChange={(event) => setType(event.target.value)}
-                    defaultValue={financialReportsOptions[0].value}
+                    onChange={handleTypeClick}
+                    // defaultValue={financialReportsOptions[0].value}
                     value={type}
                 />
                 <p>de</p>
                 <Selection
-                    options={yearList ? yearList.options : []}
-                    defaultValue={yearList ? yearList.options[yearList.options.length - 1].label : ""}
+                    key="yearFrom"
+                    options={selectionOptions ? selectionOptions.options : [{ value: "", label: "" }]}
+                    // defaultValue={selectionOptions ? selectionOptions.options[selectionOptions.options.length - 1].label : ""}
                     onChange={handleYearFromClick}
                     value={yearFrom}
                 />
                 <p>até</p>
                 <Selection
-                    options={yearList ? yearList.options : []}
+                    key="yearTo"
+                    options={selectionOptions ? selectionOptions.options : [{ value: "", label: "" }]}
+                    // defaultValue={selectionOptions ? selectionOptions.options[0].label : ""}
                     onChange={handleYearToClick}
                     value={yearTo}
                 />
             </SelectContainer>
-            <AnimatedCard>
-                <TableScroll>
-                    <Table
-                        tableHeader={data ? data.columns : [""]}
-                        tableData={data ? data.rows : [""]}
-                        numberOfRows={0}
-                        numberOfPages={0}
-                        showBottomBorder={true}
-                        onPageChange={() => { }}
-                        isTableLoading={false} />
-                </TableScroll>
-            </AnimatedCard>
+            {
+                tableData &&
+                    tableData.rows.length > 0 ?
+                    <AnimatedCard>
+                        <TableScroll>
+                            <Table
+                                tableHeader={tableData ? tableData.columns : [""]}
+                                tableData={tableData ? tableData.rows : [""]}
+                                numberOfRows={0}
+                                numberOfPages={0}
+                                showBottomBorder={true}
+                                onPageChange={() => { }}
+                                isTableLoading={false} />
+                        </TableScroll>
+                    </AnimatedCard>
+                    :
+                    <p>Sem informações</p>
+            }
         </>
     )
+
 }
 
 export default FinancialReportTable;

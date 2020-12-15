@@ -58,15 +58,18 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ indicator
                         :
                         <>
                             {
-                                indicatorData.map((indicator: any, index: number) => {
-                                    return indicator && (
-                                        <IndicatorCard
-                                            key={index}
-                                            indicatorName={indicator.indicatorName}
-                                            value={indicator.value}
-                                        />
-                                    )
-                                })
+                                indicatorData ?
+                                    indicatorData.map((indicator: any, index: number) => {
+                                        return indicator && (
+                                            <IndicatorCard
+                                                key={index}
+                                                indicatorName={indicator.indicatorName}
+                                                value={indicator.value}
+                                            />
+                                        )
+                                    })
+                                    :
+                                    <p>Não há informações</p>
                             }
                         </>
                 }

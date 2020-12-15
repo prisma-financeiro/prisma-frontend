@@ -22,7 +22,7 @@ import { SideBarOption } from '../../constants/sidebar-navigation';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
-import { indicator, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre, incomeStatamentAnual } from "./fakeData";
+import { indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre, incomeStatamentAnual } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
@@ -32,7 +32,7 @@ import {
   FiGlobe,
 } from 'react-icons/fi';
 import Axios from 'axios';
-import FinancialReportTable from './FinancialReportTable';
+import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 
 const companyFakeData = {
   companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
@@ -83,6 +83,21 @@ interface TickePrice {
   priceDate?: string;
 }
 
+interface IndicatorHistory {
+  indicatorName: string;
+  value: number;
+  history?: any[];
+}
+
+interface Indicator {
+  period: string;
+  year: number;
+  valuation: IndicatorHistory[];
+  endividamento: IndicatorHistory[];
+  eficiencia: IndicatorHistory[];
+  rentabilidade: IndicatorHistory[];
+}
+
 const Company: React.FC<{}> = (props: any) => {
   let ticker = props.match.params.ticker;
   let companyId: number;
@@ -95,6 +110,14 @@ const Company: React.FC<{}> = (props: any) => {
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({});
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
+  const [indicatorInfo, setIndicatorInfo] = useState<any>();
+
+  const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
+  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>();
+  const [balanceSheetData, setBalanceSheetData] = useState();
+  const [balanceSheetOptions, setBalanceSheetOptions] = useState();
+  const [cashFlowData, setCashFlowData] = useState();
+  const [cashFlowOptions, setCashFlowOptions] = useState();
 
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
@@ -141,6 +164,33 @@ const Company: React.FC<{}> = (props: any) => {
 
         setTickerPrice(tickerPrice);
       })
+
+      getCompanyIndicator(companyId).then(data => {
+        const indicator = data;
+
+        setIndicatorInfo(indicator);
+      })
+
+      getIncomeStatementOptions("ANUAL")
+        .then((data: Array<any>) => {
+
+          if (data.length > 0) {
+
+            setIncomeStatementOptions({ options: data });
+
+            // getIncomeStatementData({
+            //   type: "ANUAL",
+            //   yearFrom: data[data.length - 1].value,
+            //   yearTo: data[0].value
+            // }).then(data => {
+            //   setIncomeStatementData(data);
+
+            // })
+
+          }
+
+        });
+
     } else {
       const companyInfo = {
         name: companyFakeData.companyName,
@@ -157,10 +207,15 @@ const Company: React.FC<{}> = (props: any) => {
 
       setTickerPrice(tickerPrice);
 
+      setIndicatorInfo(indicatorFake.content);
+
+      setIncomeStatementOptions({ options: [{ value: "2020", label: "2020" }] });
+
+      setIncomeStatementData(incomeStatementTrimestre.content);
+
     }
 
   }, [ticker]);
-
 
   const jumpTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -283,41 +338,61 @@ const Company: React.FC<{}> = (props: any) => {
 
   const stockPrice = getStockPrice();
 
-  const getIncomeStatementData = async (type: string, yearFrom: string, yearTo: string) => {
+  const getCompanyIndicator = async (companyId: number) => {
     let data: any;
+
     if (backendAtivo) {
       data = await Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/incomestatement`, {
-          params: {
-            type,
-            yearFrom,
-            yearTo
-          }
-        })
+        .get(`http://localhost:5000/api/v1/company/${companyId}/indicator`)
         .then(res => res.data.content);
     } else {
-      data = new Promise((resolve, _) => resolve(incomeStatementTrimestre.content));
+      data = new Promise((resolve, _) => resolve(indicatorFake.content));
     }
 
     return data;
   }
 
-  const getIncomeStatementOptions = async (type: string) => {
-    let data: any;
+  const getIncomeStatementData = async (options: SelectionOptions) => {
 
     if (backendAtivo) {
-      data = await Axios
+      return Axios
+        .get(`http://localhost:5000/api/v1/company/${companyId}/incomestatement`, {
+          params: {
+            ...options
+          }
+        })
+        .then(res => res.data.content);
+    }
+
+    return incomeStatementTrimestre.content;
+  }
+
+  const getIncomeStatementOptions = async (type: string) => {
+
+    if (backendAtivo) {
+      return Axios
         .get(`http://localhost:5000/api/v1/company/${companyId}/incomestatement/history`, {
           params: {
             type
           }
         })
         .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve([{ year: "2020" }])).then(data => data);
     }
 
-    return data;
+    return [{ value: "2020", label: "2020" }];
+  }
+
+  const handleIncomeStatementTypeSelectionChange = async (options: SelectionOptions) => {
+    // const data = await getIncomeStatementData(options);
+    const selectionOptions = await getIncomeStatementOptions(options.type);
+
+    // setIncomeStatementData(data);
+    setIncomeStatementOptions({ options: selectionOptions });
+  }
+
+  const handleIncomeStatementPeriodSelectionChange = async (options: SelectionOptions) => {
+    const data = await getIncomeStatementData(options);
+    setIncomeStatementData(data);
   }
 
   const getBalanceSheetData = async (type: string, yearFrom: string, yearTo: string) => {
@@ -450,7 +525,8 @@ const Company: React.FC<{}> = (props: any) => {
               size={CardSizes.large}>
               <AnimatedCard>
                 {
-                  indicator.content[0].valuation.map((indicator: any, index: number) => {
+                  indicatorInfo && indicatorInfo.valuation &&
+                  indicatorInfo.valuation.map((indicator: any, index: number) => {
                     return indicator && (
                       <IndicatorCard
                         key={index}
@@ -465,19 +541,19 @@ const Company: React.FC<{}> = (props: any) => {
             <CompanyIndicatorCard
               anchor={rentabilidade}
               title="Rentabilidade"
-              indicatorData={indicator.content[1].rentabilidade}
+              indicatorData={indicatorInfo ? indicatorInfo.rentabilidade : []}
               indicatorSelectionOptions={indicatorList.content.rentabilidade}
             />
             <CompanyIndicatorCard
               anchor={eficiencia}
               title="Eficiência"
-              indicatorData={indicator.content[1].eficiencia}
+              indicatorData={indicatorInfo ? indicatorInfo.eficiencia : []}
               indicatorSelectionOptions={indicatorList.content.eficiencia}
             />
             <CompanyIndicatorCard
               anchor={endividamento}
               title="Endividamento"
-              indicatorData={indicator.content[1].endividamento}
+              indicatorData={indicatorInfo ? indicatorInfo.endividamento : []}
               indicatorSelectionOptions={indicatorList.content.endividamento}
             />
             <Card anchor={cotacao} title="Cotação" size={CardSizes.large}>
@@ -497,11 +573,15 @@ const Company: React.FC<{}> = (props: any) => {
             </Card>
             <Card anchor={dre} title="Demontração de Resultado (DRE)" size={CardSizes.large}>
               <FinancialReportTable
-                getData={(type, yearFrom, yearTo) => getIncomeStatementData(type, yearFrom, yearTo)}
-                getSelectionOptions={(type) => getIncomeStatementOptions(type)}
+                data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
+                selectionOptions={incomeStatementOptions ? incomeStatementOptions : { options: [""] }}
+                defaultYearFrom={incomeStatementOptions ? incomeStatementOptions.options[incomeStatementOptions.options.length - 1].value : ""}
+                defaultYearTo={incomeStatementOptions ? incomeStatementOptions.options[0].value : ""}
+                onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
+                onTypeSelectionChange={(options) => handleIncomeStatementTypeSelectionChange(options)}
               />
             </Card>
-            <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
+            {/* <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
               <FinancialReportTable
                 getData={(type, yearFrom, yearTo) => getBalanceSheetData(type, yearFrom, yearTo)}
                 getSelectionOptions={(type) => getBalanceSheetOptions(type)}
@@ -512,7 +592,7 @@ const Company: React.FC<{}> = (props: any) => {
                 getData={(type, yearFrom, yearTo) => getCashFlowData(type, yearFrom, yearTo)}
                 getSelectionOptions={(type) => getCashFlowOptions(type)}
               />
-            </Card>
+            </Card> */}
             <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
               <AnimatedCard>
                 <h1>Dados Gerais content</h1>
