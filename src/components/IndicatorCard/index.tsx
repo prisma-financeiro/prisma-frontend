@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   Container,
@@ -15,6 +15,7 @@ import * as themes from '../../styles/themes';
 interface IndicatorCardProps {
   indicatorName: string;
   value: number;
+  chartData?: Array<any>;
 }
 
 export const fakeIndicatorYear = {
@@ -43,44 +44,8 @@ export const fakeIndicatorYear = {
   ]
 }
 
-const getIndicatorData = () => {
-
-  const data = {
-    "cache": false,
-    "content": [
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2019
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2018
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2017
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2016
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2015
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2014
-      },
-      {
-        "value": Math.floor(Math.random() * 201) - 100,
-        "year": 2013
-      }
-
-    ]
-  }
-
-  return data.content.map(item => {
+const formatChartData = (data: Array<any>) => {
+  return data.map(item => {
     return {
       ...item,
       color: {
@@ -91,11 +56,10 @@ const getIndicatorData = () => {
 
     }
   }).reverse();
-
 }
 
-const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value }) => {
-  const [indicatorData, setIndicatorData] = useState(getIndicatorData());
+const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData }) => {
+  const indicatorData = chartData ? formatChartData(chartData) : [];
 
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
@@ -164,17 +128,26 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value }) =
     <Container>
       <Header>
         <Value>
-          {parseFloat(String(value)).toFixed(2).toString().replace('.', ',')}
+          {
+            value ?
+              parseFloat(String(value)).toFixed(2).toString().replace('.', ',')
+              :
+              "--"
+          }
         </Value>
         <Title>
           <p>{indicatorName}</p>
         </Title>
       </Header>
       <Content>
-        <BarChart
-          data={data}
-          options={chartConfig}
-        />
+        {
+          value &&
+          data &&
+          <BarChart
+            data={data}
+            options={chartConfig}
+          />
+        }
       </Content>
     </Container>
   );

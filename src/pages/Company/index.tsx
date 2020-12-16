@@ -79,7 +79,8 @@ interface CompanyInfo {
 
 interface TickePrice {
   price: number;
-  variation: number;
+  variationValue: number;
+  variationPercentage: number;
   priceDate?: string;
 }
 
@@ -114,10 +115,10 @@ const Company: React.FC<{}> = (props: any) => {
 
   const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
   const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>();
-  const [balanceSheetData, setBalanceSheetData] = useState();
-  const [balanceSheetOptions, setBalanceSheetOptions] = useState();
-  const [cashFlowData, setCashFlowData] = useState();
-  const [cashFlowOptions, setCashFlowOptions] = useState();
+  const [balanceSheetData, setBalanceSheetData] = useState<TableContent>();
+  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>();
+  const [cashFlowData, setCashFlowData] = useState<TableContent>();
+  const [cashFlowOptions, setCashFlowOptions] = useState<any>();
 
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
@@ -158,7 +159,8 @@ const Company: React.FC<{}> = (props: any) => {
       getTickerPrice(ticker).then(data => {
         const tickerPrice: TickePrice = {
           price: data.price,
-          variation: data.variation,
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
           priceDate: data.priceDate,
         }
 
@@ -172,24 +174,13 @@ const Company: React.FC<{}> = (props: any) => {
       })
 
       getIncomeStatementOptions("ANUAL")
-        .then((data: Array<any>) => {
+        .then((data: Array<any>) => data.length > 0 && setIncomeStatementOptions({ options: data }));
 
-          if (data.length > 0) {
+      getBalanceSheetOptions("ANUAL")
+        .then((data: Array<any>) => data.length > 0 && setBalanceSheetOptions({ options: data }));
 
-            setIncomeStatementOptions({ options: data });
-
-            // getIncomeStatementData({
-            //   type: "ANUAL",
-            //   yearFrom: data[data.length - 1].value,
-            //   yearTo: data[0].value
-            // }).then(data => {
-            //   setIncomeStatementData(data);
-
-            // })
-
-          }
-
-        });
+      getCashFlowOptions("ANUAL")
+        .then((data: Array<any>) => data.length > 0 && setCashFlowOptions({ options: data }));
 
     } else {
       const companyInfo = {
@@ -199,7 +190,8 @@ const Company: React.FC<{}> = (props: any) => {
 
       const tickerPrice: TickePrice = {
         price: 15.23,
-        variation: -5.4,
+        variationValue: 1.2,
+        variationPercentage: 5.3,
         priceDate: "",
       }
 
@@ -210,9 +202,13 @@ const Company: React.FC<{}> = (props: any) => {
       setIndicatorInfo(indicatorFake.content);
 
       setIncomeStatementOptions({ options: [{ value: "2020", label: "2020" }] });
-
       setIncomeStatementData(incomeStatementTrimestre.content);
 
+      setBalanceSheetOptions({ options: [{ value: "2020", label: "2020" }] });
+      setBalanceSheetData(balanceSheet.content);
+
+      setCashFlowOptions({ options: [{ value: "2020", label: "2020" }] });
+      setCashFlowData(cashFlowTrimestre.content);
     }
 
   }, [ticker]);
@@ -383,10 +379,7 @@ const Company: React.FC<{}> = (props: any) => {
   }
 
   const handleIncomeStatementTypeSelectionChange = async (options: SelectionOptions) => {
-    // const data = await getIncomeStatementData(options);
     const selectionOptions = await getIncomeStatementOptions(options.type);
-
-    // setIncomeStatementData(data);
     setIncomeStatementOptions({ options: selectionOptions });
   }
 
@@ -395,80 +388,83 @@ const Company: React.FC<{}> = (props: any) => {
     setIncomeStatementData(data);
   }
 
-  const getBalanceSheetData = async (type: string, yearFrom: string, yearTo: string) => {
-    let data: any;
+  const getBalanceSheetData = async (options: SelectionOptions) => {
 
     if (backendAtivo) {
-      data = await Axios
+      return Axios
         .get(`http://localhost:5000/api/v1/company/${companyId}/balancesheet`, {
           params: {
-            type,
-            yearFrom,
-            yearTo
+            ...options
           }
         })
         .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve(balanceSheet.content));
     }
 
-    return data;
+    return balanceSheet.content;
   }
 
   const getBalanceSheetOptions = async (type: string) => {
-    let data: any;
 
     if (backendAtivo) {
-      data = await Axios
+      return Axios
         .get(`http://localhost:5000/api/v1/company/${companyId}/balancesheet/history`, {
           params: {
             type
           }
         })
         .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve([{ year: "2020" }])).then(data => data);
     }
 
-    return data;
+    return [{ value: "2020", label: "2020" }];
   }
 
-  const getCashFlowData = async (type: string, yearFrom: string, yearTo: string) => {
-    let data: any;
+  const handleBalanceSheetTypeSelectionChange = async (options: SelectionOptions) => {
+    const selectionOptions = await getBalanceSheetOptions(options.type);
+    setBalanceSheetOptions({ options: selectionOptions });
+  }
+
+  const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
+    const data = await getBalanceSheetData(options);
+    setBalanceSheetData(data);
+  }
+
+  const getCashFlowData = async (options: SelectionOptions) => {
 
     if (backendAtivo) {
-      data = await Axios
+      return Axios
         .get(`http://localhost:5000/api/v1/company/${companyId}/cashflow`, {
           params: {
-            type,
-            yearFrom,
-            yearTo
+            ...options
           }
         })
         .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve(cashFlowTrimestre.content));
     }
-
-    return data;
+    return cashFlowTrimestre.content;
   }
 
   const getCashFlowOptions = async (type: string) => {
-    let data: any;
 
     if (backendAtivo) {
-      data = await Axios
+      return Axios
         .get(`http://localhost:5000/api/v1/company/${companyId}/cashflow/history`, {
           params: {
             type
           }
         })
         .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve([{ year: "2020" }])).then(data => data);
     }
 
-    return data;
+    return [{ value: "2020", label: "2020" }];
+  }
+
+  const handleCashFlowTypeSelectionChange = async (options: SelectionOptions) => {
+    const selectionOptions = await getCashFlowOptions(options.type);
+    setCashFlowOptions({ options: selectionOptions });
+  }
+
+  const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
+    const data = await getCashFlowData(options);
+    setCashFlowData(data);
   }
 
   return (
@@ -495,7 +491,8 @@ const Company: React.FC<{}> = (props: any) => {
                 <Title>Valor Atual</Title>
                 <StockPrice
                   stockPrice={tickerPrice ? tickerPrice.price : 0}
-                  variationPercentage={tickerPrice ? tickerPrice.variation : 0}
+                  variationPercentage={tickerPrice ? tickerPrice.variationPercentage : 0}
+                  variationValue={tickerPrice ? tickerPrice.variationValue : 0}
                 />
               </ValueCard>
               <ValueCard>
@@ -581,18 +578,26 @@ const Company: React.FC<{}> = (props: any) => {
                 onTypeSelectionChange={(options) => handleIncomeStatementTypeSelectionChange(options)}
               />
             </Card>
-            {/* <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
+            <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
               <FinancialReportTable
-                getData={(type, yearFrom, yearTo) => getBalanceSheetData(type, yearFrom, yearTo)}
-                getSelectionOptions={(type) => getBalanceSheetOptions(type)}
+                data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
+                selectionOptions={balanceSheetOptions ? balanceSheetOptions : { options: [""] }}
+                defaultYearFrom={balanceSheetOptions ? balanceSheetOptions.options[balanceSheetOptions.options.length - 1].value : ""}
+                defaultYearTo={balanceSheetOptions ? balanceSheetOptions.options[0].value : ""}
+                onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
+                onTypeSelectionChange={(options) => handleBalanceSheetTypeSelectionChange(options)}
               />
             </Card>
             <Card anchor={fluxoCaixa} title="Fluxo de Caixa" size={CardSizes.large}>
               <FinancialReportTable
-                getData={(type, yearFrom, yearTo) => getCashFlowData(type, yearFrom, yearTo)}
-                getSelectionOptions={(type) => getCashFlowOptions(type)}
+                data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
+                selectionOptions={cashFlowOptions ? cashFlowOptions : { options: [""] }}
+                defaultYearFrom={cashFlowOptions ? cashFlowOptions.options[cashFlowOptions.options.length - 1].value : ""}
+                defaultYearTo={cashFlowOptions ? cashFlowOptions.options[0].value : ""}
+                onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
+                onTypeSelectionChange={(options) => handleCashFlowTypeSelectionChange(options)}
               />
-            </Card> */}
+            </Card>
             <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
               <AnimatedCard>
                 <h1>Dados Gerais content</h1>

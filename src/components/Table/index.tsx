@@ -40,9 +40,9 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
   const getHeader = () => {
     return (
       <tr>
-        {tableHeader.map((key) => {
+        {tableHeader.map((key, index) => {
           return (
-            <th key={key}>
+            <th key={index}>
               {key}
             </th>
           );
@@ -57,9 +57,9 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     return items.map((row, index) => {
       return (
         <tr key={index}>
-          { keys.map((key: any) => {
+          { keys.map((key: any, index: number) => {
             return (
-              <td key={row[key]}>
+              <td key={String(row[key]).concat(String(index))}>
                 {row[key]}
               </td>
             );
