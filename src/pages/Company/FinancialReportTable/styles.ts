@@ -35,7 +35,7 @@ export const TableColumnPercentual = styled.p`
     text-align: right;
     font-weight: 400;
     min-width: 8rem;
-    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.positiveValue : theme.colors.negativeValue}
+    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.primary : theme.colors.error}
   `}
 `;
 

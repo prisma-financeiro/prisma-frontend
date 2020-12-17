@@ -40,8 +40,8 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     
     const firstTableColumnIndex = "0";
     const firstTableColumnTitle = "#";
-    
-    const [tableData, setTableData] = useState<TableContent>(data);
+
+    const [tableData, setTableData] = useState<TableContent>();
     const [type, setType] = useState<string>(financialReportsOptions[0].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
