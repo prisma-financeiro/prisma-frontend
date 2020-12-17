@@ -22,7 +22,7 @@ import { SideBarOption } from '../../constants/sidebar-navigation';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
 import IndicatorCard from '../../components/IndicatorCard';
-import { indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre, incomeStatamentAnual } from "./fakeData";
+import { indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
@@ -84,21 +84,6 @@ interface TickePrice {
   priceDate?: string;
 }
 
-interface IndicatorHistory {
-  indicatorName: string;
-  value: number;
-  history?: any[];
-}
-
-interface Indicator {
-  period: string;
-  year: number;
-  valuation: IndicatorHistory[];
-  endividamento: IndicatorHistory[];
-  eficiencia: IndicatorHistory[];
-  rentabilidade: IndicatorHistory[];
-}
-
 const Company: React.FC<{}> = (props: any) => {
   let ticker = props.match.params.ticker;
   let companyId: number;
@@ -114,11 +99,11 @@ const Company: React.FC<{}> = (props: any) => {
   const [indicatorInfo, setIndicatorInfo] = useState<any>();
 
   const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
-  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>();
+  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>({ options: []});
   const [balanceSheetData, setBalanceSheetData] = useState<TableContent>();
-  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>();
+  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: []});
   const [cashFlowData, setCashFlowData] = useState<TableContent>();
-  const [cashFlowOptions, setCashFlowOptions] = useState<any>();
+  const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: []});
 
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
@@ -174,13 +159,13 @@ const Company: React.FC<{}> = (props: any) => {
       })
 
       getIncomeStatementOptions("ANUAL")
-        .then((data: Array<any>) => data.length > 0 && setIncomeStatementOptions({ options: data }));
+        .then((data: any[]) => data.length > 0 && setIncomeStatementOptions({ options: data }));
 
       getBalanceSheetOptions("ANUAL")
-        .then((data: Array<any>) => data.length > 0 && setBalanceSheetOptions({ options: data }));
+        .then((data: any[]) => data.length > 0 && setBalanceSheetOptions({ options: data }));
 
       getCashFlowOptions("ANUAL")
-        .then((data: Array<any>) => data.length > 0 && setCashFlowOptions({ options: data }));
+        .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
 
     } else {
       const companyInfo = {
@@ -204,7 +189,7 @@ const Company: React.FC<{}> = (props: any) => {
       setIncomeStatementOptions({ options: [{ value: "2020", label: "2020" }] });
       setIncomeStatementData(incomeStatementTrimestre.content);
 
-      setBalanceSheetOptions({ options: [{ value: "2020", label: "2020" }] });
+      setBalanceSheetOptions({ options: [{ value: "2020", label: "2020" }, { value: "2019", label: "2019" }] });
       setBalanceSheetData(balanceSheet.content);
 
       setCashFlowOptions({ options: [{ value: "2020", label: "2020" }] });
@@ -213,7 +198,7 @@ const Company: React.FC<{}> = (props: any) => {
 
   }, [ticker]);
 
-  const jumpTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
+  const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
     block: "center",
     inline: "start",
@@ -227,25 +212,25 @@ const Company: React.FC<{}> = (props: any) => {
           name: 'Valuation',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(valuation),
+          onClick: () => scrollTo(valuation),
         },
         {
           name: 'Rentabilidade',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(rentabilidade),
+          onClick: () => scrollTo(rentabilidade),
         },
         {
           name: 'Eficiência',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(eficiencia),
+          onClick: () => scrollTo(eficiencia),
         },
         {
           name: 'Endividamento',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(endividamento),
+          onClick: () => scrollTo(endividamento),
         },
       ]
     },
@@ -256,13 +241,13 @@ const Company: React.FC<{}> = (props: any) => {
           name: 'Cotação',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(cotacao),
+          onClick: () => scrollTo(cotacao),
         },
         {
           name: 'Proventos',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(proventos),
+          onClick: () => scrollTo(proventos),
         }
       ]
     },
@@ -273,19 +258,19 @@ const Company: React.FC<{}> = (props: any) => {
           name: 'DRE',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(dre),
+          onClick: () => scrollTo(dre),
         },
         {
           name: 'Balanço Patrimonial',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(balancoPatrimonial),
+          onClick: () => scrollTo(balancoPatrimonial),
         },
         {
           name: 'Fluxo de Caixa',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(fluxoCaixa),
+          onClick: () => scrollTo(fluxoCaixa),
         }
       ]
     },
@@ -296,19 +281,19 @@ const Company: React.FC<{}> = (props: any) => {
           name: 'Dados Gerais',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(dadosGerais),
+          onClick: () => scrollTo(dadosGerais),
         },
         {
           name: 'Contato',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(contato),
+          onClick: () => scrollTo(contato),
         },
         {
           name: 'Notícias sobre a Empresa',
           icon: <FiGlobe />,
           expand: false,
-          onClick: () => jumpTo(noticiasEmpresa),
+          onClick: () => scrollTo(noticiasEmpresa),
         }
       ]
     }
@@ -419,13 +404,15 @@ const Company: React.FC<{}> = (props: any) => {
   }
 
   const handleBalanceSheetTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions = await getBalanceSheetOptions(options.type);
+    const selectionOptions: any[] = await getBalanceSheetOptions(options.type);
     setBalanceSheetOptions({ options: selectionOptions });
+    alert('entrou aqui');
   }
 
   const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
     const data = await getBalanceSheetData(options);
     setBalanceSheetData(data);
+    alert('entrou aqui');
   }
 
   const getCashFlowData = async (options: SelectionOptions) => {
@@ -571,9 +558,7 @@ const Company: React.FC<{}> = (props: any) => {
             <Card anchor={dre} title="Demontração de Resultado (DRE)" size={CardSizes.large}>
               <FinancialReportTable
                 data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
-                selectionOptions={incomeStatementOptions ? incomeStatementOptions : { options: [""] }}
-                defaultYearFrom={incomeStatementOptions ? incomeStatementOptions.options[incomeStatementOptions.options.length - 1].value : ""}
-                defaultYearTo={incomeStatementOptions ? incomeStatementOptions.options[0].value : ""}
+                selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
                 onTypeSelectionChange={(options) => handleIncomeStatementTypeSelectionChange(options)}
               />
@@ -581,9 +566,7 @@ const Company: React.FC<{}> = (props: any) => {
             <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
               <FinancialReportTable
                 data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
-                selectionOptions={balanceSheetOptions ? balanceSheetOptions : { options: [""] }}
-                defaultYearFrom={balanceSheetOptions ? balanceSheetOptions.options[balanceSheetOptions.options.length - 1].value : ""}
-                defaultYearTo={balanceSheetOptions ? balanceSheetOptions.options[0].value : ""}
+                selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
                 onTypeSelectionChange={(options) => handleBalanceSheetTypeSelectionChange(options)}
               />
@@ -591,9 +574,7 @@ const Company: React.FC<{}> = (props: any) => {
             <Card anchor={fluxoCaixa} title="Fluxo de Caixa" size={CardSizes.large}>
               <FinancialReportTable
                 data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
-                selectionOptions={cashFlowOptions ? cashFlowOptions : { options: [""] }}
-                defaultYearFrom={cashFlowOptions ? cashFlowOptions.options[cashFlowOptions.options.length - 1].value : ""}
-                defaultYearTo={cashFlowOptions ? cashFlowOptions.options[0].value : ""}
+                selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
                 onTypeSelectionChange={(options) => handleCashFlowTypeSelectionChange(options)}
               />

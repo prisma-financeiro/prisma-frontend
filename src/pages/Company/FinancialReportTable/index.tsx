@@ -13,17 +13,9 @@ import {
     SelectContainer
 } from './styles';
 
-const financialReportsOptions = [
-    { value: "ANUAL", label: "Anual" },
-    { value: "TRIMESTRE", label: "Trimestre" },
-];
-
-const firstTableColumnIndex = "0";
-const firstTableColumnTitle = "#";
-
 export interface TableContent {
-    columns: Array<any>,
-    rows: Array<any>
+    columns: any[],
+    rows: any[]
 }
 
 export interface SelectionOptions {
@@ -35,52 +27,29 @@ export interface SelectionOptions {
 interface FinancialReportTableOptions {
     data: TableContent;
     selectionOptions: SelectOptions;
-    defaultYearFrom: string;
-    defaultYearTo: string;
     onPeriodSelectionChange: (options: SelectionOptions) => {};
     onTypeSelectionChange: (options: SelectionOptions) => {};
 }
 
-const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, defaultYearFrom, defaultYearTo, onPeriodSelectionChange, onTypeSelectionChange }) => {
+const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, onPeriodSelectionChange, onTypeSelectionChange }) => {
+
+    const financialReportsOptions = [
+        { value: "ANUAL", label: "Anual" },
+        { value: "TRIMESTRE", label: "Trimestre" },
+    ];
+    
+    const firstTableColumnIndex = "0";
+    const firstTableColumnTitle = "#";
+    
     const [tableData, setTableData] = useState<TableContent>(data);
     const [type, setType] = useState<string>(financialReportsOptions[0].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
 
     useEffect(() => {
-        defaultYearFrom &&
-            setYearFrom(defaultYearFrom);
-    }, [defaultYearFrom]);
-
-    useEffect(() => {
-        defaultYearTo &&
-            setYearTo(defaultYearTo);
-    }, [defaultYearTo]);
-
-    useEffect(() => {
         data &&
             setTableData(buildTableComponents(data));
     }, [data]);
-
-    useEffect(() => {
-        if (type && yearFrom && yearTo) {
-            onPeriodSelectionChange({
-                type,
-                yearFrom,
-                yearTo
-            })
-        }
-    }, [yearFrom, yearTo]);
-
-    useEffect(() => {
-        if (type && yearFrom && yearTo) {
-            onTypeSelectionChange({
-                type,
-                yearFrom,
-                yearTo
-            });
-        }
-    }, [type]);
 
     const buildTableComponents = (data: any): TableContent => {
         if (!data) {
@@ -135,6 +104,11 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const handleTypeClick = (event: any) => {
         const newType = event.target.value;
         setType(newType);
+        onTypeSelectionChange({
+            type: type,
+            yearFrom: yearFrom,
+            yearTo: yearTo
+        });
     }
 
     const handleYearFromClick = (event: any) => {
@@ -147,6 +121,12 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
             newYearTo = newYearFrom;
             setYearTo(newYearTo);
         }
+
+        onPeriodSelectionChange({
+            type: type,
+            yearFrom: yearFrom,
+            yearTo: yearTo
+        })
     }
 
     const handleYearToClick = (event: any) => {
@@ -157,6 +137,12 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         if (selectedYear < yearFrom) {
             setYearFrom(selectedYear);
         }
+
+        onPeriodSelectionChange({
+            type: type,
+            yearFrom: yearFrom,
+            yearTo: yearTo
+        })
     }
 
     return (
@@ -166,22 +152,19 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                     key="type"
                     options={financialReportsOptions}
                     onChange={handleTypeClick}
-                    // defaultValue={financialReportsOptions[0].value}
                     value={type}
                 />
                 <p>de</p>
                 <Selection
                     key="yearFrom"
-                    options={selectionOptions ? selectionOptions.options : [{ value: "", label: "" }]}
-                    // defaultValue={selectionOptions ? selectionOptions.options[selectionOptions.options.length - 1].label : ""}
+                    options={selectionOptions.options}
                     onChange={handleYearFromClick}
                     value={yearFrom}
                 />
                 <p>até</p>
                 <Selection
                     key="yearTo"
-                    options={selectionOptions ? selectionOptions.options : [{ value: "", label: "" }]}
-                    // defaultValue={selectionOptions ? selectionOptions.options[0].label : ""}
+                    options={selectionOptions.options}
                     onChange={handleYearToClick}
                     value={yearTo}
                 />
@@ -192,8 +175,8 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                     <AnimatedCard>
                         <TableScroll>
                             <Table
-                                tableHeader={tableData ? tableData.columns : [""]}
-                                tableData={tableData ? tableData.rows : [""]}
+                                tableHeader={tableData.columns}
+                                tableData={tableData.rows}
                                 numberOfRows={0}
                                 numberOfPages={0}
                                 showBottomBorder={true}
