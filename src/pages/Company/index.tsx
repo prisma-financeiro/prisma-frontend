@@ -13,6 +13,7 @@ import {
   Interval,
   IntervalItem,
   CardContainer,
+  SectorContainer,
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -21,27 +22,21 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
-import IndicatorCard from '../../components/IndicatorCard';
-import { indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre } from "./fakeData";
+import { companyFakeData, indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
 import StockPrice from '../../components/StockPrice';
 
+import { company } from "../../services";
+
 import {
   FiGlobe,
 } from 'react-icons/fi';
-import Axios from 'axios';
-import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 
-const companyFakeData = {
-  companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
-  tickerCode: 'MGLU3 ON',
-  companyName: 'Magazine Luiza',
-  cnpj: '01.145.123/0001-02',
-  variationReal: -0.18,
-  variationPercentage: -0.51,
-}
+import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
+import SegmentCard from '../../components/SegmentCard';
+import { Divider } from '../../components/ContentDivider/styles';
 
 const cotacaoFake = [
   { time: '2020-11-01', value: 11.34 },
@@ -74,7 +69,35 @@ const cotacaoFake = [
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
 interface CompanyInfo {
-  name?: string;
+  name: string;
+  logo: string;
+  addressType: string;
+  address: string;
+  district: string;
+  city: string;
+  state: string;
+  country: string;
+  areaCode: string;
+  phoneNumber: number;
+  email: string;
+  officerType: string;
+  officerName: string;
+  officerSince: string;
+  officerAddress: string;
+  officerAddressComplement: string;
+  officerDistrict: string;
+  officerCity: string;
+  officerState: string;
+  officerCountry: string;
+  officerZipCode: string;
+  officerAreaCode: string;
+  officerPhoneNumber: number;
+  officerEmail: string;
+  auditorCnpj: string;
+  auditorName: string;
+  capitalAmount: number;
+  totalStockQuantity: number;
+  segment: any;
 }
 
 interface TickePrice {
@@ -94,16 +117,16 @@ const Company: React.FC<{}> = (props: any) => {
     companyId = Number(String(props.location.search).substr(4));
   }
 
-  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({});
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
   const [indicatorInfo, setIndicatorInfo] = useState<any>();
 
   const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
-  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>({ options: []});
+  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>({ options: [] });
   const [balanceSheetData, setBalanceSheetData] = useState<TableContent>();
-  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: []});
+  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: [] });
   const [cashFlowData, setCashFlowData] = useState<TableContent>();
-  const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: []});
+  const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: [] });
 
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
@@ -118,30 +141,14 @@ const Company: React.FC<{}> = (props: any) => {
   const contato = useRef(null);
   const noticiasEmpresa = useRef(null);
 
-  const getCompany = (id: number) => {
-    return Axios
-      .get(`http://localhost:5000/api/v1/company/${id}`)
-      .then(res => res.data.content);
-  }
-
-  const getTickerPrice = (ticker: string) => {
-    return Axios
-      .get(`http://localhost:5000/api/v1/ticker/${ticker}`)
-      .then(res => res.data.content);
-  }
-
   useEffect(() => {
 
     if (backendAtivo) {
-      getCompany(companyId).then(data => {
-        const companyInfo = {
-          name: data.name,
-        }
-
-        setCompanyInfo(companyInfo);
+      company.getCompany(companyId).then(data => {
+        setCompanyInfo(data);
       });
 
-      getTickerPrice(ticker).then(data => {
+      company.getTickerPrice(ticker).then(data => {
         const tickerPrice: TickePrice = {
           price: data.price,
           variationValue: data.variationValue,
@@ -152,24 +159,61 @@ const Company: React.FC<{}> = (props: any) => {
         setTickerPrice(tickerPrice);
       })
 
-      getCompanyIndicator(companyId).then(data => {
+      company.getCompanyIndicator(companyId).then(data => {
         const indicator = data;
 
         setIndicatorInfo(indicator);
       })
 
-      getIncomeStatementOptions("ANUAL")
+      company.getIncomeStatementOptions(companyId, "ANUAL")
         .then((data: any[]) => data.length > 0 && setIncomeStatementOptions({ options: data }));
 
-      getBalanceSheetOptions("ANUAL")
+      company.getIncomeStatementData(companyId, "ANUAL", "2018", "2019")
+        .then((data) => setIncomeStatementData(data));
+
+      company.getBalanceSheetOptions(companyId, "ANUAL")
         .then((data: any[]) => data.length > 0 && setBalanceSheetOptions({ options: data }));
 
-      getCashFlowOptions("ANUAL")
+      company.getBalanceSheetData(companyId, { type: "ANUAL", yearFrom: 2018, yearTo: 2019 })
+        .then((data) => setBalanceSheetData(data));
+
+      company.getCashFlowOptions(companyId, "ANUAL")
         .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
 
+      company.getCashFlowData(companyId, { type: "ANUAL", yearFrom: 2018, yearTo: 2019 })
+        .then((data) => setCashFlowData(data));
+
     } else {
-      const companyInfo = {
-        name: companyFakeData.companyName,
+      const companyInfo: CompanyInfo = {
+        name: companyFakeData.content.name,
+        logo: companyFakeData.content.logo,
+        addressType: companyFakeData.content.addressType,
+        address: companyFakeData.content.address,
+        district: companyFakeData.content.district,
+        city: companyFakeData.content.city,
+        state: companyFakeData.content.state,
+        country: companyFakeData.content.country,
+        areaCode: companyFakeData.content.areaCode,
+        phoneNumber: companyFakeData.content.phoneNumber,
+        email: companyFakeData.content.email,
+        officerType: companyFakeData.content.officerType,
+        officerName: companyFakeData.content.officerName,
+        officerSince: companyFakeData.content.officerSince,
+        officerAddress: companyFakeData.content.officerAddress,
+        officerAddressComplement: companyFakeData.content.officerAddressComplement,
+        officerDistrict: companyFakeData.content.officerDistrict,
+        officerCity: companyFakeData.content.officerCity,
+        officerState: companyFakeData.content.officerState,
+        officerCountry: companyFakeData.content.officerCountry,
+        officerZipCode: companyFakeData.content.officerZipCode,
+        officerAreaCode: companyFakeData.content.officerAreaCode,
+        officerPhoneNumber: companyFakeData.content.officerPhoneNumber,
+        officerEmail: companyFakeData.content.officerEmail,
+        auditorCnpj: companyFakeData.content.auditorCnpj,
+        auditorName: companyFakeData.content.auditorName,
+        capitalAmount: Number(companyFakeData.content.capitalAmount),
+        totalStockQuantity: Number(companyFakeData.content.totalStockQuantity),
+        segment: companyFakeData.content.segment,
       }
       setCompanyInfo(companyInfo);
 
@@ -319,138 +363,39 @@ const Company: React.FC<{}> = (props: any) => {
 
   const stockPrice = getStockPrice();
 
-  const getCompanyIndicator = async (companyId: number) => {
-    let data: any;
-
-    if (backendAtivo) {
-      data = await Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/indicator`)
-        .then(res => res.data.content);
-    } else {
-      data = new Promise((resolve, _) => resolve(indicatorFake.content));
-    }
-
-    return data;
-  }
-
-  const getIncomeStatementData = async (options: SelectionOptions) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/incomestatement`, {
-          params: {
-            ...options
-          }
-        })
-        .then(res => res.data.content);
-    }
-
-    return incomeStatementTrimestre.content;
-  }
-
-  const getIncomeStatementOptions = async (type: string) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/incomestatement/history`, {
-          params: {
-            type
-          }
-        })
-        .then(res => res.data.content);
-    }
-
-    return [{ value: "2020", label: "2020" }];
-  }
-
   const handleIncomeStatementTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions = await getIncomeStatementOptions(options.type);
-    setIncomeStatementOptions({ options: selectionOptions });
-  }
+    const selectionOptions = await company.getIncomeStatementOptions(companyId, options.type);
+    const data = await company.getIncomeStatementData(companyId, options.type, options.yearFrom, options.yearTo);
 
-  const handleIncomeStatementPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await getIncomeStatementData(options);
+    setIncomeStatementOptions({ options: selectionOptions });
     setIncomeStatementData(data);
   }
 
-  const getBalanceSheetData = async (options: SelectionOptions) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/balancesheet`, {
-          params: {
-            ...options
-          }
-        })
-        .then(res => res.data.content);
-    }
-
-    return balanceSheet.content;
+  const handleIncomeStatementPeriodSelectionChange = async (options: SelectionOptions) => {
+    const data = await company.getIncomeStatementData(companyId, options.type, options.yearFrom, options.yearTo);
+    setIncomeStatementData(data);
   }
 
-  const getBalanceSheetOptions = async (type: string) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/balancesheet/history`, {
-          params: {
-            type
-          }
-        })
-        .then(res => res.data.content);
-    }
-
-    return [{ value: "2020", label: "2020" }];
-  }
 
   const handleBalanceSheetTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions: any[] = await getBalanceSheetOptions(options.type);
+    const selectionOptions: any[] = await company.getBalanceSheetOptions(companyId, options.type);
     setBalanceSheetOptions({ options: selectionOptions });
     alert('entrou aqui');
   }
 
   const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await getBalanceSheetData(options);
+    const data = await company.getBalanceSheetData(companyId, options);
     setBalanceSheetData(data);
     alert('entrou aqui');
   }
 
-  const getCashFlowData = async (options: SelectionOptions) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/cashflow`, {
-          params: {
-            ...options
-          }
-        })
-        .then(res => res.data.content);
-    }
-    return cashFlowTrimestre.content;
-  }
-
-  const getCashFlowOptions = async (type: string) => {
-
-    if (backendAtivo) {
-      return Axios
-        .get(`http://localhost:5000/api/v1/company/${companyId}/cashflow/history`, {
-          params: {
-            type
-          }
-        })
-        .then(res => res.data.content);
-    }
-
-    return [{ value: "2020", label: "2020" }];
-  }
-
   const handleCashFlowTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions = await getCashFlowOptions(options.type);
+    const selectionOptions = await company.getCashFlowOptions(companyId, options.type);
     setCashFlowOptions({ options: selectionOptions });
   }
 
   const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await getCashFlowData(options);
+    const data = await company.getCashFlowData(companyId, options);
     setCashFlowData(data);
   }
 
@@ -467,7 +412,7 @@ const Company: React.FC<{}> = (props: any) => {
         <MainContent>
           <HeaderContainer>
             <CompanyHeader>
-              <CompanyLogo src={companyFakeData.companyLogo} />
+              <CompanyLogo src={companyInfo ? companyInfo.logo : ""} />
               <Title>
                 <h1>{ticker}</h1>
                 <p>{companyInfo && companyInfo.name}</p>
@@ -503,25 +448,12 @@ const Company: React.FC<{}> = (props: any) => {
             </ButtonContainer>
           </HeaderContainer>
           <CardContainer>
-            <Card
+            <CompanyIndicatorCard
               anchor={valuation}
               title="Valuation"
-              size={CardSizes.large}>
-              <AnimatedCard>
-                {
-                  indicatorInfo && indicatorInfo.valuation &&
-                  indicatorInfo.valuation.map((indicator: any, index: number) => {
-                    return indicator && (
-                      <IndicatorCard
-                        key={index}
-                        indicatorName={indicator.indicatorName}
-                        value={indicator.value}
-                      />
-                    )
-                  })
-                }
-              </AnimatedCard>
-            </Card>
+              indicatorData={indicatorInfo ? indicatorInfo.valuation : []}
+              indicatorSelectionOptions={[]}
+            />
             <CompanyIndicatorCard
               anchor={rentabilidade}
               title="Rentabilidade"
@@ -581,7 +513,34 @@ const Company: React.FC<{}> = (props: any) => {
             </Card>
             <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
               <AnimatedCard>
-                <h1>Dados Gerais content</h1>
+                <SectorContainer>
+                  <SegmentCard
+                    id={1}
+                    title={"Setor"}
+                    description={companyInfo?.segment.segment.subsector.sector.description}
+                    companyCount={23}
+                  />
+                  <SegmentCard
+                    id={1}
+                    title={"Sub-Setor"}
+                    description={companyInfo?.segment.segment.subsector.description}
+                    companyCount={12}
+                  />
+                  <SegmentCard
+                    id={1}
+                    title={"Segmento"}
+                    description={companyInfo?.segment.segment.description}
+                    companyCount={5}
+                  />
+                </SectorContainer>
+                <Divider />
+                {/* <Card title="Localização" size={CardSizes.small}>
+                  <p>{companyInfo?.address}</p>
+                  <p>{companyInfo?.addressType}</p>
+                  <p>{companyInfo?.city}</p>
+                  <p>{companyInfo?.country}</p>
+                  <p>{companyInfo?.district}</p>
+                </Card> */}
               </AnimatedCard>
             </Card>
             <Card anchor={contato} title="Contato" size={CardSizes.large}>

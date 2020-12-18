@@ -1,3 +1,82 @@
+export const companyFakeData = {    
+    "cache": true,
+    "content": {
+      "id": 81,
+      "logo": 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
+      "cnpj": "07.526.557/0001-00",
+      "name": "AMBEV S.A.",
+      "comercialName": "AMBEV S.A",
+      "cvmCode": "023264",
+      "stockCode": "ABEV",
+      "segment_id": 35,
+      "cvmRegistrationDate": "2013-10-30",
+      "cvmCancellationDate": null,
+      "cvmCancellationReason": "",
+      "foundationDate": "2005-07-08",
+      "cvmStatus": "ATIVO",
+      "cvmStatusStartDate": "2013-10-30",
+      "activitySector": "BEBIDAS E FUMO",
+      "marketType": "",
+      "registrationCategory": "Categoria A",
+      "registrationCategoryStartDate": "2013-04-08",
+      "issuerStatus": "FASE OPERACIONAL",
+      "issuerStatusStartDate": "2013-04-08",
+      "addressType": "SEDE",
+      "address": "Rua Dr. Renato Paes de Barros, 1.017",
+      "addressComplement": "3º andar",
+      "district": "Itaim Bibi",
+      "city": "SÃO PAULO",
+      "state": "SP",
+      "country": "BRASIL",
+      "zipCode": "4530001",
+      "areaCode": "11",
+      "phoneNumber": 21221414,
+      "faxAreaCode": "11",
+      "faxNumber": 21221529,
+      "email": "ri@ambev.com.br",
+      "officerType": "DIRETOR DE RELAÇÕES COM INVESTIDORES",
+      "officerName": "FERNANDO MOMMENSOHN TENNENBAUM",
+      "officerSince": "2018-07-01",
+      "officerAddress": "RUA DR. RENATO PAES DE BARROS",
+      "officerAddressComplement": "1.107, 4º ANDAR",
+      "officerDistrict": "ITAIM BIBI",
+      "officerCity": "SÃO PAULO",
+      "officerState": "",
+      "officerCountry": "",
+      "officerZipCode": "4530001",
+      "officerAreaCode": "011",
+      "officerPhoneNumber": 21221414,
+      "officerFaxAreaCode": "011",
+      "officerFaxNumber": "21221529",
+      "officerEmail": "ri@ambev.com.br",
+      "auditorCnpj": "49.928.567/0001-11",
+      "auditorName": "DELOITTE TOUCHE TOHMATSU AUDITORES INDEPENDENTES\r",
+      "marketSegment": "BOLSA",
+      "capitalType": "Homologado",
+      "capitalAmount": "57899072773.6800000000",
+      "b3AprovedAt": "2020-03-23",
+      "ordinaryStockQuantity": "15735117965",
+      "preferredStockQuantity": "0",
+      "totalStockQuantity": "15735117965",
+      "createdAt": "2020-11-09T21:18:22.904Z",
+      "updatedAt": "2020-11-23T13:04:50.825Z",
+      "segment": {
+        "segment": {
+          "id": 35,
+          "description": "Cervejas e Refrigerantes",
+          "subsector": {
+            "id": 15,
+            "description": "Bebidas",
+            "sector": {
+              "id": 4,
+              "description": "Consumo não Cíclico"
+            }
+          }
+        }
+      }
+    }
+  }
+
 export const indicatorList = {
     "cache": true,
     "content": {

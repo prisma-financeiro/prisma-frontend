@@ -16,6 +16,7 @@ export const AnimatedCard = styled(motion.article)`
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
   `}
 `;
@@ -176,4 +177,25 @@ export const IntervalItem = styled.p`
       cursor: pointer;
     }
   `}
+`;
+
+export const SectorContainer = styled.div`
+  ${({ theme }) => css`
+    width: 100%;    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;    
+  `}  
+`;
+
+export const SectorCard = styled.div`
+  ${({ theme }) => css`    
+    background: ${theme.colors.darkGrey};
+    width: 100%;
+    border-radius: ${theme.radio.default};   
+    padding: ${theme.spacing.default};
+    margin: ${theme.spacing.default};
+    display: flex;
+    justify-content: flex-start;
+  `}  
 `;

@@ -37,7 +37,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         { value: "ANUAL", label: "Anual" },
         { value: "TRIMESTRE", label: "Trimestre" },
     ];
-    
+
     const firstTableColumnIndex = "0";
     const firstTableColumnTitle = "#";
 
@@ -104,8 +104,10 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const handleTypeClick = (event: any) => {
         const newType = event.target.value;
         setType(newType);
+        console.log(yearFrom, yearTo);
+
         onTypeSelectionChange({
-            type: type,
+            type: newType,
             yearFrom: yearFrom,
             yearTo: yearTo
         });
@@ -114,6 +116,8 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const handleYearFromClick = (event: any) => {
         const newYearFrom = event.target.value;
         let newYearTo = yearTo;
+
+        console.log("puta merda");
 
         setYearFrom(newYearFrom);
 
@@ -124,24 +128,28 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
 
         onPeriodSelectionChange({
             type: type,
-            yearFrom: yearFrom,
-            yearTo: yearTo
+            yearFrom: newYearFrom,
+            yearTo: newYearTo
         })
     }
 
     const handleYearToClick = (event: any) => {
         const selectedYear = event.target.value;
+        let newYearFrom = yearFrom;
+
+        console.log("puta merda 2");
 
         setYearTo(selectedYear);
 
         if (selectedYear < yearFrom) {
-            setYearFrom(selectedYear);
+            newYearFrom = selectedYear;
+            setYearFrom(newYearFrom);
         }
 
         onPeriodSelectionChange({
             type: type,
-            yearFrom: yearFrom,
-            yearTo: yearTo
+            yearFrom: newYearFrom,
+            yearTo: selectedYear
         })
     }
 
