@@ -19,14 +19,14 @@ const SegmentCard: React.FC<SegmentCardProps> = ({ id, title, description, compa
         {description}
       </Description>
       <Title>
-        <p>{title}</p>
+        {title}
       </Title>
       <CountWrapper>
         <Count>
           {companyCount}
         </Count>
         <CountSubtitle>
-          <p>{`Empresas`}</p>
+          {'Empresas'}
         </CountSubtitle>
       </CountWrapper>
     </Container>

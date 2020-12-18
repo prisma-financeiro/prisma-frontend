@@ -42,6 +42,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const firstTableColumnTitle = "#";
 
     const [tableData, setTableData] = useState<TableContent>();
+    const [selectOptions, setselectOptions] = useState<SelectOptions>();
     const [type, setType] = useState<string>(financialReportsOptions[0].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
@@ -50,6 +51,17 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         data &&
             setTableData(buildTableComponents(data));
     }, [data]);
+
+    useEffect(() => {
+        setselectOptions(selectionOptions);
+        setYearFrom(selectionOptions?.options[selectionOptions.options.length - 1]?.value);
+        setYearTo(selectionOptions?.options[0]?.value);
+    }, [selectionOptions]);
+
+    useEffect(() => {
+        setYearFrom(selectionOptions?.options[selectionOptions.options.length - 1]?.value);
+        setYearTo(selectionOptions?.options[0]?.value);
+    }, [type]);
 
     const buildTableComponents = (data: any): TableContent => {
         if (!data) {
@@ -117,8 +129,6 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         const newYearFrom = event.target.value;
         let newYearTo = yearTo;
 
-        console.log("puta merda");
-
         setYearFrom(newYearFrom);
 
         if (newYearFrom > yearTo) {
@@ -136,8 +146,6 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const handleYearToClick = (event: any) => {
         const selectedYear = event.target.value;
         let newYearFrom = yearFrom;
-
-        console.log("puta merda 2");
 
         setYearTo(selectedYear);
 
@@ -165,14 +173,14 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                 <p>de</p>
                 <Selection
                     key="yearFrom"
-                    options={selectionOptions.options}
+                    options={selectOptions ? selectOptions.options : []}
                     onChange={handleYearFromClick}
                     value={yearFrom}
                 />
                 <p>até</p>
                 <Selection
                     key="yearTo"
-                    options={selectionOptions.options}
+                    options={selectOptions ? selectOptions.options : []}
                     onChange={handleYearToClick}
                     value={yearTo}
                 />

@@ -365,7 +365,12 @@ const Company: React.FC<{}> = (props: any) => {
 
   const handleIncomeStatementTypeSelectionChange = async (options: SelectionOptions) => {
     const selectionOptions = await company.getIncomeStatementOptions(companyId, options.type);
-    const data = await company.getIncomeStatementData(companyId, options.type, options.yearFrom, options.yearTo);
+    const data = await company.getIncomeStatementData(
+      companyId,
+      options.type,
+      selectionOptions[selectionOptions.length - 1].value,
+      selectionOptions[0].value
+    );
 
     setIncomeStatementOptions({ options: selectionOptions });
     setIncomeStatementData(data);
@@ -380,13 +385,11 @@ const Company: React.FC<{}> = (props: any) => {
   const handleBalanceSheetTypeSelectionChange = async (options: SelectionOptions) => {
     const selectionOptions: any[] = await company.getBalanceSheetOptions(companyId, options.type);
     setBalanceSheetOptions({ options: selectionOptions });
-    alert('entrou aqui');
   }
 
   const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
     const data = await company.getBalanceSheetData(companyId, options);
     setBalanceSheetData(data);
-    alert('entrou aqui');
   }
 
   const handleCashFlowTypeSelectionChange = async (options: SelectionOptions) => {
