@@ -28,7 +28,7 @@ interface FinancialReportTableOptions {
     data: TableContent;
     selectionOptions: SelectOptions;
     onPeriodSelectionChange: (options: SelectionOptions) => {};
-    onTypeSelectionChange: (options: SelectionOptions) => {};
+    onTypeSelectionChange: (type: string) => {};
 }
 
 const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, onPeriodSelectionChange, onTypeSelectionChange }) => {
@@ -43,7 +43,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
 
     const [tableData, setTableData] = useState<TableContent>();
     const [selectOptions, setselectOptions] = useState<SelectOptions>();
-    const [type, setType] = useState<string>(financialReportsOptions[0].value);
+    const [type, setType] = useState<string>(financialReportsOptions[1].value);
     const [yearFrom, setYearFrom] = useState<string>("");
     const [yearTo, setYearTo] = useState<string>("");
 
@@ -54,14 +54,10 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
 
     useEffect(() => {
         setselectOptions(selectionOptions);
-        setYearFrom(selectionOptions?.options[selectionOptions.options.length - 1]?.value);
-        setYearTo(selectionOptions?.options[0]?.value);
-    }, [selectionOptions]);
-
-    useEffect(() => {
-        setYearFrom(selectionOptions?.options[selectionOptions.options.length - 1]?.value);
-        setYearTo(selectionOptions?.options[0]?.value);
-    }, [type]);
+        const lastAvailableYear = selectionOptions?.options[0]?.value;
+        setYearFrom(lastAvailableYear);
+        setYearTo(lastAvailableYear);
+    }, [selectionOptions, type]);
 
     const buildTableComponents = (data: any): TableContent => {
         if (!data) {
@@ -116,13 +112,8 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
     const handleTypeClick = (event: any) => {
         const newType = event.target.value;
         setType(newType);
-        console.log(yearFrom, yearTo);
 
-        onTypeSelectionChange({
-            type: newType,
-            yearFrom: yearFrom,
-            yearTo: yearTo
-        });
+        onTypeSelectionChange(newType);
     }
 
     const handleYearFromClick = (event: any) => {
