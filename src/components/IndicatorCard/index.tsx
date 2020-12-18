@@ -72,8 +72,10 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
       backgroundColor: indicatorData.map(d => d.color.backgroundColor),
       hoverBackgroundColor: indicatorData.map(d => d.color.hoverBackgroundColor),
       borderWidth: 0.5,
-      maxBarThickness: 10,
-      fill: false,
+      maxBarThickness: 20,
+      barThickness: 15,
+      spanGaps: false,
+      fill: true,
     }]
   }
 
@@ -115,7 +117,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
               display: true,
               color: 'transparent',
               zeroLineWidth: 0.8,
-              zeroLineColor: 'rgba(100, 100, 100, 0.40)',
+              zeroLineColor: 'rgba(88, 99, 99, 0.40)',
               offsetGridLines: false,
             },
           }

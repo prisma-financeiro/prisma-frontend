@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export const Container = styled.div`
   ${({ theme }) => css`    
     // background: ${theme.colors.darkGrey};
-    background: linear-gradient(to top, #232526, #414345);
+    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
     width: 100%;
     border-radius: ${theme.radio.default};   
     padding: ${theme.spacing.default};
@@ -52,15 +52,9 @@ export const CompaniesCount = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     padding-top: 2rem;
-
-    > p {
-      font-weight: 400;
-      color: ${theme.colors.primary};
-      font-size: ${theme.fontSizes.xlarge};
-    }
   `}
 `
 

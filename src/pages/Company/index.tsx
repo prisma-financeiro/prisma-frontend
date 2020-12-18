@@ -520,19 +520,19 @@ const Company: React.FC<{}> = (props: any) => {
                   <SegmentCard
                     id={1}
                     title={"Setor"}
-                    description={companyInfo?.segment.segment.subsector.sector.description}
+                    description={companyInfo?.segment?.segment.subsector.sector.description}
                     companyCount={23}
                   />
                   <SegmentCard
                     id={1}
                     title={"Sub-Setor"}
-                    description={companyInfo?.segment.segment.subsector.description}
+                    description={companyInfo?.segment?.segment.subsector.description}
                     companyCount={12}
                   />
                   <SegmentCard
                     id={1}
                     title={"Segmento"}
-                    description={companyInfo?.segment.segment.description}
+                    description={companyInfo?.segment?.segment.description}
                     companyCount={5}
                   />
                 </SectorContainer>
