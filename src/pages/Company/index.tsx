@@ -145,7 +145,7 @@ const Company: React.FC<{}> = (props: any) => {
 
     if (backendAtivo) {
       company.getCompany(companyId).then(data => {
-        setCompanyInfo(data);
+        setCompanyInfo(data as any);
       });
 
       company.getTickerPrice(ticker).then(data => {
@@ -165,22 +165,25 @@ const Company: React.FC<{}> = (props: any) => {
         setIndicatorInfo(indicator);
       })
 
-      company.getIncomeStatementOptions(companyId, "ANUAL")
+      company.getIncomeStatementOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setIncomeStatementOptions({ options: data }));
 
-      company.getIncomeStatementData(companyId, "ANUAL", "2018", "2019")
+        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      company.getIncomeStatementData(companyId, "TRIMESTRE", "2020", "2020")
         .then((data) => setIncomeStatementData(data));
 
-      company.getBalanceSheetOptions(companyId, "ANUAL")
+      company.getBalanceSheetOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setBalanceSheetOptions({ options: data }));
 
-      company.getBalanceSheetData(companyId, { type: "ANUAL", yearFrom: 2018, yearTo: 2019 })
+        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      company.getBalanceSheetData(companyId, 'TRIMESTRE', '2020', '2020')
         .then((data) => setBalanceSheetData(data));
 
-      company.getCashFlowOptions(companyId, "ANUAL")
+      company.getCashFlowOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
 
-      company.getCashFlowData(companyId, { type: "ANUAL", yearFrom: 2018, yearTo: 2019 })
+        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      company.getCashFlowData(companyId, "TRIMESTRE", '2020', '2020')
         .then((data) => setCashFlowData(data));
 
     } else {
@@ -363,16 +366,8 @@ const Company: React.FC<{}> = (props: any) => {
 
   const stockPrice = getStockPrice();
 
-  const handleIncomeStatementTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions = await company.getIncomeStatementOptions(companyId, options.type);
-    const data = await company.getIncomeStatementData(
-      companyId,
-      options.type,
-      selectionOptions[selectionOptions.length - 1].value,
-      selectionOptions[0].value
-    );
-
-    setIncomeStatementOptions({ options: selectionOptions });
+  const handleIncomeStatementTypeSelectionChange = async (type: string) => {
+    const data = await company.getIncomeStatementData(companyId, type);
     setIncomeStatementData(data);
   }
 
@@ -381,24 +376,23 @@ const Company: React.FC<{}> = (props: any) => {
     setIncomeStatementData(data);
   }
 
-
-  const handleBalanceSheetTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions: any[] = await company.getBalanceSheetOptions(companyId, options.type);
-    setBalanceSheetOptions({ options: selectionOptions });
-  }
-
-  const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getBalanceSheetData(companyId, options);
+  const handleBalanceSheetTypeSelectionChange = async (type: string) => {
+    const data = await company.getBalanceSheetData(companyId, type);
     setBalanceSheetData(data);
   }
 
-  const handleCashFlowTypeSelectionChange = async (options: SelectionOptions) => {
-    const selectionOptions = await company.getCashFlowOptions(companyId, options.type);
-    setCashFlowOptions({ options: selectionOptions });
+  const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
+    const data = await company.getBalanceSheetData(companyId, options.type, options.yearFrom, options.yearTo);
+    setBalanceSheetData(data);
+  }
+
+  const handleCashFlowTypeSelectionChange = async (type: string) => {
+    const data = await company.getCashFlowData(companyId, type);
+    setCashFlowData(data);
   }
 
   const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getCashFlowData(companyId, options);
+    const data = await company.getCashFlowData(companyId, options.type, options.yearFrom, options.yearTo);
     setCashFlowData(data);
   }
 
@@ -495,7 +489,7 @@ const Company: React.FC<{}> = (props: any) => {
                 data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
                 selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
-                onTypeSelectionChange={(options) => handleIncomeStatementTypeSelectionChange(options)}
+                onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
               />
             </Card>
             <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
@@ -503,7 +497,7 @@ const Company: React.FC<{}> = (props: any) => {
                 data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
                 selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
-                onTypeSelectionChange={(options) => handleBalanceSheetTypeSelectionChange(options)}
+                onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
               />
             </Card>
             <Card anchor={fluxoCaixa} title="Fluxo de Caixa" size={CardSizes.large}>
@@ -511,7 +505,7 @@ const Company: React.FC<{}> = (props: any) => {
                 data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
                 selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
-                onTypeSelectionChange={(options) => handleCashFlowTypeSelectionChange(options)}
+                onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
               />
             </Card>
             <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>

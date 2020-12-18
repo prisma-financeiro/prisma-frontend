@@ -69,7 +69,7 @@ export const getCompany = (id: number) => {
                 totalStockQuantity: companyInfo.totalStockQuantity,
                 segment: companyInfo.segment,
             }
-        });
+        }).catch(err => console.log(err));
 }
 
 export const getTickerPrice = (ticker: string) => {
@@ -85,7 +85,7 @@ export const getCompanyIndicator = async (companyId: number) => {
         .then(res => res.data.content);
 }
 
-export const getIncomeStatementData = async (companyId: number, type: string, yearFrom: string, yearTo: string) => {
+export const getIncomeStatementData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
     return api
         .get(`api/v1/company/${companyId}/incomestatement`, {
             params: {
@@ -107,11 +107,13 @@ export const getIncomeStatementOptions = async (companyId: number, type: string)
         .then(res => res.data.content);
 }
 
-export const getBalanceSheetData = async (companyId: number, options: any) => {
+export const getBalanceSheetData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
     return api
         .get(`api/v1/company/${companyId}/balancesheet`, {
             params: {
-                ...options
+                type,
+                yearFrom,
+                yearTo
             }
         })
         .then(res => res.data.content);
@@ -128,11 +130,13 @@ export const getBalanceSheetOptions = async (companyId: number, type: string) =>
         .then(res => res.data.content);
 }
 
-export const getCashFlowData = async (companyId: number, options: any) => {
+export const getCashFlowData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
     return api
         .get(`api/v1/company/${companyId}/cashflow`, {
             params: {
-                ...options
+                type,
+                yearFrom,
+                yearTo
             }
         })
         .then(res => res.data.content);
