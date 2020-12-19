@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, Title, CompaniesCount, Description, CountWrapper, Count, CountSubtitle } from './styles';
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { Container, Title, Description, CountWrapper, Count, CountSubtitle } from './styles';
 
 interface SegmentCardProps {
-  id: number;
   title: string;
   description: string;
   companyCount: number;
+  onClick?: (event: any) => any;
 }
 
-const SegmentCard: React.FC<SegmentCardProps> = ({ id, title, description, companyCount, children }) => {
-  const [segmentId, setSegmentId] = useState<number>(id);
+const SegmentCard: React.FC<SegmentCardProps> = ({ title, description, companyCount, onClick, children }) => {
 
   return (
-    <Container>
+    <Container onClick={(event) => onClick ? onClick(event) : null}>
       <Description>
         {description}
       </Description>

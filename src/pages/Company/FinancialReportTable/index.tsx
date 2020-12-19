@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Selection, { SelectOptions } from '../../../components/Selection';
 import Table from '../../../components/Table';
-import { formatCurrencyCompact } from '../../../utils';
+import { formatCurrencyCompact, formatCurrency } from '../../../utils';
 
 import {
     TableColumnHeader,
@@ -79,12 +79,12 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                     const attrValue: any = row[attr];
 
                     if (attr === firstTableColumnIndex) {
-                        formatedRow[attr] = <TableAccountName root={attrValue.root}>{attrValue.description} (R$)</TableAccountName>;
+                        formatedRow[attr] = <TableAccountName root={attrValue.root}>{attrValue.description}</TableAccountName>;
                     } else {
                         if (attrValue.type === 'value') {
                             formatedRow[attr] = (
                                 <TableColumnValue>
-                                    {formatCurrencyCompact(Number(attrValue.data))}
+                                    {formatCurrency(Number(attrValue.data))}
                                 </TableColumnValue>
                             )
                         } else if (attrValue.type === 'percentual') {

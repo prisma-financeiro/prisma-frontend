@@ -9,8 +9,6 @@ import {
 } from './styles';
 
 import BarChart from '../BarChart';
-import useAppTheme from '../../contexts/theme';
-import * as themes from '../../styles/themes';
 
 interface IndicatorCardProps {
   indicatorName: string;
@@ -18,51 +16,23 @@ interface IndicatorCardProps {
   chartData?: Array<any>;
 }
 
-export const fakeIndicatorYear = {
-  "cache": false,
-  "content": [
-    {
-      "value": "15.0500000000",
-      "year": 2019
-    },
-    {
-      "value": "23.8300000000",
-      "year": 2018
-    },
-    {
-      "value": "-4.0400000000",
-      "year": 2017
-    },
-    {
-      "value": "6.0400000000",
-      "year": 2016
-    },
-    {
-      "value": "12.5600000000",
-      "year": 2015
-    }
-  ]
-}
-
-const formatChartData = (data: Array<any>) => {
-  return data.map(item => {
-    return {
-      ...item,
-      color: {
-        backgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 0.35)' : 'rgba(300, 10, 10, 0.35)',
-        hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
-        borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
-      }
-
-    }
-  }).reverse();
-}
-
 const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData }) => {
-  const indicatorData = chartData ? formatChartData(chartData) : [];
 
-  const { currentTheme } = useAppTheme();
-  const theme = themes[currentTheme];
+  const formatChartData = (data: Array<any>) => {
+    return data.map(item => {
+      return {
+        ...item,
+        color: {
+          backgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 0.35)' : 'rgba(300, 10, 10, 0.35)',
+          hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
+          borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
+        }
+
+      }
+    }).reverse();
+  }
+
+  const indicatorData = chartData ? formatChartData(chartData) : [];
 
   const data: Chart.ChartData = {
     labels: indicatorData.map(d => d.year),

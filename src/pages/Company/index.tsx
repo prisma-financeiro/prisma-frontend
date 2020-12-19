@@ -13,7 +13,10 @@ import {
   Interval,
   IntervalItem,
   CardContainer,
-  SectorContainer,
+  InfoContainer,
+  InfoCard,
+  InfoCardTitle,
+  InfoCardValue,
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -27,6 +30,7 @@ import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
 import StockPrice from '../../components/StockPrice';
+import { formatStandard, formatCurrency } from "../../utils";
 
 import { company } from "../../services";
 
@@ -69,8 +73,10 @@ const cotacaoFake = [
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
 interface CompanyInfo {
+  cnpj: string;
   name: string;
   logo: string;
+  foundationDate: string;
   addressType: string;
   address: string;
   district: string;
@@ -96,6 +102,8 @@ interface CompanyInfo {
   auditorCnpj: string;
   auditorName: string;
   capitalAmount: number;
+  ordinaryStockQuantity: number,
+  preferredStockQuantity: number,
   totalStockQuantity: number;
   segment: any;
 }
@@ -109,7 +117,7 @@ interface TickePrice {
 
 const Company: React.FC<{}> = (props: any) => {
   let ticker = props.match.params.ticker;
-  let companyId: number;
+  let companyId: number = 0;
 
   const backendAtivo = !!props.location.search; // temporario para o herr Klotz poder abrir a pagina
 
@@ -137,6 +145,7 @@ const Company: React.FC<{}> = (props: any) => {
   const dre = useRef(null);
   const balancoPatrimonial = useRef(null);
   const fluxoCaixa = useRef(null);
+  const mercadoAtuacao = useRef(null);
   const dadosGerais = useRef(null);
   const contato = useRef(null);
   const noticiasEmpresa = useRef(null);
@@ -168,28 +177,30 @@ const Company: React.FC<{}> = (props: any) => {
       company.getIncomeStatementOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setIncomeStatementOptions({ options: data }));
 
-        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
       company.getIncomeStatementData(companyId, "TRIMESTRE", "2020", "2020")
         .then((data) => setIncomeStatementData(data));
 
       company.getBalanceSheetOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setBalanceSheetOptions({ options: data }));
 
-        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
       company.getBalanceSheetData(companyId, 'TRIMESTRE', '2020', '2020')
         .then((data) => setBalanceSheetData(data));
 
       company.getCashFlowOptions(companyId, "TRIMESTRE")
         .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
 
-        //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
       company.getCashFlowData(companyId, "TRIMESTRE", '2020', '2020')
         .then((data) => setCashFlowData(data));
 
     } else {
       const companyInfo: CompanyInfo = {
+        cnpj: "",
         name: companyFakeData.content.name,
         logo: companyFakeData.content.logo,
+        foundationDate: "",
         addressType: companyFakeData.content.addressType,
         address: companyFakeData.content.address,
         district: companyFakeData.content.district,
@@ -215,6 +226,8 @@ const Company: React.FC<{}> = (props: any) => {
         auditorCnpj: companyFakeData.content.auditorCnpj,
         auditorName: companyFakeData.content.auditorName,
         capitalAmount: Number(companyFakeData.content.capitalAmount),
+        ordinaryStockQuantity: 192,
+        preferredStockQuantity: 12332,
         totalStockQuantity: Number(companyFakeData.content.totalStockQuantity),
         segment: companyFakeData.content.segment,
       }
@@ -325,6 +338,12 @@ const Company: React.FC<{}> = (props: any) => {
       title: 'Sobre a Empresa',
       items: [
         {
+          name: 'Mercado de atuação',
+          icon: <FiGlobe />,
+          expand: false,
+          onClick: () => scrollTo(mercadoAtuacao),
+        },
+        {
           name: 'Dados Gerais',
           icon: <FiGlobe />,
           expand: false,
@@ -344,27 +363,7 @@ const Company: React.FC<{}> = (props: any) => {
         }
       ]
     }
-
   ];
-
-  const getStockPrice = () => {
-    return {
-      current: {
-        price: 17.55,
-        variationPercentage: 2.34,
-      },
-      maximalMonth: {
-        price: 19.74,
-        variationPercentage: 4.58,
-      },
-      minimalMonth: {
-        price: 12.09,
-        variationPercentage: -8.03,
-      }
-    }
-  }
-
-  const stockPrice = getStockPrice();
 
   const handleIncomeStatementTypeSelectionChange = async (type: string) => {
     const data = await company.getIncomeStatementData(companyId, type);
@@ -427,15 +426,15 @@ const Company: React.FC<{}> = (props: any) => {
               <ValueCard>
                 <Title>Máxima Mês</Title>
                 <StockPrice
-                  stockPrice={stockPrice.maximalMonth.price}
-                  variationPercentage={stockPrice.maximalMonth.variationPercentage}
+                  stockPrice={19.41}
+                  variationPercentage={1.5}
                 />
               </ValueCard>
               <ValueCard>
                 <Title>Mínima Mês</Title>
                 <StockPrice
-                  stockPrice={stockPrice.minimalMonth.price}
-                  variationPercentage={stockPrice.minimalMonth.variationPercentage}
+                  stockPrice={12.20}
+                  variationPercentage={-2.44}
                 />
               </ValueCard>
             </ValueContainer>
@@ -446,24 +445,28 @@ const Company: React.FC<{}> = (props: any) => {
           </HeaderContainer>
           <CardContainer>
             <CompanyIndicatorCard
+              companyId={companyId}
               anchor={valuation}
               title="Valuation"
               indicatorData={indicatorInfo ? indicatorInfo.valuation : []}
               indicatorSelectionOptions={[]}
             />
             <CompanyIndicatorCard
+              companyId={companyId}
               anchor={rentabilidade}
               title="Rentabilidade"
               indicatorData={indicatorInfo ? indicatorInfo.rentabilidade : []}
               indicatorSelectionOptions={indicatorList.content.rentabilidade}
             />
             <CompanyIndicatorCard
+              companyId={companyId}
               anchor={eficiencia}
               title="Eficiência"
               indicatorData={indicatorInfo ? indicatorInfo.eficiencia : []}
               indicatorSelectionOptions={indicatorList.content.eficiencia}
             />
             <CompanyIndicatorCard
+              companyId={companyId}
               anchor={endividamento}
               title="Endividamento"
               indicatorData={indicatorInfo ? indicatorInfo.endividamento : []}
@@ -508,36 +511,93 @@ const Company: React.FC<{}> = (props: any) => {
                 onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
               />
             </Card>
-            <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
+            <Card anchor={mercadoAtuacao} title="Mercado de Atuação" size={CardSizes.large}>
               <AnimatedCard>
-                <SectorContainer>
+                <InfoContainer>
                   <SegmentCard
-                    id={1}
                     title={"Setor"}
                     description={companyInfo?.segment?.segment.subsector.sector.description}
                     companyCount={23}
                   />
                   <SegmentCard
-                    id={1}
                     title={"Sub-Setor"}
                     description={companyInfo?.segment?.segment.subsector.description}
                     companyCount={12}
                   />
                   <SegmentCard
-                    id={1}
                     title={"Segmento"}
                     description={companyInfo?.segment?.segment.description}
                     companyCount={5}
                   />
-                </SectorContainer>
-                <Divider />
-                {/* <Card title="Localização" size={CardSizes.small}>
-                  <p>{companyInfo?.address}</p>
-                  <p>{companyInfo?.addressType}</p>
-                  <p>{companyInfo?.city}</p>
-                  <p>{companyInfo?.country}</p>
-                  <p>{companyInfo?.district}</p>
-                </Card> */}
+                </InfoContainer>
+              </AnimatedCard>
+            </Card>
+            <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
+              <AnimatedCard>
+                <InfoContainer>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      CNPJ
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Data de Fundação
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Capital
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo ? formatCurrency(companyInfo.capitalAmount) : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                </InfoContainer>
+                <InfoContainer>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Ações Ordinárias (ON)
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Ações Preferências (PN)
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Total de Papeis
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <p>
+                        {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
+                      </p>
+                    </InfoCardValue>
+                  </InfoCard>
+                </InfoContainer>
               </AnimatedCard>
             </Card>
             <Card anchor={contato} title="Contato" size={CardSizes.large}>

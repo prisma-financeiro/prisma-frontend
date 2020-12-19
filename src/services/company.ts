@@ -2,8 +2,10 @@ import api from "./api";
 
 
 interface CompanyInfo {
+    cnpj: string;
     name: string;
     logo: string;
+    foundationDate: string;
     addressType: string;
     address: string;
     district: string;
@@ -29,6 +31,8 @@ interface CompanyInfo {
     auditorCnpj: string;
     auditorName: string;
     capitalAmount: number;
+    ordinaryStockQuantity: number,
+    preferredStockQuantity: number,
     totalStockQuantity: number;
     segment: any;
 }
@@ -37,10 +41,12 @@ export const getCompany = (id: number) => {
     return api
         .get(`api/v1/company/${id}`)
         .then(res => {
-            const companyInfo = res.data.content;
+            const companyInfo: CompanyInfo = res.data.content;
             return {
+                cnpj: companyInfo.cnpj,
                 name: companyInfo.name,
                 logo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
+                foundationDate: companyInfo.foundationDate,
                 addressType: companyInfo.addressType,
                 address: companyInfo.address,
                 district: companyInfo.district,
@@ -67,6 +73,8 @@ export const getCompany = (id: number) => {
                 auditorName: companyInfo.auditorName,
                 capitalAmount: companyInfo.capitalAmount,
                 totalStockQuantity: companyInfo.totalStockQuantity,
+                ordinaryStockQuantity: companyInfo.ordinaryStockQuantity,
+                preferredStockQuantity: companyInfo.preferredStockQuantity,
                 segment: companyInfo.segment,
             }
         }).catch(err => console.log(err));
@@ -150,5 +158,18 @@ export const getCashFlowOptions = async (companyId: number, type: string) => {
                 type
             }
         })
+        .then(res => res.data.content);
+}
+
+export const getYearIndicator = async (companyId: number, indicatorName: string) => {
+    return api
+        .get(`api/v1/company/${companyId}/yearindicator?indicator=${indicatorName}`)
+        .then(res => res.data.content);
+}
+
+
+export const getQuarterIndicator = async (companyId: number, indicatorName: string) => {
+    return api
+        .get(`api/v1/company/${companyId}/quarterindicator?indicator=${indicatorName}`)
         .then(res => res.data.content);
 }

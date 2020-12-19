@@ -14,20 +14,20 @@ export const AnimatedCard = styled(motion.article)`
 export const TableColumnHeader = styled.p`  
   ${({ theme }) => css`
     text-align: right;
-    min-width: 8rem;
+    min-width: 6rem;
   `}
 `;
 
 export const TableColumnValue = styled.p`  
   ${({ theme }) => css`
     text-align: right;
-    min-width: 8rem;
+    min-width: 12rem;
   `}
 `;
 
 
 interface TableColumnPercentualProps {
-    percentual: number;
+  percentual: number;
 }
 
 export const TableColumnPercentual = styled.p`  
@@ -41,7 +41,7 @@ export const TableColumnPercentual = styled.p`
 
 
 interface TableAccountNameProps {
-    root: number;
+  root: number;
 }
 
 export const TableAccountName = styled.p`    

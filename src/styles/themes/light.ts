@@ -22,7 +22,8 @@ export default {
     default: '1.4rem',
     large: '1.6rem',
     xlarge: '2rem',
-    xxlarge: '5rem',
+    xxlarge: '3.5rem',
+    xxxlarge: '5rem',
   },
   spacing: {
     default: '1.6rem',
