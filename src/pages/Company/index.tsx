@@ -25,7 +25,7 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import Card, { CardSizes } from '../../components/Card';
 import { AnimatedCard } from './styles';
-import { companyFakeData, indicatorFake, indicatorList, incomeStatementTrimestre, balanceSheet, cashFlowTrimestre } from "./fakeData";
+import { indicatorList } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
@@ -40,7 +40,7 @@ import {
 
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { Divider } from '../../components/ContentDivider/styles';
+import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions } from './utils';
 
 const cotacaoFake = [
   { time: '2020-11-01', value: 11.34 },
@@ -72,42 +72,6 @@ const cotacaoFake = [
 
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
-interface CompanyInfo {
-  cnpj: string;
-  name: string;
-  logo: string;
-  foundationDate: string;
-  addressType: string;
-  address: string;
-  district: string;
-  city: string;
-  state: string;
-  country: string;
-  areaCode: string;
-  phoneNumber: number;
-  email: string;
-  officerType: string;
-  officerName: string;
-  officerSince: string;
-  officerAddress: string;
-  officerAddressComplement: string;
-  officerDistrict: string;
-  officerCity: string;
-  officerState: string;
-  officerCountry: string;
-  officerZipCode: string;
-  officerAreaCode: string;
-  officerPhoneNumber: number;
-  officerEmail: string;
-  auditorCnpj: string;
-  auditorName: string;
-  capitalAmount: number;
-  ordinaryStockQuantity: number,
-  preferredStockQuantity: number,
-  totalStockQuantity: number;
-  segment: any;
-}
-
 interface TickePrice {
   price: number;
   variationValue: number;
@@ -115,17 +79,20 @@ interface TickePrice {
   priceDate?: string;
 }
 
+enum PeriodType {
+  Year = "a",
+  Quarter = "t"
+}
+
 const Company: React.FC<{}> = (props: any) => {
   let ticker = props.match.params.ticker;
   let companyId: number = 0;
-
-  const backendAtivo = !!props.location.search; // temporario para o herr Klotz poder abrir a pagina
 
   if (props.location.search) {
     companyId = Number(String(props.location.search).substr(4));
   }
 
-  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
+  const [companyInfo, setCompanyInfo] = useState<company.CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
   const [indicatorInfo, setIndicatorInfo] = useState<any>();
 
@@ -152,109 +119,61 @@ const Company: React.FC<{}> = (props: any) => {
 
   useEffect(() => {
 
-    if (backendAtivo) {
-      company.getCompany(companyId).then(data => {
-        setCompanyInfo(data as any);
-      });
+    company.getCompany(companyId).then(data => {
+      setCompanyInfo(data as any);
+    });
 
-      company.getTickerPrice(ticker).then(data => {
-        const tickerPrice: TickePrice = {
-          price: data.price,
-          variationValue: data.variationValue,
-          variationPercentage: data.variationPercentage,
-          priceDate: data.priceDate,
-        }
-
-        setTickerPrice(tickerPrice);
-      })
-
-      company.getCompanyIndicator(companyId).then(data => {
-        const indicator = data;
-
-        setIndicatorInfo(indicator);
-      })
-
-      company.getIncomeStatementOptions(companyId, "TRIMESTRE")
-        .then((data: any[]) => data.length > 0 && setIncomeStatementOptions({ options: data }));
-
-      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
-      company.getIncomeStatementData(companyId, "TRIMESTRE", "2020", "2020")
-        .then((data) => setIncomeStatementData(data));
-
-      company.getBalanceSheetOptions(companyId, "TRIMESTRE")
-        .then((data: any[]) => data.length > 0 && setBalanceSheetOptions({ options: data }));
-
-      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
-      company.getBalanceSheetData(companyId, 'TRIMESTRE', '2020', '2020')
-        .then((data) => setBalanceSheetData(data));
-
-      company.getCashFlowOptions(companyId, "TRIMESTRE")
-        .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
-
-      //TODO: Remove the hardcoded years and let it fetch the last period from the backend
-      company.getCashFlowData(companyId, "TRIMESTRE", '2020', '2020')
-        .then((data) => setCashFlowData(data));
-
-    } else {
-      const companyInfo: CompanyInfo = {
-        cnpj: "",
-        name: companyFakeData.content.name,
-        logo: companyFakeData.content.logo,
-        foundationDate: "",
-        addressType: companyFakeData.content.addressType,
-        address: companyFakeData.content.address,
-        district: companyFakeData.content.district,
-        city: companyFakeData.content.city,
-        state: companyFakeData.content.state,
-        country: companyFakeData.content.country,
-        areaCode: companyFakeData.content.areaCode,
-        phoneNumber: companyFakeData.content.phoneNumber,
-        email: companyFakeData.content.email,
-        officerType: companyFakeData.content.officerType,
-        officerName: companyFakeData.content.officerName,
-        officerSince: companyFakeData.content.officerSince,
-        officerAddress: companyFakeData.content.officerAddress,
-        officerAddressComplement: companyFakeData.content.officerAddressComplement,
-        officerDistrict: companyFakeData.content.officerDistrict,
-        officerCity: companyFakeData.content.officerCity,
-        officerState: companyFakeData.content.officerState,
-        officerCountry: companyFakeData.content.officerCountry,
-        officerZipCode: companyFakeData.content.officerZipCode,
-        officerAreaCode: companyFakeData.content.officerAreaCode,
-        officerPhoneNumber: companyFakeData.content.officerPhoneNumber,
-        officerEmail: companyFakeData.content.officerEmail,
-        auditorCnpj: companyFakeData.content.auditorCnpj,
-        auditorName: companyFakeData.content.auditorName,
-        capitalAmount: Number(companyFakeData.content.capitalAmount),
-        ordinaryStockQuantity: 192,
-        preferredStockQuantity: 12332,
-        totalStockQuantity: Number(companyFakeData.content.totalStockQuantity),
-        segment: companyFakeData.content.segment,
-      }
-      setCompanyInfo(companyInfo);
-
+    company.getTickerPrice(ticker).then(data => {
       const tickerPrice: TickePrice = {
-        price: 15.23,
-        variationValue: 1.2,
-        variationPercentage: 5.3,
-        priceDate: "",
+        price: data.price,
+        variationValue: data.variationValue,
+        variationPercentage: data.variationPercentage,
+        priceDate: data.priceDate,
       }
-
-      companyId = 81;
 
       setTickerPrice(tickerPrice);
+    })
 
-      setIndicatorInfo(indicatorFake.content);
+    company.getCompanyIndicator(companyId).then(data => {
+      const indicator = data;
 
-      setIncomeStatementOptions({ options: [{ value: "2020", label: "2020" }] });
-      setIncomeStatementData(incomeStatementTrimestre.content);
+      setIndicatorInfo(indicator);
+    })
 
-      setBalanceSheetOptions({ options: [{ value: "2020", label: "2020" }, { value: "2019", label: "2019" }] });
-      setBalanceSheetData(balanceSheet.content);
+    company.getIncomeStatementOptions(companyId)
+      .then((data: any[]) => {
+        if (data.length > 0) {
+          const options = formatSelectOptions(data);
+          setIncomeStatementOptions({ options });
+        }
+      });
 
-      setCashFlowOptions({ options: [{ value: "2020", label: "2020" }] });
-      setCashFlowData(cashFlowTrimestre.content);
-    }
+    company.getIncomeStatementData(companyId)
+      .then((data) => {
+        const formatedTable = formatIncomeStatementTable(data, PeriodType.Quarter);
+        setIncomeStatementData(formatedTable);
+      });
+
+    company.getBalanceSheetOptions(companyId)
+      .then((data: any[]) => {
+        if (data.length > 0) {
+          const options = formatSelectOptions(data);
+          setBalanceSheetOptions({ options });
+        }
+      });
+
+    company.getBalanceSheetData(companyId)
+      .then((data) => {
+        const formatedTable = formatBalanceSheetTable(data, PeriodType.Quarter);
+        setBalanceSheetData(formatedTable);
+      });
+
+    company.getCashFlowOptions(companyId, "TRIMESTRE")
+      .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
+
+    //TODO: Remove the hardcoded years and let it fetch the last period from the backend
+    company.getCashFlowData(companyId, "TRIMESTRE", '2020', '2020')
+      .then((data) => setCashFlowData(data));
 
   }, [ticker]);
 
@@ -367,22 +286,26 @@ const Company: React.FC<{}> = (props: any) => {
 
   const handleIncomeStatementTypeSelectionChange = async (type: string) => {
     const data = await company.getIncomeStatementData(companyId, type);
-    setIncomeStatementData(data);
+    const formatedTable = formatIncomeStatementTable(data, type);
+    setIncomeStatementData(formatedTable);
   }
 
   const handleIncomeStatementPeriodSelectionChange = async (options: SelectionOptions) => {
     const data = await company.getIncomeStatementData(companyId, options.type, options.yearFrom, options.yearTo);
-    setIncomeStatementData(data);
+    const formatedTable = formatIncomeStatementTable(data, options.type);
+    setIncomeStatementData(formatedTable);
   }
 
   const handleBalanceSheetTypeSelectionChange = async (type: string) => {
     const data = await company.getBalanceSheetData(companyId, type);
-    setBalanceSheetData(data);
+    const formatedTable = formatBalanceSheetTable(data, type);
+    setBalanceSheetData(formatedTable);
   }
 
   const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
     const data = await company.getBalanceSheetData(companyId, options.type, options.yearFrom, options.yearTo);
-    setBalanceSheetData(data);
+    const formatedTable = formatBalanceSheetTable(data, options.type);
+    setBalanceSheetData(formatedTable);
   }
 
   const handleCashFlowTypeSelectionChange = async (type: string) => {
@@ -593,7 +516,7 @@ const Company: React.FC<{}> = (props: any) => {
                     </InfoCardTitle>
                     <InfoCardValue>
                       <p>
-                        {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
+                        {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
                       </p>
                     </InfoCardValue>
                   </InfoCard>
@@ -602,7 +525,45 @@ const Company: React.FC<{}> = (props: any) => {
             </Card>
             <Card anchor={contato} title="Contato" size={CardSizes.large}>
               <AnimatedCard>
-                <h1>Contato content</h1>
+                <InfoContainer>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Relação com investidores
+                    </InfoCardTitle>
+                    {
+                      companyInfo &&
+                        companyInfo.officerName ?
+                        <>
+                          <InfoCardValue>
+                            <p>
+                              {companyInfo.officerName}
+                            </p>
+                          </InfoCardValue>
+                          <InfoCardValue>
+                            <p>
+                              {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
+                            </p>
+                          </InfoCardValue>
+                        </>
+                        :
+                        <InfoCardValue>
+                          Não informado
+                        </InfoCardValue>
+                    }
+                  </InfoCard>
+                </InfoContainer>
+                <InfoContainer>
+                  <InfoCard>
+                    <InfoCardTitle>
+                      Site Oficial
+                    </InfoCardTitle>
+                    <InfoCardValue>
+                      <Button disabled={!companyInfo?.website} variant="primary" onClick={() => companyInfo && window.open(companyInfo.website)}>
+                        Ir para o site
+                      </Button>
+                    </InfoCardValue>
+                  </InfoCard>
+                </InfoContainer>
               </AnimatedCard>
             </Card>
             <Card anchor={noticiasEmpresa} title="Notícias sobra a Empresa" size={CardSizes.large}>

@@ -1,10 +1,10 @@
 import api from "./api";
 
-
-interface CompanyInfo {
+export interface CompanyInfo {
     cnpj: string;
     name: string;
     logo: string;
+    website: string;
     foundationDate: string;
     addressType: string;
     address: string;
@@ -41,11 +41,12 @@ export const getCompany = (id: number) => {
     return api
         .get(`api/v1/company/${id}`)
         .then(res => {
-            const companyInfo: CompanyInfo = res.data.content;
+            const companyInfo: CompanyInfo = res.data.data;
             return {
                 cnpj: companyInfo.cnpj,
                 name: companyInfo.name,
                 logo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
+                website: companyInfo.website,
                 foundationDate: companyInfo.foundationDate,
                 addressType: companyInfo.addressType,
                 address: companyInfo.address,
@@ -83,59 +84,51 @@ export const getCompany = (id: number) => {
 export const getTickerPrice = (ticker: string) => {
     return api
         .get(`api/v1/ticker/${ticker}`)
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }
 
 
 export const getCompanyIndicator = async (companyId: number) => {
     return api
         .get(`api/v1/company/${companyId}/indicator`)
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }
 
-export const getIncomeStatementData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
+export const getIncomeStatementData = async (companyId: number, type?: string, from?: string, to?: string) => {
     return api
         .get(`api/v1/company/${companyId}/incomestatement`, {
             params: {
                 type,
-                yearFrom,
-                yearTo
+                from,
+                to
             }
         })
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }
 
-export const getIncomeStatementOptions = async (companyId: number, type: string) => {
+export const getIncomeStatementOptions = async (companyId: number) => {
     return api
-        .get(`api/v1/company/${companyId}/incomestatement/history`, {
-            params: {
-                type
-            }
-        })
-        .then(res => res.data.content);
+        .get(`api/v1/company/${companyId}/incomestatement/history`)
+        .then(res => res.data.data);
 }
 
-export const getBalanceSheetData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
+export const getBalanceSheetData = async (companyId: number, type?: string, from?: string, to?: string) => {
     return api
         .get(`api/v1/company/${companyId}/balancesheet`, {
             params: {
                 type,
-                yearFrom,
-                yearTo
+                from,
+                to
             }
         })
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 
 }
 
-export const getBalanceSheetOptions = async (companyId: number, type: string) => {
+export const getBalanceSheetOptions = async (companyId: number) => {
     return api
-        .get(`api/v1/company/${companyId}/balancesheet/history`, {
-            params: {
-                type
-            }
-        })
-        .then(res => res.data.content);
+        .get(`api/v1/company/${companyId}/balancesheet/history`)
+        .then(res => res.data.data);
 }
 
 export const getCashFlowData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
@@ -147,7 +140,7 @@ export const getCashFlowData = async (companyId: number, type: string, yearFrom?
                 yearTo
             }
         })
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 
 }
 
@@ -158,18 +151,18 @@ export const getCashFlowOptions = async (companyId: number, type: string) => {
                 type
             }
         })
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }
 
 export const getYearIndicator = async (companyId: number, indicatorName: string) => {
     return api
         .get(`api/v1/company/${companyId}/yearindicator?indicator=${indicatorName}`)
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }
 
 
 export const getQuarterIndicator = async (companyId: number, indicatorName: string) => {
     return api
         .get(`api/v1/company/${companyId}/quarterindicator?indicator=${indicatorName}`)
-        .then(res => res.data.content);
+        .then(res => res.data.data);
 }

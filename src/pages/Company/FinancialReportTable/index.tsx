@@ -34,8 +34,8 @@ interface FinancialReportTableOptions {
 const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, onPeriodSelectionChange, onTypeSelectionChange }) => {
 
     const financialReportsOptions = [
-        { value: "ANUAL", label: "Anual" },
-        { value: "TRIMESTRE", label: "Trimestre" },
+        { value: "a", label: "Anual" },
+        { value: "t", label: "Trimestre" },
     ];
 
     const firstTableColumnIndex = "0";
