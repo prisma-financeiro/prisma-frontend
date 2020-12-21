@@ -4,8 +4,8 @@ import { Container, Title, Description, CountWrapper, Count, CountSubtitle } fro
 
 interface SegmentCardProps {
   title: string;
-  description: string;
-  companyCount: number;
+  description?: string;
+  companyCount?: number;
   onClick?: (event: any) => any;
 }
 
@@ -14,7 +14,7 @@ const SegmentCard: React.FC<SegmentCardProps> = ({ title, description, companyCo
   return (
     <Container onClick={(event) => onClick ? onClick(event) : null}>
       <Description>
-        {description}
+        {description ? description : "Não Informado"}
       </Description>
       <Title>
         {title}
@@ -24,7 +24,7 @@ const SegmentCard: React.FC<SegmentCardProps> = ({ title, description, companyCo
           {companyCount}
         </Count>
         <CountSubtitle>
-          {'Empresas'}
+          {companyCount ? "Empresas" : ""}
         </CountSubtitle>
       </CountWrapper>
     </Container>

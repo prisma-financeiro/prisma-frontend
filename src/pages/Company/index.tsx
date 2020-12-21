@@ -40,7 +40,7 @@ import {
 
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions } from './utils';
+import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable } from './utils';
 
 const cotacaoFake = [
   { time: '2020-11-01', value: 11.34 },
@@ -168,12 +168,19 @@ const Company: React.FC<{}> = (props: any) => {
         setBalanceSheetData(formatedTable);
       });
 
-    company.getCashFlowOptions(companyId, "TRIMESTRE")
-      .then((data: any[]) => data.length > 0 && setCashFlowOptions({ options: data }));
+    company.getCashFlowOptions(companyId)
+      .then((data: any[]) => {
+        if (data.length > 0) {
+          const options = formatSelectOptions(data);
+          setCashFlowOptions({ options });
+        }
+      });
 
-    //TODO: Remove the hardcoded years and let it fetch the last period from the backend
-    company.getCashFlowData(companyId, "TRIMESTRE", '2020', '2020')
-      .then((data) => setCashFlowData(data));
+    company.getCashFlowData(companyId)
+      .then((data) => {
+        const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
+        setCashFlowData(formatedTable);
+      });
 
   }, [ticker]);
 
@@ -234,7 +241,7 @@ const Company: React.FC<{}> = (props: any) => {
       title: 'Relatórios Financeiros',
       items: [
         {
-          name: 'DRE',
+          name: 'Demonstração de Resultado',
           icon: <FiGlobe />,
           expand: false,
           onClick: () => scrollTo(dre),
@@ -310,12 +317,14 @@ const Company: React.FC<{}> = (props: any) => {
 
   const handleCashFlowTypeSelectionChange = async (type: string) => {
     const data = await company.getCashFlowData(companyId, type);
-    setCashFlowData(data);
+    const formatedTable = formatCashFlowTable(data, type);
+    setCashFlowData(formatedTable);
   }
 
   const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
     const data = await company.getCashFlowData(companyId, options.type, options.yearFrom, options.yearTo);
-    setCashFlowData(data);
+    const formatedTable = formatCashFlowTable(data, options.type);
+    setCashFlowData(formatedTable);
   }
 
   return (
@@ -370,32 +379,32 @@ const Company: React.FC<{}> = (props: any) => {
             <CompanyIndicatorCard
               companyId={companyId}
               anchor={valuation}
-              title="Valuation"
+              title="Indicadores - Valuation"
               indicatorData={indicatorInfo ? indicatorInfo.valuation : []}
               indicatorSelectionOptions={[]}
             />
             <CompanyIndicatorCard
               companyId={companyId}
               anchor={rentabilidade}
-              title="Rentabilidade"
+              title="Indicadores - Rentabilidade"
               indicatorData={indicatorInfo ? indicatorInfo.rentabilidade : []}
               indicatorSelectionOptions={indicatorList.content.rentabilidade}
             />
             <CompanyIndicatorCard
               companyId={companyId}
               anchor={eficiencia}
-              title="Eficiência"
+              title="Indicadores - Eficiência"
               indicatorData={indicatorInfo ? indicatorInfo.eficiencia : []}
               indicatorSelectionOptions={indicatorList.content.eficiencia}
             />
             <CompanyIndicatorCard
               companyId={companyId}
               anchor={endividamento}
-              title="Endividamento"
+              title="Indicadores - Endividamento"
               indicatorData={indicatorInfo ? indicatorInfo.endividamento : []}
               indicatorSelectionOptions={indicatorList.content.endividamento}
             />
-            <Card anchor={cotacao} title="Cotação" size={CardSizes.large}>
+            <Card anchor={cotacao} title="Histórico - Cotação" size={CardSizes.large}>
               <Interval>
                 {interval.map((item, index) => (<IntervalItem key={index}>{item}</IntervalItem>))}
               </Interval>
@@ -405,12 +414,12 @@ const Company: React.FC<{}> = (props: any) => {
                 />
               </AnimatedCard>
             </Card>
-            <Card anchor={proventos} title="Proventos" size={CardSizes.large}>
+            <Card anchor={proventos} title="Histórico - Proventos" size={CardSizes.large}>
               <AnimatedCard>
                 <h1>Proventos content</h1>
               </AnimatedCard>
             </Card>
-            <Card anchor={dre} title="Demontração de Resultado (DRE)" size={CardSizes.large}>
+            <Card anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={CardSizes.large}>
               <FinancialReportTable
                 data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
                 selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
@@ -418,7 +427,7 @@ const Company: React.FC<{}> = (props: any) => {
                 onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
               />
             </Card>
-            <Card anchor={balancoPatrimonial} title="Balanço Patrimonial" size={CardSizes.large}>
+            <Card anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={CardSizes.large}>
               <FinancialReportTable
                 data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
                 selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
@@ -426,7 +435,7 @@ const Company: React.FC<{}> = (props: any) => {
                 onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
               />
             </Card>
-            <Card anchor={fluxoCaixa} title="Fluxo de Caixa" size={CardSizes.large}>
+            <Card anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={CardSizes.large}>
               <FinancialReportTable
                 data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
                 selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
@@ -439,18 +448,18 @@ const Company: React.FC<{}> = (props: any) => {
                 <InfoContainer>
                   <SegmentCard
                     title={"Setor"}
-                    description={companyInfo?.segment?.segment.subsector.sector.description}
-                    companyCount={23}
+                    description={companyInfo?.segment?.description}
+                    companyCount={companyInfo?.segment?.companiesCount}
                   />
                   <SegmentCard
                     title={"Sub-Setor"}
-                    description={companyInfo?.segment?.segment.subsector.description}
-                    companyCount={12}
+                    description={companyInfo?.subsector?.description}
+                    companyCount={companyInfo?.subsector?.companiesCount}
                   />
                   <SegmentCard
                     title={"Segmento"}
-                    description={companyInfo?.segment?.segment.description}
-                    companyCount={5}
+                    description={companyInfo?.sector?.description}
+                    companyCount={companyInfo?.sector?.companiesCount}
                   />
                 </InfoContainer>
               </AnimatedCard>

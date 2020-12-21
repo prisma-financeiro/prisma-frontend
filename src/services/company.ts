@@ -34,7 +34,23 @@ export interface CompanyInfo {
     ordinaryStockQuantity: number,
     preferredStockQuantity: number,
     totalStockQuantity: number;
-    segment: any;
+    segment: {
+        id: number;
+        subSectorId: number;
+        description: string;
+        companiesCount: number;
+    },
+    subsector: {
+        id: number;
+        sectorId: number;
+        description: string;
+        companiesCount: number;
+    },
+    sector: {
+        id: number;
+        description: string;
+        companiesCount: number;
+    }
 }
 
 export const getCompany = (id: number) => {
@@ -77,6 +93,8 @@ export const getCompany = (id: number) => {
                 ordinaryStockQuantity: companyInfo.ordinaryStockQuantity,
                 preferredStockQuantity: companyInfo.preferredStockQuantity,
                 segment: companyInfo.segment,
+                subsector: companyInfo.subsector,
+                sector: companyInfo.sector,
             }
         }).catch(err => console.log(err));
 }
@@ -131,26 +149,21 @@ export const getBalanceSheetOptions = async (companyId: number) => {
         .then(res => res.data.data);
 }
 
-export const getCashFlowData = async (companyId: number, type: string, yearFrom?: string, yearTo?: string) => {
+export const getCashFlowData = async (companyId: number, type?: string, from?: string, to?: string) => {
     return api
         .get(`api/v1/company/${companyId}/cashflow`, {
             params: {
                 type,
-                yearFrom,
-                yearTo
+                from,
+                to
             }
         })
         .then(res => res.data.data);
-
 }
 
-export const getCashFlowOptions = async (companyId: number, type: string) => {
+export const getCashFlowOptions = async (companyId: number) => {
     return api
-        .get(`api/v1/company/${companyId}/cashflow/history`, {
-            params: {
-                type
-            }
-        })
+        .get(`api/v1/company/${companyId}/cashflow/history`)
         .then(res => res.data.data);
 }
 

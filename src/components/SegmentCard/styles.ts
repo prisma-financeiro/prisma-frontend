@@ -44,6 +44,7 @@ export const Description = styled.h2`
 
 export const CountWrapper = styled.div`
   ${({ theme }) => css`
+    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
