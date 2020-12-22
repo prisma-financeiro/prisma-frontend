@@ -21,6 +21,7 @@ export const IconContainer = styled(motion.button)`
     color: ${(props: IconProps) => props.color};
     background-color: transparent; 
     font-size: ${theme.fontSizes.xlarge};
+    align-self: flex-start;
 
     :hover {    
       color: ${theme.colors.primary};

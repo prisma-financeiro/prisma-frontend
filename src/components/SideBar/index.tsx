@@ -29,7 +29,7 @@ const SideBar: React.FC<SideBarProps> = ({ sideBarOptions }) => {
             <React.Fragment key={option.title}>
               {index > 0 && (<Divider />)}
               <p>{option.title}</p>
-              {option.items.map((item: SideBarItem) => (<Accordion key={item.name} icon={item.icon} sectionName={item.name} expand={item.expand} />))}
+              {option.items.map((item: SideBarItem) => (<Accordion key={item.name} icon={item.icon} sectionName={item.name} expand={item.expand} onClick={item.onClick} />))}
             </React.Fragment>
           )
         })

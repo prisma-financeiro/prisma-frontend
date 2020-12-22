@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const Container = styled.div`
   ${({ theme }) => css`
     position: relative;
-    background: linear-gradient(to top, #232526, #414345);
+    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
     width: 20rem;
     height: 15rem;
     border-radius: 5px;

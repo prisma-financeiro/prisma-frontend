@@ -1,12 +1,13 @@
 import styled, { css } from 'styled-components';
 import { ButtonHTMLAttributes } from 'react';
+import { motion } from 'framer-motion';
 
 interface TableStylingProps {
   showBottomBorder: boolean;
 }
 
-interface PaginationButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
-  isCurrentPage : boolean;
+interface PaginationButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isCurrentPage: boolean;
 }
 
 export const Container = styled.div`
@@ -17,7 +18,7 @@ export const Container = styled.div`
   `}
 `;
 
-export const StyledTable = styled.table<TableStylingProps>`
+export const StyledTable = styled(motion.table) <TableStylingProps>`
   ${({ theme, showBottomBorder }) => css`
     font-size: ${theme.fontSizes.default};
     border-collapse: collapse;

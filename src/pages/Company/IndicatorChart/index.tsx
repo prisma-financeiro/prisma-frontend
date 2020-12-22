@@ -12,23 +12,29 @@ export interface IndicatorData {
 }
 
 interface IndicatorChartOptions {
-    getIndicatorData: (indicator: string, displayOption: string) => Array<IndicatorData>;
+    data: any[];
     indicatorSelectionOptions: Array<Option>;
+    onChangeSelection: (indicatorName: string, type: string) => any;
 }
 
-const displayOptions = [
-    { value: "TRIMESTRAL", label: "TRIMESTRAL" },
-    { value: "ANUAL", label: "ANUAL" },
-];
+const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelectionOptions, onChangeSelection }) => {
 
-const IndicatorChart: React.FC<IndicatorChartOptions> = ({ getIndicatorData, indicatorSelectionOptions }) => {
+    const displayOptions = [
+        { value: "TRIMESTRAL", label: "Trimestral" },
+        { value: "ANUAL", label: "Anual" },
+    ];
 
-    const [selectedIndicator, setSelectedIndicator] = useState<string>(indicatorSelectionOptions[0].value);
-    const [selectedDisplayOption, setSelectedDisplayOption] = useState<string>(displayOptions[0].value);
-    const [indicatorsData, setIndicatorsData] = useState<Array<IndicatorData>>(getIndicatorData(selectedIndicator, selectedDisplayOption));
+    const [indicatorName, setIndicatorName] = useState<string>(indicatorSelectionOptions[0].value);
+    const [type, setType] = useState<string>(displayOptions[0].value);
+    const [indicatorData, setIndicatorData] = useState<Chart.ChartData>();
 
     const { currentTheme } = useAppTheme();
     const theme = themes[currentTheme];
+
+    useEffect(() => {
+        const chartData = getChartData(data);
+        setIndicatorData(chartData);
+    }, [data]);
 
     const chartOptions: Chart.ChartConfiguration = {
         type: 'bar',
@@ -65,42 +71,64 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ getIndicatorData, ind
         },
     }
 
+    const getChartData = (data: any): any => {
+        const formatedData = data.map((item: any) => {
+            return {
+                ...item,
+                color: {
+                    backgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 0.35)' : 'rgba(300, 10, 10, 0.35)',
+                    hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
+                    borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
+                }
 
-    useEffect(() => {
-        if (selectedIndicator && selectedDisplayOption) {
-            const currentData = getIndicatorData(selectedIndicator, selectedDisplayOption);
+            }
+        });
 
-            setIndicatorsData(currentData);
-        }
-    }, [selectedIndicator, selectedDisplayOption]);
-
-    const getData = (): any => {
         return {
-            labels: indicatorsData.map(d => d.label),
+            labels: formatedData ? formatedData.map((item: any) => item.label) : [],
             datasets: [{
-                data: indicatorsData.map(d => d.value),
-                borderColor: 'rgba(32, 226, 47, 1)',
-                backgroundColor: 'rgba(32, 226, 47, 0.56)',
-                hoverBackgroundColor: 'rgba(32, 226, 47, 0.40)',
+                data: formatedData ? formatedData.map((item: any) => item.value) : [],
+                borderColor: formatedData.map((item: any) => item.color.borderColor),
+                backgroundColor: formatedData.map((item: any) => item.color.backgroundColor),
+                hoverBackgroundColor: formatedData.map((item: any) => item.color.hoverBackgroundColor),
                 borderWidth: 1.5,
             }]
         }
+    }
+
+    const handleIndicatorChange = (event: any) => {
+        const newIndicatorName = event.target.value;
+        setIndicatorName(newIndicatorName);
+
+        onChangeSelection(newIndicatorName, type);
+    }
+
+    const handleTypeChange = (event: any) => {
+        const newType = event.target.value;
+        setType(newType);
+
+        onChangeSelection(indicatorName, newType);
     }
 
     return (
         <Container>
             <SelectContainer>
                 <Selection
+                    value={indicatorName}
                     options={indicatorSelectionOptions}
-                    onChange={(event) => setSelectedIndicator(event.target.value)} />
+                    onChange={(event) => handleIndicatorChange(event)} />
                 <Selection
+                    value={type}
                     options={displayOptions}
-                    onChange={(event) => setSelectedDisplayOption(event.target.value)} />
+                    onChange={(event) => handleTypeChange(event)} />
             </SelectContainer>
-            <BarChart
-                data={getData()}
-                options={chartOptions}
-            />
+            {
+                indicatorData &&
+                <BarChart
+                    data={indicatorData}
+                    options={chartOptions}
+                />
+            }
         </Container>
     );
 };

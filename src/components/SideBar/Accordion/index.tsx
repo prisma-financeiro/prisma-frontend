@@ -8,11 +8,12 @@ export type AccordionProps = {
   icon: React.ReactNode;
   sectionName: string;
   expand: boolean;
+  onClick?: () => {};
 };
 
-const Accordion = ({ icon, sectionName, expand }: AccordionProps) => {
+const Accordion = ({ icon, sectionName, expand, onClick }: AccordionProps) => {
   return (
-    <Container variant="transparent">
+    <Container onClick={onClick} variant="transparent">
       <div>{icon}</div>
       {sectionName}
       {expand ?? <FiChevronDown />}

@@ -6,7 +6,11 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 0 1.6rem;   
+  padding: 0 1.6rem;
+  
+  @media (max-width: 670px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 export const AnimatedWrapper = styled(motion.div)`  

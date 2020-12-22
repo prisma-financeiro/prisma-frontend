@@ -9,7 +9,7 @@ interface CardProps {
 export const AnimatedCard = styled(motion.div)`
   ${({ theme }) => css`
     background: ${theme.colors.background};
-    width: ${(props: CardProps) => props.size};
+    width: ${(props: CardProps) => props.size};    
     height: 100%;
     margin-top: 2rem;
     margin-bottom: 2rem;    
@@ -18,6 +18,10 @@ export const AnimatedCard = styled(motion.div)`
     box-shadow: ${theme.shadows.flat};
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 670px) {
+      width: 100%;
+    }
   `}
 `;
 
@@ -61,5 +65,9 @@ export const CardBody = styled(motion.article)`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    
+    @media (max-width: 670px) {
+      align-items: flex-start;
+    }
   `}
 `;

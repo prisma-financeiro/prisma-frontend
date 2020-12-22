@@ -16,6 +16,7 @@ export const AnimatedCard = styled(motion.article)`
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
   `}
 `;
@@ -118,12 +119,7 @@ export const ValueCard = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-
-    > p:last-child {
-      color: ${theme.colors.grey};
-      font-size: ${theme.fontSizes.small};
-    }
+    align-items: flex-start;    
   `}  
 `;
 
@@ -182,3 +178,59 @@ export const IntervalItem = styled.p`
     }
   `}
 `;
+
+export const InfoContainer = styled.div`
+  ${({ theme }) => css`
+    width: 100%;    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    @media (max-width: 670px) {
+      flex-direction: column;
+    }
+  `}  
+`;
+
+
+export const InfoCard = styled.div`
+  ${({ theme }) => css`    
+    // background: ${theme.colors.darkGrey};
+    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
+    width: 100%;
+    border-radius: ${theme.radio.default};   
+    padding: ${theme.spacing.default};
+    margin: ${theme.spacing.default};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (max-width: 670px) {
+      margin: 1rem 1rem 0 0;
+    }
+  `}  
+`;
+
+export const InfoCardValue = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+
+    > p {
+      font-weight: 600;
+      color: ${theme.colors.primary};
+      font-size: ${theme.fontSizes.xlarge};
+    }
+  `}
+`
+
+export const InfoCardTitle = styled.h2`
+  ${({ theme }) => css`
+      margin-bottom: 0.5rem;      
+      color: ${theme.colors.lightGrey};
+      font-size: ${theme.fontSizes.xlarge};
+  `}
+`

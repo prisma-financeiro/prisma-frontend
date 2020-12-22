@@ -14,14 +14,16 @@ export default {
     h1: '#505050',
     h2: '#505050',
     h3: '#505050',
-    a: '#00598a'
+    a: '#00598a',
   },
   fontSizes: {
     tiny: '1rem',
     small: '1.2rem',
     default: '1.4rem',
     large: '1.6rem',
-    xlarge: '2rem'
+    xlarge: '2rem',
+    xxlarge: '3.5rem',
+    xxxlarge: '5rem',
   },
   spacing: {
     default: '1.6rem',
