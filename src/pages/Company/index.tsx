@@ -40,35 +40,7 @@ import {
 
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable } from './utils';
-
-const cotacaoFake = [
-  { time: '2020-11-01', value: 11.34 },
-  { time: '2020-11-02', value: 11.89 },
-  { time: '2020-11-03', value: 11.05 },
-  { time: '2020-11-04', value: 10.34 },
-  { time: '2020-11-05', value: 11.52 },
-  { time: '2020-11-06', value: 12.87 },
-  { time: '2020-11-07', value: 12.56 },
-  { time: '2020-11-08', value: 13.49 },
-  { time: '2020-11-09', value: 14.01 },
-  { time: '2020-11-10', value: 14.22 },
-  { time: '2020-11-11', value: 15.99 },
-  { time: '2020-11-12', value: 17.48 },
-  { time: '2020-11-13', value: 16.42 },
-  { time: '2020-11-14', value: 17.63 },
-  { time: '2020-11-15', value: 17.04 },
-  { time: '2020-11-16', value: 12.23 },
-  { time: '2020-11-17', value: 12.56 },
-  { time: '2020-11-18', value: 9.45 },
-  { time: '2020-11-20', value: 8.88 },
-  { time: '2020-11-21', value: 9.41 },
-  { time: '2020-11-22', value: 5.52 },
-  { time: '2020-11-23', value: 4.46 },
-  { time: '2020-11-24', value: 12.28 },
-  { time: '2020-11-25', value: 13.88 },
-  { time: '2020-11-26', value: 14.52 },
-];
+import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory, StockPriceHistory } from './utils';
 
 const interval = ["30 Dias", "1 Ano", "5 Anos"];
 
@@ -98,6 +70,8 @@ const Company: React.FC<{}> = (props: any) => {
   const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: [] });
   const [cashFlowData, setCashFlowData] = useState<TableContent>();
   const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: [] });
+  const [stockPriceHistory, setStockPriceHistory] = useState<any[]>();
+  const [stockPriceInfo, setStockPriceInfo] = useState<any>();
 
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
@@ -128,6 +102,22 @@ const Company: React.FC<{}> = (props: any) => {
       }
 
       setTickerPrice(tickerPrice);
+    });
+
+    company.getTickerHistory(ticker, 180).then(data => {
+      console.log(data.historicalPrices);
+
+      const formatedData = formatStockPriceHistory(data.historicalPrices);
+      setStockPriceHistory(formatedData);
+
+      const stockInfo = {
+        variationValue: data.variationValue,
+        variationPercentage: data.variationPercentage,
+        highest: data.highest,
+        lowest: data.lowest
+      }
+
+      setStockPriceInfo(stockInfo);
     })
 
     company.getCompanyIndicator(companyId).then(data => {
@@ -401,13 +391,73 @@ const Company: React.FC<{}> = (props: any) => {
               indicatorSelectionOptions={indicatorList.content.endividamento}
             />
             <Card anchor={cotacao} title="Histórico - Cotação" size={CardSizes.large}>
+              <InfoContainer>
+                {/* <ValueCard>
+                  <Title>Valorização</Title>
+                  <StockPrice
+                    stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? Number(stockPriceInfo.variationValue) : 0}
+                    variationPercentage={0}
+                  />
+                </ValueCard> */}
+                <InfoCard>
+                  <InfoCardTitle>
+                    Variação no período
+                    </InfoCardTitle>
+                  <InfoCardValue>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.variationValue ? formatCurrency(stockPriceInfo.variationValue) : "--"}
+                    </p>
+                  </InfoCardValue>
+                </InfoCard>
+                <InfoCard>
+                  <InfoCardTitle>
+                    Percentual de variação
+                    </InfoCardTitle>
+                  <InfoCardValue>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.variationPercentage ? `${formatStandard(stockPriceInfo.variationPercentage)} %` : "--"}
+                    </p>
+                  </InfoCardValue>
+                </InfoCard>
+                <InfoCard>
+                  <InfoCardTitle>
+                    Máxima
+                    </InfoCardTitle>
+                  <InfoCardValue>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.highest ? formatCurrency(stockPriceInfo.highest.price) : "--"}
+                    </p>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.date : "--"}
+                    </p>
+                  </InfoCardValue>
+                </InfoCard>
+                <InfoCard>
+                  <InfoCardTitle>
+                    Mínima
+                    </InfoCardTitle>
+                  <InfoCardValue>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.lowest ? formatCurrency(stockPriceInfo.lowest.price) : "--"}
+                    </p>
+                    <p>
+                      {stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.date : "--"}
+                    </p>
+                  </InfoCardValue>
+                </InfoCard>
+              </InfoContainer>
               <Interval>
                 {interval.map((item, index) => (<IntervalItem key={index}>{item}</IntervalItem>))}
               </Interval>
               <AnimatedCard>
-                <LineChart
-                  data={cotacaoFake}
-                />
+                {
+                  stockPriceHistory ?
+                    <LineChart
+                      data={stockPriceHistory}
+                    />
+                    :
+                    <h2>Sem informações para o período</h2>
+                }
               </AnimatedCard>
             </Card>
             <Card anchor={proventos} title="Histórico - Proventos" size={CardSizes.large}>

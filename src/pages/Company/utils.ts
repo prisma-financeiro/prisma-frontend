@@ -3,6 +3,16 @@ interface TableData {
     rows: any[]
 }
 
+export interface StockPriceHistory {
+    time: string;
+    value: number;
+}
+
+interface StockVolumeHistory {
+    time: string;
+    value: number;
+}
+
 export const formatIncomeStatementTable = (data: any[], type: string): TableData => {
 
     const columns: Array<string> = [];
@@ -102,7 +112,6 @@ export const formatCashFlowTable = (data: any[], type: string): TableData => {
     return result;
 }
 
-
 export const formatBalanceSheetTable = (data: any[], type: string): TableData => {
     const columns: string[] = [];
     const result: TableData = { columns: ["#", ...columns], rows: [] };
@@ -155,4 +164,22 @@ export const formatSelectOptions = (data: number[]) => {
     return data.map((item: any) => {
         return { value: String(item), label: String(item) }
     });
+}
+
+export const formatStockPriceHistory = (data: any[]) => {
+    return data.map(item => {
+        return {
+            time: item.date,
+            value: item.price
+        }
+    });
+}
+
+export const formatStockVolumeHistory = (data: any[]): StockVolumeHistory[] => {
+    return data.map(item => {
+        return {
+            time: item.date,
+            value: item.volume
+        }
+    })
 }

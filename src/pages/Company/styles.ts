@@ -167,7 +167,7 @@ export const Interval = styled.div`
   align-items: center;
 `;
 
-export const IntervalItem = styled.p`  
+export const IntervalItem = styled.div`  
   ${({ theme }) => css`
     margin: 2rem;
     font-weight: 500;
@@ -185,6 +185,7 @@ export const InfoContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 
     @media (max-width: 670px) {
       flex-direction: column;
