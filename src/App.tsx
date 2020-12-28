@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
 
 import Routes from './routes';
 
@@ -9,6 +10,7 @@ import useAppTheme from './contexts/theme';
 import { AuthProvider } from './contexts/auth';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import history from './services/history';
 
 const App: React.FC = () => {
 
@@ -19,7 +21,9 @@ const App: React.FC = () => {
       <AuthProvider>
         <GlobalStyle />
         <Header />
-        <Routes />
+        <Router history={history}>
+          <Routes />
+        </Router>
         <Footer />
       </AuthProvider>
     </ThemeProvider>

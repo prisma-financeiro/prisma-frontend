@@ -86,11 +86,7 @@ enum PeriodType {
 
 const Company: React.FC<{}> = (props: any) => {
   let ticker = props.match.params.ticker;
-  let companyId: number = 0;
-
-  if (props.location.search) {
-    companyId = Number(String(props.location.search).substr(4));
-  }
+  let companyId = props.match.params.id;
 
   const [companyInfo, setCompanyInfo] = useState<company.CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();

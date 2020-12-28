@@ -22,7 +22,7 @@ ${({ theme }) => css`
 
 export const IconDown = styled.div`
 ${({ theme }) => css`    
-    color: ${theme.colors.error};
+    color: ${theme.colors.danger};
     font-size: ${theme.fontSizes.large};
 `}
 `
