@@ -2,7 +2,7 @@ export default {
   colors: {
     primary: '#20C05C',
     primaryDark: '#20AD48',
-    secondary: '#6EDB96',
+    secondary: '#6ECB96',
     grey: '#8C91A5',
     greyLowerOpacity: '#505050',
     lightGrey: '#CCCCCC',

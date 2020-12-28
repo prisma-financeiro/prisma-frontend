@@ -112,7 +112,7 @@ const MarketToday = () => {
             <TableHeaderIcon>
               <FiTrendingDown
                 size={30}
-                color={theme.colors.error}
+                color={theme.colors.danger}
               />
             </TableHeaderIcon>
           </TableHeader>
@@ -162,7 +162,7 @@ const MarketToday = () => {
             <TableHeaderIcon>
               <FiTrendingDown
                 size={30}
-                color={theme.colors.error}
+                color={theme.colors.danger}
               />
             </TableHeaderIcon>
           </TableHeader>

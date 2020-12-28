@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
+import history from '../../services/history';
 
 import {
   AnimatedContainer,
@@ -14,10 +15,17 @@ import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
 import { TOP_NAVIGATION } from '../../constants';
 
 import useAuth from '../../contexts/auth';
-import Input from '../Input';
+import Typeahead from '../Typeahead';
+import { search } from '../../services/search';
+import { SearchResult } from '../../models';
+import { debounce } from '../../utils/debounce';
 
 const Header = () => {
   const { signOut } = useAuth();
+
+  const handleNavigation = (route: string) => {
+    history.push(`/${route}`);
+  }
 
   return (
     <AnimatedContainer
@@ -31,16 +39,14 @@ const Header = () => {
         </AnimatedLeftNav>
         <MenuItems>
           {Object.entries(TOP_NAVIGATION).map(([key, value]) => (
-            <MenuItem key={key}>
+            <MenuItem key={key} onClick={() => handleNavigation(value.route)}>
               <Icon>{value.icon}</Icon>
               <p>{key}</p>
             </MenuItem>
           ))}
         </MenuItems>
         <AnimatedRightNav variants={NAVS_ANIMATION}>
-          <div>
-            <Input  showIcon={true} placeholder="Ação, Empresa, Índice"/>
-          </div>
+          <Typeahead />
           <AccountDropdown />
         </AnimatedRightNav>
       </Wrapper>
