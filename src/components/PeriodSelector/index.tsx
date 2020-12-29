@@ -4,23 +4,23 @@ import { Container, PeriodItem } from './styles';
 
 interface Period {
   label: string;
-  value: number;
+  value: number | null;
   selected: boolean;
 }
 
 interface PeriodSelectorProps {
-  onPeriodChange: (periodValue: number) => void;
+  onPeriodChange: (periodValue: number | null) => void;
 }
 
 const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange }) => {
 
   const periods: Period[] = [
-    {label: '1 Dia', value: 1, selected: true},
-    {label: '5 Dias', value: 5, selected: false},
+    {label: '5 Dias', value: 5, selected: true},
     {label: '30 Dias', value: 30, selected: false},
     {label: '6 Meses', value: 180, selected: false},
     {label: '1 Ano', value: 365, selected: false},
     {label: '5 Anos', value: 1825, selected: false},
+    {label: 'Máx', value: null, selected: false},
   ]
 
   const [selectedPeriod, setSelectedPeriod] = useState<Period[]>(periods);
