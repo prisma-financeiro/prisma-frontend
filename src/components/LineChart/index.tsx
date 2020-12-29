@@ -5,7 +5,7 @@ import useAppTheme from "../../contexts/theme";
 import * as themes from '../../styles/themes';
 
 interface LineChartProps {
-    data: Array<any>;
+    data: any[];
 }
 
 const chartOptions: DeepPartial<ChartOptions> = {
@@ -63,6 +63,9 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
         if (chart) {
             chart.applyOptions(
                 {
+                    watermark: {
+                        text: "prisma-financeiro",
+                    },
                     layout: {
                         backgroundColor: theme.colors.background,
                         textColor: theme.colors.grey,
