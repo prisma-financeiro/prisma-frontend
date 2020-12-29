@@ -41,8 +41,7 @@ import {
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
 import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory, StockPriceHistory } from './utils';
-
-const interval = ["30 Dias", "6 Meses", "1 Ano", "5 Anos", "Max."];
+import PeriodSelector from '../../components/PeriodSelector';
 
 interface TickePrice {
   price: number;
@@ -57,6 +56,8 @@ enum PeriodType {
 }
 
 const Company: React.FC<{}> = (props: any) => {
+  const INITIAL_STOCK_QUOTE_PERIOD = 5;
+
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
 
@@ -104,7 +105,7 @@ const Company: React.FC<{}> = (props: any) => {
       setTickerPrice(tickerPrice);
     });
 
-    company.getTickerHistory(ticker, 30).then(data => {
+    company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then(data => {
       console.log(data.historicalPrices);
 
       const formatedData = formatStockPriceHistory(data.historicalPrices);
@@ -118,7 +119,7 @@ const Company: React.FC<{}> = (props: any) => {
       }
 
       setStockPriceInfo(stockInfo);
-    })
+    });
 
     company.getCompanyIndicator(companyId).then(data => {
       const indicator = data;
@@ -167,6 +168,8 @@ const Company: React.FC<{}> = (props: any) => {
         const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
         setCashFlowData(formatedTable);
       });
+
+    scrollTo(valuation);
 
   }, [ticker]);
 
@@ -314,6 +317,25 @@ const Company: React.FC<{}> = (props: any) => {
     setCashFlowData(formatedTable);
   }
 
+  const handleStockQuotePeriodChange = (period: number | null) => {
+
+    company.getTickerHistory(ticker, period)
+      .then(data => {
+        const formatedData = formatStockPriceHistory(data.historicalPrices);
+        setStockPriceHistory(formatedData);
+
+        const stockInfo = {
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          highest: data.highest,
+          lowest: data.lowest
+        }
+
+        setStockPriceInfo(stockInfo);
+      });
+
+  }
+
   return (
     <Container>
       <AnimatedWrapper
@@ -432,9 +454,9 @@ const Company: React.FC<{}> = (props: any) => {
                   </InfoCardValue>
                 </InfoCard>
               </InfoContainer>
-              <Interval>
-                {interval.map((item, index) => (<IntervalItem key={index}>{item}</IntervalItem>))}
-              </Interval>
+              <PeriodSelector
+                onPeriodChange={(period) => handleStockQuotePeriodChange(period)}
+              />
               <AnimatedCard>
                 {
                   stockPriceHistory ?

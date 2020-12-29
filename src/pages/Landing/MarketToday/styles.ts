@@ -50,7 +50,8 @@ export const DataWrapper = styled.div`
 
   @media (max-width: 680px) {
     flex-direction: column;
-    justify-content: center;   
+    justify-content: center;  
+    width: 100%;
     
     div:last-child {      
       margin-bottom: 0rem;

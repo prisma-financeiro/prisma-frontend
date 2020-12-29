@@ -105,7 +105,7 @@ export const getTickerPrice = (ticker: string) => {
         .then(res => res.data.data);
 }
 
-export const getTickerHistory = (ticker: string, days?: number) => {
+export const getTickerHistory = (ticker: string, days: number | null) => {
     return api
         .get(`/api/v1/ticker/${ticker}/history`, {
             params: {
