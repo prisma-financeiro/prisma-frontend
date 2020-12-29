@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import history from '../../services/history';
 
 import { FiSearch } from 'react-icons/fi';
@@ -29,11 +29,25 @@ const Typeahead: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      if(searchQuery.length > 1) {
+        handleSearch(searchQuery);
+      } else {
+        setSearchResults([]);
+        setIsLoading(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleSearch = (value: string) => {
-      setIsLoading(true);
       search(value).then(result => {
-        setSearchResults(result)
+        setSearchResults(result);
         setIsLoading(false);
       }).catch(e => {
         console.log('Something went wrong on the search', e);
@@ -59,12 +73,7 @@ const Typeahead: React.FC = () => {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-
-    if(event.target.value.length > 1) {
-      handleSearch(event.target.value);
-    } else {
-      setSearchResults([]);
-    }
+    setSearchQuery(event.target.value);
   }
 
   const handleItemClick = (type: SearchResultType, id: number, ticker: string) => {
