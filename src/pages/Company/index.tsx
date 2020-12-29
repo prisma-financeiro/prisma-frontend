@@ -29,7 +29,7 @@ import { indicatorList } from "./fakeData";
 import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
-import StockPrice from '../../components/StockPrice';
+import StockPrice, { StockPriceSize } from '../../components/StockPrice';
 import { formatStandard, formatCurrency } from "../../utils";
 
 import { company } from "../../services";
@@ -42,7 +42,7 @@ import FinancialReportTable, { SelectionOptions, TableContent } from './Financia
 import SegmentCard from '../../components/SegmentCard';
 import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory, StockPriceHistory } from './utils';
 
-const interval = ["30 Dias", "1 Ano", "5 Anos"];
+const interval = ["30 Dias", "6 Meses", "1 Ano", "5 Anos", "Max."];
 
 interface TickePrice {
   price: number;
@@ -85,7 +85,7 @@ const Company: React.FC<{}> = (props: any) => {
   const mercadoAtuacao = useRef(null);
   const dadosGerais = useRef(null);
   const contato = useRef(null);
-  const noticiasEmpresa = useRef(null);
+  // const noticiasEmpresa = useRef(null); // TODO : Pegar ultimas noticias de sites via scrapping e listar
 
   useEffect(() => {
 
@@ -104,7 +104,7 @@ const Company: React.FC<{}> = (props: any) => {
       setTickerPrice(tickerPrice);
     });
 
-    company.getTickerHistory(ticker, 180).then(data => {
+    company.getTickerHistory(ticker, 30).then(data => {
       console.log(data.historicalPrices);
 
       const formatedData = formatStockPriceHistory(data.historicalPrices);
@@ -267,12 +267,13 @@ const Company: React.FC<{}> = (props: any) => {
           expand: false,
           onClick: () => scrollTo(contato),
         },
-        {
-          name: 'Notícias sobre a Empresa',
-          icon: <FiGlobe />,
-          expand: false,
-          onClick: () => scrollTo(noticiasEmpresa),
-        }
+        // TODO : Pegar ultimas noticias de sites via scrapping e listar
+        // {
+        //   name: 'Notícias sobre a Empresa',
+        //   icon: <FiGlobe />,
+        //   expand: false,
+        //   onClick: () => scrollTo(noticiasEmpresa),
+        // }
       ]
     }
   ];
@@ -392,57 +393,42 @@ const Company: React.FC<{}> = (props: any) => {
             />
             <Card anchor={cotacao} title="Histórico - Cotação" size={CardSizes.large}>
               <InfoContainer>
-                {/* <ValueCard>
-                  <Title>Valorização</Title>
-                  <StockPrice
-                    stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? Number(stockPriceInfo.variationValue) : 0}
-                    variationPercentage={0}
-                  />
-                </ValueCard> */}
                 <InfoCard>
                   <InfoCardTitle>
                     Variação no período
                     </InfoCardTitle>
                   <InfoCardValue>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.variationValue ? formatCurrency(stockPriceInfo.variationValue) : "--"}
-                    </p>
+                    <StockPrice
+                      stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
+                      variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
+                      size={StockPriceSize.medium}
+                    />
                   </InfoCardValue>
                 </InfoCard>
                 <InfoCard>
                   <InfoCardTitle>
-                    Percentual de variação
+                    Máxima no período
                     </InfoCardTitle>
                   <InfoCardValue>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.variationPercentage ? `${formatStandard(stockPriceInfo.variationPercentage)} %` : "--"}
-                    </p>
+                    <StockPrice
+                      stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
+                      variationPercentage={stockPriceInfo && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
+                      variationValue={stockPriceInfo && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
+                      size={StockPriceSize.medium}
+                    />
                   </InfoCardValue>
                 </InfoCard>
                 <InfoCard>
                   <InfoCardTitle>
-                    Máxima
+                    Mínima no período
                     </InfoCardTitle>
                   <InfoCardValue>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.highest ? formatCurrency(stockPriceInfo.highest.price) : "--"}
-                    </p>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.date : "--"}
-                    </p>
-                  </InfoCardValue>
-                </InfoCard>
-                <InfoCard>
-                  <InfoCardTitle>
-                    Mínima
-                    </InfoCardTitle>
-                  <InfoCardValue>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.lowest ? formatCurrency(stockPriceInfo.lowest.price) : "--"}
-                    </p>
-                    <p>
-                      {stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.date : "--"}
-                    </p>
+                    <StockPrice
+                      stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
+                      variationPercentage={stockPriceInfo && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
+                      variationValue={stockPriceInfo && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
+                      size={StockPriceSize.medium}
+                    />
                   </InfoCardValue>
                 </InfoCard>
               </InfoContainer>
@@ -621,11 +607,12 @@ const Company: React.FC<{}> = (props: any) => {
                 </InfoContainer>
               </AnimatedCard>
             </Card>
-            <Card anchor={noticiasEmpresa} title="Notícias sobra a Empresa" size={CardSizes.large}>
+            {/* TODO : Pegar ultimas noticias de sites via scrapping e listar */}
+            {/* <Card anchor={noticiasEmpresa} title="Notícias sobra a Empresa" size={CardSizes.large}>
               <AnimatedCard>
                 <h1>Notícias sobra a Empresa</h1>
               </AnimatedCard>
-            </Card>
+            </Card> */}
           </CardContainer>
         </MainContent>
       </AnimatedWrapper>
