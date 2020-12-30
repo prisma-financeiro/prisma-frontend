@@ -10,18 +10,18 @@ interface CompanyHeaderProps {
     companyLogo: string;
     tickerCode: string;
     companyName: string;
-    id?: number;
-    onClick?: (id: number, tickerCode: string) => void;
+    assetId?: number;
+    onClick?: (assetId: number, tickerCode: string) => void;
 }
 
-const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, companyName, id, onClick }) => {
+const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, companyName, assetId, onClick }) => {
 
-    const handleClick = (event: any) => {
-        onClick && id && onClick(id, tickerCode);
+    const handleClick = () => {
+        onClick && assetId && onClick(assetId, tickerCode);
     }
 
     return (
-        <Header isClickble={onClick ? true : false} onClick={(event) => handleClick(event)}>
+        <Header isClickable={!!onClick} onClick={() => handleClick()}>
             <CompanyLogo src={companyLogo} />
             <Title>
                 <h2>{tickerCode}</h2>

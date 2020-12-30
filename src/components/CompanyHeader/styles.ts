@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components';
 
 interface HeaderProps {
-  isClickble: boolean | false;
+  isClickable: boolean | false;
 }
 
 const _getClickbleProperties = (props: HeaderProps, theme: any) => {
-  return props.isClickble ? `
+  return props.isClickable ? `
     :hover {
       background-color: ${theme.colors.greyLowerOpacity};
       cursor: pointer;

@@ -157,28 +157,6 @@ export const AnimatedWrapper = styled(motion.div)`
   }
 `;
 
-
-export const Interval = styled.div` 
-  // border: 1px solid red; 
-  width: 100%;
-  display: flex;  
-  flex-direction: row;  
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-export const IntervalItem = styled.div`  
-  ${({ theme }) => css`
-    margin: 2rem;
-    font-weight: 500;
-
-    :hover {    
-      color: ${theme.colors.primary};
-      cursor: pointer;
-    }
-  `}
-`;
-
 export const InfoContainer = styled.div`
   ${({ theme }) => css`
     width: 100%;    

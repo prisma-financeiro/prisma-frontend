@@ -4,7 +4,8 @@ import {
   SubHeader,
   TableWrapper,
   TableHeader,
-  TableHeaderIcon
+  TableHeaderIcon,
+  TableFooter
 } from './styles';
 
 import {
@@ -21,53 +22,60 @@ import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { marketIndex } from '../../../services';
 import history from '../../../services/history';
+import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
 
+interface IndexFlutuationTableRow {
+  ticker: JSX.Element;
+  cotacao: JSX.Element;
+}
+
+interface IndexFlutuationTableData {
+  lastRefresh: string;
+  highestIncrease: IndexFlutuationTableRow[];
+  highestDrop: IndexFlutuationTableRow[];
+}
 
 const MarketToday = () => {
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [ibovFlutuationTable, setIbovFlutuationTable] = useState<any>();
-  const [ifixFlutuationTable, setIfixFlutuationTable] = useState<any>();
+  const [isIbovFlutuationTableLoading, setIbovFlutuationTableLoading] = useState(true);
+  const [isIfixFlutuationTableLoading, setIfixFlutuationTableLoading] = useState(true);
+  const [ibovFlutuationTable, setIbovFlutuationTable] = useState<IndexFlutuationTableData>();
+  const [ifixFlutuationTable, setIfixFlutuationTable] = useState<IndexFlutuationTableData>();
 
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
 
-  const handlePageChange = (pageNumber: number) => {
-    //chamada para o backend aqui
-    console.log(pageNumber);
-    setIsTableLoading(true);
-    setTimeout(() => {
-      setIsTableLoading(false);
-    }, 5000);
-  }
-
-  const handleIbovTableClick = (id: number, ticker: string) => {
-    history.push(`/company/${id}/${ticker}`);
+  const handleIbovTableClick = (assetId: number, ticker: string) => {
+    history.push(`/company/${assetId}/${ticker}`);
   }
 
   useEffect(() => {
     if (!ibovFlutuationTable) {
       marketIndex.getMarketIndexPriceFlutuation("IBOV")
-        .then(data => {
+        .then((data: MarketIndexPriceFlutuationResult) => {
 
-          const flutuation = {
+          const flutuation: IndexFlutuationTableData = {
+            lastRefresh: data.lastRefresh,
             highestIncrease: getHighestIncreaseFromStockIndex(data.highestIncrease),
             highestDrop: getHighestDropFromStockIndex(data.highestDrop),
           }
 
-          setIbovFlutuationTable(flutuation)
+          setIbovFlutuationTableLoading(false);
+          setIbovFlutuationTable(flutuation);
         });
     }
 
     if (!ifixFlutuationTable) {
       marketIndex.getMarketIndexPriceFlutuation("IFIX")
-        .then(data => {
+        .then((data: MarketIndexPriceFlutuationResult) => {
 
           if (data) {
-            const flutuation = {
+            const flutuation: IndexFlutuationTableData = {
+              lastRefresh: data.lastRefresh,
               highestIncrease: getHighestIncreaseFromReitIndex(data.highestIncrease),
               highestDrop: getHighestDropFromReitIndex(data.highestDrop),
             }
 
+            setIfixFlutuationTableLoading(false);
             setIfixFlutuationTable(flutuation);
           }
         });
@@ -76,22 +84,22 @@ const MarketToday = () => {
   });
 
 
-  const getHighestIncreaseFromReitIndex = (indexFlutuation: any[]): any[] => {
-    let data: any[] = [];
+  const getHighestIncreaseFromReitIndex = (indexFlutuation: MarketIndexPriceFlutuationResultTicker[]): IndexFlutuationTableRow[] => {
+    let data: IndexFlutuationTableRow[] = [];
 
     data = indexFlutuation.map((item: any) => {
       return {
         ticker: (
           <CompanyHeader
-            id={item.id}
+            assetId={item.assetId}
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
           />
         ),
         cotacao: (<StockPrice
-          stockPrice={item.SctyQtn.curPrc}
-          variationPercentage={parseFloat(item.SctyQtn.prcFlcn.toFixed(2))}
+          stockPrice={item.currentPrice}
+          variationPercentage={parseFloat(item.priceFlutuationPercetage.toFixed(2))}
         />)
       }
     });
@@ -99,23 +107,23 @@ const MarketToday = () => {
     return data;
   }
 
-  const getHighestDropFromReitIndex = (indexFlutuation: any[]): any[] => {
-    let data: any[] = [];
+  const getHighestDropFromReitIndex = (indexFlutuation: MarketIndexPriceFlutuationResultTicker[]): IndexFlutuationTableRow[] => {
+    let data: IndexFlutuationTableRow[] = [];
 
     data = indexFlutuation.map((item: any) => {
       return {
         ticker: (
 
           <CompanyHeader
-            id={item.id}
+            assetId={item.assetId}
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
           />
         ),
         cotacao: (<StockPrice
-          stockPrice={item.SctyQtn.curPrc}
-          variationPercentage={parseFloat(item.SctyQtn.prcFlcn.toFixed(2))}
+          stockPrice={item.currentPrice}
+          variationPercentage={parseFloat(item.priceFlutuationPercetage.toFixed(2))}
         />)
       }
     });
@@ -123,14 +131,14 @@ const MarketToday = () => {
     return data;
   }
 
-  const getHighestIncreaseFromStockIndex = (indexFlutuation: any[]): any[] => {
-    let data: any[] = [];
+  const getHighestIncreaseFromStockIndex = (indexFlutuation: MarketIndexPriceFlutuationResultTicker[]): IndexFlutuationTableRow[] => {
+    let data: IndexFlutuationTableRow[] = [];
 
     data = indexFlutuation.map((item: any) => {
       return {
         ticker: (
           <CompanyHeader
-            id={item.id}
+            assetId={item.assetId}
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
@@ -138,8 +146,8 @@ const MarketToday = () => {
           />
         ),
         cotacao: (<StockPrice
-          stockPrice={item.SctyQtn.curPrc}
-          variationPercentage={parseFloat(item.SctyQtn.prcFlcn.toFixed(2))}
+          stockPrice={item.currentPrice}
+          variationPercentage={parseFloat(item.priceFlutuationPercetage.toFixed(2))}
         />)
       }
     });
@@ -147,15 +155,14 @@ const MarketToday = () => {
     return data;
   }
 
-  const getHighestDropFromStockIndex = (indexFlutuation: any[]): any[] => {
-    let data: any[] = [];
+  const getHighestDropFromStockIndex = (indexFlutuation: MarketIndexPriceFlutuationResultTicker[]): IndexFlutuationTableRow[] => {
+    let data: IndexFlutuationTableRow[] = [];
 
     data = indexFlutuation.map((item: any) => {
       return {
         ticker: (
-
           <CompanyHeader
-            id={item.id}
+            assetId={item.assetId}
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
@@ -163,13 +170,18 @@ const MarketToday = () => {
           />
         ),
         cotacao: (<StockPrice
-          stockPrice={item.SctyQtn.curPrc}
-          variationPercentage={parseFloat(item.SctyQtn.prcFlcn.toFixed(2))}
+          stockPrice={item.currentPrice}
+          variationPercentage={parseFloat(item.priceFlutuationPercetage.toFixed(2))}
         />)
       }
     });
 
     return data;
+  }
+
+  const formatDisplayDate = (date: string): string => {
+    const result = new Date(date);
+    return `${result.toLocaleDateString()} ${result.toLocaleTimeString()}`;
   }
 
   return (
@@ -193,16 +205,22 @@ const MarketToday = () => {
           </TableHeader>
           {
             ibovFlutuationTable &&
-            <Table
-              tableHeader={["Ativo", "Cotação"]}
-              tableData={ibovFlutuationTable.highestIncrease}
-              numberOfRows={0}
-              numberOfPages={0}
-              showBottomBorder={true}
-              onPageChange={(pageNumber) => handlePageChange(pageNumber)}
-              isTableLoading={isTableLoading}>
-            </Table>
+            <>
+              <Table
+                tableHeader={["Ativo", "Cotação"]}
+                tableData={ibovFlutuationTable.highestIncrease}
+                numberOfRows={0}
+                numberOfPages={0}
+                showBottomBorder={true}
+                onPageChange={() => { }}
+                isTableLoading={isIbovFlutuationTableLoading}>
+              </Table>
+              <TableFooter>
+                Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+              </TableFooter>
+            </>
           }
+
         </TableWrapper>
         <TableWrapper>
           <TableHeader>
@@ -216,15 +234,20 @@ const MarketToday = () => {
           </TableHeader>
           {
             ibovFlutuationTable &&
-            <Table
-              tableHeader={["Ativo", "Cotação"]}
-              tableData={ibovFlutuationTable.highestDrop}
-              numberOfRows={0}
-              numberOfPages={0}
-              showBottomBorder={true}
-              onPageChange={(pageNumber) => handlePageChange(pageNumber)}
-              isTableLoading={isTableLoading}>
-            </Table>
+            <>
+              <Table
+                tableHeader={["Ativo", "Cotação"]}
+                tableData={ibovFlutuationTable.highestDrop}
+                numberOfRows={0}
+                numberOfPages={0}
+                showBottomBorder={true}
+                onPageChange={() => { }}
+                isTableLoading={isIbovFlutuationTableLoading}>
+              </Table>
+              <TableFooter>
+                Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+              </TableFooter>
+            </>
           }
         </TableWrapper>
       </DataWrapper>
@@ -247,15 +270,20 @@ const MarketToday = () => {
           </TableHeader>
           {
             ifixFlutuationTable &&
-            <Table
-              tableHeader={["Ativo", "Cotação"]}
-              tableData={ifixFlutuationTable.highestIncrease}
-              numberOfRows={0}
-              numberOfPages={0}
-              showBottomBorder={true}
-              onPageChange={(pageNumber) => handlePageChange(pageNumber)}
-              isTableLoading={isTableLoading}>
-            </Table>
+            <>
+              <Table
+                tableHeader={["Ativo", "Cotação"]}
+                tableData={ifixFlutuationTable.highestIncrease}
+                numberOfRows={0}
+                numberOfPages={0}
+                showBottomBorder={true}
+                onPageChange={() => { }}
+                isTableLoading={isIfixFlutuationTableLoading}>
+              </Table>
+              <TableFooter>
+                Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+              </TableFooter>
+            </>
           }
         </TableWrapper>
         <TableWrapper>
@@ -270,15 +298,20 @@ const MarketToday = () => {
           </TableHeader>
           {
             ifixFlutuationTable &&
-            <Table
-              tableHeader={["Ativo", "Cotação"]}
-              tableData={ifixFlutuationTable.highestDrop}
-              numberOfRows={0}
-              numberOfPages={0}
-              showBottomBorder={true}
-              onPageChange={(pageNumber) => handlePageChange(pageNumber)}
-              isTableLoading={isTableLoading}>
-            </Table>
+            <>
+              <Table
+                tableHeader={["Ativo", "Cotação"]}
+                tableData={ifixFlutuationTable.highestDrop}
+                numberOfRows={0}
+                numberOfPages={0}
+                showBottomBorder={true}
+                onPageChange={() => { }}
+                isTableLoading={isIfixFlutuationTableLoading}>
+              </Table>
+              <TableFooter>
+                Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+              </TableFooter>
+            </>
           }
         </TableWrapper>
       </DataWrapper>

@@ -97,3 +97,14 @@ export const TableHeaderIcon = styled.div`
   `}
 `;
 
+export const TableFooter = styled.div`
+  ${({ theme }) => css`
+  margin-top: 1rem;    
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+  font-size:${theme.fontSizes.tiny};
+  color: ${theme.colors.grey};
+  opacity: 80%;
+  `}
+`;
