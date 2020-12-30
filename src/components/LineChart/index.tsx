@@ -42,26 +42,9 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
     const { currentTheme } = useAppTheme();
     const theme = themes[currentTheme];
 
-    useEffect(() => {
-
-        if (!chart) {
-            const newChart: IChartApi = createChart(chartRef.current, chartOptions);
-
-            const chartSeries: ISeriesApi<"Area"> = newChart.addAreaSeries({
-                topColor: 'rgba(32, 226, 47, 0.56)',
-                bottomColor: 'rgba(32, 226, 47, 0.04)',
-                lineColor: 'rgba(32, 226, 47, 1)',
-                lineWidth: 2,
-            });
-
-            chartSeries.setData(data);
-            newChart.timeScale().fitContent();
-
-            setChart(newChart);
-        }
-
-        if (chart) {
-            chart.applyOptions(
+    const setChartOptions = (chartApi: IChartApi) => {
+        chartApi &&
+            chartApi.applyOptions(
                 {
                     watermark: {
                         text: "prisma-financeiro",
@@ -75,9 +58,38 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
                             color: theme.colors.greyLowerOpacity,
                         },
                     },
+                    handleScroll: false,
+                    handleScale: false,
                 }
             );
+    }
+
+    useEffect(() => {
+
+        if (chart) {
+            chart.remove();
         }
+
+        const newChart: IChartApi = createChart(chartRef.current, chartOptions);
+
+        setChartOptions(newChart);
+
+        const chartSeries: ISeriesApi<"Area"> = newChart.addAreaSeries({
+            topColor: 'rgba(32, 226, 47, 0.56)',
+            bottomColor: 'rgba(32, 226, 47, 0.04)',
+            lineColor: 'rgba(32, 226, 47, 1)',
+            lineWidth: 2,
+        });
+
+        chartSeries.setData(data);
+        newChart.timeScale().fitContent();
+
+        setChart(newChart);
+    }, [data]);
+
+    useEffect(() => {
+        chart &&
+            setChartOptions(chart);
     });
 
     return (
