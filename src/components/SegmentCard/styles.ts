@@ -1,73 +1,70 @@
 import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
 
 export const Container = styled.div`
-  ${({ theme }) => css`    
-    // background: ${theme.colors.darkGrey};
+  ${({ theme }) => css`
     background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
     width: 100%;
+    height: 100%;
     border-radius: ${theme.radio.default};   
     padding: ${theme.spacing.default};
-    margin: ${theme.spacing.default};
+    margin-right: ${theme.spacing.default};
     display: flex;
     flex-direction: column;
     justify-content: center;
 
-    @media (max-width: 670px) {
-      margin: 1rem 1rem 0 0;
+    @media (max-width: ${theme.deviceWidth.mobile}) {      
+      padding: 0.5rem;
+      margin-right: 0;
+      margin-bottom: ${theme.spacing.default};
     }
   `}  
 `;
 
 export const Title = styled.div`
   ${({ theme }) => css`
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-weight: 300;
+    color: ${theme.colors.lightGrey};
+    font-size: ${theme.fontSizes.large};
 
-    > p {
-      font-weight: 400;
-      color: ${theme.colors.lightGrey};
-      font-size: ${theme.fontSizes.default};
+    @media (max-width: ${theme.deviceWidth.mobile}) {      
+      font-size: ${theme.fontSizes.default};      
     }
   `}
 `
 
-export const Description = styled.h2`
+export const Description = styled.div`
   ${({ theme }) => css`
-      margin-bottom: 0.5rem;      
+      width: 100%;
+      font-weight: 500;     
       color: ${theme.colors.lightGrey};
       font-size: ${theme.fontSizes.xlarge};
+
+      @media (max-width: ${theme.deviceWidth.mobile}) {      
+        font-size: ${theme.fontSizes.large};
+      }
   `}
 `
-
 
 export const CountWrapper = styled.div`
-  ${({ theme }) => css`
-    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
-  `}
-`
-
-export const CompaniesCount = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 2rem;
-  `}
 `
 
 export const CountSubtitle = styled.p`
   ${({ theme }) => css`  
       font-weight: 400;
       color: ${theme.colors.lightGrey};
-      font-size: ${theme.fontSizes.default};  
+      font-size: ${theme.fontSizes.default};
+
+      @media (max-width: ${theme.deviceWidth.mobile}) {
+        font-size: ${theme.fontSizes.small};
+      }
   `}
 `
 
@@ -76,6 +73,10 @@ export const Count = styled.p`
       font-weight: 600;
       color: ${theme.colors.primary};
       font-size: ${theme.fontSizes.xxlarge};
-    
+
+      @media (max-width: ${theme.deviceWidth.mobile}) {
+        font-size: ${theme.fontSizes.xlarge};
+        font-weight: 500;
+      }
   `}
 `

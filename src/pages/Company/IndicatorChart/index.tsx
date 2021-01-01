@@ -5,6 +5,8 @@ import BarChart from '../../../components/BarChart';
 import Selection, { Option } from '../../../components/Selection';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
+import { useBreakpoints } from '../../../hooks/useBreakpoints';
+// import Select, { OptionType } from '../../../components/Select';
 
 export interface IndicatorData {
     label: string;
@@ -19,6 +21,10 @@ interface IndicatorChartOptions {
 
 const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelectionOptions, onChangeSelection }) => {
 
+    const device = useBreakpoints();
+    const { currentTheme } = useAppTheme();
+    const theme = themes[currentTheme];
+
     const displayOptions = [
         { value: "TRIMESTRAL", label: "Trimestral" },
         { value: "ANUAL", label: "Anual" },
@@ -28,14 +34,14 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
     const [type, setType] = useState<string>(displayOptions[0].value);
     const [indicatorData, setIndicatorData] = useState<Chart.ChartData>();
 
-    const { currentTheme } = useAppTheme();
-    const theme = themes[currentTheme];
-
     useEffect(() => {
         const chartData = getChartData(data);
         setIndicatorData(chartData);
     }, [data]);
 
+
+    const gridLinesColor = currentTheme === 'light' ? theme.colors.lightGrey : theme.colors.greyLowerOpacity;
+    const ticksColor = currentTheme === 'light' ? theme.colors.greyLowerOpacity : theme.colors.grey;
     const chartOptions: Chart.ChartConfiguration = {
         type: 'bar',
         options: {
@@ -50,20 +56,22 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
                             drawOnChartArea: true,
                         },
                         ticks: {
-                            fontColor: theme.colors.grey,
+                            fontColor: ticksColor,
+                            fontSize: device.isMobile ? 10 : 12
                         },
                     }
                 ],
                 yAxes: [
                     {
                         ticks: {
-                            fontColor: theme.colors.grey,
+                            fontColor: ticksColor,
                             beginAtZero: true,
+                            fontSize: device.isMobile ? 10 : 12
                         },
                         gridLines: {
-                            color: theme.colors.grey,
+                            color: gridLinesColor,
                             zeroLineColor: theme.colors.grey,
-                            zeroLineWidth: 2,
+                            zeroLineWidth: 0.8,
                         },
                     }
                 ]
@@ -80,7 +88,6 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
                     hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
                     borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
                 }
-
             }
         });
 
@@ -91,7 +98,7 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
                 borderColor: formatedData.map((item: any) => item.color.borderColor),
                 backgroundColor: formatedData.map((item: any) => item.color.backgroundColor),
                 hoverBackgroundColor: formatedData.map((item: any) => item.color.hoverBackgroundColor),
-                borderWidth: 1.5,
+                borderWidth: 1
             }]
         }
     }

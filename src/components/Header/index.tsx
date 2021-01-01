@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import history from '../../services/history';
 
 import {
@@ -16,9 +16,6 @@ import { TOP_NAVIGATION } from '../../constants';
 
 import useAuth from '../../contexts/auth';
 import Typeahead from '../Typeahead';
-import { search } from '../../services/search';
-import { SearchResult } from '../../models';
-import { debounce } from '../../utils/debounce';
 
 const Header = () => {
   const { signOut } = useAuth();

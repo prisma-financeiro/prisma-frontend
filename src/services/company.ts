@@ -58,7 +58,8 @@ export const getCompany = (id: number) => {
     return api
         .get(`api/v1/company/${id}`)
         .then(res => {
-            const companyInfo: CompanyInfo = res.data.data;
+            const companyInfo = res.data.data;
+
             return {
                 cnpj: companyInfo.cnpj,
                 name: companyInfo.name,
