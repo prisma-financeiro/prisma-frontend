@@ -20,6 +20,11 @@ export const Wrapper = styled.div`
   height: 8rem;
   display: flex;
   justify-content: center;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    padding: 0 1.0rem;
+    height: 6.2rem;
+  }
 `;
 
 export const AnimatedLeftNav = styled(motion.div)`

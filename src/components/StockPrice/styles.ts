@@ -4,6 +4,7 @@ import { StockPriceSize } from '.';
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 8rem;
 `
 interface PriceProps {
     size: StockPriceSize;
@@ -27,6 +28,10 @@ ${({ theme }) => css`
                     break;
             }
         }};  
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {  
+        font-size: ${theme.fontSizes.default}
+    }
 `}
 `
 
@@ -81,7 +86,6 @@ ${({ theme }) => css`
     display: flex;
     font-weight: 500;
     color: ${theme.colors.grey};
-    // font-size: ${theme.fontSizes.default};
     font-size: ${(props: PriceProps) => {
             switch (props.size) {
                 case StockPriceSize.small:
@@ -95,6 +99,10 @@ ${({ theme }) => css`
                 default:
                     break;
             }
-        }};  
+        }}; 
+        
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+        font-size: ${theme.fontSizes.small};
+    }
 `}
 `

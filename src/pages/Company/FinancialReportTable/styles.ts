@@ -15,6 +15,10 @@ export const TableColumnHeader = styled.p`
   ${({ theme }) => css`
     text-align: right;
     min-width: 6rem;
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+    }
   `}
 `;
 
@@ -22,9 +26,13 @@ export const TableColumnValue = styled.p`
   ${({ theme }) => css`
     text-align: right;
     min-width: 12rem;
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+      min-width: 11rem;
+    }
   `}
 `;
-
 
 interface TableColumnPercentualProps {
   percentual: number;
@@ -35,7 +43,12 @@ export const TableColumnPercentual = styled.p`
     text-align: right;
     font-weight: 400;
     min-width: 8rem;
-    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.primary : theme.colors.danger}
+    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.primary : theme.colors.danger};
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+      min-width: 5rem;
+    }
   `}
 `;
 
@@ -44,10 +57,17 @@ interface TableAccountNameProps {
   root: number;
 }
 
-export const TableAccountName = styled.p`    
+export const TableAccountName = styled.p`   
+  ${({ theme }) => css` 
     padding-left: ${(props: TableAccountNameProps) => props.root && props.root === 1 ? 0 : props.root - 0.5}rem;
     ${(props: TableAccountNameProps) => props.root === 1 && 'font-weight:500;'}
     min-width: 30rem;
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+      min-width: 20rem;
+    }
+  `}
 `;
 
 

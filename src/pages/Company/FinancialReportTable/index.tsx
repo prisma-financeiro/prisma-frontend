@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Selection, { SelectOptions } from '../../../components/Selection';
 import Table from '../../../components/Table';
-import { formatCurrencyCompact, formatCurrency } from '../../../utils';
+import { formatCurrency } from '../../../utils';
 
 import {
     TableColumnHeader,
