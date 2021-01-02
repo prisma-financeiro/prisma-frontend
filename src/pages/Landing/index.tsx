@@ -7,7 +7,7 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { sideBarOptionLanding } from '../../constants';
 import Favorites from './Favorites';
 import MarketToday from './MarketToday';
-import Card, { CardSizes } from '../../components/Card';
+import Accordion, { AccordionSizes } from '../../components/Accordion';
 
 const Landing = () => {
   return (
@@ -24,11 +24,11 @@ const Landing = () => {
           <Favorites />
           <MarketToday />
         </MainContent>
-        <Card 
+        <Accordion 
           title="Últimos Eventos"
-          size={CardSizes.small}>
+          size={AccordionSizes.small}>
           Olá
-        </Card>
+        </Accordion>
       </AnimatedWrapper>
     </Container>
   );

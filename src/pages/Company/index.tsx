@@ -23,7 +23,7 @@ import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
 import { DASHBOARD_ANIMATION } from './animations';
 import { SideBarOption } from '../../constants/sidebar-navigation';
-import Card, { CardSizes } from '../../components/Card';
+import Accordion, { AccordionSizes } from '../../components/Accordion';
 import { AnimatedCard } from './styles';
 import { indicatorList } from "./fakeData";
 import Button from '../../components/Button';
@@ -40,7 +40,7 @@ import {
 
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory, StockPriceHistory } from './utils';
+import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory } from './utils';
 
 const interval = ["30 Dias", "6 Meses", "1 Ano", "5 Anos", "Max."];
 
@@ -85,7 +85,6 @@ const Company: React.FC<{}> = (props: any) => {
   const mercadoAtuacao = useRef(null);
   const dadosGerais = useRef(null);
   const contato = useRef(null);
-  // const noticiasEmpresa = useRef(null); // TODO : Pegar ultimas noticias de sites via scrapping e listar
 
   useEffect(() => {
 
@@ -391,7 +390,7 @@ const Company: React.FC<{}> = (props: any) => {
               indicatorData={indicatorInfo ? indicatorInfo.endividamento : []}
               indicatorSelectionOptions={indicatorList.content.endividamento}
             />
-            <Card anchor={cotacao} title="Histórico - Cotação" size={CardSizes.large}>
+            <Accordion anchor={cotacao} title="Histórico - Cotação" size={AccordionSizes.large}>
               <InfoContainer>
                 <InfoCard>
                   <InfoCardTitle>
@@ -445,37 +444,37 @@ const Company: React.FC<{}> = (props: any) => {
                     <h2>Sem informações para o período</h2>
                 }
               </AnimatedCard>
-            </Card>
-            <Card anchor={proventos} title="Histórico - Proventos" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={proventos} title="Histórico - Proventos" size={AccordionSizes.large}>
               <AnimatedCard>
                 <h1>Proventos content</h1>
               </AnimatedCard>
-            </Card>
-            <Card anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
               <FinancialReportTable
                 data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
                 selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
                 onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
               />
-            </Card>
-            <Card anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={AccordionSizes.large}>
               <FinancialReportTable
                 data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
                 selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
                 onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
               />
-            </Card>
-            <Card anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
               <FinancialReportTable
                 data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
                 selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
                 onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
                 onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
               />
-            </Card>
-            <Card anchor={mercadoAtuacao} title="Mercado de Atuação" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
               <AnimatedCard>
                 <InfoContainer>
                   <SegmentCard
@@ -495,8 +494,8 @@ const Company: React.FC<{}> = (props: any) => {
                   />
                 </InfoContainer>
               </AnimatedCard>
-            </Card>
-            <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={dadosGerais} title="Dados Gerais" size={AccordionSizes.large}>
               <AnimatedCard>
                 <InfoContainer>
                   <InfoCard>
@@ -563,8 +562,8 @@ const Company: React.FC<{}> = (props: any) => {
                   </InfoCard>
                 </InfoContainer>
               </AnimatedCard>
-            </Card>
-            <Card anchor={contato} title="Contato" size={CardSizes.large}>
+            </Accordion>
+            <Accordion anchor={contato} title="Contato" size={AccordionSizes.large}>
               <AnimatedCard>
                 <InfoContainer>
                   <InfoCard>
@@ -606,13 +605,7 @@ const Company: React.FC<{}> = (props: any) => {
                   </InfoCard>
                 </InfoContainer>
               </AnimatedCard>
-            </Card>
-            {/* TODO : Pegar ultimas noticias de sites via scrapping e listar */}
-            {/* <Card anchor={noticiasEmpresa} title="Notícias sobra a Empresa" size={CardSizes.large}>
-              <AnimatedCard>
-                <h1>Notícias sobra a Empresa</h1>
-              </AnimatedCard>
-            </Card> */}
+            </Accordion>
           </CardContainer>
         </MainContent>
       </AnimatedWrapper>

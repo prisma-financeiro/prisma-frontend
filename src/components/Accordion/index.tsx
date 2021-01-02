@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 
-import { AnimatedCard, ContentHeader, CardBody, ButtonWrapper } from './styles';
+import { AnimatedAccordion, ContentHeader, AccordionBody, ButtonWrapper } from './styles';
 import { CARDS_ANIMATION } from '../../constants/animations';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { DEFAULT_TRANSITION } from '../../constants';
 
-export enum CardSizes {
+export enum AccordionSizes {
   'small' = '25%',
   'medium' = '50%',
   'large' = '100%'
 }
 
-interface CardProps {
-  size: CardSizes;
+interface AccordionProps {
+  size: AccordionSizes;
   title: string;
   anchor?: React.MutableRefObject<any>;
 }
 
-const Card: React.FC<CardProps> = ({ title, size, children, anchor }) => {
+const Accordion: React.FC<AccordionProps> = ({ title, size, children, anchor }) => {
   const [toggled, setToggle] = useState(false);
   return (
-    <AnimatedCard
+    <AnimatedAccordion
       ref={anchor && anchor}
       key="statement"
       variants={CARDS_ANIMATION}
@@ -34,12 +34,12 @@ const Card: React.FC<CardProps> = ({ title, size, children, anchor }) => {
         </ButtonWrapper>
       </ContentHeader>
       { !toggled && (
-        <CardBody>
+        <AccordionBody>
           {children}
-        </CardBody>
+        </AccordionBody>
       )}
-    </AnimatedCard>
+    </AnimatedAccordion>
   )
 }
 
-export default Card;
+export default Accordion;

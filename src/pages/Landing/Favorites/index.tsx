@@ -7,7 +7,7 @@ import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import Modal from '../../../components/Modal';
 import Input from '../../../components/Input';
 import { debounce } from '../../../utils/debounce';
-import Card, { CardSizes } from '../../../components/Card';
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
 
 interface CardData {
   id: number
@@ -71,9 +71,9 @@ const Favorites = () => {
 
   return (
     <>
-      <Card
+      <Accordion
         title="Meus Favoritos"
-        size={CardSizes.large}>
+        size={AccordionSizes.large}>
         <SubHeader>
           <h3>Ações</h3>
         </SubHeader>
@@ -103,7 +103,7 @@ const Favorites = () => {
             />
           )}
         </DataWrapper>
-      </Card>
+      </Accordion>
       <Modal
         title="Adicionar um favorito"
         show={isModalOpen}
