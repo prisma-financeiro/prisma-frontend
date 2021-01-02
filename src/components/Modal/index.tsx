@@ -9,11 +9,14 @@ import Button from '../Button';
 interface ModalProps {  
   title: string;
   show: boolean;
+  showButtons: boolean;
+  primaryButtonText?: string;
+  secondaryButtonText?: string;
   modalClosed: () => void;
   modalConfirmed: () => void;
 }
 
-const Modal: React.FC<ModalProps>= ({ title, show, modalClosed, modalConfirmed, children}) => {
+const Modal: React.FC<ModalProps>= ({ title, show, showButtons, primaryButtonText, secondaryButtonText, modalClosed, modalConfirmed, children}) => {
   return <>
     <Backdrop 
       show={show} 
@@ -37,10 +40,12 @@ const Modal: React.FC<ModalProps>= ({ title, show, modalClosed, modalConfirmed, 
           <Body>
             {children}
           </Body>
-          <Footer>
-              <Button onClick={modalClosed} variant="transparent">Cancelar</Button>
-              <Button onClick={modalConfirmed} variant="primary">Adicionar</Button>
-          </Footer>
+          {showButtons && (
+            <Footer>
+              <Button onClick={modalClosed} variant="transparent">{secondaryButtonText}</Button>
+              <Button onClick={modalConfirmed} variant="primary">{primaryButtonText}</Button>
+            </Footer>
+          )}
         </Container>
       </AnimatePresence>
     )}
