@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const AnimatedContainer = styled(motion.header)`
@@ -57,18 +57,15 @@ export const AnimatedLeftNav = styled(motion.div)`
 `;
 
 export const AnimatedRightNav = styled(motion.div)`
-  flex: 1;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-
-  div:first-child {
-    width: 100%;
-  }
+  width: 100%;
   
 `;
 
 export const MenuItems = styled.div`  
+  flex: 1;
   min-width: 50%;
   max-width: 70%;
   display: flex;
@@ -76,7 +73,7 @@ export const MenuItems = styled.div`
   justify-content: start;  
   align-items: center;
   height: 100%;  
-  color: ${({ theme }) => theme.colors.primary};   
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const MenuItem = styled.div`

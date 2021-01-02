@@ -18,6 +18,9 @@ export const Container = styled.div`
     position:relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 50rem;
+    min-width: 20rem;
 
     :focus-within {
       ${IconContainer} {
@@ -31,6 +34,7 @@ export const StyledInput = styled.input`
   ${({ theme }) => css`
     width: 100%;
     padding: 1rem;
+    padding-right: 5rem;
     border-radius: ${theme.radio.small};
     background-color: ${theme.colors.darkGrey};
     color: ${theme.colors.grey};
