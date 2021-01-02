@@ -5,7 +5,9 @@ import {
   TableWrapper,
   TableHeader,
   TableHeaderIcon,
-  TableFooter
+  TableFooter,
+  TableTitle,
+  SpinnerContainer
 } from './styles';
 
 import {
@@ -23,6 +25,8 @@ import * as themes from '../../../styles/themes';
 import { marketIndex } from '../../../services';
 import history from '../../../services/history';
 import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
+import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import Spinner from '../../../components/Spinner';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -41,6 +45,7 @@ const MarketToday = () => {
   const [ibovFlutuationTable, setIbovFlutuationTable] = useState<IndexFlutuationTableData>();
   const [ifixFlutuationTable, setIfixFlutuationTable] = useState<IndexFlutuationTableData>();
 
+  const device = useBreakpoints();
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
 
@@ -49,7 +54,7 @@ const MarketToday = () => {
   }
 
   useEffect(() => {
-    if (!ibovFlutuationTable) {
+    if (!ibovFlutuationTable && isIbovFlutuationTableLoading) {
       marketIndex.getMarketIndexPriceFlutuation("IBOV")
         .then((data: MarketIndexPriceFlutuationResult) => {
 
@@ -61,10 +66,13 @@ const MarketToday = () => {
 
           setIbovFlutuationTableLoading(false);
           setIbovFlutuationTable(flutuation);
-        });
+        })
+        .catch(err => {
+          setIbovFlutuationTableLoading(false);
+        })
     }
 
-    if (!ifixFlutuationTable) {
+    if (!ifixFlutuationTable && isIfixFlutuationTableLoading) {
       marketIndex.getMarketIndexPriceFlutuation("IFIX")
         .then((data: MarketIndexPriceFlutuationResult) => {
 
@@ -78,7 +86,10 @@ const MarketToday = () => {
             setIfixFlutuationTableLoading(false);
             setIfixFlutuationTable(flutuation);
           }
-        });
+        })
+        .catch(err => {
+          setIfixFlutuationTableLoading(false);
+        })
     }
 
   });
@@ -184,6 +195,10 @@ const MarketToday = () => {
     return `${result.toLocaleDateString()} ${result.toLocaleTimeString()}`;
   }
 
+  const getIndexTableIconSize = () => {
+    return device.isMobile ? 20 : 30;
+  }
+
   return (
     <Card
       title="Mercado hoje"
@@ -195,59 +210,77 @@ const MarketToday = () => {
       <DataWrapper>
         <TableWrapper>
           <TableHeader>
-            <h1>Maiores Altas</h1>
+            <TableTitle>Maiores Altas</TableTitle>
             <TableHeaderIcon>
               <FiTrendingUp
-                size={30}
+                size={getIndexTableIconSize()}
                 color={theme.colors.success}
               />
             </TableHeaderIcon>
           </TableHeader>
           {
-            ibovFlutuationTable &&
-            <>
-              <Table
-                tableHeader={["Ativo", "Cotação"]}
-                tableData={ibovFlutuationTable.highestIncrease}
-                numberOfRows={0}
-                numberOfPages={0}
-                showBottomBorder={true}
-                onPageChange={() => { }}
-                isTableLoading={isIbovFlutuationTableLoading}>
-              </Table>
-              <TableFooter>
-                Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
-              </TableFooter>
-            </>
+            isIbovFlutuationTableLoading ?
+              <SpinnerContainer>
+                <Spinner
+
+                />
+              </SpinnerContainer>
+              :
+              ibovFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ibovFlutuationTable.highestIncrease}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIbovFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
 
         </TableWrapper>
         <TableWrapper>
           <TableHeader>
-            <h1>Maiores Baixas</h1>
+            <TableTitle>Maiores Baixas</TableTitle>
             <TableHeaderIcon>
               <FiTrendingDown
-                size={30}
+                size={getIndexTableIconSize()}
                 color={theme.colors.danger}
               />
             </TableHeaderIcon>
           </TableHeader>
           {
-            ibovFlutuationTable &&
-            <>
-              <Table
-                tableHeader={["Ativo", "Cotação"]}
-                tableData={ibovFlutuationTable.highestDrop}
-                numberOfRows={0}
-                numberOfPages={0}
-                showBottomBorder={true}
-                onPageChange={() => { }}
-                isTableLoading={isIbovFlutuationTableLoading}>
-              </Table>
-              <TableFooter>
-                Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
-              </TableFooter>
-            </>
+            isIbovFlutuationTableLoading ?
+              <SpinnerContainer>
+                <Spinner
+
+                />
+              </SpinnerContainer>
+              :
+              ibovFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ibovFlutuationTable.highestDrop}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIbovFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
       </DataWrapper>
@@ -260,58 +293,76 @@ const MarketToday = () => {
       <DataWrapper>
         <TableWrapper>
           <TableHeader>
-            <h1>Maiores Altas</h1>
+            <TableTitle>Maiores Altas</TableTitle>
             <TableHeaderIcon>
               <FiTrendingUp
-                size={30}
+                size={getIndexTableIconSize()}
                 color={theme.colors.success}
               />
             </TableHeaderIcon>
           </TableHeader>
           {
-            ifixFlutuationTable &&
-            <>
-              <Table
-                tableHeader={["Ativo", "Cotação"]}
-                tableData={ifixFlutuationTable.highestIncrease}
-                numberOfRows={0}
-                numberOfPages={0}
-                showBottomBorder={true}
-                onPageChange={() => { }}
-                isTableLoading={isIfixFlutuationTableLoading}>
-              </Table>
-              <TableFooter>
-                Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
-              </TableFooter>
-            </>
+            isIfixFlutuationTableLoading ?
+              <SpinnerContainer>
+                <Spinner
+
+                />
+              </SpinnerContainer>
+              :
+              ifixFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ifixFlutuationTable.highestIncrease}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIfixFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
         <TableWrapper>
           <TableHeader>
-            <h1>Maiores Baixas</h1>
+            <TableTitle>Maiores Baixas</TableTitle>
             <TableHeaderIcon>
               <FiTrendingDown
-                size={30}
+                size={getIndexTableIconSize()}
                 color={theme.colors.danger}
               />
             </TableHeaderIcon>
           </TableHeader>
           {
-            ifixFlutuationTable &&
-            <>
-              <Table
-                tableHeader={["Ativo", "Cotação"]}
-                tableData={ifixFlutuationTable.highestDrop}
-                numberOfRows={0}
-                numberOfPages={0}
-                showBottomBorder={true}
-                onPageChange={() => { }}
-                isTableLoading={isIfixFlutuationTableLoading}>
-              </Table>
-              <TableFooter>
-                Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
-              </TableFooter>
-            </>
+            isIfixFlutuationTableLoading ?
+              <SpinnerContainer>
+                <Spinner
+
+                />
+              </SpinnerContainer>
+              :
+              ifixFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ifixFlutuationTable.highestDrop}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIfixFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
       </DataWrapper>

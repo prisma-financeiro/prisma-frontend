@@ -6,14 +6,14 @@ import useAppTheme from '../../contexts/theme';
 
 import * as themes from '../../styles/themes';
 
-interface OptionType {
+export interface OptionType {
   label: string;
   value: string;
 }
 
 interface SelectProps {
   options: any[];
-  placeholder?:string;
+  placeholder?: string;
   isMulti: boolean;
   isClearable: boolean;
   isDisabled: boolean;
@@ -32,10 +32,10 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isCleara
       height: 40
     }),
   }
-  
 
-  return ( 
-    <ReactSelect 
+
+  return (
+    <ReactSelect
       styles={customStyles}
       placeholder={placeholder}
       options={options}
@@ -58,7 +58,7 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isCleara
           neutral90: themes[currentTheme].colors.greyLowerOpacity, //dont know
           primary75: themes[currentTheme].colors.greyLowerOpacity, // dont know
           primary50: themes[currentTheme].colors.darkGrey, // color onSelect the option
-          neutral5:  themes[currentTheme].colors.greyLowerOpacity, //disabled color
+          neutral5: themes[currentTheme].colors.greyLowerOpacity, //disabled color
           neutral10: themes[currentTheme].colors.greyLowerOpacity, //badge color when multiselect
           neutral20: themes[currentTheme].colors.greyLowerOpacity, //border and icons
           neutral30: themes[currentTheme].colors.darkGrey, // border hover

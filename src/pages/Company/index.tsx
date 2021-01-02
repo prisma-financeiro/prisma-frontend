@@ -4,11 +4,9 @@ import {
   Container,
   AnimatedWrapper,
   AnimatedCard,
-  CompanyHeader,
   HeaderContainer,
   ValueContainer,
   ButtonContainer,
-  CompanyLogo,
   Title,
   ValueCard,
   CardContainer,
@@ -16,6 +14,10 @@ import {
   InfoCard,
   InfoCardTitle,
   InfoCardValue,
+  Button,
+  SegmentContainer,
+  QuoteInfoContainer,
+  ContatoContainer,
 } from './styles';
 
 import SideBar from '../../components/SideBar';
@@ -24,11 +26,10 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import Card, { CardSizes } from '../../components/Card';
 import { indicatorList } from "./fakeData";
-import Button from '../../components/Button';
 import LineChart from '../../components/LineChart';
 import CompanyIndicatorCard from './CompanyIndicatorCard';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';
-import { formatStandard, formatCurrency } from "../../utils";
+import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
 
@@ -41,6 +42,9 @@ import SegmentCard from '../../components/SegmentCard';
 import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory } from './utils';
 import PeriodSelector from '../../components/PeriodSelector';
 import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow } from '../../models';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+import CompanyHeader from '../../components/CompanyHeader';
+import { Divider } from '../../components/ContentDivider/styles';
 
 interface TickePrice {
   price: number;
@@ -63,6 +67,7 @@ enum PeriodType {
 
 const Company: React.FC<{}> = (props: any) => {
   const INITIAL_STOCK_QUOTE_PERIOD = 5;
+  const device = useBreakpoints();
 
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
@@ -350,16 +355,27 @@ const Company: React.FC<{}> = (props: any) => {
         exit="unMounted"
         transition={{ duration: 1.5 }}
       >
-        <SideBar sideBarOptions={sideBarOptionCompany} />
+        {
+          !device.isMobile &&
+          <SideBar sideBarOptions={sideBarOptionCompany} />
+        }
         <MainContent>
           <HeaderContainer>
-            <CompanyHeader>
-              <CompanyLogo src={companyInfo ? companyInfo.logo : ""} />
-              <Title>
-                <h1>{ticker}</h1>
-                <p>{companyInfo && companyInfo.name}</p>
-              </Title>
-            </CompanyHeader>
+            <CompanyHeader
+              companyLogo={companyInfo ? companyInfo.logo : ""}
+              tickerCode={ticker}
+              companyName={companyInfo ? companyInfo.name : ""}
+            />
+            {
+              device.isMobile &&
+              <>
+                < ButtonContainer >
+                  <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+                  <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+                </ButtonContainer>
+                <Divider />
+              </>
+            }
             <ValueContainer>
               <ValueCard>
                 <Title>Valor Atual</Title>
@@ -384,10 +400,13 @@ const Company: React.FC<{}> = (props: any) => {
                 />
               </ValueCard>
             </ValueContainer>
-            <ButtonContainer>
-              <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
-              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
-            </ButtonContainer>
+            {
+              !device.isMobile &&
+              <ButtonContainer>
+                <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+                <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+              </ButtonContainer>
+            }
           </HeaderContainer>
           <CardContainer>
             <CompanyIndicatorCard
@@ -419,46 +438,40 @@ const Company: React.FC<{}> = (props: any) => {
               indicatorSelectionOptions={indicatorList.content.endividamento}
             />
             <Card anchor={cotacao} title="Histórico - Cotação" size={CardSizes.large}>
-              <InfoContainer>
+              <QuoteInfoContainer>
                 <InfoCard>
                   <InfoCardTitle>
                     Variação no período
                     </InfoCardTitle>
-                  <InfoCardValue>
-                    <StockPrice
-                      stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
-                      variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
-                      size={StockPriceSize.medium}
-                    />
-                  </InfoCardValue>
+                  <StockPrice
+                    stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
+                    variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
+                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                  />
                 </InfoCard>
                 <InfoCard>
                   <InfoCardTitle>
                     Máxima no período
-                    </InfoCardTitle>
-                  <InfoCardValue>
-                    <StockPrice
-                      stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
-                      variationPercentage={stockPriceInfo && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
-                      variationValue={stockPriceInfo && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
-                      size={StockPriceSize.medium}
-                    />
-                  </InfoCardValue>
+                  </InfoCardTitle>
+                  <StockPrice
+                    stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
+                    variationPercentage={stockPriceInfo && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
+                    variationValue={stockPriceInfo && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
+                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                  />
                 </InfoCard>
                 <InfoCard>
                   <InfoCardTitle>
                     Mínima no período
-                    </InfoCardTitle>
-                  <InfoCardValue>
-                    <StockPrice
-                      stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
-                      variationPercentage={stockPriceInfo && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
-                      variationValue={stockPriceInfo && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
-                      size={StockPriceSize.medium}
-                    />
-                  </InfoCardValue>
+                  </InfoCardTitle>
+                  <StockPrice
+                    stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
+                    variationPercentage={stockPriceInfo && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
+                    variationValue={stockPriceInfo && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
+                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                  />
                 </InfoCard>
-              </InfoContainer>
+              </QuoteInfoContainer>
               <PeriodSelector
                 onPeriodChange={(period) => handleStockQuotePeriodChange(period)}
               />
@@ -504,7 +517,7 @@ const Company: React.FC<{}> = (props: any) => {
             </Card>
             <Card anchor={mercadoAtuacao} title="Mercado de Atuação" size={CardSizes.large}>
               <AnimatedCard>
-                <InfoContainer>
+                <SegmentContainer>
                   <SegmentCard
                     title={"Setor"}
                     description={companyInfo?.segment?.description}
@@ -520,7 +533,7 @@ const Company: React.FC<{}> = (props: any) => {
                     description={companyInfo?.sector?.description}
                     companyCount={companyInfo?.sector?.companiesCount}
                   />
-                </InfoContainer>
+                </SegmentContainer>
               </AnimatedCard>
             </Card>
             <Card anchor={dadosGerais} title="Dados Gerais" size={CardSizes.large}>
@@ -531,9 +544,7 @@ const Company: React.FC<{}> = (props: any) => {
                       CNPJ
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
-                      </p>
+                      {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
                   <InfoCard>
@@ -541,9 +552,7 @@ const Company: React.FC<{}> = (props: any) => {
                       Data de Fundação
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
-                      </p>
+                      {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
                   <InfoCard>
@@ -551,21 +560,15 @@ const Company: React.FC<{}> = (props: any) => {
                       Capital
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo ? formatCurrency(companyInfo.capitalAmount) : "Não informado"}
-                      </p>
+                      {companyInfo ? formatCurrencyCompact(companyInfo.capitalAmount).toUpperCase() : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
-                </InfoContainer>
-                <InfoContainer>
                   <InfoCard>
                     <InfoCardTitle>
                       Ações Ordinárias (ON)
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
-                      </p>
+                      {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
                   <InfoCard>
@@ -573,9 +576,7 @@ const Company: React.FC<{}> = (props: any) => {
                       Ações Preferências (PN)
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
-                      </p>
+                      {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
                   <InfoCard>
@@ -583,9 +584,7 @@ const Company: React.FC<{}> = (props: any) => {
                       Total de Papeis
                     </InfoCardTitle>
                     <InfoCardValue>
-                      <p>
-                        {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
-                      </p>
+                      {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
                     </InfoCardValue>
                   </InfoCard>
                 </InfoContainer>
@@ -593,7 +592,7 @@ const Company: React.FC<{}> = (props: any) => {
             </Card>
             <Card anchor={contato} title="Contato" size={CardSizes.large}>
               <AnimatedCard>
-                <InfoContainer>
+                <ContatoContainer>
                   <InfoCard>
                     <InfoCardTitle>
                       Relação com investidores
@@ -603,14 +602,10 @@ const Company: React.FC<{}> = (props: any) => {
                         companyInfo.officerName ?
                         <>
                           <InfoCardValue>
-                            <p>
-                              {companyInfo.officerName}
-                            </p>
+                            {companyInfo.officerName}
                           </InfoCardValue>
                           <InfoCardValue>
-                            <p>
-                              {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
-                            </p>
+                            {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
                           </InfoCardValue>
                         </>
                         :
@@ -619,8 +614,6 @@ const Company: React.FC<{}> = (props: any) => {
                         </InfoCardValue>
                     }
                   </InfoCard>
-                </InfoContainer>
-                <InfoContainer>
                   <InfoCard>
                     <InfoCardTitle>
                       Site Oficial
@@ -631,7 +624,7 @@ const Company: React.FC<{}> = (props: any) => {
                       </Button>
                     </InfoCardValue>
                   </InfoCard>
-                </InfoContainer>
+                </ContatoContainer>
               </AnimatedCard>
             </Card>
             {/* TODO : Pegar ultimas noticias de sites via scrapping e listar */}
@@ -643,7 +636,7 @@ const Company: React.FC<{}> = (props: any) => {
           </CardContainer>
         </MainContent>
       </AnimatedWrapper>
-    </Container>
+    </Container >
   );
 };
 

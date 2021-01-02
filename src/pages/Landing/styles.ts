@@ -8,8 +8,9 @@ export const Container = styled.div`
   display: flex;
   padding: 0 1.6rem;
   
-  @media (max-width: 670px) {
-    padding: 0 0.5rem;
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    padding: 0;
+    margin-top: 6rem;
   }
 `;
 
@@ -20,7 +21,7 @@ export const AnimatedWrapper = styled(motion.div)`
   flex-direction: row;
   justify-content: center;
 
-  @media (max-width: 670px) {
-    flex-direction: column;
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    flex-direction: column;    
   }
 `;

@@ -9,6 +9,7 @@ import {
 } from './styles';
 
 import BarChart from '../BarChart';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface IndicatorCardProps {
   indicatorName: string;
@@ -17,6 +18,7 @@ interface IndicatorCardProps {
 }
 
 const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData }) => {
+  const device = useBreakpoints();
 
   const formatChartData = (data: Array<any>) => {
     return data.map(item => {
@@ -113,6 +115,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
       </Header>
       <Content>
         {
+          !device.isMobile &&
           value &&
           data &&
           <BarChart

@@ -22,7 +22,7 @@ export default {
     small: '1.2rem',
     default: '1.4rem',
     large: '1.6rem',
-    xlarge: '2rem',
+    xlarge: '2.0rem',
     xxlarge: '3.5rem',
     xxxlarge: '5rem',
   },
@@ -47,4 +47,7 @@ export default {
     default: '0 0.5rem 2rem rgba(0, 0, 0, 0.08)',
     flat: '0 0.2rem 0.2rem rgba(0, 0, 0, 0.08)',
   },
+  deviceWidth: {
+    mobile: '670px',
+  }
 };

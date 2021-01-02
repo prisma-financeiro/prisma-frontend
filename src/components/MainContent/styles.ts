@@ -8,7 +8,7 @@ export const Container = styled.main`
   max-width: 70%;
   margin-left: 30rem;
 
-  @media (max-width: 670px) {
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     margin: 0;
     max-width: 100%;
     align-self: center;

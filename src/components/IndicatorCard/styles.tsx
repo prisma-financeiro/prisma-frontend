@@ -8,6 +8,12 @@ export const Container = styled.div`
     height: 15rem;
     border-radius: 5px;
     margin: 1rem 1rem 0 0;
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      width: 100%;
+      height: 10rem;
+      margin: 0.5rem 0.5rem 0 0;
+    }
   `}
 `;
 
@@ -18,6 +24,11 @@ export const Header = styled.div`
   margin-top: 1.5rem;
   margin-left: 2.0rem;
   z-index: 10;
+  
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    margin-top: 0.5rem;
+    margin-left: 1.0rem;    
+  }
 `;
 
 export const Value = styled.h2`

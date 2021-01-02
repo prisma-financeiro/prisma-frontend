@@ -30,4 +30,10 @@ export const DataWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   grid-gap: 2.1rem;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
