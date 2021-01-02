@@ -18,6 +18,9 @@ export const Container = styled.div`
     position:relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 50rem;
+    min-width: 20rem;
 
     :focus-within {
       ${IconContainer} {

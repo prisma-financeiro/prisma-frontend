@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import history from '../../services/history';
 
 import {
@@ -8,8 +8,7 @@ import {
   AnimatedRightNav,
   MenuItems,
   MenuItem,
-  Icon,
-  IconContainer
+  Icon
 } from './styles';
 import AccountDropdown from './AccountDropdown';
 import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
@@ -19,10 +18,12 @@ import useAuth from '../../contexts/auth';
 import Typeahead from '../Typeahead';
 import { FiSearch } from 'react-icons/fi';
 import Modal from '../Modal';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 const Header = () => {
 
   history.listen( () => handleCloseModal());
+  const device = useBreakpoints();
 
   const { signOut } = useAuth();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
@@ -60,15 +61,17 @@ const Header = () => {
               <p>{key}</p>
             </MenuItem>
           ))}
+          {device.isMobile && (
+            <MenuItem onClick={() => handleShowModal()} key="search-icon">
+              <Icon>
+                <FiSearch/>
+              </Icon>
+            </MenuItem>
+          )}
         </MenuItems>
         <AnimatedRightNav variants={NAVS_ANIMATION}>
-          {window.innerWidth > 670 ? (
-            //replace window.innerwidth with isMobile
+          { !device.isMobile && (
             <Typeahead redirect={true}/>
-          ): (
-            <IconContainer>
-              <FiSearch onClick={handleShowModal}/>
-            </IconContainer>
           )}
           <AccountDropdown />
         </AnimatedRightNav>
