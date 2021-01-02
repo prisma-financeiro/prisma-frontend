@@ -15,7 +15,7 @@ import {
   FiTrendingDown,
 } from 'react-icons/fi';
 
-import Card, { CardSizes } from '../../../components/Card';
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import ContentDivider from '../../../components/ContentDivider';
 import Table from '../../../components/Table';
 import StockPrice from '../../../components/StockPrice';
@@ -67,7 +67,7 @@ const MarketToday = () => {
           setIbovFlutuationTableLoading(false);
           setIbovFlutuationTable(flutuation);
         })
-        .catch(err => {
+        .catch(() => {
           setIbovFlutuationTableLoading(false);
         })
     }
@@ -87,7 +87,7 @@ const MarketToday = () => {
             setIfixFlutuationTable(flutuation);
           }
         })
-        .catch(err => {
+        .catch(() => {
           setIfixFlutuationTableLoading(false);
         })
     }
@@ -200,9 +200,9 @@ const MarketToday = () => {
   }
 
   return (
-    <Card
+    <Accordion
       title="Mercado hoje"
-      size={CardSizes.large}>
+      size={AccordionSizes.large}>
       <SubHeader>
         <h3>Ibovespa</h3>
       </SubHeader>
@@ -366,7 +366,7 @@ const MarketToday = () => {
           }
         </TableWrapper>
       </DataWrapper>
-    </Card>
+    </Accordion>
   );
 };
 

@@ -5,7 +5,7 @@ import {
 } from './styles';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import Modal from '../../../components/Modal';
-import Card, { CardSizes } from '../../../components/Card';
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Typeahead from '../../../components/Typeahead';
 import { SearchResultType } from '../../../models';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
@@ -81,9 +81,9 @@ const Favorites = () => {
 
   return (
     <>
-      <Card
+      <Accordion
         title="Meus Favoritos"
-        size={CardSizes.large}>
+        size={AccordionSizes.large}>
         <SubHeader>
           <h3>Ações</h3>
         </SubHeader>
@@ -200,7 +200,7 @@ const Favorites = () => {
             />
           )}
         </DataWrapper>
-      </Card>
+      </Accordion>
       <Modal
         title="Adicionar um favorito"
         show={isModalOpen}

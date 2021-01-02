@@ -3,10 +3,10 @@ import styled, { css } from 'styled-components';
 export const Container = styled.div`
   ${({ theme }) => css`
     position: relative;
-    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
+    background: ${theme.colors.darkGrey};
     width: 20rem;
     height: 15rem;
-    border-radius: 5px;
+    border-radius: ${theme.radio.small};
     margin: 1rem 1rem 0 0;
 
     @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {

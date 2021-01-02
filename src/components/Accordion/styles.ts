@@ -1,15 +1,15 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
-import { CardSizes } from './index';
+import { AccordionSizes } from './index';
 
-interface CardProps {
-  size: CardSizes;
+interface AccordionProps {
+  size: AccordionSizes;
 }
 
-export const AnimatedCard = styled(motion.div)`
+export const AnimatedAccordion = styled(motion.div)`
   ${({ theme }) => css`
     background: ${theme.colors.background};
-    width: ${(props: CardProps) => props.size};
+    width: ${(props: AccordionProps) => props.size};    
     height: 100%;
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -64,7 +64,7 @@ export const ButtonWrapper = styled.div`
   `}
 `;
 
-export const CardBody = styled(motion.article)`
+export const AccordionBody = styled(motion.article)`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

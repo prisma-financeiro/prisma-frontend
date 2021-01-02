@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiBarChart2 } from "react-icons/fi";
-import Card, { CardSizes } from '../../../components/Card';
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import useAppTheme from "../../../contexts/theme";
 import IndicatorChart from "../IndicatorChart";
 import * as themes from '../../../styles/themes';
@@ -60,10 +60,10 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId
 
     return (
 
-        <Card
+        <Accordion
             anchor={anchor}
             title={title}
-            size={CardSizes.large}>
+            size={AccordionSizes.large}>
             <IconContainer
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -105,7 +105,7 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId
                         }
                     </AnimatedCardContainer>
             }
-        </Card>
+        </Accordion>
     )
 }
 

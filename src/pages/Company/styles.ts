@@ -253,7 +253,7 @@ export const ContatoContainer = styled.div`
 
 export const InfoCard = styled.div`
   ${({ theme }) => css`
-    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
+    background: ${theme.colors.darkGrey};
     width: 100%;
     height: 100%;
     border-radius: ${theme.radio.default};   

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   ${({ theme }) => css`
-    background: linear-gradient(to top, ${theme.colors.darkGrey}, #414345);
+    background: ${theme.colors.darkGrey};
     width: 100%;
     height: 100%;
     border-radius: ${theme.radio.default};   

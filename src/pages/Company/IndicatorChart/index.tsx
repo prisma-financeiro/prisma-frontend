@@ -6,6 +6,7 @@ import Selection, { Option } from '../../../components/Selection';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import Select, { OptionType } from '../../../components/Select';
 
 export interface IndicatorData {
     label: string;
@@ -102,15 +103,15 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
         }
     }
 
-    const handleIndicatorChange = (event: any) => {
-        const newIndicatorName = event.target.value;
-        setIndicatorName(newIndicatorName);
+    const handleIndicatorChange = (option: OptionType) => {
+        const newIndicatorName = option;
+        setIndicatorName(newIndicatorName.value);
 
-        onChangeSelection(newIndicatorName, type);
+        onChangeSelection(newIndicatorName.value, type);
     }
 
-    const handleTypeChange = (event: any) => {
-        const newType = event.target.value;
+    const handleTypeChange = (option: OptionType) => {
+        const newType = option.value;
         setType(newType);
 
         onChangeSelection(indicatorName, newType);
@@ -119,14 +120,24 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
     return (
         <Container>
             <SelectContainer>
-                <Selection
-                    value={indicatorName}
+                <Select
+                    placeholder={indicatorSelectionOptions[0].label}
+                    isClearable={false}
+                    isDisabled={false}
+                    isLoading={false}
+                    isMulti={false}
+                    isSearchable={false}
                     options={indicatorSelectionOptions}
-                    onChange={(event) => handleIndicatorChange(event)} />
-                <Selection
-                    value={type}
+                    onChange={(option: OptionType) => handleIndicatorChange(option)} />
+                <Select
+                    placeholder={displayOptions[0].label}
+                    isClearable={false}
+                    isDisabled={false}
+                    isLoading={false}
+                    isMulti={false}
+                    isSearchable={false}
                     options={displayOptions}
-                    onChange={(event) => handleTypeChange(event)} />
+                    onChange={(option: OptionType) => handleTypeChange(option)} />
             </SelectContainer>
             {
                 indicatorData &&
