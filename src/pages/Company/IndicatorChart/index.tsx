@@ -6,7 +6,6 @@ import Selection, { Option } from '../../../components/Selection';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
-// import Select, { OptionType } from '../../../components/Select';
 
 export interface IndicatorData {
     label: string;

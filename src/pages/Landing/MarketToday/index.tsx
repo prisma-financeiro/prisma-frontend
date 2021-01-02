@@ -54,7 +54,7 @@ const MarketToday = () => {
   }
 
   useEffect(() => {
-    if (!ibovFlutuationTable) {
+    if (!ibovFlutuationTable && isIbovFlutuationTableLoading) {
       marketIndex.getMarketIndexPriceFlutuation("IBOV")
         .then((data: MarketIndexPriceFlutuationResult) => {
 
@@ -66,10 +66,13 @@ const MarketToday = () => {
 
           setIbovFlutuationTableLoading(false);
           setIbovFlutuationTable(flutuation);
-        });
+        })
+        .catch(err => {
+          setIbovFlutuationTableLoading(false);
+        })
     }
 
-    if (!ifixFlutuationTable) {
+    if (!ifixFlutuationTable && isIfixFlutuationTableLoading) {
       marketIndex.getMarketIndexPriceFlutuation("IFIX")
         .then((data: MarketIndexPriceFlutuationResult) => {
 
@@ -83,7 +86,10 @@ const MarketToday = () => {
             setIfixFlutuationTableLoading(false);
             setIfixFlutuationTable(flutuation);
           }
-        });
+        })
+        .catch(err => {
+          setIfixFlutuationTableLoading(false);
+        })
     }
 
   });
@@ -220,21 +226,23 @@ const MarketToday = () => {
                 />
               </SpinnerContainer>
               :
-              ibovFlutuationTable &&
-              <>
-                <Table
-                  tableHeader={["Ativo", "Cotação"]}
-                  tableData={ibovFlutuationTable.highestIncrease}
-                  numberOfRows={0}
-                  numberOfPages={0}
-                  showBottomBorder={true}
-                  onPageChange={() => { }}
-                  isTableLoading={isIbovFlutuationTableLoading}>
-                </Table>
-                <TableFooter>
-                  Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
-                </TableFooter>
-              </>
+              ibovFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ibovFlutuationTable.highestIncrease}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIbovFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
 
         </TableWrapper>
@@ -256,21 +264,23 @@ const MarketToday = () => {
                 />
               </SpinnerContainer>
               :
-              ibovFlutuationTable &&
-              <>
-                <Table
-                  tableHeader={["Ativo", "Cotação"]}
-                  tableData={ibovFlutuationTable.highestDrop}
-                  numberOfRows={0}
-                  numberOfPages={0}
-                  showBottomBorder={true}
-                  onPageChange={() => { }}
-                  isTableLoading={isIbovFlutuationTableLoading}>
-                </Table>
-                <TableFooter>
-                  Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
-                </TableFooter>
-              </>
+              ibovFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ibovFlutuationTable.highestDrop}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIbovFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ibovFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
       </DataWrapper>
@@ -299,21 +309,23 @@ const MarketToday = () => {
                 />
               </SpinnerContainer>
               :
-              ifixFlutuationTable &&
-              <>
-                <Table
-                  tableHeader={["Ativo", "Cotação"]}
-                  tableData={ifixFlutuationTable.highestIncrease}
-                  numberOfRows={0}
-                  numberOfPages={0}
-                  showBottomBorder={true}
-                  onPageChange={() => { }}
-                  isTableLoading={isIfixFlutuationTableLoading}>
-                </Table>
-                <TableFooter>
-                  Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
-                </TableFooter>
-              </>
+              ifixFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ifixFlutuationTable.highestIncrease}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIfixFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
         <TableWrapper>
@@ -334,21 +346,23 @@ const MarketToday = () => {
                 />
               </SpinnerContainer>
               :
-              ifixFlutuationTable &&
-              <>
-                <Table
-                  tableHeader={["Ativo", "Cotação"]}
-                  tableData={ifixFlutuationTable.highestDrop}
-                  numberOfRows={0}
-                  numberOfPages={0}
-                  showBottomBorder={true}
-                  onPageChange={() => { }}
-                  isTableLoading={isIfixFlutuationTableLoading}>
-                </Table>
-                <TableFooter>
-                  Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
-                </TableFooter>
-              </>
+              ifixFlutuationTable ?
+                <>
+                  <Table
+                    tableHeader={["Ativo", "Cotação"]}
+                    tableData={ifixFlutuationTable.highestDrop}
+                    numberOfRows={0}
+                    numberOfPages={0}
+                    showBottomBorder={true}
+                    onPageChange={() => { }}
+                    isTableLoading={isIfixFlutuationTableLoading}>
+                  </Table>
+                  <TableFooter>
+                    Última Atualização: {formatDisplayDate(ifixFlutuationTable.lastRefresh)}
+                  </TableFooter>
+                </>
+                :
+                "Ops, não há informação no momento."
           }
         </TableWrapper>
       </DataWrapper>

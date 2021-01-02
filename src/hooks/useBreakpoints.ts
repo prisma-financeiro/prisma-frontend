@@ -1,7 +1,12 @@
 import { useMediaQuery } from 'react-responsive';
+import useAppTheme from '../contexts/theme';
+import * as themes from '../styles/themes';
 
 export const useBreakpoints = () => {
-    const isMobile = useMediaQuery({ query: '(max-width: 670px)' });
+    const { currentTheme } = useAppTheme();
+    const theme = themes[currentTheme];
+
+    const isMobile = useMediaQuery({ query: `(max-width: ${theme.deviceWidth.mobile})` });
     //   const isMobileMid = useMediaQuery({ query: '(max-width: 375px)' });
     //   const isMobileFloor = useMediaQuery({ query: '(max-width: 425px)' });
 

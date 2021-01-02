@@ -149,35 +149,6 @@ const Favorites = () => {
         </DataWrapper>
         {!device.isMobile && <ContentDivider />}
         <SubHeader>
-          <h3>Brazilian Depositary Receipts (BDR)</h3>
-        </SubHeader>
-        <DataWrapper>
-          {companyTickerCards.map(ticker => {
-            return (
-              <CompanyTickerCard
-                key={ticker.id}
-                companyLogo={ticker.companyLogo}
-                companyName={ticker.companyName}
-                tickerCode={ticker.tickerCode}
-                stockPrice={ticker.stockPrice}
-                variationPercentage={ticker.variationPercentage}
-                variationReal={ticker.variationReal}
-                emptyCard={false}
-                addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
-              />
-            );
-          })}
-          {companyTickerCards.length < CARDS_LIMIT && (
-            <CompanyTickerCard
-              emptyCard={true}
-              removeCardCallback={() => { }}
-              addNewCardCallback={createNewCompanyTickerCard}
-            />
-          )}
-        </DataWrapper>
-        {!device.isMobile && <ContentDivider />}
-        <SubHeader>
           <h3>Exchange-traded Fund (ETF)</h3>
         </SubHeader>
         <DataWrapper>
