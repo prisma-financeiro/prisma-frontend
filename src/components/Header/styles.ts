@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const AnimatedContainer = styled(motion.header)`
@@ -104,4 +104,12 @@ export const MenuItem = styled.div`
 
 export const Icon = styled.div`
   font-size: 24px;
+`;
+
+export const IconContainer = styled.div`
+  ${({ theme }) => css`
+    font-size: ${theme.fontSizes.xlarge};
+    color: ${theme.colors.primary};
+    cursor: pointer;
+  `}  
 `;

@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import history from '../../services/history';
 
 import {
@@ -9,6 +9,7 @@ import {
   MenuItems,
   MenuItem,
   Icon,
+  IconContainer
 } from './styles';
 import AccountDropdown from './AccountDropdown';
 import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
@@ -16,15 +17,30 @@ import { TOP_NAVIGATION } from '../../constants';
 
 import useAuth from '../../contexts/auth';
 import Typeahead from '../Typeahead';
-import { search } from '../../services/search';
-import { SearchResult } from '../../models';
-import { debounce } from '../../utils/debounce';
+import { FiSearch } from 'react-icons/fi';
+import Modal from '../Modal';
 
 const Header = () => {
+
+  history.listen( () => handleCloseModal());
+
   const { signOut } = useAuth();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
 
   const handleNavigation = (route: string) => {
     history.push(`/${route}`);
+  }
+
+  const handleShowModal = () => {
+    setIsSearchModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsSearchModalOpen(false);
+  }
+
+  const handleModalConfirmed = () => {
+    setIsSearchModalOpen(false);
   }
 
   return (
@@ -46,10 +62,25 @@ const Header = () => {
           ))}
         </MenuItems>
         <AnimatedRightNav variants={NAVS_ANIMATION}>
-          <Typeahead />
+          {window.innerWidth > 670 ? (
+            //replace window.innerwidth with isMobile
+            <Typeahead redirect={true}/>
+          ): (
+            <IconContainer>
+              <FiSearch onClick={handleShowModal}/>
+            </IconContainer>
+          )}
           <AccountDropdown />
         </AnimatedRightNav>
       </Wrapper>
+      <Modal
+        title="Encontre um ativo"
+        show={isSearchModalOpen}
+        showButtons={false}
+        modalClosed={handleCloseModal}
+        modalConfirmed={handleModalConfirmed}>
+        <Typeahead redirect={true}/>
+      </Modal>
     </AnimatedContainer>
   );
 };

@@ -20,7 +20,12 @@ import {
   ListItemType 
 } from './styles';
 
-const Typeahead: React.FC = () => {
+interface TypeaheadProps {
+  redirect: boolean;
+  selectedOption?: (type: SearchResultType, companyId: number, companyTicker: string) => void;
+}
+
+const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
 
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
@@ -67,8 +72,11 @@ const Typeahead: React.FC = () => {
 
   const handleOnBlur = () => {
     setShowOptionList(false);
-    setInputValue('');
     handleTypeaheadReset();
+
+    if (redirect) {
+      setInputValue('');
+    }
   }
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +84,15 @@ const Typeahead: React.FC = () => {
     setSearchQuery(event.target.value);
   }
 
-  const handleItemClick = (type: SearchResultType, id: number, ticker: string) => {
-    if (type === SearchResultType.Stock) {
-      history.push(`/company/${id}/${ticker}`);
+  const handleItemClick = (type: SearchResultType, id: number, ticker: string, name: string) => {
+    setInputValue(name);
+    selectedOption && selectedOption(type, id, ticker);
+    if (redirect) {
+      if (type === SearchResultType.Stock) {
+        history.push(`/company/${id}/${ticker}`);
+      }
+      // Outras rotas aqui de acordo com o tipo de resultado
     }
-    // Outras rotas aqui de acordo com o tipo de resultado
   }
 
   const formatResponseType = (searchResultType: SearchResultType) => {
@@ -116,7 +128,7 @@ const Typeahead: React.FC = () => {
       return (
         <ListItem 
           key={index} 
-          onMouseDown={() => handleItemClick(typeaheadOption.type, typeaheadOption.id, typeaheadOption.code)}>
+          onMouseDown={() => handleItemClick(typeaheadOption.type, typeaheadOption.id, typeaheadOption.code, typeaheadOption.name)}>
           <ListItemImage>
             <Logo imageUrl={typeaheadOption.image}/>
           </ListItemImage>

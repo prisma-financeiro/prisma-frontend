@@ -31,6 +31,7 @@ export const StyledInput = styled.input`
   ${({ theme }) => css`
     width: 100%;
     padding: 1rem;
+    padding-right: 5rem;
     border-radius: ${theme.radio.small};
     background-color: ${theme.colors.darkGrey};
     color: ${theme.colors.grey};

@@ -13,7 +13,6 @@ export const Container = styled(motion.div)`
     left: 15%;
     top: 30%;
     transition: all 0.3s ease-out;
-    overflow:hidden;
     background-color: ${theme.colors.background};
 
     @media (min-width: 600px) {
