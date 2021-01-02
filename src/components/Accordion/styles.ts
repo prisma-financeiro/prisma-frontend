@@ -12,15 +12,18 @@ export const AnimatedAccordion = styled(motion.div)`
     width: ${(props: AccordionProps) => props.size};    
     height: 100%;
     margin-top: 2rem;
-    margin-bottom: 2rem;    
+    margin-bottom: 1rem;
     border-radius: ${theme.radio.default};
     padding: 1.6rem 2.4rem;
     box-shadow: ${theme.shadows.flat};
     display: flex;
     flex-direction: column;
 
-    @media (max-width: 670px) {
+    @media (max-width: ${theme.deviceWidth.mobile}) {
       width: 100%;
+      margin-bottom: 0;
+      border-radius: ${theme.radio.tiny};
+      padding: 1.0rem;
     }
   `}
 `;
@@ -29,7 +32,7 @@ export const ContentHeader = styled.div`
   ${({ theme }) => css`
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0 ;    
+    padding: 0.5rem 0;
     cursor: pointer;
 
     > h2 {   

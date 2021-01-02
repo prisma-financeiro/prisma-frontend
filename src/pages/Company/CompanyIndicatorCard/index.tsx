@@ -4,7 +4,11 @@ import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import useAppTheme from "../../../contexts/theme";
 import IndicatorChart from "../IndicatorChart";
 import * as themes from '../../../styles/themes';
-import { IconContainer, AnimatedCard } from "./styles";
+import {
+    IconContainer,
+    AnimatedCardContainer,
+    AnimatedChartContainer
+} from "./styles";
 import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
 
@@ -65,37 +69,42 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId
                 whileTap={{ scale: 0.9 }}
                 color={chartVisibled ? themes[currentTheme].colors.primary : themes[currentTheme].colors.grey}
                 onClick={() => setChartVisibled(!chartVisibled)} >
-                <FiBarChart2 />
+                <FiBarChart2
+                    title={'Gráfico'}
+                />
             </IconContainer>
-            <AnimatedCard>
-                {
-                    chartVisibled
-                        ?
-                        <IndicatorChart
-                            data={indicatorHistory}
-                            onChangeSelection={(indicatorName: string, type: string) => handleSelectionChange(indicatorName, type)}
-                            indicatorSelectionOptions={indicatorSelectionOptions}
-                        />
-                        :
-                        <>
-                            {
-                                indicatorData ?
-                                    indicatorData.map((indicator: any, index: number) => {
-                                        return indicator && (
-                                            <IndicatorCard
-                                                key={index}
-                                                indicatorName={indicator.indicatorName}
-                                                value={indicator.value}
-                                                chartData={indicator.history}
-                                            />
-                                        )
-                                    })
-                                    :
-                                    <p>Não há informações</p>
-                            }
-                        </>
-                }
-            </AnimatedCard>
+            {
+                chartVisibled ?
+                    <AnimatedChartContainer>
+                        {
+                            indicatorHistory &&
+                            <IndicatorChart
+                                data={indicatorHistory}
+                                onChangeSelection={(indicatorName: string, type: string) => handleSelectionChange(indicatorName, type)}
+                                indicatorSelectionOptions={indicatorSelectionOptions}
+                            />
+
+                        }
+                    </AnimatedChartContainer>
+                    :
+                    <AnimatedCardContainer>
+                        {
+                            indicatorData ?
+                                indicatorData.map((indicator: any, index: number) => {
+                                    return indicator && (
+                                        <IndicatorCard
+                                            key={index}
+                                            indicatorName={indicator.indicatorName}
+                                            value={indicator.value}
+                                            chartData={indicator.history}
+                                        />
+                                    )
+                                })
+                                :
+                                <p>Não há informações</p>
+                        }
+                    </AnimatedCardContainer>
+            }
         </Accordion>
     )
 }

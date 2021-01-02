@@ -13,6 +13,5 @@ export const SelectContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;  
+  justify-content: space-between;
 `;
-

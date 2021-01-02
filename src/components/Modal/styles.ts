@@ -20,6 +20,11 @@ export const Container = styled(motion.div)`
       width: 500px;
       left: calc(50% - 250px);
     }
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      width: 90%;
+      left: 5%;
+    }
   `}  
 `;
 

@@ -5,13 +5,30 @@ interface IconProps {
   color: string;
 }
 
-export const AnimatedCard = styled(motion.article)`
+export const AnimatedCardContainer = styled(motion.article)`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: flex;
     justify-content: flex-start;
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {     
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-self: center;
+      column-gap: 1rem;
+      row-gap: 1rem;
+    }
+  `}
+`;
+export const AnimatedChartContainer = styled(motion.article)`
+  ${({ theme }) => css`
+    background: ${theme.colors.background};
+    width: 100%;
+    border-radius: ${theme.radio.default};   
+    display: flex;
+    justify-content: center;    
   `}
 `;
 

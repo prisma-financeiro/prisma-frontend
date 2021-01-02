@@ -8,6 +8,8 @@ import Modal from '../../../components/Modal';
 import Input from '../../../components/Input';
 import { debounce } from '../../../utils/debounce';
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
+import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import ContentDivider from '../../../components/ContentDivider';
 
 interface CardData {
   id: number
@@ -19,9 +21,22 @@ interface CardData {
   variationPercentage: number,
 }
 
+export enum FavoriteType {
+  Stock = 'stock',
+  Fund = 'fund',
+  Reit = 'reit',
+  Crypto = 'crypto'
+}
+
 const Favorites = () => {
+  const device = useBreakpoints();
 
   const [companyTickerCards, setCompanyTickerCards] = useState<CardData[]>([]);
+  // TODO: Implementar o botao adicionar para os ativos baixo.
+  // const [reitCards, setReitCards] = useState<CardData[]>([]);
+  // const [brazilianDepositaryReceiptCards, setBrazilianDepositaryReceiptCards] = useState<CardData[]>([]);
+  // const [etfCards, setEtfCards] = useState<CardData[]>([]);
+  // const [criptoMoedaCards, setCriptoMoedaCards] = useState<CardData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSpinnerInModalLoading, setIsSpinnerInModalLoading] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
@@ -78,6 +93,93 @@ const Favorites = () => {
           <h3>Ações</h3>
         </SubHeader>
 
+        <DataWrapper>
+          {companyTickerCards.map(ticker => {
+            return (
+              <CompanyTickerCard
+                key={ticker.id}
+                companyLogo={ticker.companyLogo}
+                companyName={ticker.companyName}
+                tickerCode={ticker.tickerCode}
+                stockPrice={ticker.stockPrice}
+                variationPercentage={ticker.variationPercentage}
+                variationReal={ticker.variationReal}
+                emptyCard={false}
+                addNewCardCallback={() => { }}
+                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
+              />
+            );
+          })}
+          {companyTickerCards.length < CARDS_LIMIT && (
+            <CompanyTickerCard
+              emptyCard={true}
+              removeCardCallback={() => { }}
+              addNewCardCallback={createNewCompanyTickerCard}
+            />
+          )}
+        </DataWrapper>
+        {!device.isMobile && <ContentDivider />}
+        <SubHeader>
+          <h3>Fundos Imobiliários</h3>
+        </SubHeader>
+        <DataWrapper>
+          {companyTickerCards.map(ticker => {
+            return (
+              <CompanyTickerCard
+                key={ticker.id}
+                companyLogo={ticker.companyLogo}
+                companyName={ticker.companyName}
+                tickerCode={ticker.tickerCode}
+                stockPrice={ticker.stockPrice}
+                variationPercentage={ticker.variationPercentage}
+                variationReal={ticker.variationReal}
+                emptyCard={false}
+                addNewCardCallback={() => { }}
+                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
+              />
+            );
+          })}
+          {companyTickerCards.length < CARDS_LIMIT && (
+            <CompanyTickerCard
+              emptyCard={true}
+              removeCardCallback={() => { }}
+              addNewCardCallback={createNewCompanyTickerCard}
+            />
+          )}
+        </DataWrapper>
+        {!device.isMobile && <ContentDivider />}
+        <SubHeader>
+          <h3>Exchange-traded Fund (ETF)</h3>
+        </SubHeader>
+        <DataWrapper>
+          {companyTickerCards.map(ticker => {
+            return (
+              <CompanyTickerCard
+                key={ticker.id}
+                companyLogo={ticker.companyLogo}
+                companyName={ticker.companyName}
+                tickerCode={ticker.tickerCode}
+                stockPrice={ticker.stockPrice}
+                variationPercentage={ticker.variationPercentage}
+                variationReal={ticker.variationReal}
+                emptyCard={false}
+                addNewCardCallback={() => { }}
+                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
+              />
+            );
+          })}
+          {companyTickerCards.length < CARDS_LIMIT && (
+            <CompanyTickerCard
+              emptyCard={true}
+              removeCardCallback={() => { }}
+              addNewCardCallback={createNewCompanyTickerCard}
+            />
+          )}
+        </DataWrapper>
+        {!device.isMobile && <ContentDivider />}
+        <SubHeader>
+          <h3>Cripto Moedas</h3>
+        </SubHeader>
         <DataWrapper>
           {companyTickerCards.map(ticker => {
             return (

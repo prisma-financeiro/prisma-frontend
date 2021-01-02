@@ -1,16 +1,8 @@
+import { TickerHistoryResultPrice, TradingViewTableRow } from "../../models";
+
 interface TableData {
     columns: string[];
     rows: any[]
-}
-
-export interface StockPriceHistory {
-    time: string;
-    value: number;
-}
-
-interface StockVolumeHistory {
-    time: string;
-    value: number;
 }
 
 export const formatIncomeStatementTable = (data: any[], type: string): TableData => {
@@ -166,8 +158,8 @@ export const formatSelectOptions = (data: number[]) => {
     });
 }
 
-export const formatStockPriceHistory = (data: any[]) => {
-    return data.map(item => {
+export const formatStockPriceHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {
+    return data.map((item: TickerHistoryResultPrice) => {
         return {
             time: item.date,
             value: item.price
@@ -175,8 +167,8 @@ export const formatStockPriceHistory = (data: any[]) => {
     });
 }
 
-export const formatStockVolumeHistory = (data: any[]): StockVolumeHistory[] => {
-    return data.map(item => {
+export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {
+    return data.map((item: TickerHistoryResultPrice) => {
         return {
             time: item.date,
             value: item.volume

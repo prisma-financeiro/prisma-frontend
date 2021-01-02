@@ -52,6 +52,12 @@ export const StyledTable = styled(motion.table) <TableStylingProps>`
         border-right: 0;
       }
     }
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      thead {
+        font-size: ${theme.fontSizes.default}
+      }
+    }
   `}
 `;
 

@@ -1,3 +1,4 @@
+import { TickerHistoryResult } from "../models";
 import api from "./api";
 
 export interface CompanyInfo {
@@ -57,7 +58,8 @@ export const getCompany = (id: number) => {
     return api
         .get(`api/v1/company/${id}`)
         .then(res => {
-            const companyInfo: CompanyInfo = res.data.data;
+            const companyInfo = res.data.data;
+
             return {
                 cnpj: companyInfo.cnpj,
                 name: companyInfo.name,
@@ -105,7 +107,7 @@ export const getTickerPrice = (ticker: string) => {
         .then(res => res.data.data);
 }
 
-export const getTickerHistory = (ticker: string, days?: number) => {
+export const getTickerHistory = (ticker: string, days: number | null): Promise<TickerHistoryResult> => {
     return api
         .get(`/api/v1/ticker/${ticker}/history`, {
             params: {

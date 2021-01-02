@@ -7,9 +7,11 @@ import { DASHBOARD_ANIMATION } from './animations';
 import { sideBarOptionLanding } from '../../constants';
 import Favorites from './Favorites';
 import MarketToday from './MarketToday';
-import Accordion, { AccordionSizes } from '../../components/Accordion';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 const Landing = () => {
+  const device = useBreakpoints();
+
   return (
     <Container>
       <AnimatedWrapper
@@ -19,16 +21,14 @@ const Landing = () => {
         exit="unMounted"
         transition={{ duration: 1.5 }}
       >
-        <SideBar sideBarOptions={sideBarOptionLanding} />
+        {
+          !device.isMobile &&
+          <SideBar sideBarOptions={sideBarOptionLanding} />
+        }
         <MainContent>
           <Favorites />
           <MarketToday />
         </MainContent>
-        <Accordion 
-          title="Últimos Eventos"
-          size={AccordionSizes.small}>
-          Olá
-        </Accordion>
       </AnimatedWrapper>
     </Container>
   );

@@ -81,7 +81,7 @@ const StockPrice: React.FC<StockPriceProps> = ({ stockPrice, variationPercentage
                 }
                 {
                     variationPercentage &&
-                        variationValue ? `(${variationPercentage}%)` : `${variationPercentage}%`
+                        variationValue ? ` (${variationPercentage}%)` : ` ${variationPercentage}%`
                 }
             </StockVariation>
         </Content>

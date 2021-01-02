@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fi';
 import StockPrice from '../StockPrice';
 import CompanyHeader from '../CompanyHeader';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface CompanyTickerCardProps {
   companyLogo?: string;
@@ -25,7 +26,7 @@ interface CompanyTickerCardProps {
 }
 
 const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
-
+  const device = useBreakpoints();
   const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
 
   const handleMouseHover = (isVisible: boolean) => {
@@ -40,7 +41,9 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
       onMouseLeave={() => handleMouseHover(false)}>
       { emptyCard ? (
         <ButtonContent onClick={addNewCardCallback}>
-          <FiPlus />
+          <FiPlus
+            size={device.isMobile ? 20 : 30}
+          />
         </ButtonContent>
       ) : (
           <React.Fragment>

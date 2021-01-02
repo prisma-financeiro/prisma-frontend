@@ -11,23 +11,32 @@ export const Container = styled(motion.div)`
     width: 19rem;
     height: 15rem;
     border-radius: 5px;
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      width: 100%;
+      height: 6rem;
+      flex-direction: row;      
+    }
   `}
 `;
 
 export const ButtonContent = styled.button`
   ${({ theme }) => css`
-      margin: 15px;
       height: 100%;
-      border-radius: 10px;
+      border-radius: ${theme.radio.default};
       color: ${theme.colors.primary};
       border-color: ${theme.colors.primary};
       background-color: ${theme.colors.darkGrey};
       font-size: ${theme.fontSizes.large};
       border-style: dotted;
-      border-width: 2px;
+      border-width: 0.1rem;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      @media (max-width: ${theme.deviceWidth.mobile}) {
+        width: 100%;
+      }
   `} 
 `
 
