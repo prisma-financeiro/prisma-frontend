@@ -29,7 +29,8 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isCleara
     control: (provided: any, state: any) => ({
       ...provided,
       border: 'none',
-      height: 40
+      height: 40,
+      width: 400
     }),
   }
 

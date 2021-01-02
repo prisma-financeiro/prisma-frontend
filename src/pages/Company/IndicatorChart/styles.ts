@@ -9,6 +9,7 @@ export const Container = styled.div`
 `;
 
 export const SelectContainer = styled.div`
+  margin-bottom: 3rem;
   width: 100%;
   height: 100%;
   display: flex;
