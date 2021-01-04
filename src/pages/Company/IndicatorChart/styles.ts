@@ -15,4 +15,9 @@ export const SelectContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  > div {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
 `;

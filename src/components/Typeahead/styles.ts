@@ -76,8 +76,8 @@ export const ListItem = styled.li`
 
 export const ListItemImage = styled.div`
   ${({ theme }) => css`
-      max-width: 10%;
-      margin: 0 1rem;
+      max-width: 15%;
+      margin: 0 0.5rem;
   `}  
 `;
 
