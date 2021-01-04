@@ -62,7 +62,7 @@ const Header = () => {
             </MenuItem>
           ))}
           {device.isMobile && (
-            <MenuItem onClick={() => handleShowModal()} key="search-icon">
+            <MenuItem key="search-icon" onClick={() => handleShowModal()}>
               <Icon>
                 <FiSearch/>
               </Icon>
