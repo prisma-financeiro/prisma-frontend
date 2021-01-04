@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Container, SelectContainer } from './styles';
 import BarChart from '../../../components/BarChart';
-import Selection, { Option } from '../../../components/Selection';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
@@ -15,7 +14,7 @@ export interface IndicatorData {
 
 interface IndicatorChartOptions {
     data: any[];
-    indicatorSelectionOptions: Array<Option>;
+    indicatorSelectionOptions: OptionType[];
     onChangeSelection: (indicatorName: string, type: string) => any;
 }
 
