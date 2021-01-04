@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const AnimatedContainer = styled(motion.header)`
@@ -28,7 +28,8 @@ export const Wrapper = styled.div`
 `;
 
 export const AnimatedLeftNav = styled(motion.div)`
-  width: 31rem;
+  width: 23%;
+  min-width: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,38 +37,29 @@ export const AnimatedLeftNav = styled(motion.div)`
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: 700;
 
-  > svg {
-    cursor: pointer;
-    max-width: 11.2rem;
-    height: auto;
-    margin: 0 2.4rem 0.4rem -0.4rem;
-  }
-
-  @media (max-width: 470px) { 
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) { 
     width: 0;
-
-    > button {
-      display: none;
-    }
-  }
-
-  @media (max-width: 670px) { 
-    width: 0;
+    min-width: 0;
   }
 `;
 
 export const AnimatedRightNav = styled(motion.div)`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: end;
   align-items: center;
-  width: 100%;
-  
+  width: 40%;
+  min-width: 20rem;
+  max-width: 40rem;
+
+  @media (max-width: 670px) { 
+    width: 15%;
+    min-width: 10rem;
+  }
 `;
 
 export const MenuItems = styled.div`  
   flex: 1;
-  min-width: 50%;
-  max-width: 70%;
   display: flex;
   flex-direction: row;
   justify-content: start;  
@@ -82,25 +74,21 @@ export const MenuItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  text-align: center;
 
   :hover {
     color: ${({ theme }) => theme.colors.lightGrey};
-    cursor: pointer;
     border-bottom: 0.3rem solid ${({ theme }) => theme.colors.lightGrey};
-  }  
+  }
 
-  @media (max-width: 780px) {
-    margin-right: 3rem;
-    margin-left: 3rem;
-    
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    margin-right: 4rem;
+    margin-left: 3rem;    
+
     > p {
       display: none;
     }
-  }
-
-  @media (max-width: 470px) {
-    margin-right: 4rem;
-    margin-left: 3rem;    
   }
 `;
 

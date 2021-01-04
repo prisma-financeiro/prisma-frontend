@@ -2,9 +2,7 @@ import React from 'react';
 
 import {
   FiActivity,
-  // FiBarChart2,
-  FiHome,
-  // FiSearch
+  FiHome
 } from 'react-icons/fi';
 
 
@@ -16,5 +14,5 @@ export default {
   'Comparar Ativos': {
     icon: <FiActivity />,
     route: ''
-  },
+  }
 } as const;
