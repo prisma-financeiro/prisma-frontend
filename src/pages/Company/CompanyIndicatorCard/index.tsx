@@ -96,6 +96,7 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId
                                             key={index}
                                             indicatorName={indicator.indicatorName}
                                             value={indicator.value}
+                                            signal={indicator.signal}
                                             chartData={indicator.history}
                                         />
                                     )

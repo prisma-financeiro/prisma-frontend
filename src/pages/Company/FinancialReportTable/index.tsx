@@ -84,7 +84,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                         if (attrValue.type === 'value') {
                             formatedRow[attr] = (
                                 <TableColumnValue>
-                                    {formatCurrency(Number(attrValue.data))}
+                                    {`${formatCurrency(Number(attrValue.data))} MI`}
                                 </TableColumnValue>
                             )
                         } else if (attrValue.type === 'percentual') {

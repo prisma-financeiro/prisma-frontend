@@ -14,10 +14,11 @@ import { useBreakpoints } from '../../hooks/useBreakpoints';
 interface IndicatorCardProps {
   indicatorName: string;
   value: number;
+  signal: string;
   chartData?: Array<any>;
 }
 
-const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData }) => {
+const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, signal, chartData }) => {
   const device = useBreakpoints();
 
   const formatChartData = (data: Array<any>) => {
@@ -104,7 +105,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
         <Value>
           {
             value ?
-              parseFloat(String(value)).toFixed(2).toString().replace('.', ',')
+              `${parseFloat(String(value)).toFixed(2).toString().replace('.', ',')}${signal && signal}`
               :
               "--"
           }
