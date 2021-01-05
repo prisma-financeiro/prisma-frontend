@@ -4,6 +4,12 @@ import {
   FiGlobe,
 } from 'react-icons/fi';
 
+import { BiBitcoin } from 'react-icons/bi';
+
+import { BsBuilding, BsBriefcase } from 'react-icons/bs';
+
+import { RiFileChartLine, RiFundsLine } from 'react-icons/ri';
+
 export interface SideBarOption {
   title: string;
   items: Array<SideBarItem>;
@@ -21,23 +27,23 @@ export const sideBarOptionLanding: SideBarOption[] = [
     title: 'Seus Favoritos',
     items: [
       {
-        name: 'Acoes',
-        icon: <FiGlobe />,
+        name: 'Ações',
+        icon: <RiFileChartLine />,
         expand: false,
       },
       {
         name: 'Fundos Imobiliarios',
-        icon: <FiGlobe />,
+        icon: <BsBuilding />,
         expand: false,
       },
       {
         name: 'Fundos de investimentos',
-        icon: <FiGlobe />,
+        icon: <BsBriefcase />,
         expand: false,
       },
       {
-        name: 'BDRs',
-        icon: <FiGlobe />,
+        name: 'Criptomoedas',
+        icon: <BiBitcoin />,
         expand: false,
       },
     ]
@@ -47,19 +53,14 @@ export const sideBarOptionLanding: SideBarOption[] = [
     items: [
       {
         name: 'IBOV',
-        icon: <FiGlobe />,
+        icon: <RiFundsLine />,
         expand: false,
       },
       {
         name: 'IFIX',
-        icon: <FiGlobe />,
+        icon: <BsBuilding />,
         expand: false,
       },
-      {
-        name: 'BDRX',
-        icon: <FiGlobe />,
-        expand: false,
-      }
     ]
   }
 
