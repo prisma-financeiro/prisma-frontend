@@ -144,7 +144,7 @@ const Favorites = () => {
         </DataWrapper>
         {!device.isMobile && <ContentDivider />}
         <SubHeader>
-          <h3>Exchange-traded Fund (ETF)</h3>
+          <h3>Fundos de Investimentos</h3>
         </SubHeader>
         <DataWrapper>
           {companyTickerCards.map(ticker => {
@@ -173,7 +173,7 @@ const Favorites = () => {
         </DataWrapper>
         {!device.isMobile && <ContentDivider />}
         <SubHeader>
-          <h3>Cripto Moedas</h3>
+          <h3>Criptomoedas</h3>
         </SubHeader>
         <DataWrapper>
           {companyTickerCards.map(ticker => {

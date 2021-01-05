@@ -34,8 +34,28 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 import { company } from "../../services";
 
 import {
-  FiGlobe,
+  FiTrendingUp,
+  FiTrendingDown,
 } from 'react-icons/fi';
+
+import {
+  RiVipDiamondLine,
+  RiPercentLine,
+  RiHandCoinLine,
+  RiExchangeFundsLine,
+  RiBuilding4Line,
+  RiFireLine
+} from 'react-icons/ri';
+
+import { 
+  BiLineChart,
+  BiSpreadsheet } from 'react-icons/bi';
+
+import { 
+  HiOutlineDocumentReport,
+  HiOutlineMail } from 'react-icons/hi';
+
+import { BsBuilding } from 'react-icons/bs';
 
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
@@ -82,7 +102,7 @@ const Company: React.FC<{}> = (props: any) => {
   const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: [] });
   const [cashFlowData, setCashFlowData] = useState<TableContent>();
   const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: [] });
-  const [stockPriceHistory, setStockPriceHistory] = useState<TradingViewTableRow[]>();
+  const [stockPriceHistory, setStockPriceHistory] = useState<TradingViewTableRow[] | null>();
   const [stockPriceInfo, setStockPriceInfo] = useState<StockPriceInfo>();
 
   const valuation = useRef(null);
@@ -117,7 +137,7 @@ const Company: React.FC<{}> = (props: any) => {
 
     company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
 
-      const formatedData: TradingViewTableRow[] = formatStockPriceHistory(data.historicalPrices);
+      const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
       setStockPriceHistory(formatedData);
 
       const stockInfo: StockPriceInfo = {
@@ -194,25 +214,25 @@ const Company: React.FC<{}> = (props: any) => {
       items: [
         {
           name: 'Valuation',
-          icon: <FiGlobe />,
+          icon: <RiVipDiamondLine />,
           expand: false,
           onClick: () => scrollTo(valuation),
         },
         {
           name: 'Rentabilidade',
-          icon: <FiGlobe />,
+          icon: <RiPercentLine />,
           expand: false,
           onClick: () => scrollTo(rentabilidade),
         },
         {
           name: 'Eficiência',
-          icon: <FiGlobe />,
+          icon: <FiTrendingUp />,
           expand: false,
           onClick: () => scrollTo(eficiencia),
         },
         {
           name: 'Endividamento',
-          icon: <FiGlobe />,
+          icon: <RiFireLine />,
           expand: false,
           onClick: () => scrollTo(endividamento),
         },
@@ -223,13 +243,13 @@ const Company: React.FC<{}> = (props: any) => {
       items: [
         {
           name: 'Cotação',
-          icon: <FiGlobe />,
+          icon: <BiLineChart />,
           expand: false,
           onClick: () => scrollTo(cotacao),
         },
         {
           name: 'Proventos',
-          icon: <FiGlobe />,
+          icon: <RiHandCoinLine />,
           expand: false,
           onClick: () => scrollTo(proventos),
         }
@@ -240,19 +260,19 @@ const Company: React.FC<{}> = (props: any) => {
       items: [
         {
           name: 'Demonstração de Resultado',
-          icon: <FiGlobe />,
+          icon: <HiOutlineDocumentReport />,
           expand: false,
           onClick: () => scrollTo(dre),
         },
         {
           name: 'Balanço Patrimonial',
-          icon: <FiGlobe />,
+          icon: <BiSpreadsheet />,
           expand: false,
           onClick: () => scrollTo(balancoPatrimonial),
         },
         {
           name: 'Fluxo de Caixa',
-          icon: <FiGlobe />,
+          icon: <RiExchangeFundsLine />,
           expand: false,
           onClick: () => scrollTo(fluxoCaixa),
         }
@@ -263,19 +283,19 @@ const Company: React.FC<{}> = (props: any) => {
       items: [
         {
           name: 'Mercado de atuação',
-          icon: <FiGlobe />,
+          icon: <BsBuilding />,
           expand: false,
           onClick: () => scrollTo(mercadoAtuacao),
         },
         {
           name: 'Dados Gerais',
-          icon: <FiGlobe />,
+          icon: <RiBuilding4Line />,
           expand: false,
           onClick: () => scrollTo(dadosGerais),
         },
         {
           name: 'Contato',
-          icon: <FiGlobe />,
+          icon: <HiOutlineMail />,
           expand: false,
           onClick: () => scrollTo(contato),
         },
@@ -454,8 +474,8 @@ const Company: React.FC<{}> = (props: any) => {
                   </InfoCardTitle>
                   <StockPrice
                     stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
-                    variationPercentage={stockPriceInfo && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
-                    variationValue={stockPriceInfo && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
+                    variationPercentage={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
+                    variationValue={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
                     size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
                   />
                 </InfoCard>
@@ -465,8 +485,8 @@ const Company: React.FC<{}> = (props: any) => {
                   </InfoCardTitle>
                   <StockPrice
                     stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
-                    variationPercentage={stockPriceInfo && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
-                    variationValue={stockPriceInfo && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
+                    variationPercentage={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
+                    variationValue={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
                     size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
                   />
                 </InfoCard>
