@@ -158,13 +158,13 @@ export const formatSelectOptions = (data: number[]) => {
     });
 }
 
-export const formatStockPriceHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {
-    return data.map((item: TickerHistoryResultPrice) => {
+export const formatStockPriceHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] | null => {
+    return data ? data.map((item: TickerHistoryResultPrice) => {
         return {
             time: item.date,
             value: item.price
         }
-    });
+    }) : null;
 }
 
 export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {

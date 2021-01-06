@@ -20,5 +20,15 @@ export const AnimatedContainer = styled(motion.section)`
     width: 100%;
     height: 100%;
     padding: 2.4rem;
+    font-size: ${theme.fontSizes.large};
+    font-weight: bold;
+
+    p {
+      margin-top: 2rem;
+    }
+
+    p:first-child {
+      margin-top: 0;
+    }
   `}
 `;
