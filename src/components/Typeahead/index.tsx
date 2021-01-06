@@ -3,7 +3,7 @@ import history from '../../services/history';
 
 import { FiSearch } from 'react-icons/fi';
 import { search } from '../../services/search';
-import { SearchResult, SearchResultType } from '../../models';
+import { SearchResult, AssetType } from '../../models';
 import Spinner from '../Spinner';
 import Logo from '../Logo';
 import Badge from '../Badge';
@@ -22,7 +22,7 @@ import {
 
 interface TypeaheadProps {
   redirect: boolean;
-  selectedOption?: (type: SearchResultType, companyId: number, companyTicker: string) => void;
+  selectedOption?: (type: AssetType, companyId: number, companyTicker: string) => void;
 }
 
 const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
@@ -71,10 +71,10 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
   }
 
   const handleOnBlur = () => {
-    setShowOptionList(false);
-    handleTypeaheadReset();
-
+    
     if (redirect) {
+      setShowOptionList(false);
+      handleTypeaheadReset();
       setInputValue('');
     }
   }
@@ -84,31 +84,34 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
     setSearchQuery(event.target.value);
   }
 
-  const handleItemClick = (type: SearchResultType, id: number, ticker: string, name: string) => {
-    setInputValue(name);
-    selectedOption && selectedOption(type, id, ticker);
+  const handleItemClick = (type: AssetType, id: number, ticker: string, name: string) => {
+
     if (redirect) {
-      if (type === SearchResultType.Stock) {
+      if (type === AssetType.Stock) {
         history.push(`/company/${id}/${ticker}`);
       }
       // Outras rotas aqui de acordo com o tipo de resultado
+    } else {
+      selectedOption && selectedOption(type, id, ticker);
+      const updatedList = searchResults.filter(result => result.code ? result.code !== ticker : result.id !== id);
+      setSearchResults(updatedList);
     }
   }
 
-  const formatResponseType = (searchResultType: SearchResultType) => {
-    if (searchResultType === SearchResultType.Stock) {
+  const formatResponseType = (assetType: AssetType) => {
+    if (assetType === AssetType.Stock) {
       return 'ação'
     }
-    if (searchResultType === SearchResultType.Reit) {
+    if (assetType === AssetType.Reit) {
       return 'FII'
     }
-    if (searchResultType === SearchResultType.Fund) {
+    if (assetType === AssetType.Fund) {
       return 'fundo'
     }
-    if (searchResultType === SearchResultType.Index) {
+    if (assetType === AssetType.Index) {
       return 'índice'
     }
-    if (searchResultType === SearchResultType.Crypto) {
+    if (assetType === AssetType.Crypto) {
       return 'crypto'
     }
 

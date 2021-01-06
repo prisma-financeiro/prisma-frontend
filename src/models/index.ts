@@ -2,16 +2,16 @@ export interface SearchResult {
   code: string;
   id: number;
   name: string;
-  type: SearchResultType;
+  type: AssetType;
   image: string;
 }
 
-export enum SearchResultType {
+export enum AssetType {
   Stock = 'stock',
   Fund = 'fund',
   Reit = 'reit',
-  Index = 'index',
-  Crypto = 'crypto'
+  Crypto = 'crypto',
+  Index = 'index'
 }
 
 export interface TickerHistoryResultHighestLowest {

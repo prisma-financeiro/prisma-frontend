@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import {
   DataWrapper,
-  SubHeader
+  SubHeader,
+  ButtonContainer
 } from './styles';
 import CompanyTickerCard from '../../../components/CompanyTickerCard';
 import Modal from '../../../components/Modal';
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Typeahead from '../../../components/Typeahead';
-import { SearchResultType } from '../../../models';
-import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import ContentDivider from '../../../components/ContentDivider';
+import { AssetType } from '../../../models';
+import Button from '../../../components/Button';
 
 interface CardData {
   id: number
@@ -19,26 +19,15 @@ interface CardData {
   stockPrice: number,
   variationReal: number,
   variationPercentage: number,
-}
-
-export enum FavoriteType {
-  Stock = 'stock',
-  Fund = 'fund',
-  Reit = 'reit',
-  Crypto = 'crypto'
+  type: AssetType
 }
 
 const Favorites = () => {
-  const device = useBreakpoints();
 
-  const [companyTickerCards, setCompanyTickerCards] = useState<CardData[]>([]);
-  // TODO: Implementar o botao adicionar para os ativos baixo.
-  // const [reitCards, setReitCards] = useState<CardData[]>([]);
-  // const [brazilianDepositaryReceiptCards, setBrazilianDepositaryReceiptCards] = useState<CardData[]>([]);
-  // const [etfCards, setEtfCards] = useState<CardData[]>([]);
-  // const [criptoMoedaCards, setCriptoMoedaCards] = useState<CardData[]>([]);
+  const [favoriteCards, setFavoriteCards] = useState<CardData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
+  const assetsTypes: AssetType[] = [AssetType.Stock, AssetType.Reit, AssetType.Fund, AssetType.Crypto, AssetType.Index];
 
   const fakeData: CardData = {
     id: 1,
@@ -48,6 +37,7 @@ const Favorites = () => {
     stockPrice: 10.58,
     variationReal: -0.18,
     variationPercentage: -0.51,
+    type: AssetType.Stock
   }
 
   const createNewCompanyTickerCard = () => {
@@ -56,7 +46,7 @@ const Favorites = () => {
 
   const removeCompanyTickerCard = (tickerId: number) => {
     //chamada para o backend para remover o card da lista salva pelo usuario;
-    setCompanyTickerCards(companyTickerCards.filter(ticker => ticker.id !== tickerId));
+    setFavoriteCards(favoriteCards.filter(ticker => ticker.id !== tickerId));
   }
 
   const handleShowModal = () => {
@@ -69,14 +59,57 @@ const Favorites = () => {
 
   const handleModalConfirmed = () => {
     setIsModalOpen(false);
-    const newCard: CardData = fakeData;
-    newCard.id = Math.random();
-    setCompanyTickerCards([...companyTickerCards, newCard]);
   }
 
-  const handleCodeSearch = (type: SearchResultType, companyId: number, companyTicker: string) => {
-    //chamada para o backend aqui
-    console.log(companyTicker);
+  const handleSelectedOption = (type: AssetType, companyId: number, companyTicker: string) => {
+    // chamada para o backend para adicionar o card a lista salva pelo usuário
+    const newCard: CardData = fakeData;
+    newCard.type = type;
+    newCard.id = Math.random();
+    newCard.tickerCode = companyTicker;
+    setFavoriteCards([...favoriteCards, newCard]);
+  }
+
+  const renderFavoriteCards = (assetType: AssetType) => {
+    return favoriteCards.find(card => card.type === assetType) && (
+      <React.Fragment key={assetType}>
+        <SubHeader>
+        <h3> 
+          { getSubHeader(assetType) } 
+        </h3>
+        </SubHeader>
+
+        <DataWrapper>
+          {favoriteCards.map(card => {
+            return card.type === assetType && (
+              <CompanyTickerCard
+                key={card.id}
+                companyLogo={card.companyLogo}
+                companyName={card.companyName}
+                tickerCode={card.tickerCode}
+                stockPrice={card.stockPrice}
+                variationPercentage={card.variationPercentage}
+                variationReal={card.variationReal}
+                emptyCard={false}
+                addNewCardCallback={() => { }}
+                removeCardCallback={() => removeCompanyTickerCard(card.id)}
+              />
+            );
+          })}
+        </DataWrapper>
+      </React.Fragment>
+    )
+  }
+
+  const getSubHeader = (assetType: AssetType): string => {
+    const header: { [key: string]: string } = {
+      'stock': 'Ações',
+      'reit': 'Fundos Imobiliários',
+      'fund': 'Fundos',
+      'crypto': 'Cryptomoedas',
+      'index': 'Index',
+    };
+    return header[assetType];
   }
 
   return (
@@ -84,136 +117,42 @@ const Favorites = () => {
       <Accordion
         title="Meus Favoritos"
         size={AccordionSizes.large}>
-        <SubHeader>
-          <h3>Ações</h3>
-        </SubHeader>
 
-        <DataWrapper>
-          {companyTickerCards.map(ticker => {
-            return (
-              <CompanyTickerCard
-                key={ticker.id}
-                companyLogo={ticker.companyLogo}
-                companyName={ticker.companyName}
-                tickerCode={ticker.tickerCode}
-                stockPrice={ticker.stockPrice}
-                variationPercentage={ticker.variationPercentage}
-                variationReal={ticker.variationReal}
-                emptyCard={false}
-                addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
-              />
-            );
-          })}
-          {companyTickerCards.length < CARDS_LIMIT && (
-            <CompanyTickerCard
-              emptyCard={true}
-              removeCardCallback={() => { }}
-              addNewCardCallback={createNewCompanyTickerCard}
-            />
-          )}
-        </DataWrapper>
-        {!device.isMobile && <ContentDivider />}
-        <SubHeader>
-          <h3>Fundos Imobiliários</h3>
-        </SubHeader>
-        <DataWrapper>
-          {companyTickerCards.map(ticker => {
-            return (
-              <CompanyTickerCard
-                key={ticker.id}
-                companyLogo={ticker.companyLogo}
-                companyName={ticker.companyName}
-                tickerCode={ticker.tickerCode}
-                stockPrice={ticker.stockPrice}
-                variationPercentage={ticker.variationPercentage}
-                variationReal={ticker.variationReal}
-                emptyCard={false}
-                addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
-              />
-            );
-          })}
-          {companyTickerCards.length < CARDS_LIMIT && (
-            <CompanyTickerCard
-              emptyCard={true}
-              removeCardCallback={() => { }}
-              addNewCardCallback={createNewCompanyTickerCard}
-            />
-          )}
-        </DataWrapper>
-        {!device.isMobile && <ContentDivider />}
-        <SubHeader>
-          <h3>Fundos de Investimentos</h3>
-        </SubHeader>
-        <DataWrapper>
-          {companyTickerCards.map(ticker => {
-            return (
-              <CompanyTickerCard
-                key={ticker.id}
-                companyLogo={ticker.companyLogo}
-                companyName={ticker.companyName}
-                tickerCode={ticker.tickerCode}
-                stockPrice={ticker.stockPrice}
-                variationPercentage={ticker.variationPercentage}
-                variationReal={ticker.variationReal}
-                emptyCard={false}
-                addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
-              />
-            );
-          })}
-          {companyTickerCards.length < CARDS_LIMIT && (
-            <CompanyTickerCard
-              emptyCard={true}
-              removeCardCallback={() => { }}
-              addNewCardCallback={createNewCompanyTickerCard}
-            />
-          )}
-        </DataWrapper>
-        {!device.isMobile && <ContentDivider />}
-        <SubHeader>
-          <h3>Criptomoedas</h3>
-        </SubHeader>
-        <DataWrapper>
-          {companyTickerCards.map(ticker => {
-            return (
-              <CompanyTickerCard
-                key={ticker.id}
-                companyLogo={ticker.companyLogo}
-                companyName={ticker.companyName}
-                tickerCode={ticker.tickerCode}
-                stockPrice={ticker.stockPrice}
-                variationPercentage={ticker.variationPercentage}
-                variationReal={ticker.variationReal}
-                emptyCard={false}
-                addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(ticker.id)}
-              />
-            );
-          })}
-          {companyTickerCards.length < CARDS_LIMIT && (
-            <CompanyTickerCard
-              emptyCard={true}
-              removeCardCallback={() => { }}
-              addNewCardCallback={createNewCompanyTickerCard}
-            />
-          )}
-        </DataWrapper>
+        {favoriteCards.length === 0 && (
+          <CompanyTickerCard
+            emptyCard={true}
+            removeCardCallback={() => { }}
+            addNewCardCallback={createNewCompanyTickerCard}
+          />
+        )}
+
+        {favoriteCards.length > 0 && (
+          <ButtonContainer>
+            <Button
+              onClick={handleShowModal}
+              variant="primary"
+              disabled={favoriteCards.length >= CARDS_LIMIT}
+            >
+              Adicionar
+            </Button>
+          </ButtonContainer>
+        )}
+
+        {assetsTypes.map(assetType => renderFavoriteCards(assetType))}
+
       </Accordion>
       <Modal
         title="Adicionar um favorito"
         show={isModalOpen}
-        showButtons={true}
-        primaryButtonText="Adicionar"
-        secondaryButtonText="Cancelar"
+        showButtons={false}
         modalClosed={handleCloseModal}
         modalConfirmed={handleModalConfirmed}>
-        <Typeahead 
-          redirect={false} 
-          selectedOption={(type: SearchResultType, companyId: number, companyTicker: string) => {
-            handleCodeSearch(type, companyId, companyTicker)}
-          }/>
+        <Typeahead
+          redirect={false}
+          selectedOption={(type: AssetType, companyId: number, companyTicker: string) => {
+            handleSelectedOption(type, companyId, companyTicker)
+          }
+          } />
       </Modal>
     </>
   );
