@@ -37,6 +37,7 @@ export const Container = styled.button<ButtonProps>`
     border-radius: ${theme.radio.small};
     color: ${color || theme.colors.secondary};
     transition: ${theme.transition.default};
+    width: 100%;
 
     * {
       transition: ${theme.transition.default};
