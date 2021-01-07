@@ -10,7 +10,7 @@ const _getClickableProperties = (props: HeaderProps, theme: any) => {
       background-color: ${theme.colors.greyLowerOpacity};
       cursor: pointer;
     }
-  `: '';
+  `: ``;
 }
 
 export const Header = styled.div`

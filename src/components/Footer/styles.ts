@@ -5,16 +5,13 @@ import { motion } from 'framer-motion';
 import { Wrapper as HeaderWrapper } from '../Header/styles';
 
 export const AnimatedContainer = styled(motion.footer)`
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   margin-top: 3.2rem;
-  transform-origin: bottom;
-  position: relative;
-  left: 0;
-  bottom: 0;
   z-index: 500;
 `;
 

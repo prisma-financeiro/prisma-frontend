@@ -2,40 +2,22 @@ import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import {
   Container,
-  AnimatedWrapper,
-  AnimatedCard,
+  AccordionContent,
   HeaderContainer,
-  ValueContainer,
+  StockPriceContainer,
   ButtonContainer,
   Title,
-  ValueCard,
-  CardContainer,
+  AccordionContainer,
   InfoContainer,
   InfoCard,
-  InfoCardTitle,
-  InfoCardValue,
   Button,
   SegmentContainer,
   QuoteInfoContainer,
   ContatoContainer,
 } from './styles';
 
-import SideBar from '../../components/SideBar';
-import MainContent from '../../components/MainContent';
-import { DASHBOARD_ANIMATION } from './animations';
-import { SideBarOption } from '../../constants/sidebar-navigation';
-import Accordion, { AccordionSizes } from '../../components/Accordion';
-import { indicatorList } from "./fakeData";
-import LineChart from '../../components/LineChart';
-import CompanyIndicatorCard from './CompanyIndicatorCard';
-import StockPrice, { StockPriceSize } from '../../components/StockPrice';
-import { formatStandard, formatCurrencyCompact } from "../../utils";
-
-import { company } from "../../services";
-
 import {
   FiTrendingUp,
-  FiTrendingDown,
 } from 'react-icons/fi';
 
 import {
@@ -57,14 +39,32 @@ import {
 
 import { BsBuilding } from 'react-icons/bs';
 
+import SideBar from '../../components/SideBar';
+import MainContent from '../../components/MainContent';
+import { SideBarOption } from '../../constants/sidebar-navigation';
+import Accordion, { AccordionSizes } from '../../components/Accordion';
+import LineChart from '../../components/LineChart';
+import CompanyIndicator from './CompanyIndicator';
+import StockPrice, { StockPriceSize } from '../../components/StockPrice';
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { formatIncomeStatementTable, formatBalanceSheetTable, formatSelectOptions, formatCashFlowTable, formatStockPriceHistory } from './utils';
+import { 
+  formatIncomeStatementTable, 
+  formatBalanceSheetTable, 
+  formatSelectOptions, 
+  formatCashFlowTable, 
+  formatStockPriceHistory, 
+  indicatorList 
+} from './utils';
 import PeriodSelector from '../../components/PeriodSelector';
-import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow } from '../../models';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import CompanyHeader from '../../components/CompanyHeader';
 import { Divider } from '../../components/ContentDivider/styles';
+import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow } from '../../models';
+
+import { formatStandard, formatCurrencyCompact } from "../../utils";
+
+import { company } from "../../services";
 
 interface TickePrice {
   price: number;
@@ -85,7 +85,7 @@ enum PeriodType {
   Quarter = "t"
 }
 
-const Company: React.FC<{}> = (props: any) => {
+const Company: React.FC = (props: any) => {
   const INITIAL_STOCK_QUOTE_PERIOD = 5;
   const device = useBreakpoints();
 
@@ -299,13 +299,6 @@ const Company: React.FC<{}> = (props: any) => {
           expand: false,
           onClick: () => scrollTo(contato),
         },
-        // TODO : Pegar ultimas noticias de sites via scrapping e listar
-        // {
-        //   name: 'Notícias sobre a Empresa',
-        //   icon: <FiGlobe />,
-        //   expand: false,
-        //   onClick: () => scrollTo(noticiasEmpresa),
-        // }
       ]
     }
   ];
@@ -367,13 +360,6 @@ const Company: React.FC<{}> = (props: any) => {
 
   return (
     <Container>
-      <AnimatedWrapper
-        variants={DASHBOARD_ANIMATION}
-        initial="unMounted"
-        animate="mounted"
-        exit="unMounted"
-        transition={{ duration: 1.5 }}
-      >
         {
           !device.isMobile &&
           <SideBar sideBarOptions={sideBarOptionCompany} />
@@ -389,67 +375,67 @@ const Company: React.FC<{}> = (props: any) => {
               device.isMobile &&
               <>
                 < ButtonContainer >
-                  <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+                  <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
                   <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
                 </ButtonContainer>
                 <Divider />
               </>
             }
-            <ValueContainer>
-              <ValueCard>
+            <StockPriceContainer>
+              <div>
                 <Title>Valor Atual</Title>
                 <StockPrice
                   stockPrice={tickerPrice ? tickerPrice.price : 0}
                   variationPercentage={tickerPrice ? tickerPrice.variationPercentage : 0}
                   variationValue={tickerPrice ? tickerPrice.variationValue : 0}
                 />
-              </ValueCard>
-              <ValueCard>
+              </div>
+              <div>
                 <Title>Máxima Mês</Title>
                 <StockPrice
                   stockPrice={19.41}
                   variationPercentage={1.5}
                 />
-              </ValueCard>
-              <ValueCard>
+              </div>
+              <div>
                 <Title>Mínima Mês</Title>
                 <StockPrice
                   stockPrice={12.20}
                   variationPercentage={-2.44}
                 />
-              </ValueCard>
-            </ValueContainer>
+              </div>
+            </StockPriceContainer>
             {
               !device.isMobile &&
               <ButtonContainer>
-                <Button onClick={() => alert('test')} variant="primary">Seguir</Button>
+                <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
                 <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
               </ButtonContainer>
             }
           </HeaderContainer>
-          <CardContainer>
-            <CompanyIndicatorCard
+          <AccordionContainer>
+            <CompanyIndicator
               companyId={companyId}
               anchor={valuation}
               title="Indicadores - Valuation"
               indicatorData={indicatorInfo ? indicatorInfo.valuation : []}
               indicatorSelectionOptions={[]}
             />
-            <CompanyIndicatorCard
+            <CompanyIndicator
               companyId={companyId}
               anchor={rentabilidade}
               title="Indicadores - Rentabilidade"
               indicatorData={indicatorInfo ? indicatorInfo.rentabilidade : []}
               indicatorSelectionOptions={indicatorList.content.rentabilidade}
             />
-            <CompanyIndicatorCard
+            <CompanyIndicator
               companyId={companyId}
               anchor={eficiencia}
               title="Indicadores - Eficiência"
               indicatorData={indicatorInfo ? indicatorInfo.eficiencia : []}
               indicatorSelectionOptions={indicatorList.content.eficiencia}
             />
-            <CompanyIndicatorCard
+            <CompanyIndicator
               companyId={companyId}
               anchor={endividamento}
               title="Indicadores - Endividamento"
@@ -459,9 +445,9 @@ const Company: React.FC<{}> = (props: any) => {
             <Accordion anchor={cotacao} title="Histórico - Cotação" size={AccordionSizes.large}>
               <QuoteInfoContainer>
                 <InfoCard>
-                  <InfoCardTitle>
+                  <p>
                     Variação no período
-                    </InfoCardTitle>
+                    </p>
                   <StockPrice
                     stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
                     variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
@@ -469,9 +455,9 @@ const Company: React.FC<{}> = (props: any) => {
                   />
                 </InfoCard>
                 <InfoCard>
-                  <InfoCardTitle>
+                  <p>
                     Máxima no período
-                  </InfoCardTitle>
+                  </p>
                   <StockPrice
                     stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
                     variationPercentage={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
@@ -480,9 +466,9 @@ const Company: React.FC<{}> = (props: any) => {
                   />
                 </InfoCard>
                 <InfoCard>
-                  <InfoCardTitle>
+                  <p>
                     Mínima no período
-                  </InfoCardTitle>
+                  </p>
                   <StockPrice
                     stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
                     variationPercentage={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
@@ -494,7 +480,7 @@ const Company: React.FC<{}> = (props: any) => {
               <PeriodSelector
                 onPeriodChange={(period) => handleStockQuotePeriodChange(period)}
               />
-              <AnimatedCard>
+              <AccordionContent>
                 {
                   stockPriceHistory ?
                     <LineChart
@@ -503,12 +489,12 @@ const Company: React.FC<{}> = (props: any) => {
                     :
                     <h2>Sem informações para o período</h2>
                 }
-              </AnimatedCard>
+              </AccordionContent>
             </Accordion>
             <Accordion anchor={proventos} title="Histórico - Proventos" size={AccordionSizes.large}>
-              <AnimatedCard>
+              <AccordionContent>
                 <h1>Proventos content</h1>
-              </AnimatedCard>
+              </AccordionContent>
             </Accordion>
             <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
               <FinancialReportTable
@@ -535,7 +521,7 @@ const Company: React.FC<{}> = (props: any) => {
               />
             </Accordion>
             <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
-              <AnimatedCard>
+              <AccordionContent>
                 <SegmentContainer>
                   <SegmentCard
                     title={"Setor"}
@@ -553,102 +539,101 @@ const Company: React.FC<{}> = (props: any) => {
                     companyCount={companyInfo?.sector?.companiesCount}
                   />
                 </SegmentContainer>
-              </AnimatedCard>
+              </AccordionContent>
             </Accordion>
             <Accordion anchor={dadosGerais} title="Dados Gerais" size={AccordionSizes.large}>
-              <AnimatedCard>
+              <AccordionContent>
                 <InfoContainer>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       CNPJ
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Data de Fundação
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Capital
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo ? formatCurrencyCompact(companyInfo.capitalAmount).toUpperCase() : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Ações Ordinárias (ON)
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Ações Preferências (PN)
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Total de Papeis
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                 </InfoContainer>
-              </AnimatedCard>
+              </AccordionContent>
             </Accordion>
             <Accordion anchor={contato} title="Contato" size={AccordionSizes.large}>
-              <AnimatedCard>
+              <AccordionContent>
                 <ContatoContainer>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Relação com investidores
-                    </InfoCardTitle>
+                    </p>
                     {
                       companyInfo &&
                         companyInfo.officerName ?
                         <>
-                          <InfoCardValue>
+                          <p>
                             {companyInfo.officerName}
-                          </InfoCardValue>
-                          <InfoCardValue>
+                          </p>
+                          <div>
                             {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
-                          </InfoCardValue>
+                          </div>
                         </>
                         :
-                        <InfoCardValue>
+                        <div>
                           Não informado
-                        </InfoCardValue>
+                        </div>
                     }
                   </InfoCard>
                   <InfoCard>
-                    <InfoCardTitle>
+                    <p>
                       Site Oficial
-                    </InfoCardTitle>
-                    <InfoCardValue>
+                    </p>
+                    <div>
                       <Button disabled={!companyInfo?.website} variant="primary" onClick={() => companyInfo && window.open(companyInfo.website)}>
                         Ir para o site
                       </Button>
-                    </InfoCardValue>
+                    </div>
                   </InfoCard>
                 </ContatoContainer>
-              </AnimatedCard>
+              </AccordionContent>
             </Accordion>
-          </CardContainer>
+          </AccordionContainer>
         </MainContent>
-      </AnimatedWrapper>
     </Container >
   );
 };

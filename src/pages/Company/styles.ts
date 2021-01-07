@@ -3,16 +3,21 @@ import DefaultButton from '../../components/Button';
 import { motion } from 'framer-motion';
 
 export const Container = styled.div`
+  flex: 1 0 auto;
   margin-top: 8.5rem;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;    
+  flex-direction: row;    
   justify-content: center;
+
+  @media (max-width: 670px) {
+    flex-direction: column;
+  }
   
 `;
 
-export const AnimatedCard = styled(motion.article)`
+export const AccordionContent = styled.article`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
@@ -61,7 +66,7 @@ export const HeaderContainer = styled.div`
   `}  
 `;
 
-export const CardContainer = styled.div`
+export const AccordionContainer = styled.div`
     display: flex;
     flex-direction: column;
 `;
@@ -79,7 +84,7 @@ export const Title = styled.div`
   `}
 `
 
-export const ValueContainer = styled.div`
+export const StockPriceContainer = styled.div`
   ${({ theme }) => css`
     width: 100%;
     height: 100%;
@@ -89,27 +94,40 @@ export const ValueContainer = styled.div`
     align-items: flex-start;
     padding: 0.5rem 1rem;
 
+    > div {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
     @media (max-width: ${theme.deviceWidth.mobile}) {
       justify-content: center;
       margin: 0.5rem 0;
+
+      > div {
+        align-items: flex-start;
+      }
     }
   `}  
 `;
 
-export const ValueCard = styled.div`
-  ${({ theme }) => css`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+// export const StockPriceChildContainer = styled.div`
+//   ${({ theme }) => css`
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: flex-start;
     
-    @media (max-width: ${theme.deviceWidth.mobile}) {
-      align-items: flex-start;
-    }
-  `}  
-`;
+//     @media (max-width: ${theme.deviceWidth.mobile}) {
+//       align-items: flex-start;
+//     }
+//   `}  
+// `;
 
 export const Value = styled.p`
   ${({ theme }) => css`
@@ -152,15 +170,15 @@ export const Button = styled(DefaultButton)`
     width: 100%;
 `
 
-export const AnimatedWrapper = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  justify-content: center;
+// export const AnimatedWrapper = styled(motion.div)`
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
 
-  @media (max-width: 670px) {
-    flex-direction: column;
-  }
-`;
+//   @media (max-width: 670px) {
+//     flex-direction: column;
+//   }
+// `;
 
 export const QuoteInfoContainer = styled.div`
   ${({ theme }) => css`
@@ -262,40 +280,36 @@ export const InfoCard = styled.div`
     display: flex;
     flex-direction: column;
 
+    > p {
+      margin-bottom: 0.5rem;
+      color: ${theme.colors.lightGrey};
+      font-size: ${theme.fontSizes.large};
+    }
+
+    > div {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      color: ${theme.colors.primary};
+      font-size: ${theme.fontSizes.large};
+    }
+
     @media (max-width: ${theme.deviceWidth.mobile}) {      
       padding: 0.5rem;
       width: 100%;
       height: 100%;
-    }
-  `}  
-`;
 
-export const InfoCardValue = styled.div`
-  ${({ theme }) => css`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-weight: 600;
-    color: ${theme.colors.primary};
-    font-size: ${theme.fontSizes.large};
+      > p {
+        font-size: ${theme.fontSizes.small};
+      }
 
-    @media (max-width: ${theme.deviceWidth.mobile}) {
+      > div {
         font-weight: 400;
         font-size: ${theme.fontSizes.small};
         margin-top: 0;
-    }
-  `}
-`
-
-export const InfoCardTitle = styled.p`
-  ${({ theme }) => css`
-      margin-bottom: 0.5rem;
-      color: ${theme.colors.lightGrey};
-      font-size: ${theme.fontSizes.large};
-
-      @media (max-width: ${theme.deviceWidth.mobile}) {
-        font-size: ${theme.fontSizes.small};
       }
-  `}
-`
+    }
+  `}  
+`;

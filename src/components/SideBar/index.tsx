@@ -23,7 +23,7 @@ interface SideBarProps {
 const SideBar: React.FC<SideBarProps> = ({ sideBarOptions }) => {
   return (
     <Wrapper>
-      <AnimatedContainer variants={animation}>
+      <AnimatedContainer>
         {sideBarOptions.map((option: SideBarOption, index: number) => {
           return (
             <React.Fragment key={option.title}>
