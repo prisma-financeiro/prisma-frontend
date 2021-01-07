@@ -4,7 +4,7 @@ import {
   SubHeader,
   ButtonContainer
 } from './styles';
-import CompanyTickerCard from '../../../components/CompanyTickerCard';
+import FavoritedCard from '../../../components/FavoritedCard';
 import Modal from '../../../components/Modal';
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Typeahead from '../../../components/Typeahead';
@@ -24,7 +24,7 @@ interface CardData {
 
 const Favorites = () => {
 
-  const [favoriteCards, setFavoriteCards] = useState<CardData[]>([]);
+  const [favoritedCards, setFavoritedCards] = useState<CardData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
   const assetsTypes: AssetType[] = [AssetType.Stock, AssetType.Reit, AssetType.Fund, AssetType.Crypto, AssetType.Index];
@@ -46,7 +46,7 @@ const Favorites = () => {
 
   const removeCompanyTickerCard = (tickerId: number) => {
     //chamada para o backend para remover o card da lista salva pelo usuario;
-    setFavoriteCards(favoriteCards.filter(ticker => ticker.id !== tickerId));
+    setFavoritedCards(favoritedCards.filter(ticker => ticker.id !== tickerId));
   }
 
   const handleShowModal = () => {
@@ -67,11 +67,11 @@ const Favorites = () => {
     newCard.type = type;
     newCard.id = Math.random();
     newCard.tickerCode = companyTicker;
-    setFavoriteCards([...favoriteCards, newCard]);
+    setFavoritedCards([...favoritedCards, newCard]);
   }
 
   const renderFavoriteCards = (assetType: AssetType) => {
-    return favoriteCards.find(card => card.type === assetType) && (
+    return favoritedCards.find(card => card.type === assetType) && (
       <React.Fragment key={assetType}>
         <SubHeader>
         <h3> 
@@ -80,9 +80,9 @@ const Favorites = () => {
         </SubHeader>
 
         <DataWrapper>
-          {favoriteCards.map(card => {
+          {favoritedCards.map(card => {
             return card.type === assetType && (
-              <CompanyTickerCard
+              <FavoritedCard
                 key={card.id}
                 companyLogo={card.companyLogo}
                 companyName={card.companyName}
@@ -90,7 +90,6 @@ const Favorites = () => {
                 stockPrice={card.stockPrice}
                 variationPercentage={card.variationPercentage}
                 variationReal={card.variationReal}
-                emptyCard={false}
                 addNewCardCallback={() => { }}
                 removeCardCallback={() => removeCompanyTickerCard(card.id)}
               />
@@ -118,20 +117,20 @@ const Favorites = () => {
         title="Meus Favoritos"
         size={AccordionSizes.large}>
 
-        {favoriteCards.length === 0 && (
-          <CompanyTickerCard
+        {favoritedCards.length === 0 && (
+          <FavoritedCard
             emptyCard={true}
             removeCardCallback={() => { }}
             addNewCardCallback={createNewCompanyTickerCard}
           />
         )}
 
-        {favoriteCards.length > 0 && (
+        {favoritedCards.length > 0 && (
           <ButtonContainer>
             <Button
               onClick={handleShowModal}
               variant="primary"
-              disabled={favoriteCards.length >= CARDS_LIMIT}
+              disabled={favoritedCards.length >= CARDS_LIMIT}
             >
               Adicionar
             </Button>

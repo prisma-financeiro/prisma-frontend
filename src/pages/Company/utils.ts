@@ -175,3 +175,67 @@ export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): Trad
         }
     })
 }
+
+export const indicatorList = {
+    "cache": true,
+    "content": {
+        "endividamento": [
+            {
+                "label": "Liquidez Corrente",
+                "value": "liquidezCorrente"
+            },
+            {
+                "label": "Passivos/Ativos",
+                "value": "passivosAtivos"
+            },
+            {
+                "label": "PL/Ativos",
+                "value": "patrimonioLiquidoAtivos"
+            },
+            {
+                "label": "Dívida Liq./EBIT",
+                "value": "dividaLiquidaEbit"
+            },
+            {
+                "label": "Dívida Liq./EBITDA",
+                "value": "dividaLiquidaEbitda"
+            },
+            {
+                "label": "Dívida Liq./PL",
+                "value": "dividaLiquidaPatrimonioLiquido"
+            }
+        ],
+        "eficiencia": [
+            {
+                "label": "Margem Bruta",
+                "value": "margemBruta"
+            },
+            {
+                "label": "Margem Líquida",
+                "value": "margemLiquida"
+            },
+            {
+                "label": "Margem EBIT",
+                "value": "margemEbit"
+            },
+            {
+                "label": "Margem EBITDA",
+                "value": "margemEbitda"
+            }
+        ],
+        "rentabilidade": [
+            {
+                "label": "ROE",
+                "value": "roe"
+            },
+            {
+                "label": "ROA",
+                "value": "roa"
+            },
+            {
+                "label": "ROIC",
+                "value": "roic"
+            }
+        ]
+    }
+}
