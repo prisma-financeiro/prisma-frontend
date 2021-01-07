@@ -1,20 +1,20 @@
 import styled, { css } from 'styled-components';
 import DefaultButton from '../../components/Button';
-import { motion } from 'framer-motion';
 
 export const Container = styled.div`
-  flex: 1 0 auto;
-  margin-top: 8.5rem;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;    
-  justify-content: center;
+  ${({ theme }) => css`    
+    flex: 1 0 auto;
+    margin-top: 8.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;    
+    justify-content: center;
 
-  @media (max-width: 670px) {
-    flex-direction: column;
-  }
-  
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      flex-direction: column;
+    }
+  `}
 `;
 
 export const AccordionContent = styled.article`
@@ -114,21 +114,6 @@ export const StockPriceContainer = styled.div`
   `}  
 `;
 
-// export const StockPriceChildContainer = styled.div`
-//   ${({ theme }) => css`
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: flex-start;
-    
-//     @media (max-width: ${theme.deviceWidth.mobile}) {
-//       align-items: flex-start;
-//     }
-//   `}  
-// `;
-
 export const Value = styled.p`
   ${({ theme }) => css`
       font-weight: 700;
@@ -169,16 +154,6 @@ export const ButtonContainer = styled.div`
 export const Button = styled(DefaultButton)`
     width: 100%;
 `
-
-// export const AnimatedWrapper = styled(motion.div)`
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-
-//   @media (max-width: 670px) {
-//     flex-direction: column;
-//   }
-// `;
 
 export const QuoteInfoContainer = styled.div`
   ${({ theme }) => css`
