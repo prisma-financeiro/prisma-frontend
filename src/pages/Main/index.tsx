@@ -9,7 +9,7 @@ import Favorites from './Favorites';
 import MarketToday from './MarketToday';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 
-const Landing = () => {
+const Main = () => {
   const device = useBreakpoints();
 
   return (
@@ -34,4 +34,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Main;

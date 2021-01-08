@@ -167,13 +167,13 @@ export const formatSelectOptions = (data: number[]) => {
     });
 }
 
-export const formatStockPriceHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {
-    return data.map((item: TickerHistoryResultPrice) => {
+export const formatStockPriceHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] | null => {
+    return data ? data.map((item: TickerHistoryResultPrice) => {
         return {
             time: item.date,
             value: item.price
         }
-    });
+    }) : null;
 }
 
 export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): TradingViewTableRow[] => {
@@ -183,4 +183,68 @@ export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): Trad
             value: item.volume
         }
     })
+}
+
+export const indicatorList = {
+    "cache": true,
+    "content": {
+        "endividamento": [
+            {
+                "label": "Liquidez Corrente",
+                "value": "liquidezCorrente"
+            },
+            {
+                "label": "Passivos/Ativos",
+                "value": "passivosAtivos"
+            },
+            {
+                "label": "PL/Ativos",
+                "value": "patrimonioLiquidoAtivos"
+            },
+            {
+                "label": "Dívida Liq./EBIT",
+                "value": "dividaLiquidaEbit"
+            },
+            {
+                "label": "Dívida Liq./EBITDA",
+                "value": "dividaLiquidaEbitda"
+            },
+            {
+                "label": "Dívida Liq./PL",
+                "value": "dividaLiquidaPatrimonioLiquido"
+            }
+        ],
+        "eficiencia": [
+            {
+                "label": "Margem Bruta",
+                "value": "margemBruta"
+            },
+            {
+                "label": "Margem Líquida",
+                "value": "margemLiquida"
+            },
+            {
+                "label": "Margem EBIT",
+                "value": "margemEbit"
+            },
+            {
+                "label": "Margem EBITDA",
+                "value": "margemEbitda"
+            }
+        ],
+        "rentabilidade": [
+            {
+                "label": "ROE",
+                "value": "roe"
+            },
+            {
+                "label": "ROA",
+                "value": "roa"
+            },
+            {
+                "label": "ROIC",
+                "value": "roic"
+            }
+        ]
+    }
 }

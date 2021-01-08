@@ -13,19 +13,19 @@ import StockPrice from '../StockPrice';
 import CompanyHeader from '../CompanyHeader';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 
-interface CompanyTickerCardProps {
+interface FavoritedCardProps {
   companyLogo?: string;
   tickerCode?: string;
   companyName?: string;
   stockPrice?: number;
   variationReal?: number;
   variationPercentage?: number;
-  emptyCard: boolean;
+  emptyCard?: boolean;
   addNewCardCallback: () => void;
   removeCardCallback: () => void;
 }
 
-const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
+const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
   const device = useBreakpoints();
   const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
 
@@ -46,7 +46,7 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
           />
         </ButtonContent>
       ) : (
-          <React.Fragment>
+          <>
             {
               companyLogo &&
               companyName &&
@@ -74,10 +74,10 @@ const CompanyTickerCard: React.FC<CompanyTickerCardProps> = ({ companyLogo, tick
                 x
               </CloseButton>
             )}
-          </React.Fragment>
+          </>
         )}
     </Container>
   );
 }
 
-export default CompanyTickerCard;
+export default FavoritedCard;

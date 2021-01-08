@@ -23,6 +23,7 @@ import { useBreakpoints } from '../../hooks/useBreakpoints';
 const Header = () => {
 
   history.listen( () => handleCloseModal());
+
   const device = useBreakpoints();
 
   const { signOut } = useAuth();
@@ -69,7 +70,7 @@ const Header = () => {
             </MenuItem>
           )}
         </MenuItems>
-        <AnimatedRightNav variants={NAVS_ANIMATION}>
+        <AnimatedRightNav>
           { !device.isMobile && (
             <Typeahead redirect={true}/>
           )}

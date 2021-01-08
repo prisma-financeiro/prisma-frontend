@@ -17,7 +17,8 @@ export const SubHeader = styled.div`
   ${({ theme }) => css`
     display: flex;
     justify-content: flex-start;
-    margin: 10px 0;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
 
     > h3 {
       font-weight: 500;
@@ -35,5 +36,18 @@ export const DataWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  width: 15%;
+  max-width: 15rem;
+  min-width: 10rem;
+  margin: 1rem 0;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
   }
 `;

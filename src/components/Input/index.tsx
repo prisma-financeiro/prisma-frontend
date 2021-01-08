@@ -1,13 +1,11 @@
 import React, { InputHTMLAttributes } from 'react';
 
 import { Container, StyledInput, IconContainer } from './styles';
-import { FiSearch } from 'react-icons/fi';
 import Spinner from '../Spinner';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  placeholder?: string;
   isLoading?: boolean;
-  showIcon: boolean;
+  icon?: React.ReactNode;
 }
 
 const Input: React.FC<InputProps> = (props: InputProps) => {
@@ -16,15 +14,9 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
       <StyledInput 
         {...props}
       />
-      {props.showIcon && (
-        <IconContainer>
-          {props.isLoading ? (
-            <Spinner />
-          ) : (
-            <FiSearch />
-          )}
-        </IconContainer>
-      )}
+      <IconContainer>
+        {props.isLoading ? <Spinner /> : props.icon }    
+      </IconContainer>
     </Container>
   );
 }

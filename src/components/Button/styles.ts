@@ -13,12 +13,13 @@ const variants = {
     }
   `,
   secondary: css`
-  background: transparent;
+  background: ${({ theme }) => theme.colors.background};
   border: 0.1rem solid ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.secondary};
 
   :hover {
-    background: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.lightGrey};
+    background: ${({ theme }) => theme.colors.darkGrey};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `,
   transparent: css`
@@ -37,6 +38,7 @@ export const Container = styled.button<ButtonProps>`
     border-radius: ${theme.radio.small};
     color: ${color || theme.colors.secondary};
     transition: ${theme.transition.default};
+    width: 100%;
 
     * {
       transition: ${theme.transition.default};

@@ -12,7 +12,7 @@ import {
 import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
 
-interface CompanyIndicatorCardOptions {
+interface CompanyIndicatorOptions {
     companyId: number;
     title: string;
     indicatorSelectionOptions: Array<any>;
@@ -20,7 +20,7 @@ interface CompanyIndicatorCardOptions {
     anchor?: React.MutableRefObject<any>;
 }
 
-const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId, indicatorData, title, indicatorSelectionOptions, anchor }) => {
+const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indicatorData, title, indicatorSelectionOptions, anchor }) => {
     const [chartVisibled, setChartVisibled] = useState(false);
     const [indicatorHistory, setIndicatorHistory] = useState<any[]>([]);
 
@@ -110,4 +110,4 @@ const CompanyIndicatorCard: React.FC<CompanyIndicatorCardOptions> = ({ companyId
     )
 }
 
-export default CompanyIndicatorCard;
+export default CompanyIndicator;
