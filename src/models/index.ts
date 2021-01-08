@@ -54,3 +54,7 @@ export interface MarketIndexPriceFlutuationResult {
   highestIncrease: MarketIndexPriceFlutuationResultTicker[];
   highestDrop: MarketIndexPriceFlutuationResultTicker[];
 }
+export interface SelectOptionType {
+  label: string;
+  value: string;
+}
