@@ -14,8 +14,8 @@ export const CardContainer = styled.article`
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-    grid-gap: 2.1rem;
+    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    grid-gap: 2.5rem;
 
     @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {     
       display: grid;

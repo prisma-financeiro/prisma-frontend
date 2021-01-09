@@ -8,7 +8,6 @@ export const Container = styled(motion.div)`
     width: 20rem;
     height: 15rem;
     border-radius: ${theme.radio.small};
-    margin: 1rem 1rem 0 0;
     padding: 1rem 1rem 0 1.5rem;
     cursor: pointer;
     z-index: 1;
@@ -18,6 +17,7 @@ export const Container = styled(motion.div)`
 
 
     @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      padding: 0;
       width: 100%;
       height: 10rem;
       margin: 0.5rem 0.5rem 0 0;
