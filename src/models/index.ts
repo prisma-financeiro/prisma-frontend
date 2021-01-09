@@ -54,3 +54,15 @@ export interface MarketIndexPriceFlutuationResult {
   highestIncrease: MarketIndexPriceFlutuationResultTicker[];
   highestDrop: MarketIndexPriceFlutuationResultTicker[];
 }
+
+export interface IndicatorHistory {
+  value: number;
+  year: string;
+}
+
+export interface CompanyMarketIndicator {
+  indicatorName: string;
+  value: number;
+  signal: string;
+  history: IndicatorHistory[];
+}
