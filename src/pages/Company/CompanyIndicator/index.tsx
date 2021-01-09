@@ -1,110 +1,123 @@
-import React, { useEffect, useState } from "react";
-import { FiBarChart2 } from "react-icons/fi";
+import React, { useState } from "react";
+import { FiArrowLeft } from "react-icons/fi";
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
-import useAppTheme from "../../../contexts/theme";
 import IndicatorChart from "../IndicatorChart";
-import * as themes from '../../../styles/themes';
 import {
+    CardContainer,
+    ChartContainer,
     IconContainer,
-    AnimatedCardContainer,
-    AnimatedChartContainer
+    Container
 } from "./styles";
 import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
+import { SelectOptionType } from "../../../models";
 
 interface CompanyIndicatorOptions {
     companyId: number;
     title: string;
-    indicatorSelectionOptions: Array<any>;
-    indicatorData: Array<any>;
+    indicatorSelectionOptions: SelectOptionType[];
+    indicatorData: any[];
     anchor?: React.MutableRefObject<any>;
 }
 
 const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indicatorData, title, indicatorSelectionOptions, anchor }) => {
-    const [chartVisibled, setChartVisibled] = useState(false);
-    const [indicatorHistory, setIndicatorHistory] = useState<any[]>([]);
-
-    const { currentTheme } = useAppTheme();
-
-    useEffect(() => {
-        if (chartVisibled) {
-            getIndicatorHistory(indicatorSelectionOptions[0].value, "TRIMESTRAL")
-                .then(data => setIndicatorHistory(data));
-        }
-    }, [chartVisibled]);
+    const [isChartVisible, setIsChartVisible] = useState(false);
+    const [indicatorHistory, setIndicatorHistory] = useState<SelectOptionType[]>([]);
+    const [selectedIndicator, setSelectedIndicator] = useState<string>('');
 
     const getIndicatorHistory = async (indicatorName: string, type: string) => {
-        if (type === "ANUAL") {
+        let formatedValues: SelectOptionType[] = [];
 
+        if (type === "ANUAL") {
             return await company.getYearIndicator(companyId, indicatorName)
                 .then(data => {
-                    return data.map((item: any) => {
+                    formatedValues = data.map((item: any) => {
                         return { label: item.year, value: item.value }
                     });
+                    setIndicatorHistory(formatedValues);
                 });
-
         } else {
             return await company.getQuarterIndicator(companyId, indicatorName)
                 .then(data => {
-                    return data.map((item: any) => {
+                    formatedValues = data.map((item: any) => {
                         return { label: `${item.period}${item.year}`, value: item.value }
                     });
+                    setIndicatorHistory(formatedValues);
                 });
         }
     }
 
     const handleSelectionChange = async (indicatorName: string, type: string) => {
-        const history = await getIndicatorHistory(indicatorName, type);
-        setIndicatorHistory(history);
+        getIndicatorHistory(indicatorName, type);
+        const selectedIndicatorValue = indicatorSelectionOptions.find(el => el.value === indicatorName)?.label || indicatorSelectionOptions[0].value;
+        setSelectedIndicator(selectedIndicatorValue);
     }
 
-    return (
+    const handleOnCardClick = (indicatorName: string) => {
+        //Todo: Remover esse if quando tivermos os grafico de valuation
+        if (title === 'Indicadores - Valuation') {
+            return
+        }
+        setSelectedIndicator(indicatorName);
+        setIsChartVisible(true);
+        const selectedIndicator: string = indicatorSelectionOptions.find(el => el.label === indicatorName)?.value || indicatorSelectionOptions[0].value;
+        getIndicatorHistory(selectedIndicator, "TRIMESTRAL");
+    }
 
+    const handleReturnCardView = () => {
+        setSelectedIndicator('');
+        setIsChartVisible(false);
+    }
+
+    const getTitle = (selectedIndicator: string): string => {
+        return selectedIndicator ? `${title} - ${selectedIndicator}` : title;
+    } 
+
+    return (
         <Accordion
             anchor={anchor}
-            title={title}
+            title={getTitle(selectedIndicator)}
             size={AccordionSizes.large}>
-            <IconContainer
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                color={chartVisibled ? themes[currentTheme].colors.primary : themes[currentTheme].colors.grey}
-                onClick={() => setChartVisibled(!chartVisibled)} >
-                <FiBarChart2
-                    title={'Gráfico'}
-                />
-            </IconContainer>
-            {
-                chartVisibled ?
-                    <AnimatedChartContainer>
-                        {
-                            indicatorHistory &&
-                            <IndicatorChart
-                                data={indicatorHistory}
-                                onChangeSelection={(indicatorName: string, type: string) => handleSelectionChange(indicatorName, type)}
-                                indicatorSelectionOptions={indicatorSelectionOptions}
-                            />
+            
+            <Container>
+                {
+                    isChartVisible ?
+                        <ChartContainer>
+                            <IconContainer onClick={handleReturnCardView}>
+                                <FiArrowLeft />
+                            </IconContainer>
+                            {
+                                indicatorHistory &&
+                                <IndicatorChart
+                                    defaultIndicator={selectedIndicator}
+                                    data={indicatorHistory}
+                                    onChangeSelection={(indicatorName: string, type: string) => handleSelectionChange(indicatorName, type)}
+                                    indicatorSelectionOptions={indicatorSelectionOptions}
+                                />
 
-                        }
-                    </AnimatedChartContainer>
-                    :
-                    <AnimatedCardContainer>
-                        {
-                            indicatorData ?
-                                indicatorData.map((indicator: any, index: number) => {
-                                    return indicator && (
-                                        <IndicatorCard
-                                            key={index}
-                                            indicatorName={indicator.indicatorName}
-                                            value={indicator.value}
-                                            chartData={indicator.history}
-                                        />
-                                    )
-                                })
-                                :
-                                <p>Não há informações</p>
-                        }
-                    </AnimatedCardContainer>
-            }
+                            }
+                        </ChartContainer>
+                        :
+                        <CardContainer>
+                            {
+                                indicatorData ?
+                                    indicatorData.map((indicator: any, index: number) => {
+                                        return indicator && (
+                                            <IndicatorCard
+                                                key={index}
+                                                indicatorName={indicator.indicatorName}
+                                                value={indicator.value}
+                                                chartData={indicator.history}
+                                                onClick={(indicatorName) => handleOnCardClick(indicatorName)}
+                                            />
+                                        )
+                                    })
+                                    :
+                                    <p>Não há informações</p>
+                            }
+                        </CardContainer>
+                }
+            </Container>
         </Accordion>
     )
 }
