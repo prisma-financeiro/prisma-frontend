@@ -429,6 +429,7 @@ const Company: React.FC = (props: any) => {
         <AccordionContainer>
           <CompanyIndicator
             companyId={companyId}
+            ticker={ticker}
             anchor={valuation}
             indicatorType={IndicatorType.valuation}
             indicatorData={marketIndicatorInfo ? marketIndicatorInfo : []}
@@ -436,6 +437,7 @@ const Company: React.FC = (props: any) => {
           />
           <CompanyIndicator
             companyId={companyId}
+            ticker={ticker}
             anchor={rentabilidade}
             indicatorType={IndicatorType.rentabilidade}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.rentabilidade : []}
@@ -443,6 +445,7 @@ const Company: React.FC = (props: any) => {
           />
           <CompanyIndicator
             companyId={companyId}
+            ticker={ticker}
             anchor={eficiencia}
             indicatorType={IndicatorType.eficiencia}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.eficiencia : []}
@@ -450,6 +453,7 @@ const Company: React.FC = (props: any) => {
           />
           <CompanyIndicator
             companyId={companyId}
+            ticker={ticker}
             anchor={endividamento}
             indicatorType={IndicatorType.endividamento}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.endividamento : []}

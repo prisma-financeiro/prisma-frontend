@@ -21,13 +21,14 @@ export enum IndicatorType {
 
 interface CompanyIndicatorOptions {
     companyId: number;
+    ticker: string;
     indicatorType: IndicatorType;
     indicatorSelectionOptions: SelectOptionType[];
     indicatorData: any[];
     anchor?: React.MutableRefObject<any>;
 }
 
-const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indicatorType, indicatorData, indicatorSelectionOptions, anchor }) => {
+const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker, indicatorType, indicatorData, indicatorSelectionOptions, anchor }) => {
     const [isChartVisible, setIsChartVisible] = useState(false);
     const [indicatorHistory, setIndicatorHistory] = useState<SelectOptionType[]>([]);
     const [selectedIndicator, setSelectedIndicator] = useState<string>('');
@@ -57,7 +58,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
     const _getMarketIndicatorHistory = async (indicatorName: string, type: string) => {
         let formatedValues: SelectOptionType[] = [];
 
-        return await company.getCompanyMarketIndicatorHistory('MGLU3', indicatorName, type === "ANUAL" ? "yearly" : "quarterly")
+        return await company.getCompanyMarketIndicatorHistory(ticker, indicatorName, type === "ANUAL" ? "yearly" : "quarterly")
             .then(data => {
                 formatedValues = data.map((item: any) => {
                     return { label: item.year, value: item.value }
@@ -81,10 +82,6 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
     }
 
     const handleOnCardClick = (indicatorName: string) => {
-        //Todo: Remover esse if quando tivermos os grafico de valuation
-        // if (indicatorType === IndicatorType.valuation) {
-        //     return
-        // }
         setSelectedIndicator(indicatorName);
         setIsChartVisible(true);
         const selectedIndicator: string = indicatorSelectionOptions.find(el => el.label === indicatorName)?.value || indicatorSelectionOptions[0].value;
