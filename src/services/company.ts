@@ -1,4 +1,4 @@
-import { CompanyMarketIndicator, TickerHistoryResult } from "../models";
+import { CompanyMarketIndicator, CompanyMarketIndicatorHistory, CompanyMarketIndicatorHistoryType, TickerHistoryResult } from "../models";
 import api from "./api";
 
 export interface CompanyInfo {
@@ -123,11 +123,24 @@ export const getCompanyIndicator = async (companyId: number) => {
         .then(res => res.data.data);
 }
 
-export const getCompanyMarketIndicator = async (companyId: number, ticker: string, stockPrice: number): Promise<CompanyMarketIndicator[]> => {
+export const getCompanyMarketIndicator = async (ticker: string, stockPrice: number): Promise<CompanyMarketIndicator[]> => {
     return api
-        .get(`api/v1/company/${companyId}/indicator/${ticker}/valuation`, {
+        .get(`api/v1/stockpriceindicator/${ticker}`, {
             params: {
                 price: stockPrice
+            }
+        })
+        .then(res => res.data);
+}
+
+
+export const getCompanyMarketIndicatorHistory = async (ticker: string, indicatorName: string, type: CompanyMarketIndicatorHistoryType, limit?: number): Promise<CompanyMarketIndicatorHistory[]> => {
+    return api
+        .get(`api/v1/stockpriceindicator/${ticker}/history`, {
+            params: {
+                indicator: indicatorName,
+                type,
+                limit
             }
         })
         .then(res => res.data.data);

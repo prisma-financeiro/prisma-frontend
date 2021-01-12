@@ -68,9 +68,10 @@ export const AccordionBody = styled(motion.article)`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    width: 100%;
     
-    @media (max-width: 670px) {
-      align-items: flex-start;
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      align-items: center;
     }
   `}
 `;

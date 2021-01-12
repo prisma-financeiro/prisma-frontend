@@ -5,7 +5,8 @@ import BarChart from '../../../components/BarChart';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import Select, { OptionType } from '../../../components/Select';
+import Select from '../../../components/Select';
+import { SelectOptionType } from '../../../models';
 
 export interface IndicatorData {
     label: string;
@@ -14,11 +15,12 @@ export interface IndicatorData {
 
 interface IndicatorChartOptions {
     data: any[];
-    indicatorSelectionOptions: OptionType[];
+    defaultIndicator: string;
+    indicatorSelectionOptions: SelectOptionType[];
     onChangeSelection: (indicatorName: string, type: string) => any;
 }
 
-const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelectionOptions, onChangeSelection }) => {
+const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, defaultIndicator, indicatorSelectionOptions, onChangeSelection }) => {
 
     const device = useBreakpoints();
     const { currentTheme } = useAppTheme();
@@ -83,9 +85,9 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
             return {
                 ...item,
                 color: {
-                    backgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 0.35)' : 'rgba(300, 10, 10, 0.35)',
-                    hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
-                    borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
+                    backgroundColor: item.value > 0 ? '#20C05C' : '#fe807a',
+                    hoverBackgroundColor: item.value > 0 ? '#20C05C' : '#fe807a',
+                    borderColor: item.value > 0 ? '#20C05C' : '#fe807a',
                 }
             }
         });
@@ -97,19 +99,20 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
                 borderColor: formatedData.map((item: any) => item.color.borderColor),
                 backgroundColor: formatedData.map((item: any) => item.color.backgroundColor),
                 hoverBackgroundColor: formatedData.map((item: any) => item.color.hoverBackgroundColor),
-                borderWidth: 1
+                borderWidth: 1,
+                minBarLength: 10
             }]
         }
     }
 
-    const handleIndicatorChange = (option: OptionType) => {
+    const handleIndicatorChange = (option: SelectOptionType) => {
         const newIndicatorName = option;
         setIndicatorName(newIndicatorName.value);
 
         onChangeSelection(newIndicatorName.value, type);
     }
 
-    const handleTypeChange = (option: OptionType) => {
+    const handleTypeChange = (option: SelectOptionType) => {
         const newType = option.value;
         setType(newType);
 
@@ -120,23 +123,23 @@ const IndicatorChart: React.FC<IndicatorChartOptions> = ({ data, indicatorSelect
         <Container>
             <SelectContainer>
                 <Select
-                    placeholder={indicatorSelectionOptions[0].label}
+                    defaultValue={indicatorSelectionOptions.find(el => el.label === defaultIndicator)}
                     isClearable={false}
                     isDisabled={false}
                     isLoading={false}
                     isMulti={false}
                     isSearchable={false}
                     options={indicatorSelectionOptions}
-                    onChange={(option: OptionType) => handleIndicatorChange(option)} />
+                    onChange={(option: SelectOptionType) => handleIndicatorChange(option)} />
                 <Select
-                    placeholder={displayOptions[0].label}
+                    defaultValue={displayOptions[0]}
                     isClearable={false}
                     isDisabled={false}
                     isLoading={false}
                     isMulti={false}
                     isSearchable={false}
                     options={displayOptions}
-                    onChange={(option: OptionType) => handleTypeChange(option)} />
+                    onChange={(option: SelectOptionType) => handleTypeChange(option)} />
             </SelectContainer>
             {
                 indicatorData &&

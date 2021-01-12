@@ -54,6 +54,10 @@ export interface MarketIndexPriceFlutuationResult {
   highestIncrease: MarketIndexPriceFlutuationResultTicker[];
   highestDrop: MarketIndexPriceFlutuationResultTicker[];
 }
+export interface SelectOptionType {
+  label: string;
+  value: string;
+}
 
 export interface IndicatorHistory {
   value: number;
@@ -66,3 +70,7 @@ export interface CompanyMarketIndicator {
   signal: string;
   history: IndicatorHistory[];
 }
+
+export type CompanyMarketIndicatorHistoryType = "yearly" | "quarterly";
+
+export interface CompanyMarketIndicatorHistory extends IndicatorHistory { };

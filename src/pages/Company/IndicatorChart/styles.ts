@@ -5,7 +5,8 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;    
-  justify-content: center;  
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SelectContainer = styled.div`
@@ -19,5 +20,15 @@ export const SelectContainer = styled.div`
   > div {
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {  
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
+
+    > div {
+      margin-bottom: 2rem;
+    }
   }
 `;

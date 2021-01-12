@@ -16,9 +16,10 @@ interface IndicatorCardProps {
   value: number;
   signal: string;
   chartData?: Array<any>;
+  onClick: (indicatorName: string) => void;
 }
 
-const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, signal, chartData }) => {
+const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData, onClick, signal }) => {
   const device = useBreakpoints();
 
   const formatChartData = (data: Array<any>) => {
@@ -26,9 +27,9 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, sig
       return {
         ...item,
         color: {
-          backgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 0.35)' : 'rgba(300, 10, 10, 0.35)',
-          hoverBackgroundColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E81010',
-          borderColor: item.value > 0 ? 'rgba(32, 226, 47, 1)' : '#E82020',
+          backgroundColor: item.value > 0 ? '#20C05C' : '#fe807a',
+          hoverBackgroundColor: item.value > 0 ? '#20AD48' : '#fe807a',
+          borderColor: item.value > 0 ? '#20C05C' : '#fe807a',
         }
 
       }
@@ -46,15 +47,26 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, sig
       hoverBackgroundColor: indicatorData.map(d => d.color.hoverBackgroundColor),
       borderWidth: 0.5,
       maxBarThickness: 20,
-      barThickness: 15,
-      spanGaps: false,
-      fill: true,
+      barThickness: device.isMobile ? 5 : 15,
+      spanGaps: true,
+      fill: false,
+      minBarLength: 5,
+      hitRadius: 10,
     }]
   }
 
   const chartConfig: Chart.ChartConfiguration = {
     type: 'bar',
     options: {
+      animation: {
+        easing: 'easeInOutQuint'
+      },
+      elements: {
+        line: {
+          borderJoinStyle: 'round'
+        },
+      },
+      responsive: true,
       legend: {
         display: false
       },
@@ -100,7 +112,11 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, sig
   }
 
   return (
-    <Container>
+    <Container
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => onClick(indicatorName)}
+    >
       <Header>
         <Value>
           {
@@ -124,6 +140,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, sig
             options={chartConfig}
           />
         }
+
       </Content>
     </Container>
   );

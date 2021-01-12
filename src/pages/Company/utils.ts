@@ -188,6 +188,32 @@ export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): Trad
 export const indicatorList = {
     "cache": true,
     "content": {
+        "valuation": [
+            {
+                "label": 'LPA',
+                "value": "lucroPorAcao"
+            },
+            {
+                "label": 'VPA',
+                "value": "valorPatrimonialPorAcao"
+            },
+            {
+                "label": 'P/L',
+                "value": "precoAtualLucroPorAcao"
+            },
+            {
+                "label": 'P/VP',
+                "value": "precoAtualVpa"
+            },
+            {
+                "label": 'Taxa Retorno Investimento',
+                "value": "taxaRetornoInvestimento"
+            },
+            {
+                "label": 'Price Sales Ratio',
+                "value": "priceSalesRatio"
+            },
+        ],
         "endividamento": [
             {
                 "label": "Liquidez Corrente",

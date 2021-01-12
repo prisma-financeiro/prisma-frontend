@@ -6,25 +6,21 @@ import useAppTheme from '../../contexts/theme';
 
 import * as themes from '../../styles/themes';
 import { Container } from './styles';
-
-
-export interface OptionType {
-  label: string;
-  value: string;
-}
+import { SelectOptionType } from '../../models';
 
 interface SelectProps {
   options: any[];
+  defaultValue?: SelectOptionType;
   placeholder?: string;
   isMulti: boolean;
   isClearable: boolean;
   isDisabled: boolean;
   isLoading: boolean;
   isSearchable: boolean;
-  onChange: (option: OptionType) => void
+  onChange: (option: SelectOptionType) => void
 }
 
-const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isClearable, isDisabled, isLoading, isSearchable, onChange }) => {
+const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isClearable, isDisabled, isLoading, isSearchable, defaultValue, onChange }) => {
 
   const { currentTheme } = useAppTheme();
   const customStyles = {
@@ -39,6 +35,7 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isCleara
   return (
     <Container>
       <ReactSelect
+        defaultValue={defaultValue}
         styles={customStyles}
         placeholder={placeholder}
         options={options}

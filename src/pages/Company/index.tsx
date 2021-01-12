@@ -46,7 +46,7 @@ import MainContent from '../../components/MainContent';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
-import CompanyIndicator from './CompanyIndicator';
+import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
@@ -208,7 +208,7 @@ const Company: React.FC = (props: any) => {
   useEffect(() => {
     tickerPrice &&
       tickerPrice.price &&
-      company.getCompanyMarketIndicator(companyId, ticker, tickerPrice.price)
+      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
         .then(data => {
           data &&
             setMarketIndicatorInfo(data);
@@ -430,28 +430,28 @@ const Company: React.FC = (props: any) => {
           <CompanyIndicator
             companyId={companyId}
             anchor={valuation}
-            title="Indicadores - Valuation"
+            indicatorType={IndicatorType.valuation}
             indicatorData={marketIndicatorInfo ? marketIndicatorInfo : []}
-            indicatorSelectionOptions={[]}
+            indicatorSelectionOptions={indicatorList.content.valuation}
           />
           <CompanyIndicator
             companyId={companyId}
             anchor={rentabilidade}
-            title="Indicadores - Rentabilidade"
+            indicatorType={IndicatorType.rentabilidade}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.rentabilidade : []}
             indicatorSelectionOptions={indicatorList.content.rentabilidade}
           />
           <CompanyIndicator
             companyId={companyId}
             anchor={eficiencia}
-            title="Indicadores - Eficiência"
+            indicatorType={IndicatorType.eficiencia}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.eficiencia : []}
             indicatorSelectionOptions={indicatorList.content.eficiencia}
           />
           <CompanyIndicator
             companyId={companyId}
             anchor={endividamento}
-            title="Indicadores - Endividamento"
+            indicatorType={IndicatorType.endividamento}
             indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.endividamento : []}
             indicatorSelectionOptions={indicatorList.content.endividamento}
           />

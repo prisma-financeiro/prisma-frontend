@@ -1,18 +1,29 @@
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Container = styled.div`
+export const Container = styled(motion.div)`
   ${({ theme }) => css`
     position: relative;
     background: ${theme.colors.darkGrey};
     width: 20rem;
     height: 15rem;
     border-radius: ${theme.radio.small};
-    margin: 1rem 1rem 0 0;
+    padding: 1rem 1rem 0 1.5rem;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-box-shadow: 7px 7px 7px -6px #232222;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    7px 7px 7px -6px #232222;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         7px 7px 7px -6px #232222; 
+
 
     @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      padding: 0;
       width: 100%;
       height: 10rem;
       margin: 0.5rem 0.5rem 0 0;
+      -webkit-box-shadow: 15px 15px 7px -6px #232222;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+      -moz-box-shadow:    15px 15px 7px -6px #232222;  /* Firefox 3.5 - 3.6 */
+      box-shadow:         15px 15px 7px -6px #232222; 
     }
   `}
 `;
@@ -20,9 +31,7 @@ export const Container = styled.div`
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;  
-  margin-top: 1.5rem;
-  margin-left: 2.0rem;
+  justify-content: center;
   z-index: 10;
   
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {

@@ -1,17 +1,21 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-interface IconProps {
-  color: string;
-}
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  width: 100%;
+`;
 
-export const AnimatedCardContainer = styled(motion.article)`
+export const CardContainer = styled.article`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
     border-radius: ${theme.radio.default};   
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    grid-gap: 2.5rem;
 
     @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {     
       display: grid;
@@ -22,28 +26,32 @@ export const AnimatedCardContainer = styled(motion.article)`
     }
   `}
 `;
-export const AnimatedChartContainer = styled(motion.article)`
+
+export const ChartContainer = styled.article`
   ${({ theme }) => css`
     background: ${theme.colors.background};
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: flex;
+    flex-direction: column;
     justify-content: center;    
   `}
 `;
 
-export const IconContainer = styled(motion.button)`  
+export const IconContainer = styled(motion.div)`
   ${({ theme }) => css`
-    margin: 1rem 0;
-    color: ${(props: IconProps) => props.color};
-    background-color: transparent; 
+    display: flex;
+    flex-direction: row;
+    color: ${theme.colors.primary};
     font-size: ${theme.fontSizes.xlarge};
-    align-self: flex-start;
-
-    :hover {    
-      color: ${theme.colors.primary};
-      cursor: pointer;
+    margin-bottom: 2rem;
+    width: 2rem;
+    height: 2rem;
+    
+    :hover {
+        cursor: pointer;
+        background: ${theme.colors.greyLowerOpacity};
+        border-radius: 50%;
     }
   `}
 `;
-
