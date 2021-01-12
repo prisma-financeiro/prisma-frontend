@@ -38,7 +38,6 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         { value: "t", label: "Trimestre" },
     ];
 
-    const firstTableColumnIndex = "0";
     const firstTableColumnTitle = "#";
 
     const [tableData, setTableData] = useState<TableContent>();
@@ -59,7 +58,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
         setYearTo(lastAvailableYear);
     }, [selectionOptions, type]);
 
-    const buildTableComponents = (data: any): TableContent => {
+    const buildTableComponents = (data: TableContent): TableContent => {
         if (!data) {
             return {
                 rows: [],
@@ -67,37 +66,39 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
             };
         }
 
-        const formatedColumns: any[] = [];
-        data.columns.map((item: any) => formatedColumns.push(item === firstTableColumnTitle ? item : (<TableColumnHeader >{String(item)}</TableColumnHeader>)));
+        const formatedColumns: JSX.Element[] = [];
+        data.columns.forEach((item: string) => {
+            formatedColumns.push((
+                <TableColumnHeader alignLeft={item === firstTableColumnTitle}>
+                    {item}
+                </TableColumnHeader>
+            ))
+        });
 
-        const formatedRows: any[] = [];
+        const formatedRows: JSX.Element[] = [];
         data.rows.map((row: any) => {
-
             let formatedRow: any = {};
-            for (const attr in row) {
-                if (row.hasOwnProperty(attr)) {
-                    const attrValue: any = row[attr];
+            for (const column in row) {
 
-                    if (attr === firstTableColumnIndex) {
-                        formatedRow[attr] = <TableAccountName root={attrValue.root}>{attrValue.description}</TableAccountName>;
-                    } else {
-                        if (attrValue.type === 'value') {
-                            formatedRow[attr] = (
-                                <TableColumnValue>
-                                    {formatCurrency(Number(attrValue.data))}
-                                </TableColumnValue>
-                            )
-                        } else if (attrValue.type === 'percentual') {
-                            const percentual = Number(attrValue.data);
-                            formatedRow[attr] = (
-                                <TableColumnPercentual
-                                    percentual={percentual}
-                                >
-                                    {`${percentual} %`}
-                                </TableColumnPercentual>
-                            )
-                        }
-                    }
+                const value: any = row[column];
+
+                switch (value.type) {
+                    case 'string':
+                        formatedRow[column] = <TableAccountName root={value.root}>{value.data}</TableAccountName>;
+                        break;
+                    case 'value':
+                        formatedRow[column] = <TableColumnValue>{formatCurrency(Number(value.data))}</TableColumnValue>;
+                        break;
+                    case 'percentual':
+                        const percentual = Number(value.data);
+                        formatedRow[column] = (
+                            <TableColumnPercentual percentual={percentual}>
+                                {`${percentual} %`}
+                            </TableColumnPercentual>
+                        )
+                        break;
+                    default:
+                        break;
                 }
             }
             return formatedRows.push(formatedRow);

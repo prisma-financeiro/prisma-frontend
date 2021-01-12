@@ -10,12 +10,12 @@ import { storageKey } from '../utils';
 
 export type ThemeState = 'light' | 'dark';
 
-export type AppThemeContext = {
+export type AppThemeContextProps = {
   currentTheme: ThemeState;
   toggleTheme(): void;
 };
 
-const AppThemeContext = createContext<AppThemeContext | null>(null);
+const AppThemeContext = createContext<AppThemeContextProps | null>(null);
 
 export const AppThemeProvider = ({ children }: PropsWithChildren<unknown>) => {
   const [currentTheme, setCurrentTheme] = useState<ThemeState>(() => {
@@ -47,7 +47,7 @@ export const AppThemeProvider = ({ children }: PropsWithChildren<unknown>) => {
   );
 };
 
-const useAppTheme = (): AppThemeContext => {
+const useAppTheme = (): AppThemeContextProps => {
   const context = useContext(AppThemeContext);
 
   if (!context) {

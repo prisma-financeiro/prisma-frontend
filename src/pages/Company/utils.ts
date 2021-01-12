@@ -6,45 +6,44 @@ interface TableData {
 }
 
 export const formatIncomeStatementTable = (data: any[], type: string): TableData => {
-
-    const columns: Array<string> = [];
+    const columns: string[] = [];
 
     const result: TableData = { columns: ["#"], rows: [] };
-    let account: string = "";
-    let columnIndex: number = -1;
-    let row: any;
+    let account: string = '';
+    let columnIndex: number = 0;
+    let row: { [key: number]: any } = {};
 
     for (const incomeStatement of data) {
-        const year: string = type === "a" ? incomeStatement.year : `${incomeStatement.period}${incomeStatement.year}`;
-        if (!columns.includes(year)) {
-            columns.push(year);
+        const period: string = type === "a" ? incomeStatement.year : `${incomeStatement.period}${incomeStatement.year}`;
+        if (!columns.includes(period)) {
+            columns.push(period);
         }
 
         if (account !== incomeStatement.account) {
             account = incomeStatement.account;
             columnIndex = 1;
 
-            row = { [0]: { description: incomeStatement.accountDescription } };
+            row = { 0: { type: 'string', data: incomeStatement.accountDescription } };
 
             result.rows.push(row);
         }
 
-        // Calculor da diferenca em percentual para com o periodo anterior (analise horizontal)
         if (columnIndex > 1) {
-            const lastValue = row[columnIndex - 1].data;
-            const currentValue = parseFloat(incomeStatement.amount);
-            const percentualDiference = parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2));
+            const percentualDiference = calcPercentageDifference(
+                                            row[columnIndex - 1].data, 
+                                            parseFloat(incomeStatement.amount)
+                                        );
 
             row[columnIndex] = { type: 'percentual', data: percentualDiference };
             columnIndex++;
         }
-        row[columnIndex] = { type: 'value', data: parseFloat(incomeStatement.amount) };
 
+        row[columnIndex] = { type: 'value', data: parseFloat(incomeStatement.amount) };
         columnIndex++;
     }
 
-    columns.map((item, index) => {
-        result.columns.push(String(item));
+    columns.forEach((item, index) => {
+        result.columns.push(item);
 
         if (index < columns.length - 1) {
             result.columns.push("AH %");
@@ -54,14 +53,13 @@ export const formatIncomeStatementTable = (data: any[], type: string): TableData
     return result;
 }
 
-
 export const formatCashFlowTable = (data: any[], type: string): TableData => {
 
-    const columns: Array<string> = [];
+    const columns: string[] = [];
 
     const result: TableData = { columns: ["#"], rows: [] };
     let account: string = "";
-    let columnIndex: number = -1;
+    let columnIndex: number = 0;
     let row: any;
 
     for (const incomeStatement of data) {
@@ -74,27 +72,26 @@ export const formatCashFlowTable = (data: any[], type: string): TableData => {
             account = incomeStatement.account;
             columnIndex = 1;
 
-            row = { [0]: { description: incomeStatement.accountDescription } };
-
+            row = { 0: { type: 'string', data: incomeStatement.accountDescription } };
             result.rows.push(row);
         }
 
-        // Calculor da diferenca em percentual para com o periodo anterior (analise horizontal)
         if (columnIndex > 1) {
-            const lastValue = row[columnIndex - 1].data;
-            const currentValue = parseFloat(incomeStatement.amount);
-            const percentualDiference = parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2));
+            const percentualDiference = calcPercentageDifference(
+                                            row[columnIndex - 1].data, 
+                                            parseFloat(incomeStatement.amount)
+                                        );
 
             row[columnIndex] = { type: 'percentual', data: percentualDiference };
             columnIndex++;
         }
-        row[columnIndex] = { type: 'value', data: parseFloat(incomeStatement.amount) };
 
+        row[columnIndex] = { type: 'value', data: parseFloat(incomeStatement.amount) };
         columnIndex++;
     }
 
-    columns.map((item, index) => {
-        result.columns.push(String(item));
+    columns.forEach((item, index) => {
+        result.columns.push(item);
 
         if (index < columns.length - 1) {
             result.columns.push("AH");
@@ -108,7 +105,7 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
     const columns: string[] = [];
     const result: TableData = { columns: ["#", ...columns], rows: [] };
     let account: string = "";
-    let columnIndex: number = -1;
+    let columnIndex: number = 0;
     let row: any;
 
     for (const balanceSheet of data) {
@@ -121,28 +118,26 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
             account = balanceSheet.account;
             columnIndex = 1;
 
-            row = { [0]: { description: balanceSheet.accountDescription, root: String(balanceSheet.account).split(".").length } };
-
+            row = { 0: { type: 'string', data: balanceSheet.accountDescription, root: String(balanceSheet.account).split(".").length }};
             result.rows.push(row);
         }
 
-        // Calculor da diferenca em percentual para com o periodo anterior (analise horizontal)
         if (columnIndex > 1) {
-            const lastValue = row[columnIndex - 1].data;
-            const currentValue = parseFloat(balanceSheet.amount);
-            const percentualDiference = parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2));
+            const percentualDiference = calcPercentageDifference(
+                                            row[columnIndex - 1].data, 
+                                            parseFloat(balanceSheet.amount)
+                                        );
 
             row[columnIndex] = { type: 'percentual', data: percentualDiference };
             columnIndex++;
         }
+
         row[columnIndex] = { type: 'value', data: parseFloat(balanceSheet.amount) };
-
         columnIndex++;
-
     }
 
-    columns.map((item, index) => {
-        result.columns.push(String(item));
+    columns.forEach((item, index) => {
+        result.columns.push(item);
 
         if (index < columns.length - 1) {
             result.columns.push("AH");
@@ -150,6 +145,11 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
     });
 
     return result;
+}
+
+// Calculo da diferenca em percentual para com o periodo anterior (analise horizontal)
+const calcPercentageDifference = (lastValue: number, currentValue: number): number => {
+    return parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2)) || 0; 
 }
 
 export const formatSelectOptions = (data: number[]) => {
