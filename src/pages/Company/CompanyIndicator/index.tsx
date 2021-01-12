@@ -132,7 +132,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
                                                 key={index}
                                                 indicatorName={indicator.indicatorName}
                                                 value={indicator.value}
-                                                signal={indicator.signal}
+                                                representationCharacter={indicator.signal}
                                                 chartData={indicator.history}
                                                 onClick={(indicatorName) => handleOnCardClick(indicatorName)}
                                             />

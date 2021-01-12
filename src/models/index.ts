@@ -72,5 +72,3 @@ export interface CompanyMarketIndicator {
 }
 
 export type CompanyMarketIndicatorHistoryType = "yearly" | "quarterly";
-
-export interface CompanyMarketIndicatorHistory extends IndicatorHistory { };
