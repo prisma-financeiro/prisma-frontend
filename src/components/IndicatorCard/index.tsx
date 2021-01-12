@@ -14,11 +14,12 @@ import { useBreakpoints } from '../../hooks/useBreakpoints';
 interface IndicatorCardProps {
   indicatorName: string;
   value: number;
+  representationCharacter: string;
   chartData?: Array<any>;
   onClick: (indicatorName: string) => void;
 }
 
-const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData, onClick }) => {
+const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData, onClick, representationCharacter }) => {
   const device = useBreakpoints();
 
   const formatChartData = (data: Array<any>) => {
@@ -46,7 +47,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
       hoverBackgroundColor: indicatorData.map(d => d.color.hoverBackgroundColor),
       borderWidth: 0.5,
       maxBarThickness: 20,
-      barThickness: device.isMobile ? 5: 15,
+      barThickness: device.isMobile ? 5 : 15,
       spanGaps: true,
       fill: false,
       minBarLength: 5,
@@ -115,12 +116,12 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => onClick(indicatorName)}
-      >
+    >
       <Header>
         <Value>
           {
             value ?
-              parseFloat(String(value)).toFixed(2).toString().replace('.', ',')
+              `${parseFloat(String(value)).toFixed(2).toString().replace('.', ',')}${representationCharacter && representationCharacter}`
               :
               "--"
           }
@@ -130,16 +131,16 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
         </Title>
       </Header>
       <Content>
-      {
-        !device.isMobile &&
-        value &&
-        data &&
-        <BarChart
-          data={data}
-          options={chartConfig}
-        />
-      }
-        
+        {
+          !device.isMobile &&
+          value &&
+          data &&
+          <BarChart
+            data={data}
+            options={chartConfig}
+          />
+        }
+
       </Content>
     </Container>
   );

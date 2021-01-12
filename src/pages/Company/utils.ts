@@ -5,6 +5,8 @@ interface TableData {
     rows: any[]
 }
 
+const INCOME_STATEMENT_ACUMULATED = "A";
+
 export const formatIncomeStatementTable = (data: any[], type: string): TableData => {
 
     const columns: Array<string> = [];
@@ -15,9 +17,15 @@ export const formatIncomeStatementTable = (data: any[], type: string): TableData
     let row: any;
 
     for (const incomeStatement of data) {
-        const year: string = type === "a" ? incomeStatement.year : `${incomeStatement.period}${incomeStatement.year}`;
-        if (!columns.includes(year)) {
-            columns.push(year);
+        let columnTitle: string;
+        if (incomeStatement.period === INCOME_STATEMENT_ACUMULATED) {
+            columnTitle = "Últ. 12M";
+        } else {
+            columnTitle = type === "a" ? incomeStatement.year : `${incomeStatement.period}${incomeStatement.year}`;
+        }
+
+        if (!columns.includes(columnTitle)) {
+            columns.push(columnTitle);
         }
 
         if (account !== incomeStatement.account) {
@@ -112,9 +120,10 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
     let row: any;
 
     for (const balanceSheet of data) {
-        const year: string = type === "a" ? balanceSheet.year : `${balanceSheet.period}${balanceSheet.year}`;
-        if (!columns.includes(year)) {
-            columns.push(year);
+        const columnTitle: string = type === "a" ? balanceSheet.year : `${balanceSheet.period}${balanceSheet.year}`;
+
+        if (!columns.includes(columnTitle)) {
+            columns.push(columnTitle);
         }
 
         if (account !== balanceSheet.account) {
@@ -179,6 +188,32 @@ export const formatStockVolumeHistory = (data: TickerHistoryResultPrice[]): Trad
 export const indicatorList = {
     "cache": true,
     "content": {
+        "valuation": [
+            {
+                "label": 'LPA',
+                "value": "lucroPorAcao"
+            },
+            {
+                "label": 'VPA',
+                "value": "valorPatrimonialPorAcao"
+            },
+            {
+                "label": 'P/L',
+                "value": "precoAtualLucroPorAcao"
+            },
+            {
+                "label": 'P/VP',
+                "value": "precoAtualVpa"
+            },
+            {
+                "label": 'Taxa Retorno Investimento',
+                "value": "taxaRetornoInvestimento"
+            },
+            {
+                "label": 'Price Sales Ratio',
+                "value": "priceSalesRatio"
+            },
+        ],
         "endividamento": [
             {
                 "label": "Liquidez Corrente",

@@ -12,23 +12,31 @@ import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
 import { SelectOptionType } from "../../../models";
 
+export enum IndicatorType {
+    valuation = 'Valuation',
+    rentabilidade = 'Rentabilidade',
+    eficiencia = 'Eficiência',
+    endividamento = 'Endividamento'
+}
+
 interface CompanyIndicatorOptions {
     companyId: number;
-    title: string;
+    ticker: string;
+    indicatorType: IndicatorType;
     indicatorSelectionOptions: SelectOptionType[];
     indicatorData: any[];
     anchor?: React.MutableRefObject<any>;
 }
 
-const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indicatorData, title, indicatorSelectionOptions, anchor }) => {
+const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker, indicatorType, indicatorData, indicatorSelectionOptions, anchor }) => {
     const [isChartVisible, setIsChartVisible] = useState(false);
     const [indicatorHistory, setIndicatorHistory] = useState<SelectOptionType[]>([]);
     const [selectedIndicator, setSelectedIndicator] = useState<string>('');
 
-    const getIndicatorHistory = async (indicatorName: string, type: string) => {
+    const _getBalanceIndicatorHistory = async (indicatorName: string, type: string) => {
         let formatedValues: SelectOptionType[] = [];
-
         if (type === "ANUAL") {
+
             return await company.getYearIndicator(companyId, indicatorName)
                 .then(data => {
                     formatedValues = data.map((item: any) => {
@@ -47,6 +55,26 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
         }
     }
 
+    const _getMarketIndicatorHistory = async (indicatorName: string, type: string) => {
+        let formatedValues: SelectOptionType[] = [];
+
+        return await company.getCompanyMarketIndicatorHistory(ticker, indicatorName, type === "ANUAL" ? "yearly" : "quarterly")
+            .then(data => {
+                formatedValues = data.map((item: any) => {
+                    return { label: item.year, value: item.value }
+                });
+                setIndicatorHistory(formatedValues);
+            });
+    }
+
+    const getIndicatorHistory = async (indicatorName: string, type: string) => {
+        if (indicatorType === IndicatorType.valuation) {
+            await _getMarketIndicatorHistory(indicatorName, type);
+        } else {
+            await _getBalanceIndicatorHistory(indicatorName, type);
+        }
+    }
+
     const handleSelectionChange = async (indicatorName: string, type: string) => {
         getIndicatorHistory(indicatorName, type);
         const selectedIndicatorValue = indicatorSelectionOptions.find(el => el.value === indicatorName)?.label || indicatorSelectionOptions[0].value;
@@ -54,10 +82,6 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
     }
 
     const handleOnCardClick = (indicatorName: string) => {
-        //Todo: Remover esse if quando tivermos os grafico de valuation
-        if (title === 'Indicadores - Valuation') {
-            return
-        }
         setSelectedIndicator(indicatorName);
         setIsChartVisible(true);
         const selectedIndicator: string = indicatorSelectionOptions.find(el => el.label === indicatorName)?.value || indicatorSelectionOptions[0].value;
@@ -70,15 +94,16 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
     }
 
     const getTitle = (selectedIndicator: string): string => {
+        const title = `Indicadores - ${indicatorType}`;
         return selectedIndicator ? `${title} - ${selectedIndicator}` : title;
-    } 
+    }
 
     return (
         <Accordion
             anchor={anchor}
             title={getTitle(selectedIndicator)}
             size={AccordionSizes.large}>
-            
+
             <Container>
                 {
                     isChartVisible ?
@@ -107,6 +132,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, indica
                                                 key={index}
                                                 indicatorName={indicator.indicatorName}
                                                 value={indicator.value}
+                                                representationCharacter={indicator.signal}
                                                 chartData={indicator.history}
                                                 onClick={(indicatorName) => handleOnCardClick(indicatorName)}
                                             />

@@ -29,13 +29,15 @@ import {
   RiFireLine
 } from 'react-icons/ri';
 
-import { 
+import {
   BiLineChart,
-  BiSpreadsheet } from 'react-icons/bi';
+  BiSpreadsheet
+} from 'react-icons/bi';
 
-import { 
+import {
   HiOutlineDocumentReport,
-  HiOutlineMail } from 'react-icons/hi';
+  HiOutlineMail
+} from 'react-icons/hi';
 
 import { BsBuilding } from 'react-icons/bs';
 
@@ -44,17 +46,17 @@ import MainContent from '../../components/MainContent';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
-import CompanyIndicator from './CompanyIndicator';
+import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';
 import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
-import { 
-  formatIncomeStatementTable, 
-  formatBalanceSheetTable, 
-  formatSelectOptions, 
-  formatCashFlowTable, 
-  formatStockPriceHistory, 
-  indicatorList 
+import {
+  formatIncomeStatementTable,
+  formatBalanceSheetTable,
+  formatSelectOptions,
+  formatCashFlowTable,
+  formatStockPriceHistory,
+  indicatorList
 } from './utils';
 import PeriodSelector from '../../components/PeriodSelector';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
@@ -94,7 +96,8 @@ const Company: React.FC = (props: any) => {
 
   const [companyInfo, setCompanyInfo] = useState<company.CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
-  const [indicatorInfo, setIndicatorInfo] = useState<any>();
+  const [balanceIndicatorInfo, setBalanceIndicatorInfo] = useState<any>();
+  const [marketIndicatorInfo, setMarketIndicatorInfo] = useState<any>();
 
   const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
   const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>({ options: [] });
@@ -153,7 +156,7 @@ const Company: React.FC = (props: any) => {
     company.getCompanyIndicator(companyId).then(data => {
       const indicator = data;
 
-      setIndicatorInfo(indicator);
+      setBalanceIndicatorInfo(indicator);
     })
 
     company.getIncomeStatementOptions(companyId)
@@ -201,6 +204,16 @@ const Company: React.FC = (props: any) => {
     scrollTo(valuation);
 
   }, [ticker]);
+
+  useEffect(() => {
+    tickerPrice &&
+      tickerPrice.price &&
+      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+        .then(data => {
+          data &&
+            setMarketIndicatorInfo(data);
+        })
+  }, [tickerPrice]);
 
   const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -360,280 +373,284 @@ const Company: React.FC = (props: any) => {
 
   return (
     <Container>
-        {
-          !device.isMobile &&
-          <SideBar sideBarOptions={sideBarOptionCompany} />
-        }
-        <MainContent>
-          <HeaderContainer>
-            <CompanyHeader
-              companyLogo={companyInfo ? companyInfo.logo : ""}
-              tickerCode={ticker}
-              companyName={companyInfo ? companyInfo.name : ""}
-            />
-            {
-              device.isMobile &&
-              <>
-                < ButtonContainer >
-                  <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
-                  <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
-                </ButtonContainer>
-                <Divider />
-              </>
-            }
-            <StockPriceContainer>
-              <div>
-                <Title>Valor Atual</Title>
-                <StockPrice
-                  stockPrice={tickerPrice ? tickerPrice.price : 0}
-                  variationPercentage={tickerPrice ? tickerPrice.variationPercentage : 0}
-                  variationValue={tickerPrice ? tickerPrice.variationValue : 0}
-                />
-              </div>
-              <div>
-                <Title>Máxima Mês</Title>
-                <StockPrice
-                  stockPrice={19.41}
-                  variationPercentage={1.5}
-                />
-              </div>
-              <div>
-                <Title>Mínima Mês</Title>
-                <StockPrice
-                  stockPrice={12.20}
-                  variationPercentage={-2.44}
-                />
-              </div>
-            </StockPriceContainer>
-            {
-              !device.isMobile &&
-              <ButtonContainer>
+      {
+        !device.isMobile &&
+        <SideBar sideBarOptions={sideBarOptionCompany} />
+      }
+      <MainContent>
+        <HeaderContainer>
+          <CompanyHeader
+            companyLogo={companyInfo ? companyInfo.logo : ""}
+            tickerCode={ticker}
+            companyName={companyInfo ? companyInfo.name : ""}
+          />
+          {
+            device.isMobile &&
+            <>
+              < ButtonContainer >
                 <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
                 <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
               </ButtonContainer>
-            }
-          </HeaderContainer>
-          <AccordionContainer>
-            <CompanyIndicator
-              companyId={companyId}
-              anchor={valuation}
-              title="Indicadores - Valuation"
-              indicatorData={indicatorInfo ? indicatorInfo.valuation : []}
-              indicatorSelectionOptions={[]}
-            />
-            <CompanyIndicator
-              companyId={companyId}
-              anchor={rentabilidade}
-              title="Indicadores - Rentabilidade"
-              indicatorData={indicatorInfo ? indicatorInfo.rentabilidade : []}
-              indicatorSelectionOptions={indicatorList.content.rentabilidade}
-            />
-            <CompanyIndicator
-              companyId={companyId}
-              anchor={eficiencia}
-              title="Indicadores - Eficiência"
-              indicatorData={indicatorInfo ? indicatorInfo.eficiencia : []}
-              indicatorSelectionOptions={indicatorList.content.eficiencia}
-            />
-            <CompanyIndicator
-              companyId={companyId}
-              anchor={endividamento}
-              title="Indicadores - Endividamento"
-              indicatorData={indicatorInfo ? indicatorInfo.endividamento : []}
-              indicatorSelectionOptions={indicatorList.content.endividamento}
-            />
-            <Accordion anchor={cotacao} title="Histórico - Cotação" size={AccordionSizes.large}>
-              <QuoteInfoContainer>
-                <InfoCard>
-                  <p>
-                    Variação no período
+              <Divider />
+            </>
+          }
+          <StockPriceContainer>
+            <div>
+              <Title>Valor Atual</Title>
+              <StockPrice
+                stockPrice={tickerPrice ? tickerPrice.price : 0}
+                variationPercentage={tickerPrice ? tickerPrice.variationPercentage : 0}
+                variationValue={tickerPrice ? tickerPrice.variationValue : 0}
+              />
+            </div>
+            <div>
+              <Title>Máxima Mês</Title>
+              <StockPrice
+                stockPrice={19.41}
+                variationPercentage={1.5}
+              />
+            </div>
+            <div>
+              <Title>Mínima Mês</Title>
+              <StockPrice
+                stockPrice={12.20}
+                variationPercentage={-2.44}
+              />
+            </div>
+          </StockPriceContainer>
+          {
+            !device.isMobile &&
+            <ButtonContainer>
+              <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
+              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+            </ButtonContainer>
+          }
+        </HeaderContainer>
+        <AccordionContainer>
+          <CompanyIndicator
+            companyId={companyId}
+            ticker={ticker}
+            anchor={valuation}
+            indicatorType={IndicatorType.valuation}
+            indicatorData={marketIndicatorInfo ? marketIndicatorInfo : []}
+            indicatorSelectionOptions={indicatorList.content.valuation}
+          />
+          <CompanyIndicator
+            companyId={companyId}
+            ticker={ticker}
+            anchor={rentabilidade}
+            indicatorType={IndicatorType.rentabilidade}
+            indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.rentabilidade : []}
+            indicatorSelectionOptions={indicatorList.content.rentabilidade}
+          />
+          <CompanyIndicator
+            companyId={companyId}
+            ticker={ticker}
+            anchor={eficiencia}
+            indicatorType={IndicatorType.eficiencia}
+            indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.eficiencia : []}
+            indicatorSelectionOptions={indicatorList.content.eficiencia}
+          />
+          <CompanyIndicator
+            companyId={companyId}
+            ticker={ticker}
+            anchor={endividamento}
+            indicatorType={IndicatorType.endividamento}
+            indicatorData={balanceIndicatorInfo ? balanceIndicatorInfo.endividamento : []}
+            indicatorSelectionOptions={indicatorList.content.endividamento}
+          />
+          <Accordion anchor={cotacao} title="Histórico - Cotação" size={AccordionSizes.large}>
+            <QuoteInfoContainer>
+              <InfoCard>
+                <p>
+                  Variação no período
                     </p>
-                  <StockPrice
-                    stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
-                    variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
-                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
-                  />
-                </InfoCard>
-                <InfoCard>
-                  <p>
-                    Máxima no período
+                <StockPrice
+                  stockPrice={stockPriceInfo && stockPriceInfo.variationValue ? stockPriceInfo.variationValue : 0}
+                  variationPercentage={stockPriceInfo && stockPriceInfo.variationPercentage ? stockPriceInfo.variationPercentage : 0}
+                  size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                />
+              </InfoCard>
+              <InfoCard>
+                <p>
+                  Máxima no período
                   </p>
-                  <StockPrice
-                    stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
-                    variationPercentage={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
-                    variationValue={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
-                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                <StockPrice
+                  stockPrice={stockPriceInfo && stockPriceInfo.highest ? stockPriceInfo.highest.price : 0}
+                  variationPercentage={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationPercentage ? stockPriceInfo.highest.variationPercentage : 0}
+                  variationValue={stockPriceInfo && stockPriceInfo.highest && stockPriceInfo.highest.variationValue ? stockPriceInfo.highest.variationValue : 0}
+                  size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                />
+              </InfoCard>
+              <InfoCard>
+                <p>
+                  Mínima no período
+                  </p>
+                <StockPrice
+                  stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
+                  variationPercentage={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
+                  variationValue={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
+                  size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
+                />
+              </InfoCard>
+            </QuoteInfoContainer>
+            <PeriodSelector
+              onPeriodChange={(period) => handleStockQuotePeriodChange(period)}
+            />
+            <AccordionContent>
+              {
+                stockPriceHistory ?
+                  <LineChart
+                    data={stockPriceHistory}
                   />
+                  :
+                  <h2>Sem informações para o período</h2>
+              }
+            </AccordionContent>
+          </Accordion>
+          <Accordion anchor={proventos} title="Histórico - Proventos" size={AccordionSizes.large}>
+            <AccordionContent>
+              <h1>Proventos content</h1>
+            </AccordionContent>
+          </Accordion>
+          <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
+            <FinancialReportTable
+              data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
+              selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
+              onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
+              onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
+            />
+          </Accordion>
+          <Accordion anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={AccordionSizes.large}>
+            <FinancialReportTable
+              data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
+              selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
+              onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
+              onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
+            />
+          </Accordion>
+          <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
+            <FinancialReportTable
+              data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
+              selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
+              onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
+              onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
+            />
+          </Accordion>
+          <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
+            <AccordionContent>
+              <SegmentContainer>
+                <SegmentCard
+                  title={"Setor"}
+                  description={companyInfo?.segment?.description}
+                  companyCount={companyInfo?.segment?.companiesCount}
+                />
+                <SegmentCard
+                  title={"Sub-Setor"}
+                  description={companyInfo?.subsector?.description}
+                  companyCount={companyInfo?.subsector?.companiesCount}
+                />
+                <SegmentCard
+                  title={"Segmento"}
+                  description={companyInfo?.sector?.description}
+                  companyCount={companyInfo?.sector?.companiesCount}
+                />
+              </SegmentContainer>
+            </AccordionContent>
+          </Accordion>
+          <Accordion anchor={dadosGerais} title="Dados Gerais" size={AccordionSizes.large}>
+            <AccordionContent>
+              <InfoContainer>
+                <InfoCard>
+                  <p>
+                    CNPJ
+                    </p>
+                  <div>
+                    {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
+                  </div>
                 </InfoCard>
                 <InfoCard>
                   <p>
-                    Mínima no período
-                  </p>
-                  <StockPrice
-                    stockPrice={stockPriceInfo && stockPriceInfo.lowest ? stockPriceInfo.lowest.price : 0}
-                    variationPercentage={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationPercentage ? stockPriceInfo.lowest.variationPercentage : 0}
-                    variationValue={stockPriceInfo && stockPriceInfo.lowest && stockPriceInfo.lowest.variationValue ? stockPriceInfo.lowest.variationValue : 0}
-                    size={device.isMobile ? StockPriceSize.small : StockPriceSize.medium}
-                  />
+                    Data de Fundação
+                    </p>
+                  <div>
+                    {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
+                  </div>
                 </InfoCard>
-              </QuoteInfoContainer>
-              <PeriodSelector
-                onPeriodChange={(period) => handleStockQuotePeriodChange(period)}
-              />
-              <AccordionContent>
-                {
-                  stockPriceHistory ?
-                    <LineChart
-                      data={stockPriceHistory}
-                    />
-                    :
-                    <h2>Sem informações para o período</h2>
-                }
-              </AccordionContent>
-            </Accordion>
-            <Accordion anchor={proventos} title="Histórico - Proventos" size={AccordionSizes.large}>
-              <AccordionContent>
-                <h1>Proventos content</h1>
-              </AccordionContent>
-            </Accordion>
-            <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
-              <FinancialReportTable
-                data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
-                selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
-                onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
-                onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
-              />
-            </Accordion>
-            <Accordion anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={AccordionSizes.large}>
-              <FinancialReportTable
-                data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
-                selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
-                onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
-                onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
-              />
-            </Accordion>
-            <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
-              <FinancialReportTable
-                data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
-                selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
-                onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
-                onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
-              />
-            </Accordion>
-            <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
-              <AccordionContent>
-                <SegmentContainer>
-                  <SegmentCard
-                    title={"Setor"}
-                    description={companyInfo?.segment?.description}
-                    companyCount={companyInfo?.segment?.companiesCount}
-                  />
-                  <SegmentCard
-                    title={"Sub-Setor"}
-                    description={companyInfo?.subsector?.description}
-                    companyCount={companyInfo?.subsector?.companiesCount}
-                  />
-                  <SegmentCard
-                    title={"Segmento"}
-                    description={companyInfo?.sector?.description}
-                    companyCount={companyInfo?.sector?.companiesCount}
-                  />
-                </SegmentContainer>
-              </AccordionContent>
-            </Accordion>
-            <Accordion anchor={dadosGerais} title="Dados Gerais" size={AccordionSizes.large}>
-              <AccordionContent>
-                <InfoContainer>
-                  <InfoCard>
-                    <p>
-                      CNPJ
+                <InfoCard>
+                  <p>
+                    Capital
                     </p>
-                    <div>
-                      {companyInfo && companyInfo.cnpj ? companyInfo.cnpj : "Não informado"}
-                    </div>
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Data de Fundação
+                  <div>
+                    {companyInfo ? formatCurrencyCompact(companyInfo.capitalAmount).toUpperCase() : "Não informado"}
+                  </div>
+                </InfoCard>
+                <InfoCard>
+                  <p>
+                    Ações Ordinárias (ON)
                     </p>
-                    <div>
-                      {companyInfo && companyInfo.foundationDate ? new Date(companyInfo.foundationDate).toLocaleDateString() : "Não informado"}
-                    </div>
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Capital
+                  <div>
+                    {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
+                  </div>
+                </InfoCard>
+                <InfoCard>
+                  <p>
+                    Ações Preferências (PN)
                     </p>
-                    <div>
-                      {companyInfo ? formatCurrencyCompact(companyInfo.capitalAmount).toUpperCase() : "Não informado"}
-                    </div>
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Ações Ordinárias (ON)
+                  <div>
+                    {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
+                  </div>
+                </InfoCard>
+                <InfoCard>
+                  <p>
+                    Total de Papeis
                     </p>
-                    <div>
-                      {companyInfo ? formatStandard(companyInfo.ordinaryStockQuantity) : "Não informado"}
-                    </div>
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Ações Preferências (PN)
+                  <div>
+                    {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
+                  </div>
+                </InfoCard>
+              </InfoContainer>
+            </AccordionContent>
+          </Accordion>
+          <Accordion anchor={contato} title="Contato" size={AccordionSizes.large}>
+            <AccordionContent>
+              <ContatoContainer>
+                <InfoCard>
+                  <p>
+                    Relação com investidores
                     </p>
-                    <div>
-                      {companyInfo ? formatStandard(companyInfo.preferredStockQuantity) : "Não informado"}
-                    </div>
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Total de Papeis
-                    </p>
-                    <div>
-                      {companyInfo ? formatStandard(companyInfo.totalStockQuantity) : "Não informado"}
-                    </div>
-                  </InfoCard>
-                </InfoContainer>
-              </AccordionContent>
-            </Accordion>
-            <Accordion anchor={contato} title="Contato" size={AccordionSizes.large}>
-              <AccordionContent>
-                <ContatoContainer>
-                  <InfoCard>
-                    <p>
-                      Relação com investidores
-                    </p>
-                    {
-                      companyInfo &&
-                        companyInfo.officerName ?
-                        <>
-                          <p>
-                            {companyInfo.officerName}
-                          </p>
-                          <div>
-                            {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
-                          </div>
-                        </>
-                        :
+                  {
+                    companyInfo &&
+                      companyInfo.officerName ?
+                      <>
+                        <p>
+                          {companyInfo.officerName}
+                        </p>
                         <div>
-                          Não informado
+                          {companyInfo.officerEmail ? companyInfo.officerEmail : ""}
                         </div>
-                    }
-                  </InfoCard>
-                  <InfoCard>
-                    <p>
-                      Site Oficial
+                      </>
+                      :
+                      <div>
+                        Não informado
+                        </div>
+                  }
+                </InfoCard>
+                <InfoCard>
+                  <p>
+                    Site Oficial
                     </p>
-                    <div>
-                      <Button disabled={!companyInfo?.website} variant="primary" onClick={() => companyInfo && window.open(companyInfo.website)}>
-                        Ir para o site
+                  <div>
+                    <Button disabled={!companyInfo?.website} variant="primary" onClick={() => companyInfo && window.open(companyInfo.website)}>
+                      Ir para o site
                       </Button>
-                    </div>
-                  </InfoCard>
-                </ContatoContainer>
-              </AccordionContent>
-            </Accordion>
-          </AccordionContainer>
-        </MainContent>
+                  </div>
+                </InfoCard>
+              </ContatoContainer>
+            </AccordionContent>
+          </Accordion>
+        </AccordionContainer>
+      </MainContent>
     </Container >
   );
 };
