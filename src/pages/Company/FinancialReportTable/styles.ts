@@ -64,7 +64,8 @@ interface TableAccountNameProps {
 export const TableAccountName = styled.p`   
   ${({ theme }) => css` 
     padding-left: ${(props: TableAccountNameProps) => props.root && props.root === 1 ? 0 : props.root - 0.5}rem;
-    ${(props: TableAccountNameProps) => props.root === 1 && 'font-weight:500;'}
+    ${(props: TableAccountNameProps) => props.root === 1 && 'font-weight:700;'}
+    ${(props: TableAccountNameProps) => props.root === 1 && `font-size: ${theme.fontSizes.large};`}
     min-width: 30rem;
 
     @media (max-width: ${theme.deviceWidth.mobile}) {
@@ -73,7 +74,6 @@ export const TableAccountName = styled.p`
     }
   `}
 `;
-
 
 export const SelectContainer = styled.div`
   width: 100%;

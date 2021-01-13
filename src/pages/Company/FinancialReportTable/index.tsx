@@ -87,7 +87,7 @@ const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, sel
                         formatedRow[column] = <TableAccountName root={value.root}>{value.data}</TableAccountName>;
                         break;
                     case 'value':
-                        formatedRow[column] = <TableColumnValue>{formatCurrency(Number(value.data))}</TableColumnValue>;
+                        formatedRow[column] = <TableColumnValue>{`${formatCurrency(Number(value.data))} MI`}</TableColumnValue>;
                         break;
                     case 'percentual':
                         const percentual = Number(value.data);

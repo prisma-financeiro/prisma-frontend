@@ -58,3 +58,17 @@ export interface SelectOptionType {
   label: string;
   value: string;
 }
+
+export interface IndicatorHistory {
+  value: number;
+  year: string;
+}
+
+export interface CompanyMarketIndicator {
+  indicatorName: string;
+  value: number;
+  signal: string;
+  history: IndicatorHistory[];
+}
+
+export type CompanyMarketIndicatorHistoryType = "yearly" | "quarterly";
