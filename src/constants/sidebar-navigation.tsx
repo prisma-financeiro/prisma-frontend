@@ -1,9 +1,5 @@
 import React from 'react';
 
-import {
-  FiGlobe,
-} from 'react-icons/fi';
-
 import { BiBitcoin } from 'react-icons/bi';
 
 import { BsBuilding, BsBriefcase } from 'react-icons/bs';
