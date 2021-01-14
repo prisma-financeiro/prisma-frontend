@@ -13,21 +13,20 @@ export type AuthState = {
   account: null;
 };
 
-export type AuthContext = {
+export type AuthContextProps = {
   signed: boolean;
   account: any;
   signIn(name: string): void;
   signOut(): void;
 };
 
-const AuthContext = createContext<AuthContext | null>(null);
+const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
   const [data, setData] = useState<AuthState>(() => {
     const storedUser = localStorage.getItem(storageKey('user'));
 
     if (storedUser) {
-      const userName = JSON.parse(storedUser);
 
       return {
         signed: true,
@@ -61,7 +60,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-const useAuth = (): AuthContext => {
+const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
 
   if (!context) {

@@ -1,6 +1,10 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
+interface TableHeaderProps {
+  alignLeft: boolean
+}
+
 export const AnimatedCard = styled(motion.article)`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
@@ -11,9 +15,9 @@ export const AnimatedCard = styled(motion.article)`
   `}
 `;
 
-export const TableColumnHeader = styled.p`  
-  ${({ theme }) => css`
-    text-align: right;
+export const TableColumnHeader = styled.p<TableHeaderProps>`  
+  ${({ theme, alignLeft }) => css`
+    text-align: ${alignLeft ? 'left': 'right'};
     min-width: 6rem;
 
     @media (max-width: ${theme.deviceWidth.mobile}) {

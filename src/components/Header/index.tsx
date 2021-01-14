@@ -14,7 +14,6 @@ import AccountDropdown from './AccountDropdown';
 import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
 import { TOP_NAVIGATION } from '../../constants';
 
-import useAuth from '../../contexts/auth';
 import Typeahead from '../Typeahead';
 import { FiSearch } from 'react-icons/fi';
 import Modal from '../Modal';
@@ -26,7 +25,6 @@ const Header = () => {
 
   const device = useBreakpoints();
 
-  const { signOut } = useAuth();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
 
   const handleNavigation = (route: string) => {
