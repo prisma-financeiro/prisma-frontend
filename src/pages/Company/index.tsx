@@ -48,7 +48,7 @@ import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
 import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';
-import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
+import FinancialReportTable2, { SelectionOptions, TableContent } from './FinancialReportTable_old';
 import SegmentCard from '../../components/SegmentCard';
 import {
   formatIncomeStatementTable,
@@ -62,11 +62,12 @@ import PeriodSelector from '../../components/PeriodSelector';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import CompanyHeader from '../../components/CompanyHeader';
 import { Divider } from '../../components/ContentDivider/styles';
-import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow } from '../../models';
+import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow, FinancialReportType, CompanyInfo} from '../../models';
 
 import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
+import FinancialReportTable from './FinancialReportTable';
 
 interface TickePrice {
   price: number;
@@ -82,6 +83,7 @@ interface StockPriceInfo {
   lowest: TickerHistoryResultHighestLowest;
 }
 
+//remover
 enum PeriodType {
   Year = "a",
   Quarter = "t"
@@ -94,7 +96,7 @@ const Company: React.FC = (props: any) => {
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
 
-  const [companyInfo, setCompanyInfo] = useState<company.CompanyInfo>();
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
   const [balanceIndicatorInfo, setBalanceIndicatorInfo] = useState<any>();
   const [marketIndicatorInfo, setMarketIndicatorInfo] = useState<any>();
@@ -124,7 +126,7 @@ const Company: React.FC = (props: any) => {
   useEffect(() => {
 
     company.getCompany(companyId).then(data => {
-      setCompanyInfo(data as any);
+      setCompanyInfo(data);
     });
 
     company.getTickerPrice(ticker).then(data => {
@@ -187,19 +189,19 @@ const Company: React.FC = (props: any) => {
         setBalanceSheetData(formatedTable);
       });
 
-    company.getCashFlowOptions(companyId)
-      .then((data: any[]) => {
-        if (data.length > 0) {
-          const options = formatSelectOptions(data);
-          setCashFlowOptions({ options });
-        }
-      });
+    // company.getCashFlowOptions(companyId)
+    //   .then((data: any[]) => {
+    //     if (data.length > 0) {
+    //       const options = formatSelectOptions(data);
+    //       setCashFlowOptions({ options });
+    //     }
+    //   });
 
-    company.getCashFlowData(companyId)
-      .then((data) => {
-        const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
-        setCashFlowData(formatedTable);
-      });
+    // company.getCashFlowData(companyId)
+    //   .then((data) => {
+    //     const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
+    //     setCashFlowData(formatedTable);
+    //   });
 
     scrollTo(valuation);
 
@@ -513,7 +515,7 @@ const Company: React.FC = (props: any) => {
               <h1>Proventos content</h1>
             </AccordionContent>
           </Accordion>
-          <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
+          {/* <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
             <FinancialReportTable
               data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
               selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
@@ -528,15 +530,17 @@ const Company: React.FC = (props: any) => {
               onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
               onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
             />
-          </Accordion>
-          <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
-            <FinancialReportTable
-              data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
-              selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
-              onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
-              onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
-            />
-          </Accordion>
+          </Accordion> */}
+
+          {companyInfo?.id && (
+            <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
+              <FinancialReportTable
+                companyId={companyInfo.id}
+                reportType={FinancialReportType.CASHFLOW}
+              />
+            </Accordion>
+          )}
+          
           <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
             <AccordionContent>
               <SegmentContainer>

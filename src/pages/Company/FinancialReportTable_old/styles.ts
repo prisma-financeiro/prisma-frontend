@@ -1,50 +1,17 @@
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface TableHeaderProps {
   alignLeft: boolean
 }
 
-interface TableAccountNameProps {
-  root: number;
-}
-
-interface TableColumnPercentualProps {
-  percentual: number;
-}
-
-export const Container = styled.div`
-  
-`;
-
-export const Card = styled.div`
+export const AnimatedCard = styled(motion.article)`
   ${({ theme }) => css`    
     background: ${theme.colors.background};
     width: 100%;
     border-radius: ${theme.radio.default};   
     display: flex;
     justify-content: flex-start;
-  `}
-`;
-
-export const TableScroll = styled.div`
-  ${({ theme }) => css`
-    overflow-x: scroll;
-    width: 100%;
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      height: 1rem;      
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255,.1);
-      border-radius: 3rem;
-  
-      &:hover {
-        background: rgba(255,255,255,.2);
-        opacity: 50%;
-      }
-    }  
   `}
 `;
 
@@ -71,6 +38,29 @@ export const TableColumnValue = styled.p`
   `}
 `;
 
+interface TableColumnPercentualProps {
+  percentual: number;
+}
+
+export const TableColumnPercentual = styled.p`  
+  ${({ theme }) => css`
+    text-align: right;
+    font-weight: 400;
+    min-width: 8rem;
+    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.primary : theme.colors.danger};
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+      min-width: 5rem;
+    }
+  `}
+`;
+
+
+interface TableAccountNameProps {
+  root: number;
+}
+
 export const TableAccountName = styled.p`   
   ${({ theme }) => css` 
     padding-left: ${(props: TableAccountNameProps) => props.root && props.root === 1 ? 0 : props.root - 0.5}rem;
@@ -85,16 +75,32 @@ export const TableAccountName = styled.p`
   `}
 `;
 
-export const TableColumnPercentual = styled.p`  
-  ${({ theme }) => css`
-    text-align: right;
-    font-weight: 400;
-    min-width: 8rem;
-    color: ${(props: TableColumnPercentualProps) => props.percentual > 0 ? theme.colors.primary : theme.colors.danger};
+export const SelectContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
-    @media (max-width: ${theme.deviceWidth.mobile}) {
-      font-size: ${theme.fontSizes.small};
-      min-width: 5rem;
+export const TableScroll = styled.div`
+  ${({ theme }) => css`
+    overflow-x: scroll;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 1rem;      
     }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255,255,255,.1);
+      border-radius: 3rem;
+  
+      &:hover {
+        background: rgba(255,255,255,.2);
+        opacity: 50%;
+      }
+    }  
   `}
 `;

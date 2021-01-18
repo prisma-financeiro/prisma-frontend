@@ -1,3 +1,57 @@
+export interface CompanyInfo {
+  id: number;
+  cnpj: string;
+  name: string;
+  logo: string;
+  website: string;
+  foundationDate: string;
+  addressType: string;
+  address: string;
+  district: string;
+  city: string;
+  state: string;
+  country: string;
+  areaCode: string;
+  phoneNumber: number;
+  email: string;
+  officerType: string;
+  officerName: string;
+  officerSince: string;
+  officerAddress: string;
+  officerAddressComplement: string;
+  officerDistrict: string;
+  officerCity: string;
+  officerState: string;
+  officerCountry: string;
+  officerZipCode: string;
+  officerAreaCode: string;
+  officerPhoneNumber: number;
+  officerEmail: string;
+  auditorCnpj: string;
+  auditorName: string;
+  capitalAmount: number;
+  ordinaryStockQuantity: number,
+  preferredStockQuantity: number,
+  totalStockQuantity: number;
+  segment: {
+      id: number;
+      subSectorId: number;
+      description: string;
+      companiesCount: number;
+  },
+  subsector: {
+      id: number;
+      sectorId: number;
+      description: string;
+      companiesCount: number;
+  },
+  sector: {
+      id: number;
+      description: string;
+      companiesCount: number;
+  }
+}
+
 export interface SearchResult {
   code: string;
   id: number;
@@ -72,3 +126,26 @@ export interface CompanyMarketIndicator {
 }
 
 export type CompanyMarketIndicatorHistoryType = "yearly" | "quarterly";
+
+export enum FinancialReportType {
+  CASHFLOW = 'cashflow',
+  INCOMESTATEMENT = 'incomeStatement',
+  BALANCESHEET = 'balanceSheet',
+}
+
+
+interface FinancialReportPeriod {
+  period: string,
+  accounts: FinancialReportPeriodAccount[]
+}
+
+interface FinancialReportPeriodAccount {
+  account: string,
+  accountDescription: string,
+  amount: number
+}
+
+export interface FinancialReport {
+  year: number;
+  periods: FinancialReportPeriod[]
+}
