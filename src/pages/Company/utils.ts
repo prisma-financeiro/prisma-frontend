@@ -1,5 +1,5 @@
 /* eslint-disable no-loop-func */
-import { TickerHistoryResultPrice, TradingViewTableRow, SelectOptionType, FinancialReport } from "../../models";
+import { TickerHistoryResultPrice, TradingViewTableRow, SelectOptionType, FinancialReport, FinancialReportPeriodAccount } from "../../models";
 
 interface TableData {
     columns: string[];
@@ -40,9 +40,9 @@ export const formatIncomeStatementTable = (data: any[], type: string): TableData
 
         if (columnIndex > 1) {
             const percentualDiference = calcPercentageDifference(
-                                            row[columnIndex - 1].data, 
-                                            parseFloat(incomeStatement.amount)
-                                        );
+                row[columnIndex - 1].data,
+                parseFloat(incomeStatement.amount)
+            );
 
             row[columnIndex] = { type: 'percentual', data: percentualDiference };
             columnIndex++;
@@ -64,66 +64,94 @@ export const formatIncomeStatementTable = (data: any[], type: string): TableData
 
 export const formatCashFlowTable = (data: FinancialReport[], type: string): TableData => {
     const result: TableData = { columns: [], rows: [] };
-    
+
     result.columns = generateTableColumnHeader(data, type);
     result.rows = generateTableRows(data);
     return result;
 }
 
 const generateTableRows = (data: FinancialReport[]) => {
+    const sortedData = data.sort().reverse();
+    console.log(sortedData);
+
     const rows: any[] = [];
     let column = 0;
-    let account: string = '';
     let row: { [key: number]: any } = {};
-    for (const financialReport of data) {
-        
+
+    let financialReportPeriodAccounts: FinancialReportPeriodAccount[] = [];
+
+    for (const financialReport of sortedData) {
         financialReport.periods.forEach(financialReportPeriod => {
-            
             financialReportPeriod.accounts.forEach(financialReportPeriodAccount => {
-
-                if (account !== financialReportPeriodAccount.account) {
-                    account = financialReportPeriodAccount.account;
-                    column = 1;
-
-                    row = { 0: { type: 'string', data: financialReportPeriodAccount.accountDescription } };
-                    rows.push(row);
-                }
-
-                if (column > 1) {
-                    const percentualDiference = calcPercentageDifference(
-                                                    row[column - 1].data, 
-                                                    financialReportPeriodAccount.amount
-                                                );
-        
-                    row[column] = { type: 'percentual', data: percentualDiference };
-                    column++;
-                }
-        
-                row[column] = { type: 'value', data: financialReportPeriodAccount.amount };
-                column++;
+                !financialReportPeriodAccounts.find(item => item.account === financialReportPeriodAccount.account) &&
+                    financialReportPeriodAccounts.push(financialReportPeriodAccount);
             });
         });
+    }
+
+    financialReportPeriodAccounts.sort();
+
+    for (const periodAccount of financialReportPeriodAccounts) {
+        let isFirstColumn: boolean = true;
+
+        for (const financialReport of sortedData) {
+
+            financialReport.periods.forEach(financialReportPeriod => {
+
+                financialReportPeriod.accounts.forEach(financialReportPeriodAccount => {
+
+                    if (periodAccount.account === financialReportPeriodAccount.account) {
+
+                        if (isFirstColumn) {
+                            isFirstColumn = false;
+                            column = 1;
+
+                            row = { 0: { type: 'string', data: financialReportPeriodAccount.accountDescription } };
+                        }
+
+                        if (column > 1) {
+                            const percentualDiference = calcPercentageDifference(
+                                row[column - 1].data,
+                                financialReportPeriodAccount.amount
+                            );
+
+                            row[column] = { type: 'percentual', data: percentualDiference };
+                            column++;
+                        }
+
+                        row[column] = { type: 'value', data: financialReportPeriodAccount.amount };
+                        column++;
+                    }
+
+                });
+            });
+        }
+
+        rows.push(row);
     }
 
     return rows;
 }
 
 const generateTableColumnHeader = (data: FinancialReport[], type: string) => {
+    const sortedData = data.sort().reverse();
     const columns: string[] = ['#'];
-    for (const financialReport of data) {
-        
-        financialReport.periods.forEach((financialReportPeriod, index) => {
+    const sortedFinancialReportPeriods: string[] = [];
 
-            const yearPeriod: string = type === "a" ? `${financialReport.year}` : `${financialReportPeriod.period}${financialReport.year}`;
-            if (!columns.includes(yearPeriod)) {
-                columns.push(yearPeriod);
-            }
-
-            if (index < financialReport.periods.length - 1) {
-                columns.push("AH");
+    for (const financialReport of sortedData) {
+        financialReport.periods.sort().reverse().forEach((financialReportPeriod) => {
+            if (financialReportPeriod.accounts.length > 0) {
+                sortedFinancialReportPeriods.push(type === "a" ? `${financialReport.year}` : `${financialReportPeriod.period}${financialReport.year}`);
             }
         });
     };
+
+    sortedFinancialReportPeriods.forEach((financialReportPeriod, index) => {
+        columns.push(financialReportPeriod);
+        if (index < sortedFinancialReportPeriods.length - 1) {
+            columns.push("AH");
+        }
+    });
 
     return columns;
 }
@@ -146,15 +174,15 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
             account = balanceSheet.account;
             columnIndex = 1;
 
-            row = { 0: { type: 'string', data: balanceSheet.accountDescription, root: String(balanceSheet.account).split(".").length }};
+            row = { 0: { type: 'string', data: balanceSheet.accountDescription, root: String(balanceSheet.account).split(".").length } };
             result.rows.push(row);
         }
 
         if (columnIndex > 1) {
             const percentualDiference = calcPercentageDifference(
-                                            row[columnIndex - 1].data, 
-                                            parseFloat(balanceSheet.amount)
-                                        );
+                row[columnIndex - 1].data,
+                parseFloat(balanceSheet.amount)
+            );
 
             row[columnIndex] = { type: 'percentual', data: percentualDiference };
             columnIndex++;
@@ -177,7 +205,7 @@ export const formatBalanceSheetTable = (data: any[], type: string): TableData =>
 
 // Calculo da diferenca em percentual para com o periodo anterior (analise horizontal)
 const calcPercentageDifference = (lastValue: number, currentValue: number): number => {
-    return parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2)) || 0; 
+    return parseFloat((((lastValue - currentValue) / lastValue) * 100).toFixed(2)) || 0;
 }
 
 export const formatSelectOptions = (data: number[]): SelectOptionType[] => {

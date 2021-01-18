@@ -34,21 +34,21 @@ export interface CompanyInfo {
   preferredStockQuantity: number,
   totalStockQuantity: number;
   segment: {
-      id: number;
-      subSectorId: number;
-      description: string;
-      companiesCount: number;
+    id: number;
+    subSectorId: number;
+    description: string;
+    companiesCount: number;
   },
   subsector: {
-      id: number;
-      sectorId: number;
-      description: string;
-      companiesCount: number;
+    id: number;
+    sectorId: number;
+    description: string;
+    companiesCount: number;
   },
   sector: {
-      id: number;
-      description: string;
-      companiesCount: number;
+    id: number;
+    description: string;
+    companiesCount: number;
   }
 }
 
@@ -139,7 +139,7 @@ interface FinancialReportPeriod {
   accounts: FinancialReportPeriodAccount[]
 }
 
-interface FinancialReportPeriodAccount {
+export interface FinancialReportPeriodAccount {
   account: string,
   accountDescription: string,
   amount: number
