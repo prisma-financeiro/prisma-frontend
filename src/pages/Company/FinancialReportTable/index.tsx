@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { company } from "../../../services";
+import { formatSelectOptions, formatCashFlowTable } from '../utils';
+import { formatCurrency } from '../../../utils';
+import Table from '../../../components/Table';
+import Select from '../../../components/Select';
+import { FinancialReportType, SelectOptionType, FinancialReport } from '../../../models';
 
 import { Container,
   TableScroll, 
@@ -9,11 +14,6 @@ import { Container,
   TableColumnPercentual, 
   TableColumnValue,
   SelectContainer } from './styles';
-import { FinancialReportType, SelectOptionType, FinancialReport } from '../../../models';
-import { formatSelectOptions, formatCashFlowTable } from '../utils';
-import Table from '../../../components/Table';
-import { formatCurrency } from '../../../utils';
-import Select from '../../../components/Select';
 
 interface FinancialReportTableProps {
   companyId: number;
@@ -32,16 +32,16 @@ enum PeriodType {
 
 const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, reportType }) => {
 
-  const [tableData, setTableData] = useState<TableContent | null>(null);
-  const [selectPeriodOptions, setSelectPeriodOptions] = useState<SelectOptionType[]>([]);
-  const [selectedPeriodType, setSelectedPeriodType] = useState<string>('');
-  const [selectedPeriodFrom, setSelectedPeriodFrom] = useState<string>('');
-  const [selectedPeriodTo, setSelectedPeriodTo] = useState<string>('');
-
   const financialReportsOptions = [
     { value: "t", label: "Trimestre" },
     { value: "a", label: "Anual" },
   ];
+
+  const [tableData, setTableData] = useState<TableContent | null>(null);
+  const [selectPeriodOptions, setSelectPeriodOptions] = useState<SelectOptionType[]>([]);
+  const [selectedPeriodType, setSelectedPeriodType] = useState<SelectOptionType>(financialReportsOptions[0]);
+  const [selectedPeriodFrom, setSelectedPeriodFrom] = useState<SelectOptionType>();
+  const [selectedPeriodTo, setSelectedPeriodTo] = useState<SelectOptionType>();
 
   useEffect(() => {
     switch (reportType) {
@@ -51,8 +51,8 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             if (data.length > 0) {
               const options = formatSelectOptions(data);
               setSelectPeriodOptions(options);
-              setSelectedPeriodFrom(options[0].value);
-              setSelectedPeriodTo(options[0].value);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
             }
           });
 
@@ -67,50 +67,54 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   }, [companyId, reportType]);
 
   const handleTypeSelectionChange = async (option: SelectOptionType) => {
-    getTableData(companyId, option.value, selectedPeriodFrom, selectedPeriodTo);
-    setSelectedPeriodType(option.value);
+    getTableData(companyId, option.value, selectedPeriodFrom?.value, selectedPeriodTo?.value);
+    setSelectedPeriodType(option);
   }
 
   const handleSelectedPeriodFromChange = async (option: SelectOptionType) => {
-    getTableData(companyId, selectedPeriodType, option.value, selectedPeriodTo);
 
-    const newYearFrom = option.value;
+    const newYearFrom = option;
     let newYearTo = selectedPeriodTo;
 
-    setSelectedPeriodFrom(option.value);
-
-    if (newYearFrom > selectedPeriodTo) {
+    if (selectedPeriodTo && newYearFrom.value > selectedPeriodTo?.value) {
         newYearTo = newYearFrom;
         setSelectedPeriodTo(newYearTo);
     }
 
+    getTableData(companyId, selectedPeriodType.value, option.value, newYearTo?.value);
+    setSelectedPeriodFrom(option);
   }
 
   const handleSelectedPeriodToChange = async (option: SelectOptionType) => {
-    getTableData(companyId, selectedPeriodType, selectedPeriodFrom, option.value);
 
-    const selectedYear = option.value;
+    const selectedYear = option;
     let newYearFrom = selectedPeriodFrom;
 
-    setSelectedPeriodTo(selectedYear);
-
-    if (selectedYear < selectedPeriodFrom) {
+    if (selectedPeriodFrom && selectedYear.value < selectedPeriodFrom.value) {
         newYearFrom = selectedYear;
         setSelectedPeriodFrom(newYearFrom);
     }
-
-    setSelectedPeriodTo(option.value);
+    getTableData(companyId, selectedPeriodType.value, newYearFrom?.value, option.value);
+    setSelectedPeriodTo(option);
   }
 
   const getTableData = async (companyId: number, periodType: string, periodFrom?: string, periodTo?: string) => {
-    const data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
-    
-    if (hasData(data)) {
-      const formatedTable = formatCashFlowTable(data, selectedPeriodType);
-      setTableData(buildTableComponents(formatedTable));
-    } else {
-      setTableData(null);
-    }
+    let data: FinancialReport[];
+
+    switch (reportType) {
+      case FinancialReportType.CASHFLOW:
+        data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
+
+        if (hasData(data)) {
+          const formatedTable = formatCashFlowTable(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
+      default:
+        break;
+    }    
   }
 
 
@@ -170,6 +174,7 @@ const hasData = (data: FinancialReport[]): boolean => {
             )
             break;
           default:
+            formatedRow[column] = <div> - </div>
             break;
         }
       }
@@ -187,7 +192,7 @@ const hasData = (data: FinancialReport[]): boolean => {
         <Select
             key="type"
             options={financialReportsOptions}
-            defaultValue={financialReportsOptions[0]}
+            defaultValue={selectedPeriodType}
             onChange={handleTypeSelectionChange}
             isMulti={false}
             isClearable={false}
@@ -196,12 +201,12 @@ const hasData = (data: FinancialReport[]): boolean => {
             isSearchable={false}
         />
         <p>de</p>
-        {selectPeriodOptions.length > 0 && (
+        {selectPeriodOptions.length > 0 && selectedPeriodTo && selectedPeriodFrom && (
           <>
             <Select
                 key="from"
                 options={selectPeriodOptions as any}
-                defaultValue={selectPeriodOptions && selectPeriodOptions[0]}
+                defaultValue={selectedPeriodFrom}
                 onChange={handleSelectedPeriodFromChange}
                 isMulti={false}
                 isClearable={false}
@@ -213,7 +218,7 @@ const hasData = (data: FinancialReport[]): boolean => {
             <Select
                 key="to"
                 options={selectPeriodOptions as any}
-                defaultValue={selectPeriodOptions[0]}
+                defaultValue={selectedPeriodTo}
                 onChange={handleSelectedPeriodToChange}
                 isMulti={false}
                 isClearable={false}
