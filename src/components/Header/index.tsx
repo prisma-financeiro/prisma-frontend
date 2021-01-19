@@ -28,7 +28,7 @@ const Header = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
 
   const handleNavigation = (route: string) => {
-    history.push(`/${route}`);
+    history.push(`${route}`);
   }
 
   const handleShowModal = () => {
