@@ -5,13 +5,16 @@ import history from '../../services/history';
 
 import { AccountOptions, Container, InputControl, ValidatorMessage } from './styles';
 import { FiLock, FiMail } from 'react-icons/fi';
+import useAuth from '../../contexts/auth';
 
 const Login = () => {
 
     const [isErrorMessageVisible, setIsErrorMessageVisible] = useState<boolean>(false);
+    const { signIn } = useAuth();
 
     const handleLogin = () => {
-        history.push("/");
+        signIn('random');
+        history.push("/home");
       }
 
     return (

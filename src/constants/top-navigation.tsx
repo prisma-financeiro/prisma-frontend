@@ -9,10 +9,10 @@ import {
 export default {
   'Início': {
     icon: <FiHome />,
-    route: ''
+    route: '/home'
   },
   'Comparar Ativos': {
     icon: <FiActivity />,
-    route: ''
+    route: '/assets-compare'
   }
 } as const;

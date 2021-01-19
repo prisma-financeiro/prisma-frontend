@@ -1,9 +1,9 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
 const AssetsCompare: React.FC = () => {
-  return <div>This is asset compare</div>;
+  return <Container>This is asset compare</Container>;
 }
 
 export default AssetsCompare;
