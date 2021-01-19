@@ -64,7 +64,8 @@ export const formatIncomeStatementTable = (data: any[], type: string): TableData
 
 export const formatCashFlowTable = (data: FinancialReport[], type: string): TableData => {
     const result: TableData = { columns: [], rows: [] };
-
+    
+    console.log(data);
     result.columns = generateTableColumnHeader(data, type);
     result.rows = generateTableRows(data);
     return result;
@@ -72,8 +73,6 @@ export const formatCashFlowTable = (data: FinancialReport[], type: string): Tabl
 
 const generateTableRows = (data: FinancialReport[]) => {
     const sortedData = data.sort().reverse();
-    console.log(sortedData);
-
     const rows: any[] = [];
     let column = 0;
     let row: { [key: number]: any } = {};

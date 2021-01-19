@@ -13,16 +13,11 @@ interface TableColumnPercentualProps {
 }
 
 export const Container = styled.div`
-  
-`;
-
-export const Card = styled.div`
-  ${({ theme }) => css`    
-    background: ${theme.colors.background};
-    width: 100%;
-    border-radius: ${theme.radio.default};   
+   ${({ theme }) => css`
+    width: 100%; 
+    height: 100%;
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
   `}
 `;
 
@@ -97,4 +92,16 @@ export const TableColumnPercentual = styled.p`
       min-width: 5rem;
     }
   `}
+`;
+
+export const SelectContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2rem 0;
+
+  > p {
+    margin: 0 1rem;
+  }
 `;

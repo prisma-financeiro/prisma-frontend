@@ -188,21 +188,6 @@ const Company: React.FC = (props: any) => {
         const formatedTable = formatBalanceSheetTable(data, PeriodType.Quarter);
         setBalanceSheetData(formatedTable);
       });
-
-    // company.getCashFlowOptions(companyId)
-    //   .then((data: any[]) => {
-    //     if (data.length > 0) {
-    //       const options = formatSelectOptions(data);
-    //       setCashFlowOptions({ options });
-    //     }
-    //   });
-
-    // company.getCashFlowData(companyId)
-    //   .then((data) => {
-    //     const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
-    //     setCashFlowData(formatedTable);
-    //   });
-
     scrollTo(valuation);
 
   }, [ticker]);
@@ -340,18 +325,6 @@ const Company: React.FC = (props: any) => {
     const data = await company.getBalanceSheetData(companyId, options.type, options.yearFrom, options.yearTo);
     const formatedTable = formatBalanceSheetTable(data, options.type);
     setBalanceSheetData(formatedTable);
-  }
-
-  const handleCashFlowTypeSelectionChange = async (type: string) => {
-    const data = await company.getCashFlowData(companyId, type);
-    const formatedTable = formatCashFlowTable(data, type);
-    setCashFlowData(formatedTable);
-  }
-
-  const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getCashFlowData(companyId, options.type, options.yearFrom, options.yearTo);
-    const formatedTable = formatCashFlowTable(data, options.type);
-    setCashFlowData(formatedTable);
   }
 
   const handleStockQuotePeriodChange = (period: number | null) => {
