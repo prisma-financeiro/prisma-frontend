@@ -95,13 +95,23 @@ export const TableColumnPercentual = styled.p`
 `;
 
 export const SelectContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 2rem 0;
+  ${({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2rem 0;
 
-  > p {
-    margin: 0 1rem;
-  }
+    > p {
+      margin: 0 1rem;
+    }
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+        flex-direction: column;
+
+        > p {
+          margin: 1rem 0;
+        }
+    }
+  `}
 `;

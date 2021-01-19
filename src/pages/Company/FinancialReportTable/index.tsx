@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { company } from "../../../services";
-import { formatSelectOptions, formatCashFlowTable } from '../utils';
+import { formatSelectOptions, formatCashFlowTable, formatBalanceSheetTable, formatIncomeStatementTable } from '../utils';
 import { formatCurrency } from '../../../utils';
 import Table from '../../../components/Table';
 import Select from '../../../components/Select';
@@ -57,12 +57,50 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
           });
 
         company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
-          const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
-          setTableData(buildTableComponents(formatedTable));
+          if (hasData(data)) {
+            const formatedTable = formatCashFlowTable(data, selectedPeriodType.value);
+            setTableData(buildTableComponents(formatedTable));
+          } else {
+            setTableData(null);
+          }
         })
         break;
-      default:
-        break;
+        
+      case FinancialReportType.BALANCESHEET:
+        company.getBalanceSheetOptions(companyId)
+          .then((data: any[]) => {
+            if (data.length > 0) {
+              const options = formatSelectOptions(data);
+              setSelectPeriodOptions(options);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
+            }
+          });
+
+        company.getBalanceSheetData(companyId)
+          .then((data) => {
+            const formatedTable = formatBalanceSheetTable(data, PeriodType.Quarter);
+            setTableData(formatedTable);
+          });
+      break;
+
+      case FinancialReportType.INCOMESTATEMENT:
+        company.getIncomeStatementOptions(companyId)
+          .then((data: any[]) => {
+            if (data.length > 0) {
+              const options = formatSelectOptions(data);
+              setSelectPeriodOptions(options);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
+            }
+          });
+  
+        company.getIncomeStatementData(companyId)
+          .then((data) => {
+            const formatedTable = formatIncomeStatementTable(data, PeriodType.Quarter);
+            setTableData(formatedTable);
+          });
+      break;
     }
   }, [companyId, reportType]);
 
