@@ -120,7 +120,9 @@ const Company: React.FC = (props: any) => {
 
       setTickerPrice(tickerPrice);
 
-      company.getCompanyMarketIndicator(ticker, tickerPrice.price).then(data => setMarketIndicatorInfo(data));
+      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+        .then(data => setMarketIndicatorInfo(data))
+        .catch(error => console.log('Algo deu errado', error));
     });
 
     company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
@@ -136,7 +138,7 @@ const Company: React.FC = (props: any) => {
       }
 
       setStockPriceInfo(stockInfo);
-    });
+    }).catch(error => console.log('Algo deu errado', error));
 
     company.getCompanyIndicator(companyId).then(indicator => {
       setBalanceIndicatorInfo(indicator);
