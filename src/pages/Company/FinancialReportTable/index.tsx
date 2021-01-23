@@ -1,203 +1,318 @@
-import React, { useEffect, useState } from 'react';
-import Selection, { SelectOptions } from '../../../components/Selection';
-import Table from '../../../components/Table';
+import React, { useState, useEffect } from 'react';
+
+import { company } from "../../../services";
+import { formatSelectOptions, formatTableDataStructure } from '../utils';
 import { formatCurrency } from '../../../utils';
+import Table from '../../../components/Table';
+import Select from '../../../components/Select';
+import { FinancialReportType, SelectOptionType, FinancialReport } from '../../../models';
 
-import {
-    TableColumnHeader,
-    TableColumnValue,
-    TableAccountName,
-    TableColumnPercentual,
-    AnimatedCard,
-    TableScroll,
-    SelectContainer
-} from './styles';
+import { Container,
+  TableScroll, 
+  TableColumnHeader, 
+  TableAccountName, 
+  TableColumnPercentual, 
+  TableColumnValue,
+  SelectContainer } from './styles';
 
-export interface TableContent {
-    columns: any[],
-    rows: any[]
+interface FinancialReportTableProps {
+  companyId: number;
+  reportType: FinancialReportType;
 }
 
-export interface SelectionOptions {
-    type: string;
-    yearFrom: string;
-    yearTo: string;
+interface TableContent {
+  columns: any[],
+  rows: any[]
 }
 
-interface FinancialReportTableOptions {
-    data: TableContent;
-    selectionOptions: SelectOptions;
-    onPeriodSelectionChange: (options: SelectionOptions) => {};
-    onTypeSelectionChange: (type: string) => {};
+enum PeriodType {
+  Year = "a",
+  Quarter = "t"
 }
 
-const FinancialReportTable: React.FC<FinancialReportTableOptions> = ({ data, selectionOptions, onPeriodSelectionChange, onTypeSelectionChange }) => {
+const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, reportType }) => {
 
-    const financialReportsOptions = [
-        { value: "a", label: "Anual" },
-        { value: "t", label: "Trimestre" },
-    ];
+  const financialReportsOptions = [
+    { value: "t", label: "Trimestre" },
+    { value: "a", label: "Anual" },
+  ];
 
-    const firstTableColumnTitle = "#";
+  const [tableData, setTableData] = useState<TableContent | null>(null);
+  const [selectPeriodOptions, setSelectPeriodOptions] = useState<SelectOptionType[]>([]);
+  const [selectedPeriodType, setSelectedPeriodType] = useState<SelectOptionType>(financialReportsOptions[0]);
+  const [selectedPeriodFrom, setSelectedPeriodFrom] = useState<SelectOptionType>();
+  const [selectedPeriodTo, setSelectedPeriodTo] = useState<SelectOptionType>();
 
-    const [tableData, setTableData] = useState<TableContent>();
-    const [selectOptions, setselectOptions] = useState<SelectOptions>();
-    const [type, setType] = useState<string>(financialReportsOptions[1].value);
-    const [yearFrom, setYearFrom] = useState<string>("");
-    const [yearTo, setYearTo] = useState<string>("");
-
-    useEffect(() => {
-        data &&
-            setTableData(buildTableComponents(data));
-    }, [data]);
-
-    useEffect(() => {
-        setselectOptions(selectionOptions);
-        const lastAvailableYear = selectionOptions?.options[0]?.value;
-        setYearFrom(lastAvailableYear);
-        setYearTo(lastAvailableYear);
-    }, [selectionOptions, type]);
-
-    const buildTableComponents = (data: TableContent): TableContent => {
-        if (!data) {
-            return {
-                rows: [],
-                columns: []
-            };
-        }
-
-        const formatedColumns: JSX.Element[] = [];
-        data.columns.forEach((item: string) => {
-            formatedColumns.push((
-                <TableColumnHeader alignLeft={item === firstTableColumnTitle}>
-                    {item}
-                </TableColumnHeader>
-            ))
-        });
-
-        const formatedRows: JSX.Element[] = [];
-        data.rows.map((row: any) => {
-            let formatedRow: any = {};
-            for (const column in row) {
-
-                const value: any = row[column];
-
-                switch (value.type) {
-                    case 'string':
-                        formatedRow[column] = <TableAccountName root={value.root}>{value.data}</TableAccountName>;
-                        break;
-                    case 'value':
-                        formatedRow[column] = <TableColumnValue>{`${formatCurrency(Number(value.data))} MI`}</TableColumnValue>;
-                        break;
-                    case 'percentual':
-                        const percentual = Number(value.data);
-                        formatedRow[column] = (
-                            <TableColumnPercentual percentual={percentual}>
-                                {`${percentual} %`}
-                            </TableColumnPercentual>
-                        )
-                        break;
-                    default:
-                        break;
-                }
+  useEffect(() => {
+    switch (reportType) {
+      case FinancialReportType.CASHFLOW:
+        company.getCashFlowOptions(companyId)
+          .then((data: any[]) => {
+            if (data.length > 0) {
+              const options = formatSelectOptions(data);
+              setSelectPeriodOptions(options);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
             }
-            return formatedRows.push(formatedRow);
-        });
+          });
 
-        return {
-            columns: formatedColumns,
-            rows: formatedRows
-        }
-    }
-
-    const handleTypeClick = (event: any) => {
-        const newType = event.target.value;
-        setType(newType);
-
-        onTypeSelectionChange(newType);
-    }
-
-    const handleYearFromClick = (event: any) => {
-        const newYearFrom = event.target.value;
-        let newYearTo = yearTo;
-
-        setYearFrom(newYearFrom);
-
-        if (newYearFrom > yearTo) {
-            newYearTo = newYearFrom;
-            setYearTo(newYearTo);
-        }
-
-        onPeriodSelectionChange({
-            type: type,
-            yearFrom: newYearFrom,
-            yearTo: newYearTo
+        company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
+          if (hasData(data)) {
+            const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+            setTableData(buildTableComponents(formatedTable));
+          } else {
+            setTableData(null);
+          }
         })
-    }
-
-    const handleYearToClick = (event: any) => {
-        const selectedYear = event.target.value;
-        let newYearFrom = yearFrom;
-
-        setYearTo(selectedYear);
-
-        if (selectedYear < yearFrom) {
-            newYearFrom = selectedYear;
-            setYearFrom(newYearFrom);
-        }
-
-        onPeriodSelectionChange({
-            type: type,
-            yearFrom: newYearFrom,
-            yearTo: selectedYear
-        })
-    }
-
-    return (
-        <>
-            <SelectContainer>
-                <Selection
-                    key="type"
-                    options={financialReportsOptions}
-                    onChange={handleTypeClick}
-                    value={type}
-                />
-                <p>de</p>
-                <Selection
-                    key="yearFrom"
-                    options={selectOptions ? selectOptions.options : []}
-                    onChange={handleYearFromClick}
-                    value={yearFrom}
-                />
-                <p>até</p>
-                <Selection
-                    key="yearTo"
-                    options={selectOptions ? selectOptions.options : []}
-                    onChange={handleYearToClick}
-                    value={yearTo}
-                />
-            </SelectContainer>
-            {
-                tableData &&
-                    tableData.rows.length > 0 ?
-                    <AnimatedCard>
-                        <TableScroll>
-                            <Table
-                                tableHeader={tableData.columns}
-                                tableData={tableData.rows}
-                                numberOfRows={0}
-                                numberOfPages={0}
-                                showBottomBorder={true}
-                                onPageChange={() => { }}
-                                isTableLoading={false} />
-                        </TableScroll>
-                    </AnimatedCard>
-                    :
-                    <p>Sem informações</p>
+        break;
+        
+      case FinancialReportType.BALANCESHEET:
+        company.getBalanceSheetOptions(companyId)
+          .then((data: any[]) => {
+            if (data.length > 0) {
+              const options = formatSelectOptions(data);
+              setSelectPeriodOptions(options);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
             }
-        </>
-    )
+          });
 
+        company.getBalanceSheetData(companyId)
+          .then((data) => {
+            if (hasData(data)) {
+              const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
+          });
+      break;
+
+      case FinancialReportType.INCOMESTATEMENT:
+        company.getIncomeStatementOptions(companyId)
+          .then((data: any) => {
+            if (data.length > 0) {
+              const options = formatSelectOptions(data);
+              setSelectPeriodOptions(options);
+              setSelectedPeriodFrom(options[0]);
+              setSelectedPeriodTo(options[0]);
+            }
+          });
+  
+        company.getIncomeStatementData(companyId)
+          .then((data) => {
+            if (hasData(data.years)) {
+              const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
+          });
+      break;
+    }
+  }, [companyId, reportType]);
+
+  const handleTypeSelectionChange = async (option: SelectOptionType) => {
+    getTableData(companyId, option.value, selectedPeriodFrom?.value, selectedPeriodTo?.value);
+    setSelectedPeriodType(option);
+  }
+
+  const handleSelectedPeriodFromChange = async (option: SelectOptionType) => {
+
+    const newYearFrom = option;
+    let newYearTo = selectedPeriodTo;
+
+    if (selectedPeriodTo && newYearFrom.value > selectedPeriodTo?.value) {
+        newYearTo = newYearFrom;
+        setSelectedPeriodTo(newYearTo);
+    }
+
+    getTableData(companyId, selectedPeriodType.value, option.value, newYearTo?.value);
+    setSelectedPeriodFrom(option);
+  }
+
+  const handleSelectedPeriodToChange = async (option: SelectOptionType) => {
+
+    const selectedYear = option;
+    let newYearFrom = selectedPeriodFrom;
+
+    if (selectedPeriodFrom && selectedYear.value < selectedPeriodFrom.value) {
+        newYearFrom = selectedYear;
+        setSelectedPeriodFrom(newYearFrom);
+    }
+    getTableData(companyId, selectedPeriodType.value, newYearFrom?.value, option.value);
+    setSelectedPeriodTo(option);
+  }
+
+  const getTableData = async (companyId: number, periodType: string, periodFrom?: string, periodTo?: string) => {
+    let data: FinancialReport[];
+
+    switch (reportType) {
+      case FinancialReportType.CASHFLOW:
+        data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
+
+        if (hasData(data)) {
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
+      
+      case FinancialReportType.BALANCESHEET:
+        data = await company.getBalanceSheetData(companyId, periodType, periodFrom, periodTo);
+
+        if (hasData(data)) {
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
+      
+      case FinancialReportType.INCOMESTATEMENT:
+
+        company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
+          .then((data) => {
+            if (hasData(data.years)) {
+              const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
+          });
+      break;
+      default:
+        break;
+    }    
+  }
+
+const hasData = (data: FinancialReport[]): boolean => {
+  let result = false;
+
+  for (const years of data) {
+    result = !!years.periods.find(period => {
+      return period.accounts.length > 0
+    })
+
+    if(result) {
+      return result
+    }
+  }
+
+  return result;
+}
+
+  const buildTableComponents = (data: TableContent): TableContent => {
+    if (!data) {
+      return {
+        rows: [],
+        columns: []
+      };
+    }
+
+    const formatedColumns: JSX.Element[] = [];
+    data.columns.forEach((item: string) => {
+      formatedColumns.push((
+        <TableColumnHeader alignLeft={item === '#'}>
+          {item}
+        </TableColumnHeader>
+      ))
+    });
+
+    const formatedRows: JSX.Element[] = [];
+    data.rows.map((row: any) => {
+      let formatedRow: any = {};
+      for (const column in row) {
+
+        const value: any = row[column];
+
+        switch (value.type) {
+          case 'string':
+            formatedRow[column] = <TableAccountName root={value.root}>{value.data}</TableAccountName>;
+            break;
+          case 'value':
+            formatedRow[column] = <TableColumnValue>{`${formatCurrency(Number(value.data))} MI`}</TableColumnValue>;
+            break;
+          case 'percentual':
+            const percentual = Number(value.data);
+            formatedRow[column] = (
+              <TableColumnPercentual percentual={percentual}>
+                {`${percentual} %`}
+              </TableColumnPercentual>
+            )
+            break;
+          default:
+            formatedRow[column] = <div> - </div>
+            break;
+        }
+      }
+      return formatedRows.push(formatedRow);
+    });
+
+    return {
+      columns: formatedColumns,
+      rows: formatedRows
+    }
+  }
+
+  return <Container>
+    <SelectContainer>
+        <Select
+            key="type"
+            options={financialReportsOptions}
+            defaultValue={selectedPeriodType}
+            onChange={handleTypeSelectionChange}
+            isMulti={false}
+            isClearable={false}
+            isDisabled={false}
+            isLoading={false}
+            isSearchable={false}
+        />
+        <p>de</p>
+        {selectPeriodOptions.length > 0 && selectedPeriodTo && selectedPeriodFrom && (
+          <>
+            <Select
+                key="from"
+                options={selectPeriodOptions as any}
+                defaultValue={selectedPeriodFrom}
+                onChange={handleSelectedPeriodFromChange}
+                isMulti={false}
+                isClearable={false}
+                isDisabled={false}
+                isLoading={false}
+                isSearchable={false}
+            />
+            <p>até</p>
+            <Select
+                key="to"
+                options={selectPeriodOptions as any}
+                defaultValue={selectedPeriodTo}
+                onChange={handleSelectedPeriodToChange}
+                isMulti={false}
+                isClearable={false}
+                isDisabled={false}
+                isLoading={false}
+                isSearchable={false}
+            />
+          </>
+        )}
+    </SelectContainer>
+      {tableData?.columns && tableData.rows ? (
+        <TableScroll>
+          <Table
+            tableHeader={tableData.columns}
+            tableData={tableData.rows}
+            numberOfRows={0}
+            numberOfPages={0}
+            showBottomBorder={true}
+            onPageChange={() => { }}
+            isTableLoading={false} />
+        </TableScroll>
+      ) : (
+          <p>Sem informacoes</p>
+        )}
+  </Container>;
 }
 
 export default FinancialReportTable;

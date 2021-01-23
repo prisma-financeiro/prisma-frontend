@@ -48,13 +48,8 @@ import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
 import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';
-import FinancialReportTable, { SelectionOptions, TableContent } from './FinancialReportTable';
 import SegmentCard from '../../components/SegmentCard';
 import {
-  formatIncomeStatementTable,
-  formatBalanceSheetTable,
-  formatSelectOptions,
-  formatCashFlowTable,
   formatStockPriceHistory,
   indicatorList
 } from './utils';
@@ -62,11 +57,12 @@ import PeriodSelector from '../../components/PeriodSelector';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import CompanyHeader from '../../components/CompanyHeader';
 import { Divider } from '../../components/ContentDivider/styles';
-import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow } from '../../models';
+import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow, FinancialReportType, CompanyInfo} from '../../models';
 
 import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
+import FinancialReportTable from './FinancialReportTable';
 
 interface TickePrice {
   price: number;
@@ -82,11 +78,6 @@ interface StockPriceInfo {
   lowest: TickerHistoryResultHighestLowest;
 }
 
-enum PeriodType {
-  Year = "a",
-  Quarter = "t"
-}
-
 const Company: React.FC = (props: any) => {
   const INITIAL_STOCK_QUOTE_PERIOD = 5;
   const device = useBreakpoints();
@@ -94,17 +85,10 @@ const Company: React.FC = (props: any) => {
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
 
-  const [companyInfo, setCompanyInfo] = useState<company.CompanyInfo>();
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerPrice, setTickerPrice] = useState<TickePrice>();
   const [balanceIndicatorInfo, setBalanceIndicatorInfo] = useState<any>();
   const [marketIndicatorInfo, setMarketIndicatorInfo] = useState<any>();
-
-  const [incomeStatementData, setIncomeStatementData] = useState<TableContent>();
-  const [incomeStatementOptions, setIncomeStatementOptions] = useState<any>({ options: [] });
-  const [balanceSheetData, setBalanceSheetData] = useState<TableContent>();
-  const [balanceSheetOptions, setBalanceSheetOptions] = useState<any>({ options: [] });
-  const [cashFlowData, setCashFlowData] = useState<TableContent>();
-  const [cashFlowOptions, setCashFlowOptions] = useState<any>({ options: [] });
   const [stockPriceHistory, setStockPriceHistory] = useState<TradingViewTableRow[] | null>();
   const [stockPriceInfo, setStockPriceInfo] = useState<StockPriceInfo>();
 
@@ -122,9 +106,8 @@ const Company: React.FC = (props: any) => {
   const contato = useRef(null);
 
   useEffect(() => {
-
     company.getCompany(companyId).then(data => {
-      setCompanyInfo(data as any);
+      setCompanyInfo(data);
     });
 
     company.getTickerPrice(ticker).then(data => {
@@ -136,6 +119,10 @@ const Company: React.FC = (props: any) => {
       }
 
       setTickerPrice(tickerPrice);
+
+      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+        .then(data => setMarketIndicatorInfo(data))
+        .catch(error => console.log('Algo deu errado', error));
     });
 
     company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
@@ -151,69 +138,15 @@ const Company: React.FC = (props: any) => {
       }
 
       setStockPriceInfo(stockInfo);
-    });
+    }).catch(error => console.log('Algo deu errado', error));
 
-    company.getCompanyIndicator(companyId).then(data => {
-      const indicator = data;
-
+    company.getCompanyIndicator(companyId).then(indicator => {
       setBalanceIndicatorInfo(indicator);
-    })
-
-    company.getIncomeStatementOptions(companyId)
-      .then((data: any[]) => {
-        if (data.length > 0) {
-          const options = formatSelectOptions(data);
-          setIncomeStatementOptions({ options });
-        }
-      });
-
-    company.getIncomeStatementData(companyId)
-      .then((data) => {
-        const formatedTable = formatIncomeStatementTable(data, PeriodType.Quarter);
-        setIncomeStatementData(formatedTable);
-      });
-
-    company.getBalanceSheetOptions(companyId)
-      .then((data: any[]) => {
-        if (data.length > 0) {
-          const options = formatSelectOptions(data);
-          setBalanceSheetOptions({ options });
-        }
-      });
-
-    company.getBalanceSheetData(companyId)
-      .then((data) => {
-        const formatedTable = formatBalanceSheetTable(data, PeriodType.Quarter);
-        setBalanceSheetData(formatedTable);
-      });
-
-    company.getCashFlowOptions(companyId)
-      .then((data: any[]) => {
-        if (data.length > 0) {
-          const options = formatSelectOptions(data);
-          setCashFlowOptions({ options });
-        }
-      });
-
-    company.getCashFlowData(companyId)
-      .then((data) => {
-        const formatedTable = formatCashFlowTable(data, PeriodType.Quarter);
-        setCashFlowData(formatedTable);
-      });
+    });
 
     scrollTo(valuation);
 
-  }, [ticker]);
-
-  useEffect(() => {
-    tickerPrice &&
-      tickerPrice.price &&
-      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
-        .then(data => {
-          data &&
-            setMarketIndicatorInfo(data);
-        })
-  }, [tickerPrice]);
+  }, [ticker, companyId]);
 
   const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -316,44 +249,7 @@ const Company: React.FC = (props: any) => {
     }
   ];
 
-  const handleIncomeStatementTypeSelectionChange = async (type: string) => {
-    const data = await company.getIncomeStatementData(companyId, type);
-    const formatedTable = formatIncomeStatementTable(data, type);
-    setIncomeStatementData(formatedTable);
-  }
-
-  const handleIncomeStatementPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getIncomeStatementData(companyId, options.type, options.yearFrom, options.yearTo);
-    const formatedTable = formatIncomeStatementTable(data, options.type);
-    setIncomeStatementData(formatedTable);
-  }
-
-  const handleBalanceSheetTypeSelectionChange = async (type: string) => {
-    const data = await company.getBalanceSheetData(companyId, type);
-    const formatedTable = formatBalanceSheetTable(data, type);
-    setBalanceSheetData(formatedTable);
-  }
-
-  const handleBalanceSheetPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getBalanceSheetData(companyId, options.type, options.yearFrom, options.yearTo);
-    const formatedTable = formatBalanceSheetTable(data, options.type);
-    setBalanceSheetData(formatedTable);
-  }
-
-  const handleCashFlowTypeSelectionChange = async (type: string) => {
-    const data = await company.getCashFlowData(companyId, type);
-    const formatedTable = formatCashFlowTable(data, type);
-    setCashFlowData(formatedTable);
-  }
-
-  const handleCashFlowPeriodSelectionChange = async (options: SelectionOptions) => {
-    const data = await company.getCashFlowData(companyId, options.type, options.yearFrom, options.yearTo);
-    const formatedTable = formatCashFlowTable(data, options.type);
-    setCashFlowData(formatedTable);
-  }
-
   const handleStockQuotePeriodChange = (period: number | null) => {
-
     company.getTickerHistory(ticker, period)
       .then(data => {
         const formatedData = formatStockPriceHistory(data.historicalPrices);
@@ -368,7 +264,6 @@ const Company: React.FC = (props: any) => {
 
         setStockPriceInfo(stockInfo);
       });
-
   }
 
   return (
@@ -513,30 +408,32 @@ const Company: React.FC = (props: any) => {
               <h1>Proventos content</h1>
             </AccordionContent>
           </Accordion>
-          <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
-            <FinancialReportTable
-              data={incomeStatementData ? incomeStatementData : { rows: [""], columns: [""] }}
-              selectionOptions={incomeStatementOptions.options ? incomeStatementOptions : { options: [{ value: "", label: "" }] }}
-              onPeriodSelectionChange={(options) => handleIncomeStatementPeriodSelectionChange(options)}
-              onTypeSelectionChange={(periodType) => handleIncomeStatementTypeSelectionChange(periodType)}
-            />
-          </Accordion>
-          <Accordion anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={AccordionSizes.large}>
-            <FinancialReportTable
-              data={balanceSheetData ? balanceSheetData : { rows: [""], columns: [""] }}
-              selectionOptions={balanceSheetOptions.options ? balanceSheetOptions : { options: [{ value: "", label: "" }] }}
-              onPeriodSelectionChange={(options) => handleBalanceSheetPeriodSelectionChange(options)}
-              onTypeSelectionChange={(periodType) => handleBalanceSheetTypeSelectionChange(periodType)}
-            />
-          </Accordion>
-          <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
-            <FinancialReportTable
-              data={cashFlowData ? cashFlowData : { rows: [""], columns: [""] }}
-              selectionOptions={cashFlowOptions.options ? cashFlowOptions : { options: [{ value: "", label: "" }] }}
-              onPeriodSelectionChange={(options) => handleCashFlowPeriodSelectionChange(options)}
-              onTypeSelectionChange={(periodType) => handleCashFlowTypeSelectionChange(periodType)}
-            />
-          </Accordion>
+
+          {companyInfo?.id && (
+            <>
+              <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
+                <FinancialReportTable
+                  companyId={companyInfo.id}
+                  reportType={FinancialReportType.INCOMESTATEMENT}
+                />
+              </Accordion>
+
+              <Accordion anchor={balancoPatrimonial} title="Relatórios Financeiros - Balanço Patrimonial" size={AccordionSizes.large}>
+                <FinancialReportTable
+                  companyId={companyInfo.id}
+                  reportType={FinancialReportType.BALANCESHEET}
+                />
+              </Accordion>
+              
+              <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
+                <FinancialReportTable
+                  companyId={companyInfo.id}
+                  reportType={FinancialReportType.CASHFLOW}
+                />
+              </Accordion>
+            </>
+          )}
+          
           <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
             <AccordionContent>
               <SegmentContainer>

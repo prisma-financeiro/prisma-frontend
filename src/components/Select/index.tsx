@@ -36,6 +36,7 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, isMulti, isCleara
     <Container>
       <ReactSelect
         defaultValue={defaultValue}
+        value={defaultValue}
         styles={customStyles}
         placeholder={placeholder}
         options={options}

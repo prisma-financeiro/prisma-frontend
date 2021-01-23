@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   Container,
@@ -15,12 +15,36 @@ interface IndicatorCardProps {
   indicatorName: string;
   value: number;
   representationCharacter: string;
-  chartData?: Array<any>;
+  chartData?: any[];
   onClick: (indicatorName: string) => void;
 }
 
 const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, chartData, onClick, representationCharacter }) => {
   const device = useBreakpoints();
+  const [data, setData] = useState<Chart.ChartData>();
+
+  useEffect(() => {
+    if (chartData && chartData.length > 0) {
+      const indicatorData = formatChartData(chartData);
+
+      setData({
+        labels: indicatorData.map(d => d.year),
+        datasets: [{
+          data: indicatorData.map(d => d.value),
+          borderColor: indicatorData.map(d => d.color.borderColor),
+          backgroundColor: indicatorData.map(d => d.color.backgroundColor),
+          hoverBackgroundColor: indicatorData.map(d => d.color.hoverBackgroundColor),
+          borderWidth: 0.5,
+          maxBarThickness: 20,
+          barThickness: device.isMobile ? 5 : 15,
+          spanGaps: true,
+          fill: false,
+          minBarLength: 5,
+          hitRadius: 10,
+        }]
+      })
+    }
+  }, [chartData, device.isMobile, indicatorName]);
 
   const formatChartData = (data: Array<any>) => {
     return data.map(item => {
@@ -34,25 +58,6 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
 
       }
     }).reverse();
-  }
-
-  const indicatorData = chartData ? formatChartData(chartData) : [];
-
-  const data: Chart.ChartData = {
-    labels: indicatorData.map(d => d.year),
-    datasets: [{
-      data: indicatorData.map(d => d.value),
-      borderColor: indicatorData.map(d => d.color.borderColor),
-      backgroundColor: indicatorData.map(d => d.color.backgroundColor),
-      hoverBackgroundColor: indicatorData.map(d => d.color.hoverBackgroundColor),
-      borderWidth: 0.5,
-      maxBarThickness: 20,
-      barThickness: device.isMobile ? 5 : 15,
-      spanGaps: true,
-      fill: false,
-      minBarLength: 5,
-      hitRadius: 10,
-    }]
   }
 
   const chartConfig: Chart.ChartConfiguration = {
