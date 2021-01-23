@@ -6,71 +6,15 @@ interface TableData {
     rows: any[]
 }
 
-const INCOME_STATEMENT_ACUMULATED = "A";
-
-export const formatIncomeStatementTable = (data: any[], type: string): TableData => {
-    const columns: string[] = [];
-
-    const result: TableData = { columns: ["#"], rows: [] };
-    let account: string = '';
-    let columnIndex: number = 0;
-    let row: { [key: number]: any } = {};
-
-    for (const incomeStatement of data) {
-        let columnTitle: string;
-
-        if (incomeStatement.period === INCOME_STATEMENT_ACUMULATED) {
-            columnTitle = "Últ. 12M";
-        } else {
-            columnTitle = type === "a" ? incomeStatement.year : `${incomeStatement.period}${incomeStatement.year}`;
-        }
-
-        if (!columns.includes(columnTitle)) {
-            columns.push(columnTitle);
-        }
-
-        if (account !== incomeStatement.account) {
-            account = incomeStatement.account;
-            columnIndex = 1;
-
-            row = { 0: { type: 'string', data: incomeStatement.accountDescription } };
-
-            result.rows.push(row);
-        }
-
-        if (columnIndex > 1) {
-            const percentualDiference = calcPercentageDifference(
-                row[columnIndex - 1].data,
-                parseFloat(incomeStatement.amount)
-            );
-
-            row[columnIndex] = { type: 'percentual', data: percentualDiference };
-            columnIndex++;
-        }
-
-        row[columnIndex] = { type: 'value', data: parseFloat(incomeStatement.amount) };
-    }
-
-    columns.forEach((item, index) => {
-        result.columns.push(item);
-
-        if (index < columns.length - 1) {
-            result.columns.push("AH %");
-        }
-    });
-
-    return result;
-}
-
-export const formatCashFlowTable = (data: FinancialReport[], type: string): TableData => {
+export const formatTableDataStructure = (data: FinancialReport[], type: string, lastTwelveMonths?: FinancialReportPeriodAccount[]): TableData => {
     const result: TableData = { columns: [], rows: [] };
     
-    result.columns = generateTableColumnHeader(data, type);
-    result.rows = generateTableRows(data);
+    result.columns = generateTableColumnHeader(data, type, lastTwelveMonths);
+    result.rows = generateTableRows(data, lastTwelveMonths);
     return result;
 }
 
-const generateTableRows = (data: FinancialReport[]) => {
+const generateTableRows = (data: FinancialReport[], lastTwelveMonths?: FinancialReportPeriodAccount[]) => {
     const sortedData = data.sort().reverse();
     const rows: any[] = [];
     let column = 0;
@@ -107,7 +51,13 @@ const generateTableRows = (data: FinancialReport[]) => {
                             row = { 0: { type: 'string', data: financialReportPeriodAccount.accountDescription } };
                         }
 
-                        if (column > 1) {
+                        if (column === 1 && lastTwelveMonths) {
+                            const cellContent = lastTwelveMonths.find(account => account.accountDescription === row[0].data);
+                            row[1] = { type: 'value', data: cellContent?.amount };
+                            column++
+                        }
+
+                        if ((lastTwelveMonths  && column > 2) || (!lastTwelveMonths  && column > 1)) {
                             const percentualDiference = calcPercentageDifference(
                                 row[column - 1].data,
                                 financialReportPeriodAccount.amount
@@ -131,9 +81,12 @@ const generateTableRows = (data: FinancialReport[]) => {
     return rows;
 }
 
-const generateTableColumnHeader = (data: FinancialReport[], type: string) => {
+const generateTableColumnHeader = (data: FinancialReport[], type: string, lastTwelveMonths?: FinancialReportPeriodAccount[]) => {
     const sortedData = data.sort().reverse();
     const columns: string[] = ['#'];
+    if (lastTwelveMonths) {
+        columns.push('Últ.12M');
+    }
     const sortedFinancialReportPeriods: string[] = [];
 
     for (const financialReport of sortedData) {

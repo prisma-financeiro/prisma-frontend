@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { company } from "../../../services";
-import { formatSelectOptions, formatCashFlowTable, formatBalanceSheetTable, formatIncomeStatementTable } from '../utils';
+import { formatSelectOptions, formatTableDataStructure } from '../utils';
 import { formatCurrency } from '../../../utils';
 import Table from '../../../components/Table';
 import Select from '../../../components/Select';
@@ -58,7 +58,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
 
         company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
           if (hasData(data)) {
-            const formatedTable = formatCashFlowTable(data, selectedPeriodType.value);
+            const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
             setTableData(buildTableComponents(formatedTable));
           } else {
             setTableData(null);
@@ -79,14 +79,18 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
 
         company.getBalanceSheetData(companyId)
           .then((data) => {
-            const formatedTable = formatBalanceSheetTable(data, PeriodType.Quarter);
-            setTableData(formatedTable);
+            if (hasData(data)) {
+              const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
           });
       break;
 
       case FinancialReportType.INCOMESTATEMENT:
         company.getIncomeStatementOptions(companyId)
-          .then((data: any[]) => {
+          .then((data: any) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
               setSelectPeriodOptions(options);
@@ -97,8 +101,12 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   
         company.getIncomeStatementData(companyId)
           .then((data) => {
-            const formatedTable = formatIncomeStatementTable(data, PeriodType.Quarter);
-            setTableData(formatedTable);
+            if (hasData(data.years)) {
+              const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
           });
       break;
     }
@@ -144,17 +152,40 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
         data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
 
         if (hasData(data)) {
-          const formatedTable = formatCashFlowTable(data, selectedPeriodType.value);
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
           setTableData(buildTableComponents(formatedTable));
         } else {
           setTableData(null);
         }
         break;
+      
+      case FinancialReportType.BALANCESHEET:
+        data = await company.getBalanceSheetData(companyId, periodType, periodFrom, periodTo);
+
+        if (hasData(data)) {
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
+      
+      case FinancialReportType.INCOMESTATEMENT:
+
+        company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
+          .then((data) => {
+            if (hasData(data.years)) {
+              const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
+          });
+      break;
       default:
         break;
     }    
   }
-
 
 const hasData = (data: FinancialReport[]): boolean => {
   let result = false;

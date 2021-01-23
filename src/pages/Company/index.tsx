@@ -411,7 +411,7 @@ const Company: React.FC = (props: any) => {
 
           {companyInfo?.id && (
             <>
-              {/* <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
+              <Accordion anchor={dre} title="Relatórios Financeiros - Demonstração de Resultado" size={AccordionSizes.large}>
                 <FinancialReportTable
                   companyId={companyInfo.id}
                   reportType={FinancialReportType.INCOMESTATEMENT}
@@ -423,7 +423,7 @@ const Company: React.FC = (props: any) => {
                   companyId={companyInfo.id}
                   reportType={FinancialReportType.BALANCESHEET}
                 />
-              </Accordion> */}
+              </Accordion>
               
               <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
                 <FinancialReportTable
