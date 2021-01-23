@@ -11,7 +11,7 @@ export const getCompany = (id: number): Promise<CompanyInfo> => {
                 id: companyInfo.id,
                 cnpj: companyInfo.cnpj,
                 name: companyInfo.name,
-                logo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
+                logo: companyInfo.logo,
                 website: companyInfo.website,
                 foundationDate: companyInfo.foundationDate,
                 addressType: companyInfo.addressType,
