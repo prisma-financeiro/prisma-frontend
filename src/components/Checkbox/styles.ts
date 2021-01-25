@@ -10,30 +10,28 @@ export const Container = styled.div`
 
     > input + label {
       position: relative;
-      padding-left: 28px;
+      padding-left: 2.8rem;
       cursor: pointer;
 
       &:before {
         content: '';
         position: absolute;
-        left:0; 
-        top: 2px;
-        width: 20px; 
-        height: 20px;
-        border: 1px solid ${theme.colors.darkGrey};
+        left:0;
+        width: 2rem; 
+        height: 2rem;
+        border: 0.1rem solid ${theme.colors.darkGrey};
         background-color: ${theme.colors.darkGrey};
-        border-radius: 3px;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,.3)
+        border-radius: 0.3rem;
+        box-shadow: inset 0 0.1rem 0.3rem rgba(0,0,0,.3)
       }
 
       &:after {
         content: '✓';
         position: absolute;
-        top: 0.5px; 
-        left: 3px;
+        left: 0.4rem;
         color: ${theme.colors.primary};
         font-weight: 800;
-        font-size: 18px;
+        font-size: 1.6rem;
         transition: all .2s;
       }
     }
@@ -71,7 +69,7 @@ export const Container = styled.div`
 
     > input:checked:focus + label {
       &:before {
-        border: 1px dotted blue;
+        border: 0.1rem dotted blue;
       }
     }
   `} 
