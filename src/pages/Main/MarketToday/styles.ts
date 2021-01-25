@@ -31,11 +31,12 @@ export const SubHeader = styled.div`
   ${({ theme }) => css`
     display: flex;
     justify-content: flex-start;
-    margin: 1rem 0;
+    margin: 2rem 0 1rem 0;
 
-    > h3 {
+    > p {
       font-weight: 500;
-      color: ${theme.colors.h3};
+      font-size: ${theme.fontSizes.large};
+      font-weight: 400;
     }
   `}
 `;

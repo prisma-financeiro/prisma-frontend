@@ -16,7 +16,6 @@ import {
 } from 'react-icons/fi';
 
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
-import ContentDivider from '../../../components/ContentDivider';
 import Table from '../../../components/Table';
 import StockPrice from '../../../components/StockPrice';
 import CompanyHeader from '../../../components/CompanyHeader';
@@ -40,8 +39,8 @@ interface IndexFlutuationTableData {
 }
 
 const MarketToday = () => {
-  const [isIbovFlutuationTableLoading, setIbovFlutuationTableLoading] = useState(true);
-  const [isIfixFlutuationTableLoading, setIfixFlutuationTableLoading] = useState(true);
+  const [isIbovFlutuationTableLoading, setIbovFlutuationTableLoading] = useState<boolean>(true);
+  const [isIfixFlutuationTableLoading, setIfixFlutuationTableLoading] = useState<boolean>(true);
   const [ibovFlutuationTable, setIbovFlutuationTable] = useState<IndexFlutuationTableData>();
   const [ifixFlutuationTable, setIfixFlutuationTable] = useState<IndexFlutuationTableData>();
 
@@ -153,7 +152,6 @@ const MarketToday = () => {
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
-            onClick={handleIbovTableClick}
           />
         ),
         cotacao: (<StockPrice
@@ -177,7 +175,6 @@ const MarketToday = () => {
             companyLogo={item.logo}
             companyName={item.name}
             tickerCode={item.ticker}
-            onClick={handleIbovTableClick}
           />
         ),
         cotacao: (<StockPrice
@@ -204,7 +201,7 @@ const MarketToday = () => {
       title="Mercado hoje"
       size={AccordionSizes.large}>
       <SubHeader>
-        <h3>Ibovespa</h3>
+        <p>Ibovespa</p>
       </SubHeader>
 
       <DataWrapper>
@@ -233,8 +230,9 @@ const MarketToday = () => {
                     tableData={ibovFlutuationTable.highestIncrease}
                     numberOfRows={0}
                     numberOfPages={0}
+                    showRowHover={true}
                     showBottomBorder={true}
-                    onPageChange={() => { }}
+                    onRowClick={(rowInfo: any) => handleIbovTableClick(rowInfo.ticker.props.assetId, rowInfo.ticker.props.tickerCode)}
                     isTableLoading={isIbovFlutuationTableLoading}>
                   </Table>
                   <TableFooter>
@@ -272,7 +270,8 @@ const MarketToday = () => {
                     numberOfRows={0}
                     numberOfPages={0}
                     showBottomBorder={true}
-                    onPageChange={() => { }}
+                    showRowHover={true}
+                    onRowClick={(rowInfo: any) => handleIbovTableClick(rowInfo.ticker.props.assetId, rowInfo.ticker.props.tickerCode)}
                     isTableLoading={isIbovFlutuationTableLoading}>
                   </Table>
                   <TableFooter>
@@ -285,10 +284,8 @@ const MarketToday = () => {
         </TableWrapper>
       </DataWrapper>
 
-      <ContentDivider />
-
       <SubHeader>
-        <h3>IFIX</h3>
+        <p>IFIX</p>
       </SubHeader>
       <DataWrapper>
         <TableWrapper>
@@ -317,7 +314,6 @@ const MarketToday = () => {
                     numberOfRows={0}
                     numberOfPages={0}
                     showBottomBorder={true}
-                    onPageChange={() => { }}
                     isTableLoading={isIfixFlutuationTableLoading}>
                   </Table>
                   <TableFooter>
@@ -354,7 +350,6 @@ const MarketToday = () => {
                     numberOfRows={0}
                     numberOfPages={0}
                     showBottomBorder={true}
-                    onPageChange={() => { }}
                     isTableLoading={isIfixFlutuationTableLoading}>
                   </Table>
                   <TableFooter>
