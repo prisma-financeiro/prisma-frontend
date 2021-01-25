@@ -2,9 +2,9 @@ import React from 'react';
 
 import {
     Header,
-    CompanyLogo,
     Title
 } from './styles';
+import Logo from '../Logo';
 
 interface CompanyHeaderProps {
     companyLogo: string;
@@ -22,7 +22,7 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, 
 
     return (
         <Header isClickable={!!onClick} onClick={() => handleClick()}>
-            <CompanyLogo src={companyLogo} />
+            <Logo imageUrl={companyLogo} />
             <Title>
                 <h2>{tickerCode}</h2>
                 <p>{companyName}</p>

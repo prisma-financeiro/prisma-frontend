@@ -1,12 +1,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  height: 100vh;
+  width: 100%;
   display: flex;
-  align-self: center;
   justify-content: center;
-  flex-direction: column;
-  margin-top: 12rem;
-  padding: 2.5rem;
+  align-items: center;
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 35rem;
   height: 30rem;
   background: ${({ theme }) => theme.colors.background};
