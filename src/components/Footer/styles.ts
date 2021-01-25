@@ -15,19 +15,6 @@ export const AnimatedContainer = styled(motion.footer)`
   z-index: 500;
 `;
 
-export const Wrapper1 = styled.div`  
-  padding: 0 1.6rem;
-  width: 100%;
-  height: 8rem;
-  display: flex;
-  justify-content: center;
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    padding: 0 1.0rem;
-    height: 6.2rem;
-  }
-`;
-
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
