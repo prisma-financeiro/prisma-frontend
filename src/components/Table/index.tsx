@@ -18,7 +18,9 @@ export interface TableProps {
   numberOfRows: number,
   numberOfPages: number,
   isTableLoading: boolean,
-  onPageChange: (nextPageNumber: number) => void
+  showRowHover?: boolean,
+  onPageChange?: (nextPageNumber: number) => void
+  onRowClick?: (rowInfo: any) => void
 }
 
 const DASHBOARD_ANIMATION = {
@@ -29,7 +31,7 @@ const DASHBOARD_ANIMATION = {
 };
 
 
-const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, numberOfPages, showBottomBorder, isTableLoading, onPageChange }) => {
+const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, numberOfPages, showBottomBorder, isTableLoading, showRowHover = false, onPageChange, onRowClick }) => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -56,7 +58,7 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     const keys = getKeys();
     return items.map((row, index) => {
       return (
-        <tr key={index}>
+        <tr key={index} onClick={() => onRowClick && onRowClick(row)}>
           { keys.map((key: any, index: number) => {
             return (
               <td key={String(row[key]).concat(String(index))}>
@@ -100,7 +102,7 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     }
 
     setCurrentPage(nextPage);
-    onPageChange(nextPage);
+    onPageChange && onPageChange(nextPage);
   }
 
   const handlePreviousPage = () => {
@@ -111,12 +113,12 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     }
 
     setCurrentPage(previousPage);
-    onPageChange(previousPage);
+    onPageChange&& onPageChange(previousPage);
   }
 
   const handleGoToPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-    onPageChange(pageNumber);
+    onPageChange && onPageChange(pageNumber);
   }
 
   return (
@@ -128,7 +130,8 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
         animate="mounted"
         exit="unMounted"
         transition={{ duration: 1.0 }}
-        showBottomBorder={showBottomBorder} >
+        showBottomBorder={showBottomBorder} 
+        showRowHover={showRowHover}>
         <thead>
           {getHeader()}
         </thead>

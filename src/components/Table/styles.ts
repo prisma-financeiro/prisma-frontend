@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 
 interface TableStylingProps {
   showBottomBorder: boolean;
+  showRowHover: boolean;
 }
 
 interface PaginationButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,7 +20,7 @@ export const Container = styled.div`
 `;
 
 export const StyledTable = styled(motion.table) <TableStylingProps>`
-  ${({ theme, showBottomBorder }) => css`
+  ${({ theme, showBottomBorder, showRowHover }) => css`
     font-size: ${theme.fontSizes.default};
     border-collapse: collapse;
     width: 100%;
@@ -31,7 +32,8 @@ export const StyledTable = styled(motion.table) <TableStylingProps>`
     tbody {
       tr {
         :hover {
-          background-color: ${theme.colors.darkGrey};
+          background-color: ${showRowHover ? theme.colors.greyLowerOpacity: 'none'};
+          cursor: ${showRowHover ? 'pointer' : 'default'};
         }
 
         :last-child {
