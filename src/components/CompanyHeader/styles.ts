@@ -25,16 +25,6 @@ ${({ theme }) => css`
 `}
 `
 
-export const CompanyLogo = styled.img`
-  height: 5rem;
-  width: 5rem;
-  border-radius: 50%;
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    height: 3.5rem;
-    width: 3.5rem;
-  }
-`
 export const Title = styled.div`
 ${({ theme }) => css`
   display: flex;
