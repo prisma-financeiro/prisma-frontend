@@ -15,8 +15,24 @@ export const AnimatedContainer = styled(motion.footer)`
   z-index: 500;
 `;
 
-export const Wrapper = styled(HeaderWrapper)`
+export const Wrapper1 = styled.div`  
+  padding: 0 1.6rem;
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    padding: 0 1.0rem;
+    height: 6.2rem;
+  }
+`;
+
+export const Wrapper = styled.div`
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     height: auto;
     padding: 1.6rem;
     align-items: center;
@@ -26,7 +42,7 @@ export const Wrapper = styled(HeaderWrapper)`
       font-size: ${theme.fontSizes.default};
     }
 
-    span {
+    > span {
       display: block;
       font-size: ${theme.fontSizes.small};
 
@@ -39,9 +55,20 @@ export const Wrapper = styled(HeaderWrapper)`
       margin-top: 1.6rem;
     }
 
-    @media (max-width: 568px) {
+    > p {
+      margin: 2rem;
+      width: 60%;
+      text-align: center;
+      font-size: ${theme.fontSizes.tiny};
+    }
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
       flex-direction: column;
       text-align: center;
+      
+      > p {
+        width: 80%;
+      }
     }
   `}
 `;

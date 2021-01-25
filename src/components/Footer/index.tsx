@@ -17,14 +17,16 @@ const Footer = () => {
     >
       <FooterSection as="section" background={colors.background}>
         <Wrapper>
-          <div>
+            <p>
+              O objetivo do site Prisma Financeiro <b>não</b> é fazer sugestão de compra ou venda de ativos, sendo assim, não se responsabiliza pelas decisões e caminhos tomados a partir da análise das informações aqui apresentadas. 
+              Nosso objetivo é auxiliar os investidores a terem informações confiáveis de forma simples e fácil. 
+              Os dados aqui apresentados sao provenientes de fontes abertas como CVM, B3, Tesouro Nacional e as páginas de relação com investidores das empresas.
+            </p>
             <h4>Fale conosco</h4>
             <span>
-              Ligue 99999 99999 (Regiões Metropolitanas) ou 0800 999 99999 (Demais
-              Regiões) | Horário de Atendimento: 08:00h às 20:00h.
+              Para dúvidas, reclamações ou sugestões <a href="mailto: contato@prisma-financeiro.com.br">contato@prisma-financeiro.com.br</a>
             </span>
-            <span>® Todos os direitos reservados</span>
-          </div>
+            <span>Copyright © 2021 <b>Prisma Financeiro</b> Todos os direitos reservados</span>
         </Wrapper>
       </FooterSection>
     </AnimatedContainer>
