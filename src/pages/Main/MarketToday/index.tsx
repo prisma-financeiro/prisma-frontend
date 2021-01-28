@@ -226,7 +226,7 @@ const MarketToday = () => {
               ibovFlutuationTable ?
                 <>
                   <Table
-                    tableHeader={["Ativo", "Cotação"]}
+                    tableHeader={[{label: "Ativo", value: 'ativo'}, {label: "Cotação", value: 'cotacao'}]}
                     tableData={ibovFlutuationTable.highestIncrease}
                     numberOfRows={0}
                     numberOfPages={0}
@@ -265,7 +265,7 @@ const MarketToday = () => {
               ibovFlutuationTable ?
                 <>
                   <Table
-                    tableHeader={["Ativo", "Cotação"]}
+                    tableHeader={[{label: "Ativo", value: 'ativo'}, {label: "Cotação", value: 'cotacao'}]}
                     tableData={ibovFlutuationTable.highestDrop}
                     numberOfRows={0}
                     numberOfPages={0}
@@ -309,7 +309,7 @@ const MarketToday = () => {
               ifixFlutuationTable ?
                 <>
                   <Table
-                    tableHeader={["Ativo", "Cotação"]}
+                    tableHeader={[{label: "Ativo", value: 'ativo'}, {label: "Cotação", value: 'cotacao'}]}
                     tableData={ifixFlutuationTable.highestIncrease}
                     numberOfRows={0}
                     numberOfPages={0}
@@ -345,7 +345,7 @@ const MarketToday = () => {
               ifixFlutuationTable ?
                 <>
                   <Table
-                    tableHeader={["Ativo", "Cotação"]}
+                    tableHeader={[{label: "Ativo", value: 'ativo'}, {label: "Cotação", value: 'cotacao'}]}
                     tableData={ifixFlutuationTable.highestDrop}
                     numberOfRows={0}
                     numberOfPages={0}

@@ -256,6 +256,10 @@ const hasData = (data: FinancialReport[]): boolean => {
     }
   }
 
+  const transformTableHeader = (headers: string[]) => {
+    return headers.map(header => ({ label: header, value: header}));
+  }
+
   return <Container>
     <SelectContainer>
         <Select
@@ -301,7 +305,7 @@ const hasData = (data: FinancialReport[]): boolean => {
       {tableData?.columns && tableData.rows ? (
         <TableScroll>
           <Table
-            tableHeader={tableData.columns}
+            tableHeader={transformTableHeader(tableData.columns)}
             tableData={tableData.rows}
             numberOfRows={0}
             numberOfPages={0}
