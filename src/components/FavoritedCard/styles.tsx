@@ -1,16 +1,22 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-export const Container = styled(motion.div)`
-  ${({ theme }) => css`
+interface ContainerProps {
+  backgroundDarker: boolean,
+  roundedCorners: boolean
+}
+
+export const Container = styled(motion.div)<ContainerProps>`
+  ${({ theme, backgroundDarker, roundedCorners }) => css`
+    position: relative;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: ${theme.colors.darkGrey};
+    background: ${backgroundDarker ? theme.colors.background : theme.colors.darkGrey};
     width: 19rem;
     height: 15rem;
-    border-radius: 5px;
+    border-radius: ${roundedCorners ? '5px' : 'none'};
 
     @media (max-width: ${theme.deviceWidth.mobile}) {
       width: 100%;
@@ -20,13 +26,13 @@ export const Container = styled(motion.div)`
   `}
 `;
 
-export const ButtonContent = styled.button`
-  ${({ theme }) => css`
+export const ButtonContent = styled.button<{backgroundDarker: boolean}>`
+  ${({ theme, backgroundDarker }) => css`
       height: 100%;
       border-radius: ${theme.radio.default};
       color: ${theme.colors.primary};
       border-color: ${theme.colors.primary};
-      background-color: ${theme.colors.darkGrey};
+      background-color: ${backgroundDarker ? theme.colors.background : theme.colors.darkGrey };
       font-size: ${theme.fontSizes.large};
       border-style: dotted;
       border-width: 0.1rem;

@@ -21,26 +21,27 @@ interface FavoritedCardProps {
   variationReal?: number;
   variationPercentage?: number;
   emptyCard?: boolean;
+  backgroundDarker?: boolean;
+  hoverEffect?: boolean;
+  roundedCorners?: boolean;
   addNewCardCallback: () => void;
   removeCardCallback: () => void;
 }
 
-const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
+const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, hoverEffect = true, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
   const device = useBreakpoints();
-  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
-
-  const handleMouseHover = (isVisible: boolean) => {
-    setIsCloseButtonVisible(isVisible);
-  }
 
   return (
     <Container
-      whileHover={{ scale: 1.02 }}
+      backgroundDarker={backgroundDarker}
+      roundedCorners={roundedCorners}
+      whileHover={hoverEffect ? { scale: 1.02 } : {}}
       whileTap={{ scale: 0.99 }}
-      onMouseEnter={() => handleMouseHover(true)}
-      onMouseLeave={() => handleMouseHover(false)}>
+      >
       { emptyCard ? (
-        <ButtonContent onClick={addNewCardCallback}>
+        <ButtonContent 
+          backgroundDarker={backgroundDarker}
+          onClick={addNewCardCallback}>
           <FiPlus
             size={device.isMobile ? 20 : 30}
           />
@@ -66,14 +67,12 @@ const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, 
                 variationValue={variationReal}
               />
             }
-            {isCloseButtonVisible && (
-              <CloseButton
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={removeCardCallback}>
-                x
-              </CloseButton>
-            )}
+            <CloseButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={removeCardCallback}>
+              x
+            </CloseButton>
           </>
         )}
     </Container>

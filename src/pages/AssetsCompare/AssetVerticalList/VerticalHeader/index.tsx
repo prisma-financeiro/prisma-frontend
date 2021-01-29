@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { Container, Title, Field, FieldGroup, EmptyBox } from './styles';
+import { Container, Title, Field, FieldGroup, EmptyBox, AssetHeader } from './styles';
 
 const VerticalHeader: React.FC = () => {
   return (
     <Container>
-      <EmptyBox />
+      <AssetHeader>
+        <EmptyBox />
+      </AssetHeader>
 
       <FieldGroup>
         <Title>
@@ -34,6 +36,48 @@ const VerticalHeader: React.FC = () => {
         </Field>
         <Field>
           ROIC
+        </Field>
+      </FieldGroup>
+
+      <FieldGroup>
+        <Title>
+          Endividamento
+        </Title>
+        <Field>
+          Liq. Corrent
+        </Field>
+        <Field>
+          Passivos / Ativos
+        </Field>
+        <Field>
+          PL / Ativos
+        </Field>
+        <Field>
+          Dívida Liq. / EBIT
+        </Field>
+        <Field>
+          Dívida Liq. / EBITDA
+        </Field>
+        <Field>
+          Dívida Liq. / PL
+        </Field>
+      </FieldGroup>
+
+      <FieldGroup>
+        <Title>
+          Eficiência
+        </Title>
+        <Field>
+          Margen Bruta
+        </Field>
+        <Field>
+          Margen Líquida
+        </Field>
+        <Field>
+          Margen EBIT
+        </Field>
+        <Field>
+          Margen EBITDA
         </Field>
       </FieldGroup>
 

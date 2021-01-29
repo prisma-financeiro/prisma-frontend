@@ -12,6 +12,10 @@ export const AnimatedContainer = styled(motion.header)`
   top: 0;
   border: 0;
   z-index: 15;
+
+  -webkit-box-shadow: 0 8px 6px -7px black;
+  -moz-box-shadow: 0 8px 6px -7px black;
+  box-shadow: 0 8px 6px -7px black;
 `;
 
 export const Wrapper = styled.div`  
