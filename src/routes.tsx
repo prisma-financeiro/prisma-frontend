@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Main from './pages/Main';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AssetsExplorer from './pages/AssetsExplorer';
 import AssetsCompare from './pages/AssetsCompare';
 import Ranking from './pages/Ranking';
@@ -13,6 +14,7 @@ const Routes = () => {
     <Switch>
       <Route path="/" exact component={Main} />
       <Route path="/login" exact component={Login} />
+      <Route path="/signup" exact component={Signup} />
       <Route path="/assets-explorer" exact component={AssetsExplorer} />
       <Route path="/assets-compare" exact component={AssetsCompare} />
       <Route path="/ranking" exact component={Ranking} />
