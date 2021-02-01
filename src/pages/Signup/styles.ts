@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  height: 100vh;
+  width: 100%;
   display: flex;
-  align-self: center;
   justify-content: center;
-  flex-direction: column;
-  margin-top: 12rem;
-  padding: 2.5rem;
+  align-items: center;
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 35rem;
-  height: 50rem;
-  border-radius: 5px;
+  height: 45rem;
   background: ${({ theme }) => theme.colors.background};
 
   > h1 {
@@ -26,15 +30,8 @@ export const Container = styled.div`
     height: 100%;
   }
 `;
-
 export const InputControl = styled.div`
   margin: 2rem;
-
-  > label {
-    display:inline-block;
-    float:left;
-    font-size: ${({ theme }) => theme.fontSizes.small};
-  }
 `;
 
 export const ValidatorMessage = styled.div`
@@ -51,5 +48,4 @@ export const AccountOptions = styled.div`
   > p {
     margin: 1rem;
   }
-
 `;

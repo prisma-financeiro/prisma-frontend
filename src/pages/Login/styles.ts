@@ -27,7 +27,7 @@ export const FormContainer = styled.div`
 `;
 
 export const InputControl = styled.div`
-  margin: 0.8rem;
+  margin: 2rem;
 `;
 
 export const ValidatorMessage = styled.div`
