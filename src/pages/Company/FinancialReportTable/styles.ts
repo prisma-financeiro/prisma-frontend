@@ -1,17 +1,45 @@
 import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
 
 interface TableHeaderProps {
   alignLeft: boolean
 }
 
-export const AnimatedCard = styled(motion.article)`
-  ${({ theme }) => css`    
-    background: ${theme.colors.background};
-    width: 100%;
-    border-radius: ${theme.radio.default};   
+interface TableAccountNameProps {
+  root: number;
+}
+
+interface TableColumnPercentualProps {
+  percentual: number;
+}
+
+export const Container = styled.div`
+   ${({ theme }) => css`
+    width: 100%; 
+    height: 100%;
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+  `}
+`;
+
+export const TableScroll = styled.div`
+  ${({ theme }) => css`
+    overflow-x: scroll;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 1rem;      
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255,255,255,.1);
+      border-radius: 3rem;
+  
+      &:hover {
+        background: rgba(255,255,255,.2);
+        opacity: 50%;
+      }
+    }  
   `}
 `;
 
@@ -38,9 +66,19 @@ export const TableColumnValue = styled.p`
   `}
 `;
 
-interface TableColumnPercentualProps {
-  percentual: number;
-}
+export const TableAccountName = styled.p`   
+  ${({ theme }) => css` 
+    padding-left: ${(props: TableAccountNameProps) => props.root && props.root === 1 ? 0 : props.root - 0.5}rem;
+    ${(props: TableAccountNameProps) => props.root === 1 && 'font-weight:700;'}
+    ${(props: TableAccountNameProps) => props.root === 1 && `font-size: ${theme.fontSizes.large};`}
+    min-width: 30rem;
+
+    @media (max-width: ${theme.deviceWidth.mobile}) {
+      font-size: ${theme.fontSizes.small};
+      min-width: 20rem;
+    }
+  `}
+`;
 
 export const TableColumnPercentual = styled.p`  
   ${({ theme }) => css`
@@ -56,51 +94,24 @@ export const TableColumnPercentual = styled.p`
   `}
 `;
 
+export const SelectContainer = styled.div`
+  ${({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2rem 0;
 
-interface TableAccountNameProps {
-  root: number;
-}
-
-export const TableAccountName = styled.p`   
-  ${({ theme }) => css` 
-    padding-left: ${(props: TableAccountNameProps) => props.root && props.root === 1 ? 0 : props.root - 0.5}rem;
-    ${(props: TableAccountNameProps) => props.root === 1 && 'font-weight:700;'}
-    ${(props: TableAccountNameProps) => props.root === 1 && `font-size: ${theme.fontSizes.large};`}
-    min-width: 30rem;
+    > p {
+      margin: 0 1rem;
+    }
 
     @media (max-width: ${theme.deviceWidth.mobile}) {
-      font-size: ${theme.fontSizes.small};
-      min-width: 20rem;
+        flex-direction: column;
+
+        > p {
+          margin: 1rem 0;
+        }
     }
-  `}
-`;
-
-export const SelectContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-export const TableScroll = styled.div`
-  ${({ theme }) => css`
-    overflow-x: scroll;
-    width: 100%;
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      height: 1rem;      
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255,.1);
-      border-radius: 3rem;
-  
-      &:hover {
-        background: rgba(255,255,255,.2);
-        opacity: 50%;
-      }
-    }  
   `}
 `;

@@ -15,7 +15,7 @@ export default {
     h1: '#505050',
     h2: '#505050',
     h3: '#505050',
-    a: '#00598a',
+    a: '#F2F2F2F2',
   },
   fontSizes: {
     tiny: '1rem',

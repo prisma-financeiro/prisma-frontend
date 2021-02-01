@@ -125,7 +125,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
                         :
                         <CardContainer>
                             {
-                                indicatorData ?
+                                indicatorData && indicatorData.length > 0 ?
                                     indicatorData.map((indicator: any, index: number) => {
                                         return indicator && (
                                             <IndicatorCard

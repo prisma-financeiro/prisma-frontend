@@ -1,23 +1,24 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 100%;
   display: flex;
+  align-self: center;
   justify-content: center;
-  align-items: center;
-`;
-
-export const FormContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  margin-top: 12rem;
+  padding: 2.5rem;
   width: 35rem;
-  height: 30rem;
+  height: 50rem;
+  border-radius: 5px;
   background: ${({ theme }) => theme.colors.background};
 
   > h1 {
     text-align: center;
+  }
+
+  > div {
+    display: flex; 
+    flex-direction: row
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
@@ -27,7 +28,13 @@ export const FormContainer = styled.div`
 `;
 
 export const InputControl = styled.div`
-  margin: 0.8rem;
+  margin: 2rem;
+
+  > label {
+    display:inline-block;
+    float:left;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+  }
 `;
 
 export const ValidatorMessage = styled.div`
