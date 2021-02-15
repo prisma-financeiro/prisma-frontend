@@ -1,3 +1,3 @@
-const storageKey = (key: string) => `@Fintech:${key}`;
+const storageKey = (key: string) => `@Prisma:${key}`;
 
 export default storageKey;
