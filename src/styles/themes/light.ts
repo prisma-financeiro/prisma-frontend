@@ -50,5 +50,8 @@ export default {
   },
   deviceWidth: {
     mobile: '670px',
+    tablet: '1400px',
+    default: '1980px',
+    big: '2500px'
   }
 };

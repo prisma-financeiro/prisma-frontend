@@ -1,18 +1,5 @@
 import styled, { css } from 'styled-components';
 
-export const IconContainer = styled.div`
-  ${({ theme }) => css`
-    position:absolute;
-    bottom:1rem;
-    right:1rem;
-    width:2.5rem;
-    height:2.5rem;
-    font-size: ${theme.fontSizes.xlarge};
-    color: ${theme.colors.greyLowerOpacity};
-
-  `}  
-`;
-
 export const Container = styled.div`
   ${({ theme }) => css`
     position:relative;
@@ -21,29 +8,6 @@ export const Container = styled.div`
     width: 100%;
     max-width: 50rem;
     min-width: 20rem;
-
-    :focus-within {
-      ${IconContainer} {
-          color: ${theme.colors.grey};
-        };
-    }
-  `}  
-`;
-
-export const StyledInput = styled.input`
-  ${({ theme }) => css`
-    width: 100%;
-    padding: 1rem;
-    padding-right: 5rem;
-    border-radius: ${theme.radio.small};
-    background-color: ${theme.colors.darkGrey};
-    color: ${theme.colors.grey};
-    outline: none;
-    border: none;
-
-    :focus {
-      outline: none;
-    }
   `}  
 `;
 
@@ -103,5 +67,21 @@ export const ListItemType = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  `}  
+`;
+
+export const MultiSelectedItems = styled.div`
+  ${({ theme }) => css`
+    padding: 1rem 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  `}  
+`;
+
+export const MultiSelectLabel = styled.p`
+  ${({ theme }) => css`
+    padding-top: 2rem;
+    font-size: ${theme.fontSizes.small}
   `}  
 `;

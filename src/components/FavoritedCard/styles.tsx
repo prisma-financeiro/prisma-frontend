@@ -20,8 +20,8 @@ export const Container = styled(motion.div)<ContainerProps>`
 
     @media (max-width: ${theme.deviceWidth.mobile}) {
       width: 100%;
-      height: 6rem;
-      flex-direction: row;      
+      height: 12rem;
+      width: 15rem;
     }
   `}
 `;
@@ -59,5 +59,10 @@ export const CloseButton = styled(motion.button)`
       opacity: 0.5;
       font-size: ${theme.fontSizes.small};
       padding-bottom: 3px;
+
+      @media (max-width: ${theme.deviceWidth.mobile}) {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
   `}
 `

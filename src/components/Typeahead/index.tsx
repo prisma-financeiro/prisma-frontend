@@ -4,28 +4,31 @@ import history from '../../services/history';
 import { FiSearch } from 'react-icons/fi';
 import { search } from '../../services/search';
 import { SearchResult, AssetType } from '../../models';
-import Spinner from '../Spinner';
 import Logo from '../Logo';
 import Badge from '../Badge';
+import Input from '../Input';
 import useAppTheme from '../../contexts/theme';
 import * as themes from '../../styles/themes';
 import { 
-  Container, 
-  StyledInput, 
-  IconContainer, 
+  Container,
   List, 
   ListItem, 
   ListItemImage, 
   ListItemBody, 
-  ListItemType 
+  ListItemType ,
+  MultiSelectedItems,
+  MultiSelectLabel
 } from './styles';
 
 interface TypeaheadProps {
   redirect: boolean;
+  isMulti?: boolean;
+  maxSelection?: number;
+  placeholder?: string;
   selectedOption?: (type: AssetType, companyId: number, companyTicker: string) => void;
 }
 
-const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
+const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeholder = 'Ação, Fundo, Índice, Crypto', maxSelection = 10, selectedOption}) => {
 
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
@@ -35,6 +38,7 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -71,7 +75,6 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
   }
 
   const handleOnBlur = () => {
-    
     if (redirect) {
       setShowOptionList(false);
       handleTypeaheadReset();
@@ -86,15 +89,23 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
 
   const handleItemClick = (type: AssetType, id: number, ticker: string, name: string) => {
 
+    selectedOption && selectedOption(type, id, ticker);
+
     if (redirect) {
       if (type === AssetType.Stock) {
         history.push(`/company/${id}/${ticker}`);
       }
       // Outras rotas aqui de acordo com o tipo de resultado
-    } else {
-      selectedOption && selectedOption(type, id, ticker);
-      const updatedList = searchResults.filter(result => result.code ? result.code !== ticker : result.id !== id);
-      setSearchResults(updatedList);
+
+      return;
+    } 
+
+    if (isMulti) {
+      setSelectedItems(prev => [...prev, ticker]);
+      setShowOptionList(false);
+      setInputValue('');
+      handleTypeaheadReset();
+      return;
     }
   }
 
@@ -153,19 +164,30 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, selectedOption}) => {
 
   return (
     <Container onBlur={handleOnBlur}>
-      <StyledInput
-        placeholder='Ação, Fundo, Índice, Crypto'
+      <Input
+        autoFocus
+        placeholder={placeholder}
         onChange={handleOnChange}
         onFocus={handleOnFocus}
         value={inputValue}
+        isLoading={isLoading}
+        icon={<FiSearch />}
+        disabled={selectedItems.length >= maxSelection }
       />
-      <IconContainer>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <FiSearch />
-        )}
-      </IconContainer>
+      {isMulti && ( 
+        <>
+        {selectedItems.length > 0 && <MultiSelectLabel>Selecione até {maxSelection} ativos</MultiSelectLabel>}
+        <MultiSelectedItems>
+          {selectedItems.map(item => (
+            <Badge 
+              fontSize={theme.fontSizes.small}
+              backgroundColor={theme.colors.secondary} 
+              color={theme.colors.background}>{item}
+            </Badge>
+          ))}
+        </MultiSelectedItems>
+        </>
+      )}
       { showOptionList && (
         <List>
           { searchResults.length > 0 && renderOptionList }

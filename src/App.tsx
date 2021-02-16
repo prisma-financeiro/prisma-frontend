@@ -9,15 +9,11 @@ import { AuthProvider } from './contexts/auth';
 import history from './services/history';
 import Routes from './routes';
 
-import { Provider } from 'react-redux'
-import store from './store';
-
 const App: React.FC = () => {
 
   const { currentTheme } = useAppTheme();
 
   return (
-    <Provider store={store}>
     <ThemeProvider theme={themes[currentTheme]}>
       <AuthProvider>
         <Router history={history}>
@@ -26,7 +22,6 @@ const App: React.FC = () => {
         </Router>
       </AuthProvider>
     </ThemeProvider>
-    </Provider>
   );
 }
 

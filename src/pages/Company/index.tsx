@@ -269,7 +269,7 @@ const Company: React.FC = (props: any) => {
   return (
     <Container>
       {
-        !device.isMobile &&
+        !device.isTablet &&
         <SideBar sideBarOptions={sideBarOptionCompany} />
       }
       <MainContent>

@@ -1,15 +1,33 @@
 import React from 'react';
 
-import { Container, Title, Field, FieldGroup, EmptyBox, AssetHeader } from './styles';
+import { Container, Title, Field, FieldGroup, AssetHeader } from './styles';
+import FavoritedCard from '../../../components/FavoritedCard';
 
-const VerticalHeader: React.FC = () => {
+interface VerticalHeaderProps {
+  anchor: {
+    valuation: React.MutableRefObject<any>,
+    rentabilidade: React.MutableRefObject<any>,
+    eficiencia: React.MutableRefObject<any>,
+    endividamento: React.MutableRefObject<any>,
+  };
+  numberOfAssets: number;
+  isLoading: boolean;
+  openModal(): void
+}
+const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, numberOfAssets, isLoading, openModal }) => {
   return (
     <Container>
       <AssetHeader>
-        <EmptyBox />
+        <FavoritedCard
+          roundedCorners={false}
+          emptyCard={true}
+          backgroundDarker={true}
+          removeCardCallback={() => { }}
+          addNewCardCallback={openModal}
+        />
       </AssetHeader>
 
-      <FieldGroup>
+      <FieldGroup ref={anchor.valuation}>
         <Title>
           Valuation
         </Title>
@@ -24,7 +42,7 @@ const VerticalHeader: React.FC = () => {
         </Field>
       </FieldGroup>
 
-      <FieldGroup>
+      <FieldGroup ref={anchor.rentabilidade}>
         <Title>
           Rentabilidade
         </Title>
@@ -39,7 +57,7 @@ const VerticalHeader: React.FC = () => {
         </Field>
       </FieldGroup>
 
-      <FieldGroup>
+      <FieldGroup ref={anchor.endividamento}>
         <Title>
           Endividamento
         </Title>
@@ -63,7 +81,7 @@ const VerticalHeader: React.FC = () => {
         </Field>
       </FieldGroup>
 
-      <FieldGroup>
+      <FieldGroup  ref={anchor.eficiencia}>
         <Title>
           Eficiência
         </Title>

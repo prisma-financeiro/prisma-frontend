@@ -13,12 +13,12 @@ const Routes = () => {
   
   return (
     <Switch>
-        <PrivateRoute path="/home" exact component={Main} />
-        <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
-        <PrivateRoute path="/ranking" exact component={Ranking} />
+        <Route path="/" exact component={Login} />
+        <PrivateRoute path="/home" component={Main} />
+        <PrivateRoute path="/assets-compare" component={AssetsCompare} />
+        <PrivateRoute path="/ranking" component={Ranking} />
         <PrivateRoute path="/company/:id/:ticker" component={Company}/>
-        <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
-        <Route path="/" component={Login} />
+        <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
 
         <Route render={() => <Redirect to="/home" />} />
     </Switch>

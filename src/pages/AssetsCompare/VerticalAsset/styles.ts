@@ -1,16 +1,17 @@
 import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
 
-export const Container = styled(motion.div)`
+export const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    margin: 0 0.5rem;
   `}
 `;
 
 export const FieldGroup = styled.div`
   ${({ theme }) => css`
     margin-top: 0.5rem;
+    width: 100%;
   `}
 `;
 
@@ -27,6 +28,12 @@ export const DataField = styled.div`
     :nth-child(odd) {
       background: ${theme.colors.color4};
     }
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      width: 15rem;
+      height: 4rem;
+      font-size: ${theme.fontSizes.small};
+    }
   `}
 `;
 
@@ -38,6 +45,12 @@ export const EmptyBlock = styled.div`
       align-items: center;
       justify-content: center;
       font-size: ${theme.fontSizes.xlarge};
+
+      @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+        width: 15rem;
+        height: 4rem;
+        font-size: ${theme.fontSizes.small};
+      }
   `}
 `;
 
@@ -46,20 +59,7 @@ export const AssetHeader = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20rem;
-    height: 20rem;
     display: flex;
     flex-direction: row;
-    position: sticky;
-    top: 10.5rem;
-    background: ${theme.colors.color4};
-    box-shadow: 0 8px 6px -7px black, 0px -35px 1px ${theme.colors.darkGrey};
-
-    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-      top: -4.5rem;
-      border-radius: 0;
-      padding: 0.5rem 1rem;
-      margin-bottom: 1.5rem;
-    }
   `}  
 `;

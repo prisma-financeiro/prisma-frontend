@@ -4,6 +4,7 @@ export const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    margin-right: 1rem;
   `}
 `;
 
@@ -24,6 +25,12 @@ export const Title = styled.div`
     font-size: ${theme.fontSizes.xlarge};
     color: ${theme.colors.grey};
     font-weight: 600;
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      width: 12rem;
+      height: 4rem;
+      font-size: ${theme.fontSizes.default};
+    }
   `}
 `;
 
@@ -40,41 +47,22 @@ export const Field = styled.div`
     :nth-child(odd) {
       background: ${theme.colors.color4};
     }
-  `}
-`;
 
-export const EmptyBox = styled.div`
-    ${({ theme }) => css`
-    padding: 1rem;
-    width: 19rem;
-    height: 15rem;
-
-    @media (max-width: ${theme.deviceWidth.mobile}) {
-      width: 100%;
-      height: 6rem;    
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      width: 15rem;
+      height: 4rem;
+      font-size: ${theme.fontSizes.small};
     }
   `}
 `;
 
 export const AssetHeader = styled.div`
   ${({ theme }) => css`
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20rem;
-    height: 20rem;
     display: flex;
     flex-direction: row;
-    position: sticky;
-    top: 10.5rem;
-    background: ${theme.colors.color4};
-    box-shadow: 0 8px 6px -7px black, 0px -35px 1px ${theme.colors.darkGrey};
-
-    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-      top: -4.5rem;
-      border-radius: 0;
-      padding: 0.5rem 1rem;
-      margin-bottom: 1.5rem;
-    }
   `}  
 `;
