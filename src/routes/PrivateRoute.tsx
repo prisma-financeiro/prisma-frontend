@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
   return (
     <>
       <Header />
-      <Route {...rest} render={(props) => <Component {...props as any}/>} />
+      <Route {...rest} render={(props) => <Component {...props as any} />} />
       <Footer />
     </>
   );

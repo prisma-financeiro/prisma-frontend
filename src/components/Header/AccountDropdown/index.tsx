@@ -3,33 +3,35 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useTheme } from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
 
 import { Container, AnimatedDropdown, NavButton } from './styles';
 import { DROP_DOWN_ANIMATION } from './animations';
 
-import useAuth from '../../../contexts/auth';
 import useEventListener from '../../../hooks/useEventListener';
 import { removeHashFromColor } from '../../../utils';
 import useAppTheme from '../../../contexts/theme';
+import useAuth from '../../../contexts/auth';
+import history from '../../../services/history';
+import { signOut as apiSignOut } from "../../../services/login";
 
 const AccountDropdown = () => {
-  const history = useHistory();
-  const { signOut } = useAuth();
   const { currentTheme, toggleTheme } = useAppTheme();
   const { darkGrey, secondary } = useTheme().colors;
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { signOut } = useAuth();
 
   const handleDropdownVisibility = (): void => {
     setIsDropdownVisible(true);
   };
 
   const handleSignOut = (): void => {
-    signOut();
-    history.push('/');
+    apiSignOut().then(() => {
+      signOut();
+      history.push("/");
+    })
   };
 
   const handleCloseDropdown = useCallback(

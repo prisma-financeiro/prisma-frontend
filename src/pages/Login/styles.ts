@@ -10,14 +10,20 @@ export const Container = styled.div`
 
 export const FormContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 35rem;
-  height: 30rem;
+  width: 40rem;
+  height: 45rem;
   background: ${({ theme }) => theme.colors.background};
 
   > h1 {
     text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  > form {
+    width: 90%
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
@@ -27,22 +33,29 @@ export const FormContainer = styled.div`
 `;
 
 export const InputControl = styled.div`
-  margin: 2rem;
+  margin: 1.5rem;
 `;
 
 export const ValidatorMessage = styled.div`
   margin: 0.3rem;
   color: ${({ theme }) => theme.colors.danger};
-  font-size: ${({ theme }) => theme.fontSizes.tiny};
+  font-size: ${({ theme }) => theme.fontSizes.default};
 `;
 
 export const AccountOptions = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 3rem;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSizes.small};                        
   
-  > p {
-    margin: 1rem;
+  > a {
+    margin: 0.5rem;
+
+    :hover {
+      color: ${({ theme }) => theme.colors.success};
+      text-decoration: underline;
+    }
   }
 
 `;

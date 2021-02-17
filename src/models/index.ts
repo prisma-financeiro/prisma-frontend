@@ -149,3 +149,26 @@ export interface FinancialReport {
   year: number;
   periods: FinancialReportPeriod[]
 }
+
+export interface ResponseError {
+  status: number;
+  code: string;
+  message: string;
+}
+
+
+export interface Account {
+  id: string;
+  emailVerified: boolean;
+}
+
+export interface Session {
+  signedInAt: Date;
+  expiresAt: Date;
+}
+
+export interface SignIn {
+  auth: boolean;
+  account: Account;
+  session: Session;
+}
