@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { AxiosInstance } from 'axios';
-import Modal from '../components/Modal';
 import useAuth from '../contexts/auth';
 import { useHistory } from 'react-router-dom';
 
@@ -33,14 +32,15 @@ const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
 
         return (
             <Fragment>
-                <Modal
+                {/* TODO: Substituir por um Toast. */}
+                {/* <Modal
                     title="Aviso"
                     showButtons={false}
                     show={!!error}
                     modalClosed={errorConfirmedHandler}
                     modalConfirmed={errorConfirmedHandler}>
                     {error}
-                </Modal>
+                </Modal> */}
                 <WrappedComponent {...props} />
             </Fragment>
         )

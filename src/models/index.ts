@@ -156,14 +156,19 @@ export interface ResponseError {
   message: string;
 }
 
+
+export interface Account {
+  id: string;
+  emailVerified: boolean;
+}
+
+export interface Session {
+  signedInAt: Date;
+  expiresAt: Date;
+}
+
 export interface SignIn {
   auth: boolean;
-  account: {
-    id: string;
-    emailVerified: boolean;
-  };
-  session: {
-    signedInAt: Date;
-    expiresAt: Date;
-  };
+  account: Account;
+  session: Session;
 }
