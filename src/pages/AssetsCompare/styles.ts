@@ -56,7 +56,6 @@ export const Placeholder = styled(motion.div)`
   ${({ theme }) => css`
     height: 100vh;
     width: 18rem;
-    margin-top: 0.5rem;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
     position: relative;

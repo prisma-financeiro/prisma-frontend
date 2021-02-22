@@ -60,9 +60,13 @@ export const AssetHeader = styled.div`
   ${({ theme }) => css`
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    display: flex;
-    flex-direction: row;
+    padding-bottom: 3rem;
+
+    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+      padding-bottom: 4.3rem;
+    }
   `}  
 `;

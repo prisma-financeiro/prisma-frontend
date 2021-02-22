@@ -1,8 +1,16 @@
 import React from 'react';
 
-import { Container, FieldGroup, DataField, EmptyBlock, AssetHeader } from './styles';
-import { Asset } from '..';
 import FavoritedCard from '../../../components/FavoritedCard';
+
+import { Asset } from '..';
+
+import { 
+  Container, 
+  FieldGroup, 
+  DataField, 
+  EmptyBlock, 
+  AssetHeader, 
+  RankingPlace } from './styles';
 
 interface VerticalAssetProps {
   asset: Asset,
@@ -10,6 +18,14 @@ interface VerticalAssetProps {
 }
 
 const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) => {
+
+  const getIndicatorValueFormated = (indicator: number, simbol: string | undefined = ''): string => {
+    return indicator ? 
+      parseFloat(String(indicator))
+        .toFixed(2)
+          .replace('.', ',') + simbol : '-';
+  }
+
   return (
     <Container>
       <AssetHeader>
@@ -27,68 +43,119 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
           addNewCardCallback={() => { }}
           removeCardCallback={() => onAssetRemove(asset.ticker)}
         />
+        <span>
+          {asset.totalPuntuation ? `Pontuou em ${asset.totalPuntuation} de 16 indicadores`: '-'}
+        </span>
       </AssetHeader>
       <FieldGroup>
         <EmptyBlock />
         <DataField>
-          {asset.valuation.pl}
+          { getIndicatorValueFormated(asset.valuation.pl.value, asset.valuation.pl.simbol) }
+          <span>
+            <RankingPlace ranking={asset.valuation.pl.ranking} />
+          </span>
         </DataField>
         <DataField>
-        {asset.valuation.lpa}
+          { getIndicatorValueFormated(asset.valuation.lpa.value, asset.valuation.lpa.simbol) }
+          <span>
+            <RankingPlace ranking={asset.valuation.lpa.ranking} />
+          </span>
         </DataField>
         <DataField>
-        {asset.valuation.vpa}
-        </DataField>
-      </FieldGroup>
-
-      <FieldGroup>
-        <EmptyBlock />
-        <DataField>
-          {asset.rentabilidade.roe ? parseFloat(String(asset.rentabilidade.roe)).toFixed(2).replace('.', ',') : '-'}
-        </DataField>
-        <DataField>
-        {asset.rentabilidade.roa ? parseFloat(String(asset.rentabilidade.roa)).toFixed(2).replace('.', ',') : '-'}
-        </DataField>
-        <DataField>
-        {asset.rentabilidade.roic ? parseFloat(String(asset.rentabilidade.roic)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.valuation.vpa.value, asset.valuation.vpa.simbol) }
+          <span>
+            <RankingPlace ranking={asset.valuation.vpa.ranking} />
+          </span>
         </DataField>
       </FieldGroup>
 
       <FieldGroup>
         <EmptyBlock />
         <DataField>
-          {asset.endividamento.liquidaCorrente ? parseFloat(String(asset.endividamento.liquidaCorrente)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.rentabilidade.roe.value, asset.rentabilidade.roe.simbol) }
+          <span>
+            <RankingPlace ranking={asset.rentabilidade.roe.ranking} />
+          </span>
         </DataField>
         <DataField>
-          {asset.endividamento.pasivosAtivos ? parseFloat(String(asset.endividamento.pasivosAtivos)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.rentabilidade.roa.value, asset.rentabilidade.roa.simbol) }
+          <span>
+            <RankingPlace ranking={asset.rentabilidade.roa.ranking} />
+          </span>
         </DataField>
         <DataField>
-          {asset.endividamento.plAtivos ? parseFloat(String(asset.endividamento.plAtivos)).toFixed(2).replace('.', ',') : '-'}
-        </DataField>
-        <DataField>
-          {asset.endividamento.dividaLiquidaEbit ? parseFloat(String(asset.endividamento.dividaLiquidaEbit)).toFixed(2).replace('.', ',') : '-'}
-        </DataField>
-        <DataField>
-          {asset.endividamento.dividaLiquidaEbitda ? parseFloat(String(asset.endividamento.dividaLiquidaEbitda)).toFixed(2).replace('.', ',') : '-'}
-        </DataField>
-        <DataField>
-          {asset.endividamento.dividaLiquidaPl ? parseFloat(String(asset.endividamento.dividaLiquidaPl)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.rentabilidade.roic.value, asset.rentabilidade.roic.simbol) }
+          <span>
+            <RankingPlace ranking={asset.rentabilidade.roic.ranking} />
+          </span>
         </DataField>
       </FieldGroup>
 
       <FieldGroup>
         <EmptyBlock />
         <DataField>
-          {asset.eficiencia.margenBruta ? parseFloat(String(asset.eficiencia.margenBruta)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.endividamento.liquidaCorrente.value, asset.endividamento.liquidaCorrente.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.liquidaCorrente.ranking} />
+          </span>
         </DataField>
         <DataField>
-          {asset.eficiencia.margenLiquida ? parseFloat(String(asset.eficiencia.margenLiquida)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.endividamento.pasivosAtivos.value, asset.endividamento.pasivosAtivos.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.pasivosAtivos.ranking} />
+          </span>
         </DataField>
         <DataField>
-          {asset.eficiencia.margenEbit ? parseFloat(String(asset.eficiencia.margenEbit)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.endividamento.plAtivos.value, asset.endividamento.plAtivos.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.plAtivos.ranking} />
+          </span>
         </DataField>
         <DataField>
-          {asset.eficiencia.margenEbitda ? parseFloat(String(asset.eficiencia.margenEbitda)).toFixed(2).replace('.', ',') : '-'}
+          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbit.value, asset.endividamento.dividaLiquidaEbit.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.dividaLiquidaEbit.ranking} />
+          </span>
+        </DataField>
+        <DataField>
+          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbitda.value, asset.endividamento.dividaLiquidaEbitda.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.dividaLiquidaEbitda.ranking} />
+          </span>
+        </DataField>
+        <DataField>
+          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaPl.value, asset.endividamento.dividaLiquidaPl.simbol) }
+          <span>
+            <RankingPlace ranking={asset.endividamento.dividaLiquidaPl.ranking} />
+          </span>
+        </DataField>
+      </FieldGroup>
+
+      <FieldGroup>
+        <EmptyBlock />
+        <DataField>
+          { getIndicatorValueFormated(asset.eficiencia.margenBruta.value, asset.eficiencia.margenBruta.simbol) }
+          <span>
+            <RankingPlace ranking={asset.eficiencia.margenBruta.ranking} />
+          </span>
+        </DataField>
+        <DataField>
+          { getIndicatorValueFormated(asset.eficiencia.margenLiquida.value, asset.eficiencia.margenLiquida.simbol) }
+          <span>
+            <RankingPlace ranking={asset.eficiencia.margenLiquida.ranking} />
+          </span>
+        </DataField>
+        <DataField>
+          { getIndicatorValueFormated(asset.eficiencia.margenEbit.value, asset.eficiencia.margenEbit.simbol) }
+          <span>
+            <RankingPlace ranking={asset.eficiencia.margenEbit.ranking} />
+          </span>
+        </DataField>
+        <DataField>
+          { getIndicatorValueFormated(asset.eficiencia.margenEbitda.value, asset.eficiencia.margenEbitda.simbol) }
+          <span>
+            <RankingPlace ranking={asset.eficiencia.margenEbitda.ranking} />
+          </span>
         </DataField>
       </FieldGroup>
     </Container>

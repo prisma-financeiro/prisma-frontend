@@ -176,10 +176,18 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
       />
       {isMulti && ( 
         <>
-        {selectedItems.length > 0 && <MultiSelectLabel>Selecione até {maxSelection} ativos</MultiSelectLabel>}
+        {maxSelection - selectedItems.length > 0 ? 
+          <MultiSelectLabel>
+            Você pode escolher mais {maxSelection - selectedItems.length} {maxSelection - selectedItems.length === 1 ? 'ativo' : 'ativos'}
+          </MultiSelectLabel> : 
+          <MultiSelectLabel>
+            Você atingiu o número de ativos permitidos para comparação
+          </MultiSelectLabel>
+        }
         <MultiSelectedItems>
-          {selectedItems.map(item => (
-            <Badge 
+          {selectedItems.map((item, index) => (
+            <Badge
+              key={index}
               fontSize={theme.fontSizes.small}
               backgroundColor={theme.colors.secondary} 
               color={theme.colors.background}>{item}

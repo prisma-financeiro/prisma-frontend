@@ -63,6 +63,7 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
+import history from '../../services/history';
 
 interface TickePrice {
   price: number;
@@ -266,6 +267,10 @@ const Company: React.FC = (props: any) => {
       });
   }
 
+  const handleAssetCompare = (assetId: number | undefined, assetTicker: string) => {
+    history.push(`/assets-compare/${assetId}/${assetTicker}`);
+  }
+
   return (
     <Container>
       {
@@ -284,7 +289,7 @@ const Company: React.FC = (props: any) => {
             <>
               < ButtonContainer >
                 <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
-                <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+                <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
               </ButtonContainer>
               <Divider />
             </>
@@ -317,7 +322,7 @@ const Company: React.FC = (props: any) => {
             !device.isMobile &&
             <ButtonContainer>
               <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
-              <Button onClick={() => alert('test')} variant="primary">Comparar</Button>
+              <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
             </ButtonContainer>
           }
         </HeaderContainer>

@@ -1,7 +1,13 @@
 import React from 'react';
 
-import { Container, Title, Field, FieldGroup, AssetHeader } from './styles';
 import FavoritedCard from '../../../components/FavoritedCard';
+
+import { 
+  Container, 
+  Title, 
+  Field, 
+  FieldGroup, 
+  AssetHeader } from './styles';
 
 interface VerticalHeaderProps {
   anchor: {
@@ -10,11 +16,16 @@ interface VerticalHeaderProps {
     eficiencia: React.MutableRefObject<any>,
     endividamento: React.MutableRefObject<any>,
   };
-  numberOfAssets: number;
-  isLoading: boolean;
   openModal(): void
 }
-const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, numberOfAssets, isLoading, openModal }) => {
+
+const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) => {
+
+  const valuationFieldNames = ['P/L', 'LPA', 'VPA'];
+  const rentabilidadeFieldNames = ['ROE', 'ROA', 'ROIC'];
+  const endividamentoFieldNames = ['Liq. Corrente', 'Passivos / Ativos', 'PL / Ativos', 'Dívida Liq. / EBIT', 'Dívida Liq. / EBITDA', 'Dívida Liq. / PL'];
+  const eficienciaFieldNames = ['Margen Bruta', 'Margen Líquida', 'Margen EBIT', 'Margen EBIT'];
+
   return (
     <Container>
       <AssetHeader>
@@ -31,72 +42,28 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, numberOfAssets,
         <Title>
           Valuation
         </Title>
-        <Field>
-          P/L
-        </Field>
-        <Field>
-          LPA
-        </Field>
-        <Field>
-          VPA
-        </Field>
+        {valuationFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
       </FieldGroup>
 
       <FieldGroup ref={anchor.rentabilidade}>
         <Title>
           Rentabilidade
         </Title>
-        <Field>
-          ROE
-        </Field>
-        <Field>
-          ROA
-        </Field>
-        <Field>
-          ROIC
-        </Field>
+        {rentabilidadeFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
       </FieldGroup>
 
       <FieldGroup ref={anchor.endividamento}>
         <Title>
           Endividamento
         </Title>
-        <Field>
-          Liq. Corrent
-        </Field>
-        <Field>
-          Passivos / Ativos
-        </Field>
-        <Field>
-          PL / Ativos
-        </Field>
-        <Field>
-          Dívida Liq. / EBIT
-        </Field>
-        <Field>
-          Dívida Liq. / EBITDA
-        </Field>
-        <Field>
-          Dívida Liq. / PL
-        </Field>
+        {endividamentoFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
       </FieldGroup>
 
       <FieldGroup  ref={anchor.eficiencia}>
         <Title>
           Eficiência
         </Title>
-        <Field>
-          Margen Bruta
-        </Field>
-        <Field>
-          Margen Líquida
-        </Field>
-        <Field>
-          Margen EBIT
-        </Field>
-        <Field>
-          Margen EBITDA
-        </Field>
+        {eficienciaFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
       </FieldGroup>
 
     </Container>

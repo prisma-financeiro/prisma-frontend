@@ -15,7 +15,8 @@ const Routes = () => {
     <Switch>
         <Route path="/" exact component={Login} />
         <PrivateRoute path="/home" component={Main} />
-        <PrivateRoute path="/assets-compare" component={AssetsCompare} />
+        <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
+        <PrivateRoute path="/assets-compare/:id/:ticker" component={AssetsCompare} />
         <PrivateRoute path="/ranking" component={Ranking} />
         <PrivateRoute path="/company/:id/:ticker" component={Company}/>
         <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
