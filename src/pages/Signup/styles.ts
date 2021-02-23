@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
@@ -8,30 +8,35 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+
+
 export const FormContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35rem;
-  height: 45rem;
-  background: ${({ theme }) => theme.colors.background};
+${({ theme }) => `
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+width: 40rem;
+background: ${theme.colors.background};
 
-  > h1 {
-    text-align: center;
-  }
+> h1 {
+  text-align: center;
+  margin: 3rem 3rem;
+}
 
-  > div {
-    display: flex; 
-    flex-direction: row
-  }
+> form {
+  width: 90%
+}
 
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    width: 100%;
-    height: 100%;
-  }
+@media (max-width: ${theme.deviceWidth.mobile}) {
+  width: 100%;
+  height: 100%;
+}
+`}
 `;
+
 export const InputControl = styled.div`
-  margin: 2rem;
+  margin: 1.5rem;
 `;
 
 export const ValidatorMessage = styled.div`
@@ -42,10 +47,20 @@ export const ValidatorMessage = styled.div`
 
 export const AccountOptions = styled.div`
   margin-top: 3rem;
+  margin-bottom: 3rem;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSizes.small};                        
-  
-  > p {
-    margin: 1rem;
+
+  > a {
+    margin: 0.5rem;
+
+    :hover {
+      color: ${({ theme }) => theme.colors.success};
+      text-decoration: underline;
+    }
   }
+`;
+
+export const SpinnerContainer = styled.div`    
+    height: 100%;
 `;

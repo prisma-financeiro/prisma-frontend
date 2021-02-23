@@ -8,23 +8,27 @@ import Company from '../pages/Company';
 import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Routes = () => {
-  
+
   return (
-    <Switch>
+    <>
+      <Switch>
         <PrivateRoute path="/home" exact component={Main} />
         <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
         <PrivateRoute path="/ranking" exact component={Ranking} />
-        <PrivateRoute path="/company/:id/:ticker" component={Company}/>
+        <PrivateRoute path="/company/:id/:ticker" component={Company} />
         <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
-        
+
         <Route path="/signup" component={Signup} />
         <Route path="/" component={Login} />
 
         <Route render={() => <Redirect to="/home" />} />
-    </Switch>
+      </Switch>
+      <ToastContainer />
+    </>
   );
 }
 

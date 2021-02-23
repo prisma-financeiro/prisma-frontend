@@ -57,5 +57,24 @@ export const AccountOptions = styled.div`
       text-decoration: underline;
     }
   }
+`;
 
+export const SpinnerContainer = styled.div`    
+    height: 100%;
+`;
+
+export const ConfirmationModalButtonContainer = styled.div`  
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+  > Button {    
+    margin-top: 3rem;
+  }
+
+  > Button:last-child {    
+    margin-left: 0.8rem;
+  }
 `;

@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { AxiosInstance } from 'axios';
 import useAuth from '../contexts/auth';
 import { useHistory } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
     return (props: any) => {
@@ -17,6 +18,7 @@ const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
                 error => {
                     if (error.response.status === 401) {
                         signOut();
+                        toast.error("Sua sessão foi encerrada, faça login novamente.");
                         history.push("/");
                     } else {
                         setError(error.message);
