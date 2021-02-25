@@ -54,7 +54,7 @@ export const AssetVerticalList = styled.div`
 
 export const Placeholder = styled(motion.div)`
   ${({ theme }) => css`
-    height: 100vh;
+    height: 80vh;
     width: 18rem;
     margin-right: 0.5rem;
     margin-left: 0.5rem;

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FavoritedCard from '../../../components/FavoritedCard';
+import { AiFillStar } from 'react-icons/ai';
 
 import { Asset } from '..';
 
@@ -9,8 +10,7 @@ import {
   FieldGroup, 
   DataField, 
   EmptyBlock, 
-  AssetHeader, 
-  RankingPlace } from './styles';
+  AssetHeader } from './styles';
 
 interface VerticalAssetProps {
   asset: Asset,
@@ -44,27 +44,38 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
           removeCardCallback={() => onAssetRemove(asset.ticker)}
         />
         <span>
-          {asset.totalPuntuation ? `Pontuou em ${asset.totalPuntuation} de 16 indicadores`: '-'}
+          {asset.totalPuntuation ? 
+            <>
+              <p>{asset.totalPuntuation}</p> 
+              <AiFillStar /> 
+            </> : '-'
+          }
         </span>
       </AssetHeader>
       <FieldGroup>
-        <EmptyBlock />
+        <EmptyBlock first={true}/>
         <DataField>
           { getIndicatorValueFormated(asset.valuation.pl.value, asset.valuation.pl.simbol) }
           <span>
-            <RankingPlace ranking={asset.valuation.pl.ranking} />
+            {Array.from(Array(asset.valuation.pl.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.valuation.lpa.value, asset.valuation.lpa.simbol) }
           <span>
-            <RankingPlace ranking={asset.valuation.lpa.ranking} />
+            {Array.from(Array(asset.valuation.lpa.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.valuation.vpa.value, asset.valuation.vpa.simbol) }
           <span>
-            <RankingPlace ranking={asset.valuation.vpa.ranking} />
+            {Array.from(Array(asset.valuation.vpa.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
       </FieldGroup>
@@ -74,19 +85,25 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
         <DataField>
           { getIndicatorValueFormated(asset.rentabilidade.roe.value, asset.rentabilidade.roe.simbol) }
           <span>
-            <RankingPlace ranking={asset.rentabilidade.roe.ranking} />
+            {Array.from(Array(asset.rentabilidade.roe.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.rentabilidade.roa.value, asset.rentabilidade.roa.simbol) }
           <span>
-            <RankingPlace ranking={asset.rentabilidade.roa.ranking} />
+            {Array.from(Array(asset.rentabilidade.roa.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.rentabilidade.roic.value, asset.rentabilidade.roic.simbol) }
           <span>
-            <RankingPlace ranking={asset.rentabilidade.roic.ranking} />
+            {Array.from(Array(asset.rentabilidade.roic.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
       </FieldGroup>
@@ -96,37 +113,49 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.liquidaCorrente.value, asset.endividamento.liquidaCorrente.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.liquidaCorrente.ranking} />
+            {Array.from(Array(asset.endividamento.liquidaCorrente.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.pasivosAtivos.value, asset.endividamento.pasivosAtivos.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.pasivosAtivos.ranking} />
+            {Array.from(Array(asset.endividamento.pasivosAtivos.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.plAtivos.value, asset.endividamento.plAtivos.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.plAtivos.ranking} />
+            {Array.from(Array(asset.endividamento.plAtivos.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbit.value, asset.endividamento.dividaLiquidaEbit.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.dividaLiquidaEbit.ranking} />
+            {Array.from(Array(asset.endividamento.dividaLiquidaEbit.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbitda.value, asset.endividamento.dividaLiquidaEbitda.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.dividaLiquidaEbitda.ranking} />
+            {Array.from(Array(asset.endividamento.dividaLiquidaEbitda.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.endividamento.dividaLiquidaPl.value, asset.endividamento.dividaLiquidaPl.simbol) }
           <span>
-            <RankingPlace ranking={asset.endividamento.dividaLiquidaPl.ranking} />
+            {Array.from(Array(asset.endividamento.dividaLiquidaPl.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
       </FieldGroup>
@@ -136,25 +165,33 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
         <DataField>
           { getIndicatorValueFormated(asset.eficiencia.margenBruta.value, asset.eficiencia.margenBruta.simbol) }
           <span>
-            <RankingPlace ranking={asset.eficiencia.margenBruta.ranking} />
+            {Array.from(Array(asset.eficiencia.margenBruta.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.eficiencia.margenLiquida.value, asset.eficiencia.margenLiquida.simbol) }
           <span>
-            <RankingPlace ranking={asset.eficiencia.margenLiquida.ranking} />
+            {Array.from(Array(asset.eficiencia.margenLiquida.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.eficiencia.margenEbit.value, asset.eficiencia.margenEbit.simbol) }
           <span>
-            <RankingPlace ranking={asset.eficiencia.margenEbit.ranking} />
+            {Array.from(Array(asset.eficiencia.margenEbit.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
         <DataField>
           { getIndicatorValueFormated(asset.eficiencia.margenEbitda.value, asset.eficiencia.margenEbitda.simbol) }
           <span>
-            <RankingPlace ranking={asset.eficiencia.margenEbitda.ranking} />
+            {Array.from(Array(asset.eficiencia.margenEbitda.ranking), (el, index) => {
+              return <AiFillStar key={index}/>;
+            })}
           </span>
         </DataField>
       </FieldGroup>

@@ -5,8 +5,7 @@ import FavoritedCard from '../../../components/FavoritedCard';
 import { 
   Container, 
   Title, 
-  Field, 
-  FieldGroup, 
+  Field,
   AssetHeader } from './styles';
 
 interface VerticalHeaderProps {
@@ -38,33 +37,33 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
         />
       </AssetHeader>
 
-      <FieldGroup ref={anchor.valuation}>
-        <Title>
+      <div ref={anchor.valuation}>
+        <Title first={true}>
           Valuation
         </Title>
         {valuationFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
-      </FieldGroup>
+      </div>
 
-      <FieldGroup ref={anchor.rentabilidade}>
+      <div ref={anchor.rentabilidade}>
         <Title>
           Rentabilidade
         </Title>
         {rentabilidadeFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
-      </FieldGroup>
+      </div>
 
-      <FieldGroup ref={anchor.endividamento}>
+      <div ref={anchor.endividamento}>
         <Title>
           Endividamento
         </Title>
         {endividamentoFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
-      </FieldGroup>
+      </div>
 
-      <FieldGroup  ref={anchor.eficiencia}>
+      <div  ref={anchor.eficiencia}>
         <Title>
           Eficiência
         </Title>
         {eficienciaFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
-      </FieldGroup>
+      </div>
 
     </Container>
   );

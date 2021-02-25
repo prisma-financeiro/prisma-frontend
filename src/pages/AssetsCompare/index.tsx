@@ -298,68 +298,120 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
     //Todo: adicionar valores de valuation (PL, LPA, VPA) para comparacao
     const roe = [...assets.sort((a,b) => a.rentabilidade.roe.value - b.rentabilidade.roe.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.rentabilidade.roe.ranking = index + 1;
+      if (index <= 2) {
+        asset.rentabilidade.roe.ranking = 3 - index;
+      } else {
+        asset.rentabilidade.roe.ranking = 0;
+      }
     });
 
     const roa = [...assets.sort((a,b) => a.rentabilidade.roa.value - b.rentabilidade.roa.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.rentabilidade.roa.ranking = index + 1;
+      if (index <= 2) {
+        asset.rentabilidade.roa.ranking = 3 - index;
+      } else {
+        asset.rentabilidade.roa.ranking = 0;
+      }
     });
 
     const roic = [...assets.sort((a,b) => a.rentabilidade.roic.value - b.rentabilidade.roic.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.rentabilidade.roic.ranking = index + 1;
+      if (index <= 2) {
+        asset.rentabilidade.roic.ranking = 3 - index;
+      } else {
+        asset.rentabilidade.roic.ranking = 0;
+      }
     });
 
     const liqCorrente = [...assets.sort((a,b) => a.endividamento.liquidaCorrente.value - b.endividamento.liquidaCorrente.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.endividamento.liquidaCorrente.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.liquidaCorrente.ranking = 3 - index;
+      } else {
+        asset.endividamento.liquidaCorrente.ranking = 0;
+      }
     });
 
     const passivosAtivos = [...assets.sort((a,b) => a.endividamento.pasivosAtivos.value - b.endividamento.pasivosAtivos.value)];
     assets.forEach((asset, index) => {
-      asset.endividamento.pasivosAtivos.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.pasivosAtivos.ranking = 3 - index;
+      } else {
+        asset.endividamento.pasivosAtivos.ranking = 0;
+      }
     });
 
     const plAtivos = [...assets.sort((a,b) => a.endividamento.plAtivos.value - b.endividamento.plAtivos.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.endividamento.plAtivos.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.plAtivos.ranking = 3 - index;
+      } else {
+        asset.endividamento.plAtivos.ranking = 0;
+      }
     });
 
     const dividaLiquidaEbit = [...assets.sort((a,b) => a.endividamento.dividaLiquidaEbit.value - b.endividamento.dividaLiquidaEbit.value)];
     assets.forEach((asset, index) => {
-      asset.endividamento.dividaLiquidaEbit.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.dividaLiquidaEbit.ranking = 3 - index;
+      } else {
+        asset.endividamento.dividaLiquidaEbit.ranking = 0;
+      }
     });
 
 
     const dividaLiquidaEbitda = [...assets.sort((a,b) => a.endividamento.dividaLiquidaEbitda.value - b.endividamento.dividaLiquidaEbitda.value)];
     assets.forEach((asset, index) => {
-      asset.endividamento.dividaLiquidaEbitda.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.dividaLiquidaEbitda.ranking = 3 - index;
+      } else {
+        asset.endividamento.dividaLiquidaEbitda.ranking = 0;
+      }
     });
 
     const dividaLiquidaPl = [...assets.sort((a,b) => a.endividamento.dividaLiquidaPl.value - b.endividamento.dividaLiquidaPl.value)];
     assets.forEach((asset, index) => {
-      asset.endividamento.dividaLiquidaPl.ranking = index + 1;
+      if (index <= 2) {
+        asset.endividamento.dividaLiquidaPl.ranking = 3 - index;
+      } else {
+        asset.endividamento.dividaLiquidaPl.ranking = 0;
+      }
     });
 
     const margenBruta = [...assets.sort((a,b) => a.eficiencia.margenBruta.value - b.eficiencia.margenBruta.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.eficiencia.margenBruta.ranking = index + 1;
+      if (index <= 2) {
+        asset.eficiencia.margenBruta.ranking = 3 - index;
+      } else {
+        asset.eficiencia.margenBruta.ranking = 0;
+      }
     });
 
     const margenLiquida = [...assets.sort((a,b) => a.eficiencia.margenLiquida.value - b.eficiencia.margenLiquida.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.eficiencia.margenLiquida.ranking = index + 1;
+      if (index <= 2) {
+        asset.eficiencia.margenLiquida.ranking = 3 - index;
+      } else {
+        asset.eficiencia.margenLiquida.ranking = 0;
+      }
     });
 
     const margenEbit = [...assets.sort((a,b) => a.eficiencia.margenEbit.value - b.eficiencia.margenEbit.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.eficiencia.margenEbit.ranking = index + 1;
+      if (index <= 2) {
+        asset.eficiencia.margenEbit.ranking = 3 - index;
+      } else {
+        asset.eficiencia.margenEbit.ranking = 0;
+      }
     });
 
     const margenEbitda = [...assets.sort((a,b) => a.eficiencia.margenEbitda.value - b.eficiencia.margenEbitda.value).reverse()];
     assets.forEach((asset, index) => {
-      asset.eficiencia.margenEbitda.ranking = index + 1;
+      if (index <= 2) {
+        asset.eficiencia.margenEbitda.ranking = 3 - index;
+      } else {
+        asset.eficiencia.margenEbitda.ranking = 0;
+      }
     });
 
     const weight = [];
@@ -401,45 +453,25 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
   }
 
   const getTotalPuntuation = (asset: Asset): number => {
-    const margenBruta = canPunctuate(asset.eficiencia.margenBruta.ranking) ? 1 : 0;
-    const margenEbit = canPunctuate(asset.eficiencia.margenEbit.ranking) ? 1 : 0;
-    const margenEbitda = canPunctuate(asset.eficiencia.margenEbitda.ranking) ? 1 : 0;
-    const margenLiquida = canPunctuate(asset.eficiencia.margenLiquida.ranking) ? 1 : 0;
-    const dividaLiquidaEbit = canPunctuate(asset.endividamento.dividaLiquidaEbit.ranking) ? 1 : 0;
-    const dividaLiquidaEbitda = canPunctuate(asset.endividamento.dividaLiquidaEbitda.ranking) ? 1 : 0;
-    const dividaLiquidaPl = canPunctuate(asset.endividamento.dividaLiquidaPl.ranking) ? 1 : 0;
-    const liquidaCorrente = canPunctuate(asset.endividamento.liquidaCorrente.ranking) ? 1 : 0;
-    const pasivosAtivos = canPunctuate(asset.endividamento.pasivosAtivos.ranking) ? 1 : 0;
-    const plAtivos = canPunctuate(asset.endividamento.plAtivos.ranking) ? 1 : 0;
-    const roa = canPunctuate(asset.rentabilidade.roa.ranking) ? 1 : 0;
-    const roe = canPunctuate(asset.rentabilidade.roe.ranking) ? 1 : 0;
-    const roic = canPunctuate(asset.rentabilidade.roic.ranking) ? 1 : 0;
-    const lpa = canPunctuate(asset.valuation.lpa.ranking) ? 1 : 0;
-    const pl = canPunctuate(asset.valuation.pl.ranking) ? 1 : 0;
-    const vpa = canPunctuate(asset.valuation.vpa.ranking) ? 1 : 0;
 
-    const sum: number = margenBruta
-      + margenEbit
-      + margenEbitda
-      + margenLiquida
-      + dividaLiquidaEbit
-      + dividaLiquidaEbitda
-      + dividaLiquidaPl
-      + liquidaCorrente
-      + pasivosAtivos
-      + plAtivos
-      + roa
-      + roe
-      + roic
-      + lpa
-      + pl
-      + vpa;
+    const sum: number = asset.eficiencia.margenBruta.ranking
+      + asset.eficiencia.margenEbit.ranking
+      + asset.eficiencia.margenEbitda.ranking
+      + asset.eficiencia.margenLiquida.ranking
+      + asset.endividamento.dividaLiquidaEbit.ranking
+      + asset.endividamento.dividaLiquidaEbitda.ranking
+      + asset.endividamento.dividaLiquidaPl.ranking
+      + asset.endividamento.liquidaCorrente.ranking
+      + asset.endividamento.pasivosAtivos.ranking
+      + asset.endividamento.plAtivos.ranking
+      + asset.rentabilidade.roa.ranking
+      + asset.rentabilidade.roe.ranking
+      + asset.rentabilidade.roic.ranking
+      + asset.valuation.lpa.ranking
+      + asset.valuation.pl.ranking
+      + asset.valuation.vpa.ranking;
 
     return sum;
-  }
-
-  const canPunctuate = (ranking: number): boolean => {
-    return ranking > 0 && ranking <= 3;
   }
 
   return (

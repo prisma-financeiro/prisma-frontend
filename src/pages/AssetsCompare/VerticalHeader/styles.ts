@@ -10,14 +10,13 @@ export const Container = styled.div`
 
 export const FieldGroup = styled.div`
   ${({ theme }) => css`
-    margin-top: 0.5rem;
   `}
 `;
 
-export const Title = styled.div`
-  ${({ theme }) => css`
+export const Title = styled.div<{first?: boolean}>`
+  ${({ theme, first }) => css`
     width: 19rem;
-    height: 5rem;
+    height: ${first ? '3rem' : '5rem'};
     display: flex;
     padding-bottom: 0.5rem;
     align-items: flex-end;
@@ -63,10 +62,6 @@ export const AssetHeader = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 3rem;
-
-    @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-      padding-bottom: 4.3rem;
-    }
+    padding-bottom: 3.3rem;
   `}  
 `;
