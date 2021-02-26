@@ -37,6 +37,7 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
           companyLogo={asset.logo}
           companyName={asset.name}
           tickerCode={asset.ticker}
+          companyId={asset.id}
           stockPrice={asset.price}
           variationPercentage={asset.flutuationPercentage}
           variationReal={asset.flutuationValue}

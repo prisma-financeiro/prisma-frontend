@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+import history from '../../services/history';
+
+import StockPrice from '../StockPrice';
+import CompanyHeader from '../CompanyHeader';
+
+import {
+  FiPlus,
+  FiArrowRight
+} from 'react-icons/fi';
 
 import {
   Container,
   CloseButton,
-  ButtonContent
+  ButtonContent,
+  NavigateToCompanyButton,
+  Footer
 } from './styles';
-
-import {
-  FiPlus
-} from 'react-icons/fi';
-import StockPrice from '../StockPrice';
-import CompanyHeader from '../CompanyHeader';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface FavoritedCardProps {
   companyLogo?: string;
   tickerCode?: string;
+  companyId?: number;
   companyName?: string;
   stockPrice?: number;
   variationReal?: number;
@@ -28,15 +35,18 @@ interface FavoritedCardProps {
   removeCardCallback: () => void;
 }
 
-const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, hoverEffect = true, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
+const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyId, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, hoverEffect = true, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
   const device = useBreakpoints();
+
+  const navigateToCompany = () => {
+    history.push(`/company/${companyId}/${tickerCode}`);
+  }
 
   return (
     <Container
       backgroundDarker={backgroundDarker}
       roundedCorners={roundedCorners}
       whileHover={hoverEffect ? { scale: 1.02 } : {}}
-      whileTap={{ scale: 0.99 }}
       >
       { emptyCard ? (
         <ButtonContent 
@@ -58,15 +68,23 @@ const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, 
                 tickerCode={tickerCode}
               />
             }
-            {
-              stockPrice &&
-              variationPercentage &&
-              <StockPrice
-                stockPrice={stockPrice}
-                variationPercentage={variationPercentage}
-                variationValue={variationReal}
-              />
-            }
+            <Footer>
+              {
+                stockPrice &&
+                variationPercentage &&
+                <StockPrice
+                  stockPrice={stockPrice}
+                  variationPercentage={variationPercentage}
+                  variationValue={variationReal}
+                />
+              }
+              <NavigateToCompanyButton
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={navigateToCompany}>
+                <FiArrowRight />
+              </NavigateToCompanyButton>
+            </Footer>
             <CloseButton
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

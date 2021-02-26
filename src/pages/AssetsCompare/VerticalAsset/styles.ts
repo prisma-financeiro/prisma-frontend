@@ -30,7 +30,7 @@ export const DataField = styled.div`
     }
 
     > span {
-      color: ${theme.colors.primary};
+      color: ${theme.colors.secondary};
       font-size: ${theme.fontSizes.small};
       position: absolute;
       left: 1rem;
@@ -75,7 +75,7 @@ export const AssetHeader = styled.div`
       justify-content: center;
       align-items: center;
       font-size: ${theme.fontSizes.large};
-      color: ${theme.colors.primary};
+      color: ${theme.colors.secondary};
 
       > p {
         padding: 0 0.5rem;

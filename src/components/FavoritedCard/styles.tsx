@@ -23,6 +23,12 @@ export const Container = styled(motion.div)<ContainerProps>`
       height: 12rem;
       width: 15rem;
     }
+
+    :hover {
+      ${NavigateToCompanyButton} {
+        display: flex;
+      }
+    }
   `}
 `;
 
@@ -63,6 +69,37 @@ export const CloseButton = styled(motion.button)`
       @media (max-width: ${theme.deviceWidth.mobile}) {
         top: 0.5rem;
         right: 0.5rem;
+      }
+  `}
+`
+
+export const Footer = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+
+    @media (max-width: ${theme.deviceWidth.tablet}) {
+      align-items: flex-start;
+    }
+  `}
+`
+
+export const NavigateToCompanyButton = styled(motion.button)`
+  ${({ theme }) => css`
+      display: none;
+      height: 3rem;
+      width: 3rem;
+      border-radius: 50%;
+      background-color: ${theme.colors.primary};
+      color: ${theme.colors.background};
+
+      @media (max-width: ${theme.deviceWidth.tablet}) {
+        display: flex;
+        height: 2.5rem;
+        width: 2.5rem;
       }
   `}
 `

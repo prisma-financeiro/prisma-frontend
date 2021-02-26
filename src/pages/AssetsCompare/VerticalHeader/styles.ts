@@ -8,11 +8,6 @@ export const Container = styled.div`
   `}
 `;
 
-export const FieldGroup = styled.div`
-  ${({ theme }) => css`
-  `}
-`;
-
 export const Title = styled.div<{first?: boolean}>`
   ${({ theme, first }) => css`
     width: 19rem;

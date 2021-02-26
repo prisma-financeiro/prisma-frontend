@@ -87,6 +87,7 @@ const Favorites = () => {
                 companyLogo={card.companyLogo}
                 companyName={card.companyName}
                 tickerCode={card.tickerCode}
+                companyId={card.id}
                 stockPrice={card.stockPrice}
                 variationPercentage={card.variationPercentage}
                 variationReal={card.variationReal}

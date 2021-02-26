@@ -137,6 +137,10 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
    return responseName;
   }
 
+  const removeSelectedItem = (companyTicker: string) => {
+    setSelectedItems(prev => [...prev.filter(ticker => ticker !== companyTicker)]);
+  }
+
   const renderOptionList = (
     searchResults.map((typeaheadOption, index) => {
       return (
@@ -190,7 +194,9 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
               key={index}
               fontSize={theme.fontSizes.small}
               backgroundColor={theme.colors.secondary} 
-              color={theme.colors.background}>{item}
+              color={theme.colors.background}
+              onRemove={() => removeSelectedItem(item)}>
+                {item}
             </Badge>
           ))}
         </MultiSelectedItems>
