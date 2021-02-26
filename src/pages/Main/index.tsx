@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Container, AnimatedWrapper } from './styles';
 import SideBar from '../../components/SideBar';
@@ -8,6 +8,8 @@ import { sideBarOptionLanding } from '../../constants';
 import Favorites from './Favorites';
 import MarketToday from './MarketToday';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
+import withErrorHandler from '../../hocs/withErrorHandler';
+import api from '../../services/api';
 
 const Main = () => {
   const device = useBreakpoints();
@@ -34,4 +36,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default withErrorHandler(Main, api);

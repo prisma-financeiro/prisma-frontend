@@ -57,13 +57,15 @@ import PeriodSelector from '../../components/PeriodSelector';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import CompanyHeader from '../../components/CompanyHeader';
 import { Divider } from '../../components/ContentDivider/styles';
-import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow, FinancialReportType, CompanyInfo} from '../../models';
+import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow, FinancialReportType, CompanyInfo } from '../../models';
 
 import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
 import history from '../../services/history';
+import withErrorHandler from '../../hocs/withErrorHandler';
+import api from '../../services/api';
 
 interface TickePrice {
   price: number;
@@ -429,7 +431,7 @@ const Company: React.FC = (props: any) => {
                   reportType={FinancialReportType.BALANCESHEET}
                 />
               </Accordion>
-              
+
               <Accordion anchor={fluxoCaixa} title="Relatórios Financeiros - Fluxo de Caixa" size={AccordionSizes.large}>
                 <FinancialReportTable
                   companyId={companyInfo.id}
@@ -438,7 +440,7 @@ const Company: React.FC = (props: any) => {
               </Accordion>
             </>
           )}
-          
+
           <Accordion anchor={mercadoAtuacao} title="Mercado de Atuação" size={AccordionSizes.large}>
             <AccordionContent>
               <SegmentContainer>
@@ -557,4 +559,4 @@ const Company: React.FC = (props: any) => {
   );
 };
 
-export default Company;
+export default withErrorHandler(Company, api);

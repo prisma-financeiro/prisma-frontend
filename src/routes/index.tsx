@@ -7,6 +7,7 @@ import Ranking from '../pages/Ranking';
 import Company from '../pages/Company';
 import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 
 const Routes = () => {
@@ -20,6 +21,10 @@ const Routes = () => {
         <PrivateRoute path="/ranking" component={Ranking} />
         <PrivateRoute path="/company/:id/:ticker" component={Company}/>
         <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
+        <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
+        
+        <Route path="/signup" component={Signup} />
+        <Route path="/" component={Login} />
 
         <Route render={() => <Redirect to="/home" />} />
     </Switch>
