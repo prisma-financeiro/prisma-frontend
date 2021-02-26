@@ -1,12 +1,10 @@
-import React, { useState, useRef, MutableRefObject, useEffect, useCallback } from 'react';
+import React, { useState, useRef, MutableRefObject, useEffect } from 'react';
 
 import { useParams } from "react-router-dom";
 
 import MainContent from '../../components/MainContent';
 import { SideBarOption } from '../../constants/sidebar-navigation';
 import SideBar from '../../components/SideBar';
-import Modal from '../../components/Modal';
-import Typeahead from '../../components/Typeahead';
 
 import VerticalHeader from './VerticalHeader';
 import VerticalAsset from './VerticalAsset';
@@ -17,7 +15,7 @@ import { getCompany, getCompanyIndicator, getTickerPrice } from '../../services/
 import { RiVipDiamondLine, RiPercentLine, RiFireLine } from 'react-icons/ri';
 import { FiTrendingUp } from 'react-icons/fi';
 
-import { AssetType, CompanyInfo } from '../../models';
+import { CompanyInfo } from '../../models';
 
 import { 
   Container, 
@@ -27,6 +25,7 @@ import {
   AssetVerticalList, 
   HorizontalScroll 
 } from './styles';
+import AssetSelectModal from '../../components/AssetSelectModal';
 
 interface IndicatorProps {
   value: number,
@@ -90,7 +89,6 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
   const device = useBreakpoints();
 
   const [assetList, setAssetList] = useState<Asset[]>([]);
-  const [selectedAssetList, setSelectedAssetList] = useState<CompanyIdentification[]>([]);
   const [placeholderNumber, setPlaceholderNumber] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsloading] = useState<boolean>(false);
@@ -155,10 +153,9 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
     inline: "start",
   });
 
-  const handleAddAsset = async (selectedAssetList: CompanyIdentification[]) => {
-
-    const formatedAssetList: Asset[] = [...assetList];
+  const loadAssets = async (selectedAssetList: CompanyIdentification[]) => {
     setIsloading(true);
+    const formatedAssetList: Asset[] = [...assetList];
 
     for await (const asset of selectedAssetList) {
       const company: CompanyInfo = await getCompany(asset.companyId);
@@ -274,20 +271,14 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
     setIsModalOpen(false);
   }
 
-  const handleModalConfirmed = async () => {
+  const handleModalConfirmed = async (selectedItems: CompanyIdentification[]) => {
     setIsModalOpen(false);
-    handleAddAsset(selectedAssetList);
-    setPlaceholderNumber(prev => [...prev, ...selectedAssetList.map(asset => asset.companyId)]);
-    setSelectedAssetList([]);
-  }
-
-  const handleSelectedOption = (type: AssetType, companyId: number, companyTicker: string) => {
-    setSelectedAssetList(prev => [...prev, {companyId: companyId, companyTicker: companyTicker} ]);
+    setPlaceholderNumber(prev => [...prev, ...selectedItems.map(asset => asset.companyId)]);
+    loadAssets(selectedItems);
   }
 
   const handleShowModal = () => {
     setIsModalOpen(true);
-    setSelectedAssetList([]);
   }
 
   const reorderByIndicators = (assets: Asset[]): Asset[] => {
@@ -507,22 +498,13 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
             </HorizontalScroll>
           </ComparatorContainer>
         </MainContent>
-        <Modal
-          title="Pesquisa de Ativos"
-          show={isModalOpen}
-          showButtons={true}
-          secondaryButtonText="Cancelar"
-          primaryButtonText="Carregar ativos"
-          modalClosed={handleCloseModal}
-          modalConfirmed={handleModalConfirmed}>
-          <Typeahead
-            redirect={false}
-            selectedOption={handleSelectedOption}
-            isMulti={true}
-            placeholder="Pesquise por nome ou ticker"
-            maxSelection={5 - assetList.length}
-          />
-      </Modal>
+
+      <AssetSelectModal 
+        show={isModalOpen} 
+        modalClosed={handleCloseModal}
+        modalConfirmed={handleModalConfirmed}
+        isMulti={true}
+        maxSelection={5 - assetList.length}/>
       </AnimatedWrapper>
     </Container>
   );
