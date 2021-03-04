@@ -74,9 +74,9 @@ const Favorites = () => {
     return favoritedCards.find(card => card.type === assetType) && (
       <React.Fragment key={assetType}>
         <SubHeader>
-        <h3> 
-          { getSubHeader(assetType) } 
-        </h3>
+          <h3>
+            {getSubHeader(assetType)}
+          </h3>
         </SubHeader>
 
         <DataWrapper>

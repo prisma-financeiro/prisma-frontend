@@ -64,7 +64,7 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
 import withErrorHandler from '../../hocs/withErrorHandler';
-import api from '../../services/api';
+import api, { refreshTokenIfExpiredAndDoRequests } from '../../services/api';
 
 interface TickePrice {
   price: number;
@@ -107,11 +107,13 @@ const Company: React.FC = (props: any) => {
   const dadosGerais = useRef(null);
   const contato = useRef(null);
 
-  useEffect(() => {
+  const getCompanyGeneralInformation = () => {
     company.getCompany(companyId).then(data => {
       setCompanyInfo(data);
     });
+  }
 
+  const getCurrentTickerPrice = () => {
     company.getTickerPrice(ticker).then(data => {
       const tickerPrice: TickePrice = {
         price: data.price,
@@ -123,10 +125,11 @@ const Company: React.FC = (props: any) => {
       setTickerPrice(tickerPrice);
 
       company.getCompanyMarketIndicator(ticker, tickerPrice.price)
-        .then(data => setMarketIndicatorInfo(data))
-        .catch(error => console.log('Algo deu errado', error));
+        .then(data => setMarketIndicatorInfo(data));
     });
+  }
 
+  const getTickerPriceHistory = () => {
     company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
 
       const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
@@ -140,15 +143,25 @@ const Company: React.FC = (props: any) => {
       }
 
       setStockPriceInfo(stockInfo);
-    }).catch(error => console.log('Algo deu errado', error));
+    });
+  }
 
+  const getAllCompanyIndicators = () => {
     company.getCompanyIndicator(companyId).then(indicator => {
       setBalanceIndicatorInfo(indicator);
     });
+  }
+
+  useEffect(() => {
+    refreshTokenIfExpiredAndDoRequests(
+      getCompanyGeneralInformation,
+      getCurrentTickerPrice,
+      getTickerPriceHistory,
+      getAllCompanyIndicators
+    );
 
     scrollTo(valuation);
-
-  }, [ticker, companyId]);
+  }, []);
 
   const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -252,20 +265,22 @@ const Company: React.FC = (props: any) => {
   ];
 
   const handleStockQuotePeriodChange = (period: number | null) => {
-    company.getTickerHistory(ticker, period)
-      .then(data => {
-        const formatedData = formatStockPriceHistory(data.historicalPrices);
-        setStockPriceHistory(formatedData);
+    refreshTokenIfExpiredAndDoRequests(async () => {
+      company.getTickerHistory(ticker, period)
+        .then(data => {
+          const formatedData = formatStockPriceHistory(data.historicalPrices);
+          setStockPriceHistory(formatedData);
 
-        const stockInfo = {
-          variationValue: data.variationValue,
-          variationPercentage: data.variationPercentage,
-          highest: data.highest,
-          lowest: data.lowest
-        }
+          const stockInfo = {
+            variationValue: data.variationValue,
+            variationPercentage: data.variationPercentage,
+            highest: data.highest,
+            lowest: data.lowest
+          }
 
-        setStockPriceInfo(stockInfo);
-      });
+          setStockPriceInfo(stockInfo);
+        });
+    });
   }
 
   return (

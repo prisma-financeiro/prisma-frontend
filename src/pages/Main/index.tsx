@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Container, AnimatedWrapper } from './styles';
 import SideBar from '../../components/SideBar';

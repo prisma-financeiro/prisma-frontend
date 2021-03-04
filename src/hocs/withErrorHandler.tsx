@@ -1,48 +1,51 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { AxiosInstance } from 'axios';
 import useAuth from '../contexts/auth';
 import { useHistory } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { HttpStatusCode } from '../services/api';
 
 const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
     return (props: any) => {
 
-        const [error, setError] = useState<string>('');
         const { signOut } = useAuth();
         const history = useHistory();
+        const [hasBeenSignOut, setHasBeenSignOut] = useState<boolean>(false);
+
+        const signOutUserAndRedirectToLogin = (): void => {
+            setHasBeenSignOut(true);
+            signOut();
+            history.push("/");
+            toast.error("Sua sessão foi encerrada, faça login novamente.");
+        }
+
+        const onRejectHandler = (error: any): any => {
+            console.log("interceptor error");
+
+            if (!error.response) {
+                // toast.error("Ops, parece que algo deu errado. Tente novamente em instântes.");
+                // return Promise.reject(error);
+                return new Promise(() => { });
+            }
+
+            if (error.response.status === HttpStatusCode.Unauthorized) {
+                !hasBeenSignOut && signOutUserAndRedirectToLogin();
+            }
+
+            // return Promise.reject(error);
+            return new Promise(() => { });
+        }
 
         useEffect(() => {
-
             axios.interceptors.response.use(
                 res => res,
-                error => {
-                    if (error.response.status === 401) {
-                        signOut();
-                        toast.error("Sua sessão foi encerrada, faça login novamente.");
-                        history.push("/");
-                    } else {
-                        setError(error.message);
-                    }
-                    return new Promise(() => { });
-                });
-
+                error => onRejectHandler(error));
         });
-
-        const errorConfirmedHandler = () => {
-            setError('');
-        }
 
         return (
             <Fragment>
-                {/* TODO: Substituir por um Toast. */}
-                {/* <Modal
-                    title="Aviso"
-                    showButtons={false}
-                    show={!!error}
-                    modalClosed={errorConfirmedHandler}
-                    modalConfirmed={errorConfirmedHandler}>
-                    {error}
-                </Modal> */}
+                <ToastContainer />
                 <WrappedComponent {...props} />
             </Fragment>
         )

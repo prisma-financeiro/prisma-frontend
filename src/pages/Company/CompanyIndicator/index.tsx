@@ -11,6 +11,7 @@ import {
 import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
 import { SelectOptionType } from "../../../models";
+import { refreshTokenIfExpiredAndDoRequests } from "../../../services/api";
 
 export enum IndicatorType {
     valuation = 'Valuation',
@@ -32,6 +33,9 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     const [isChartVisible, setIsChartVisible] = useState(false);
     const [indicatorHistory, setIndicatorHistory] = useState<SelectOptionType[]>([]);
     const [selectedIndicator, setSelectedIndicator] = useState<string>('');
+
+
+
 
     const _getBalanceIndicatorHistory = async (indicatorName: string, type: string) => {
         let formatedValues: SelectOptionType[] = [];
@@ -68,11 +72,13 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     }
 
     const getIndicatorHistory = async (indicatorName: string, type: string) => {
-        if (indicatorType === IndicatorType.valuation) {
-            await _getMarketIndicatorHistory(indicatorName, type);
-        } else {
-            await _getBalanceIndicatorHistory(indicatorName, type);
-        }
+        refreshTokenIfExpiredAndDoRequests(async () => {
+            if (indicatorType === IndicatorType.valuation) {
+                await _getMarketIndicatorHistory(indicatorName, type);
+            } else {
+                await _getBalanceIndicatorHistory(indicatorName, type);
+            }
+        });
     }
 
     const handleSelectionChange = async (indicatorName: string, type: string) => {

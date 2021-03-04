@@ -8,8 +8,7 @@ import Company from '../pages/Company';
 import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import ForgotPassword from '../pages/ForgotPassword';
 
 const Routes = () => {
 
@@ -23,11 +22,11 @@ const Routes = () => {
         <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
 
         <Route path="/signup" component={Signup} />
+        <Route path="/forgotpassword" component={ForgotPassword} />
         <Route path="/" component={Login} />
 
         <Route render={() => <Redirect to="/home" />} />
       </Switch>
-      <ToastContainer />
     </>
   );
 }

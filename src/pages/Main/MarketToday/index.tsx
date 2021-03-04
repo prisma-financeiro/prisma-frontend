@@ -26,6 +26,7 @@ import history from '../../../services/history';
 import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import Spinner from '../../../components/Spinner';
+import { refreshTokenIfExpiredAndDoRequests } from '../../../services/api';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -52,46 +53,51 @@ const MarketToday = () => {
     history.push(`/company/${assetId}/${ticker}`);
   }
 
-  useEffect(() => {
-    if (!ibovFlutuationTable && isIbovFlutuationTableLoading) {
-      marketIndex.getMarketIndexPriceFlutuation("IBOV")
-        .then((data: MarketIndexPriceFlutuationResult) => {
+  const getIbovMarketPriceFlutuation = () => {
+    marketIndex.getMarketIndexPriceFlutuation("IBOV")
+      .then((data: MarketIndexPriceFlutuationResult) => {
 
+        const flutuation: IndexFlutuationTableData = {
+          lastRefresh: data.lastRefresh,
+          highestIncrease: getHighestIncreaseFromStockIndex(data.highestIncrease),
+          highestDrop: getHighestDropFromStockIndex(data.highestDrop),
+        }
+
+        setIbovFlutuationTableLoading(false);
+        setIbovFlutuationTable(flutuation);
+      })
+      .catch(() => {
+        setIbovFlutuationTableLoading(false);
+      });
+  };
+
+
+  const getIfixMarketPriceFlutuation = () => {
+    marketIndex.getMarketIndexPriceFlutuation("IFIX")
+      .then((data: MarketIndexPriceFlutuationResult) => {
+
+        if (data) {
           const flutuation: IndexFlutuationTableData = {
             lastRefresh: data.lastRefresh,
-            highestIncrease: getHighestIncreaseFromStockIndex(data.highestIncrease),
-            highestDrop: getHighestDropFromStockIndex(data.highestDrop),
+            highestIncrease: getHighestIncreaseFromReitIndex(data.highestIncrease),
+            highestDrop: getHighestDropFromReitIndex(data.highestDrop),
           }
 
-          setIbovFlutuationTableLoading(false);
-          setIbovFlutuationTable(flutuation);
-        })
-        .catch(() => {
-          setIbovFlutuationTableLoading(false);
-        })
-    }
-
-    if (!ifixFlutuationTable && isIfixFlutuationTableLoading) {
-      marketIndex.getMarketIndexPriceFlutuation("IFIX")
-        .then((data: MarketIndexPriceFlutuationResult) => {
-
-          if (data) {
-            const flutuation: IndexFlutuationTableData = {
-              lastRefresh: data.lastRefresh,
-              highestIncrease: getHighestIncreaseFromReitIndex(data.highestIncrease),
-              highestDrop: getHighestDropFromReitIndex(data.highestDrop),
-            }
-
-            setIfixFlutuationTableLoading(false);
-            setIfixFlutuationTable(flutuation);
-          }
-        })
-        .catch(() => {
           setIfixFlutuationTableLoading(false);
-        })
-    }
+          setIfixFlutuationTable(flutuation);
+        }
+      })
+      .catch(() => {
+        setIfixFlutuationTableLoading(false);
+      });
+  }
 
-  });
+  useEffect(() => {
+    refreshTokenIfExpiredAndDoRequests(
+      getIbovMarketPriceFlutuation,
+      getIfixMarketPriceFlutuation
+    );
+  }, []);
 
 
   const getHighestIncreaseFromReitIndex = (indexFlutuation: MarketIndexPriceFlutuationResultTicker[]): IndexFlutuationTableRow[] => {

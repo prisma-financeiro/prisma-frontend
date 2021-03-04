@@ -5,10 +5,10 @@ import React, {
   useContext,
   PropsWithChildren,
 } from 'react';
-import { Session, Account, SignIn } from '../models';
 
+import { Session, Account, SignIn } from '../models';
 import cookieManager from '../services/cookieManager';
-import { storageKey } from '../utils';
+import storageManager from '../utils/storage';
 
 export type AuthState = {
   signed: boolean;
@@ -30,13 +30,10 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
     const { token } = cookieManager.getCookies();
 
-    const account = localStorage.getItem(storageKey('account'));
-    const session = localStorage.getItem(storageKey('session'));
-
     return {
       signed: (token && token !== '') as boolean,
-      account: account ? JSON.parse(account) : {},
-      session: session ? JSON.parse(session) : {},
+      account: storageManager.getUserAccount(),
+      session: storageManager.getUserSession(),
     };
   });
 
@@ -44,8 +41,8 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
     const { account, session } = signIn;
 
-    localStorage.setItem(storageKey('account'), JSON.stringify(account));
-    localStorage.setItem(storageKey('session'), JSON.stringify(session));
+    storageManager.setUserAccount(account);
+    storageManager.setUserSession(session);
 
     setData({ signed: true, account, session });
 
@@ -53,8 +50,8 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const signOut = useCallback(() => {
 
-    localStorage.removeItem(storageKey('account'));
-    localStorage.removeItem(storageKey('session'));
+    storageManager.removeUserAccount();
+    storageManager.removeUserSession();
 
     setData({} as AuthState);
 

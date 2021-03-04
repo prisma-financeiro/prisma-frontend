@@ -14,14 +14,19 @@ import Spinner from '../../components/Spinner';
 import Modal from '../../components/Modal';
 import { toast } from "react-toastify";
 
+const KEY_ENTER = "Enter";
+
 const Login = () => {
 
-    const [isLoadingSignIn, setIsLoadingSignIn] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isPasswordRecoveryModalVisible, setIsPasswordRecoveryModalVisible] = useState<boolean>(false);
+    const [isLoadingPasswordRecoveryEmailSend, setIsLoadingPasswordRecoveryEmailSend] = useState<boolean>(false);
     const [isAccountNotConfirmedModalVisible, setIsAccountNotConfirmedModalVisible] = useState<boolean>(false);
     const [isLoadingResendConfirmation, setIsLoadingResendConfirmation] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [passwordRecoveryEmail, setPasswordRecoveryEmail] = useState<string>('');
 
     const { signed, signIn } = useAuth();
 
@@ -40,18 +45,17 @@ const Login = () => {
                 break;
 
             default:
-                toast.error("Não foi possível acessar sua conta. Tente mais tarde.");
                 break;
         }
     }
 
     const handleLogin = () => {
         if (email && password) {
-            setIsLoadingSignIn(true);
+            setIsLoading(true);
 
             login.signIn(email, password)
                 .then(response => {
-                    setIsLoadingSignIn(false);
+                    setIsLoading(false);
                     if (response.auth) {
                         signIn(response);
                         history.push("/home");
@@ -61,7 +65,7 @@ const Login = () => {
                 })
                 .catch(error => {
                     console.log(error);
-                    setIsLoadingSignIn(false);
+                    setIsLoading(false);
                 });
         }
     }
@@ -80,15 +84,120 @@ const Login = () => {
             .then(_res => {
                 setIsLoadingResendConfirmation(false);
                 setIsAccountNotConfirmedModalVisible(false);
-                toast.success('📧 E-mail de confirmação reenviado!');
+                toast.success('E-mail de confirmação reenviado!');
             });
+    }
+
+    const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === KEY_ENTER) {
+            handleLogin();
+        }
+    }
+
+    const handleForgotPasswordClick = () => {
+        setIsPasswordRecoveryModalVisible(true);
+    }
+
+    const handlePasswordRocoverySendEmail = () => {
+        setIsLoadingPasswordRecoveryEmailSend(true);
+
+        login.forgotPassword(passwordRecoveryEmail)
+            .then(_response => {
+                console.log("OK");
+
+                setIsLoadingPasswordRecoveryEmailSend(false);
+                toast.success("Código de recuperação enviado para seu e-mail.");
+                history.push("forgotpassword");
+            })
+            .catch(_error => {
+                console.log("NOT OK");
+                setIsLoadingPasswordRecoveryEmailSend(false)
+            });
+    }
+
+    const handlePasswordRecoveryCancelClick = () => {
+        setIsPasswordRecoveryModalVisible(false);
+    }
+
+    const handlePasswordRecoveryEmailChange = (email: string) => {
+        setPasswordRecoveryEmail(email);
+    }
+
+    const getPasswordRecoveryModal = () => {
+        return (
+            <Modal
+                title="Recuperação de senha"
+                show={isPasswordRecoveryModalVisible}
+                showButtons={false}
+                modalClosed={() => { }}
+                modalConfirmed={() => { }}
+            >
+                <form>
+                    <InputControl>
+                        <label>Digite seu endereço de e-mail</label>
+                    </InputControl>
+                    <InputControl>
+                        <Input
+                            type="email"
+                            placeholder="E-mail"
+                            icon={<FiMail />}
+                            value={passwordRecoveryEmail}
+                            required={true}
+                            onChange={(event) => handlePasswordRecoveryEmailChange(event.target.value)}
+                        />
+                    </InputControl>
+                    <ConfirmationModalButtonContainer>
+                        <Button
+                            variant="secondary"
+                            onClick={() => handlePasswordRecoveryCancelClick()}>
+                            Cancelar
+                            </Button>
+                        <Button
+                            variant="primary"
+                            disabled={!passwordRecoveryEmail}
+                            onClick={() => handlePasswordRocoverySendEmail()}>
+                            {
+                                isLoadingPasswordRecoveryEmailSend ?
+                                    <SpinnerContainer>
+                                        <Spinner />
+                                    </SpinnerContainer>
+                                    : 'Enviar e-mail'
+                            }
+                        </Button>
+                    </ConfirmationModalButtonContainer>
+
+                </form>
+
+                {/* <ConfirmationModalButtonContainer>
+                <Button
+                    variant="secondary"
+                    onClick={() => handleAccountNotConfirmedModalResendEmail()}>
+                    {
+                        isLoadingResendConfirmation ?
+                            <SpinnerContainer>
+                                <Spinner />
+                            </SpinnerContainer>
+                            : 'Reenviar e-mail'
+                    }
+                </Button>
+                <Button
+                    variant="primary"
+                    onClick={() => handleAccountNotConfirmedModalOK()}>
+                    OK
+                </Button>
+            </ConfirmationModalButtonContainer> */}
+            </Modal>
+        )
     }
 
     return (
         <Container>
             <FormContainer>
+                {getPasswordRecoveryModal()}
+
                 <h1>Faça seu login</h1>
                 <form>
+
                     <Modal
                         title="Ops, falta confirmar seu e-mail!"
                         show={isAccountNotConfirmedModalVisible}
@@ -135,24 +244,17 @@ const Login = () => {
                             value={password}
                             required={true}
                             onChange={(event) => setPassword(event.target.value)}
+                            onKeyDown={(event) => handlePasswordKeyDown(event)}
                         />
-                        {
-                            errorMessage ?
-                                <ValidatorMessage>
-                                    <p>{errorMessage}</p>
-                                </ValidatorMessage>
-                                :
-                                null
-                        }
                     </InputControl>
                     <InputControl>
                         <Button
                             variant="primary"
                             onClick={() => handleLogin()}
-                            disabled={!email || !password || isLoadingSignIn}
+                            disabled={!email || !password || isLoading}
                         >
                             {
-                                isLoadingSignIn ?
+                                isLoading ?
                                     <SpinnerContainer>
                                         <Spinner />
                                     </SpinnerContainer>
@@ -161,7 +263,7 @@ const Login = () => {
                         </Button>
                     </InputControl>
                     <AccountOptions>
-                        <a href='/home'>Esqueci minha senha</a>
+                        <a onClick={() => handleForgotPasswordClick()}>Esqueci minha senha</a>
                         <a href='/signup'>Ainda não tem uma conta? Crie uma conta aqui.</a>
                     </AccountOptions>
                 </form>

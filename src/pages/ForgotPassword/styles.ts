@@ -37,7 +37,7 @@ export const InputControl = styled.div`
 `;
 
 export const ValidatorMessage = styled.div`
-  margin-left: 1.5rem;
+  margin: 0.3rem;
   color: ${({ theme }) => theme.colors.danger};
   font-size: ${({ theme }) => theme.fontSizes.default};
 `;
