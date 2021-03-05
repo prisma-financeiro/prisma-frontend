@@ -8,10 +8,10 @@ export const Container = styled.div`
   `}
 `;
 
-export const Title = styled.div<{thinnerHight?: boolean}>`
-  ${({ theme, thinnerHight }) => css`
+export const Title = styled.div<{thinnerHeight?: boolean}>`
+  ${({ theme, thinnerHeight }) => css`
     width: 19rem;
-    height: ${thinnerHight ? '3rem' : '5rem'};
+    height: ${thinnerHeight ? '3rem' : '5rem'};
     display: flex;
     padding-bottom: 0.5rem;
     align-items: flex-end;
