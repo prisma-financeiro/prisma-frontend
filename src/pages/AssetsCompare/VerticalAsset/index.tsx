@@ -20,6 +20,19 @@ interface VerticalAssetProps {
 
 const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) => {
 
+  const getDataFieldJsxForIndicator = (value: number, simbol: string | undefined, ranking: number) => {
+    return (
+      <DataField>
+        { getIndicatorValueFormated(value, simbol) }
+        <span>
+          {Array.from(Array(ranking), (el, index) => {
+            return <AiFillStar key={index}/>;
+          })}
+        </span>
+      </DataField>
+    )
+  }
+
   return (
     <Container>
       <AssetHeader>
@@ -48,147 +61,35 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
         </span>
       </AssetHeader>
       <FieldGroup>
-        <EmptyBlock first={true}/>
-        <DataField>
-          { getIndicatorValueFormated(asset.valuation.pl.value, asset.valuation.pl.simbol) }
-          <span>
-            {Array.from(Array(asset.valuation.pl.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.valuation.lpa.value, asset.valuation.lpa.simbol) }
-          <span>
-            {Array.from(Array(asset.valuation.lpa.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.valuation.vpa.value, asset.valuation.vpa.simbol) }
-          <span>
-            {Array.from(Array(asset.valuation.vpa.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
+        <EmptyBlock thinnerHeight={true}/>
+        {getDataFieldJsxForIndicator(asset.valuation.pl.value, asset.valuation.pl.simbol, asset.valuation.pl.ranking)}
+        {getDataFieldJsxForIndicator(asset.valuation.lpa.value, asset.valuation.lpa.simbol, asset.valuation.lpa.ranking)}
+        {getDataFieldJsxForIndicator(asset.valuation.vpa.value, asset.valuation.vpa.simbol, asset.valuation.vpa.ranking)}
       </FieldGroup>
 
       <FieldGroup>
         <EmptyBlock />
-        <DataField>
-          { getIndicatorValueFormated(asset.rentabilidade.roe.value, asset.rentabilidade.roe.simbol) }
-          <span>
-            {Array.from(Array(asset.rentabilidade.roe.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.rentabilidade.roa.value, asset.rentabilidade.roa.simbol) }
-          <span>
-            {Array.from(Array(asset.rentabilidade.roa.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.rentabilidade.roic.value, asset.rentabilidade.roic.simbol) }
-          <span>
-            {Array.from(Array(asset.rentabilidade.roic.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
+        {getDataFieldJsxForIndicator(asset.rentabilidade.roe.value, asset.rentabilidade.roe.simbol, asset.rentabilidade.roe.ranking)}
+        {getDataFieldJsxForIndicator(asset.rentabilidade.roa.value, asset.rentabilidade.roa.simbol, asset.rentabilidade.roa.ranking)}
+        {getDataFieldJsxForIndicator(asset.rentabilidade.roic.value, asset.rentabilidade.roic.simbol, asset.rentabilidade.roic.ranking)}
       </FieldGroup>
 
       <FieldGroup>
         <EmptyBlock />
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.liquidaCorrente.value, asset.endividamento.liquidaCorrente.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.liquidaCorrente.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.pasivosAtivos.value, asset.endividamento.pasivosAtivos.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.pasivosAtivos.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.plAtivos.value, asset.endividamento.plAtivos.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.plAtivos.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbit.value, asset.endividamento.dividaLiquidaEbit.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.dividaLiquidaEbit.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaEbitda.value, asset.endividamento.dividaLiquidaEbitda.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.dividaLiquidaEbitda.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.endividamento.dividaLiquidaPl.value, asset.endividamento.dividaLiquidaPl.simbol) }
-          <span>
-            {Array.from(Array(asset.endividamento.dividaLiquidaPl.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
+        {getDataFieldJsxForIndicator(asset.endividamento.liquidaCorrente.value, asset.endividamento.liquidaCorrente.simbol, asset.endividamento.liquidaCorrente.ranking)}
+        {getDataFieldJsxForIndicator(asset.endividamento.pasivosAtivos.value, asset.endividamento.pasivosAtivos.simbol, asset.endividamento.pasivosAtivos.ranking)}
+        {getDataFieldJsxForIndicator(asset.endividamento.plAtivos.value, asset.endividamento.plAtivos.simbol, asset.endividamento.plAtivos.ranking)}
+        {getDataFieldJsxForIndicator(asset.endividamento.dividaLiquidaEbit.value, asset.endividamento.dividaLiquidaEbit.simbol, asset.endividamento.dividaLiquidaEbit.ranking)}
+        {getDataFieldJsxForIndicator(asset.endividamento.dividaLiquidaEbitda.value, asset.endividamento.dividaLiquidaEbitda.simbol, asset.endividamento.dividaLiquidaEbitda.ranking)}
+        {getDataFieldJsxForIndicator(asset.endividamento.dividaLiquidaPl.value, asset.endividamento.dividaLiquidaPl.simbol, asset.endividamento.dividaLiquidaPl.ranking)}
       </FieldGroup>
 
       <FieldGroup>
         <EmptyBlock />
-        <DataField>
-          { getIndicatorValueFormated(asset.eficiencia.margenBruta.value, asset.eficiencia.margenBruta.simbol) }
-          <span>
-            {Array.from(Array(asset.eficiencia.margenBruta.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.eficiencia.margenLiquida.value, asset.eficiencia.margenLiquida.simbol) }
-          <span>
-            {Array.from(Array(asset.eficiencia.margenLiquida.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.eficiencia.margenEbit.value, asset.eficiencia.margenEbit.simbol) }
-          <span>
-            {Array.from(Array(asset.eficiencia.margenEbit.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
-        <DataField>
-          { getIndicatorValueFormated(asset.eficiencia.margenEbitda.value, asset.eficiencia.margenEbitda.simbol) }
-          <span>
-            {Array.from(Array(asset.eficiencia.margenEbitda.ranking), (el, index) => {
-              return <AiFillStar key={index}/>;
-            })}
-          </span>
-        </DataField>
+        {getDataFieldJsxForIndicator(asset.eficiencia.margenBruta.value, asset.eficiencia.margenBruta.simbol, asset.eficiencia.margenBruta.ranking)}
+        {getDataFieldJsxForIndicator(asset.eficiencia.margenLiquida.value, asset.eficiencia.margenLiquida.simbol, asset.eficiencia.margenLiquida.ranking)}
+        {getDataFieldJsxForIndicator(asset.eficiencia.margenEbit.value, asset.eficiencia.margenEbit.simbol, asset.eficiencia.margenEbit.ranking)}
+        {getDataFieldJsxForIndicator(asset.eficiencia.margenEbitda.value, asset.eficiencia.margenEbitda.simbol, asset.eficiencia.margenEbitda.ranking)}
       </FieldGroup>
     </Container>
   );

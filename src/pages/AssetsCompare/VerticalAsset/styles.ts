@@ -44,10 +44,10 @@ export const DataField = styled.div`
   `}
 `;
 
-export const EmptyBlock = styled.div<{first?: boolean}>`
-  ${({ theme, first }) => css`
+export const EmptyBlock = styled.div<{thinnerHeight?: boolean}>`
+  ${({ theme, thinnerHeight }) => css`
       width: 19rem;
-      height: ${first ? '3rem' : '5rem'};
+      height: ${thinnerHeight ? '3rem' : '5rem'};
       display: flex;
       align-items: center;
       justify-content: center;
