@@ -72,7 +72,6 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
       setSearchResults(result);
       setIsLoading(false);
     }).catch(e => {
-      console.log('Something went wrong on the search', e);
       setIsLoading(false);
     })
 }

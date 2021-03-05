@@ -1,5 +1,6 @@
 import React from 'react';
 
+import getIndicatorValueFormated from '../../../utils/format-company-indicator';
 import FavoritedCard from '../../../components/FavoritedCard';
 import { AiFillStar } from 'react-icons/ai';
 
@@ -18,13 +19,6 @@ interface VerticalAssetProps {
 }
 
 const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) => {
-
-  const getIndicatorValueFormated = (indicator: number, simbol: string | undefined = ''): string => {
-    return indicator ? 
-      parseFloat(String(indicator))
-        .toFixed(2)
-          .replace('.', ',') + simbol : '-';
-  }
 
   return (
     <Container>

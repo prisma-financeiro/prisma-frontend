@@ -38,7 +38,7 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
       </AssetHeader>
 
       <div ref={anchor.valuation}>
-        <Title first={true}>
+        <Title thinnerHight={true}>
           Valuation
         </Title>
         {valuationFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}

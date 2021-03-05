@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import getIndicatorValueFormated from '../../utils/format-company-indicator';
+
+import BarChart from '../BarChart';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+
 import {
   Container,
   Header,
@@ -7,9 +12,6 @@ import {
   Content,
   Value,
 } from './styles';
-
-import BarChart from '../BarChart';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface IndicatorCardProps {
   indicatorName: string;
@@ -124,12 +126,7 @@ const IndicatorCard: React.FC<IndicatorCardProps> = ({ indicatorName, value, cha
     >
       <Header>
         <Value>
-          {
-            value ?
-              `${parseFloat(String(value)).toFixed(2).toString().replace('.', ',')}${representationCharacter && representationCharacter}`
-              :
-              "--"
-          }
+          { value && getIndicatorValueFormated(value, representationCharacter) }
         </Value>
         <Title>
           <p>{indicatorName}</p>
