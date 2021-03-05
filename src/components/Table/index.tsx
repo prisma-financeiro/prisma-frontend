@@ -11,14 +11,20 @@ import {
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import Spinner from '../Spinner';
 
+export interface TableHeader {
+  value: string;
+  label: string;
+}
+
 export interface TableProps {
-  tableHeader: string[],
+  tableHeader: TableHeader[],
   tableData: any[],
   showBottomBorder: boolean
-  numberOfRows: number,
-  numberOfPages: number,
-  isTableLoading: boolean,
+  numberOfRows?: number,
+  numberOfPages?: number,
+  isTableLoading?: boolean,
   showRowHover?: boolean,
+  verticalHeader?: boolean
   onPageChange?: (nextPageNumber: number) => void
   onRowClick?: (rowInfo: any) => void
 }
@@ -31,7 +37,7 @@ const DASHBOARD_ANIMATION = {
 };
 
 
-const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, numberOfPages, showBottomBorder, isTableLoading, showRowHover = false, onPageChange, onRowClick }) => {
+const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows = 0, numberOfPages = 0, showBottomBorder, isTableLoading = false, showRowHover = false, verticalHeader = false, onPageChange, onRowClick }) => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -42,10 +48,10 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
   const getHeader = () => {
     return (
       <tr>
-        {tableHeader.map((key, index) => {
+        {tableHeader.map((header, index) => {
           return (
             <th key={index}>
-              {key}
+              {header.label}
             </th>
           );
         })}
@@ -121,24 +127,51 @@ const Table: React.FC<TableProps> = ({ tableHeader, tableData, numberOfRows, num
     onPageChange && onPageChange(pageNumber);
   }
 
+  const getVerticalTableData = (header: TableHeader, headerIndex: number) => {
+    return (
+      <tr key={headerIndex}>
+        <th key={headerIndex}>{header.label}</th>
+        { tableData.map((item, itemIndex) => {
+          return (
+            <td key={itemIndex}>{item[header.value]}</td>
+          )
+        })}
+      </tr>
+    )
+  }
+
   return (
     <Container>
       { isTableLoading && <SpinnerContainer><Spinner /></SpinnerContainer>}
-      <StyledTable
-        variants={DASHBOARD_ANIMATION}
-        initial="unMounted"
-        animate="mounted"
-        exit="unMounted"
-        transition={{ duration: 1.0 }}
-        showBottomBorder={showBottomBorder} 
-        showRowHover={showRowHover}>
-        <thead>
-          {getHeader()}
-        </thead>
-        <tbody>
-          {getRowsData()}
-        </tbody>
-      </StyledTable>
+      { verticalHeader ? (
+        <StyledTable
+          showBottomBorder={showBottomBorder} 
+          showRowHover={showRowHover}>
+            <tbody>
+              {
+                tableHeader.map((header, index) => {
+                  return getVerticalTableData(header, index)
+                })
+              }
+            </tbody>
+        </StyledTable>
+      ): (
+          <StyledTable
+          variants={DASHBOARD_ANIMATION}
+          initial="unMounted"
+          animate="mounted"
+          exit="unMounted"
+          transition={{ duration: 1.0 }}
+          showBottomBorder={showBottomBorder} 
+          showRowHover={showRowHover}>
+          <thead>
+            {getHeader()}
+          </thead>
+          <tbody>
+            {getRowsData()}
+          </tbody>
+        </StyledTable>
+      )}
       {
         numberOfPages > 0 &&
         <Pagination>

@@ -24,7 +24,7 @@ const Main = () => {
         transition={{ duration: 1.5 }}
       >
         {
-          !device.isMobile &&
+          !device.isTablet &&
           <SideBar sideBarOptions={sideBarOptionLanding} />
         }
         <MainContent>

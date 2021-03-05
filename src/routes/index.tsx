@@ -14,10 +14,13 @@ const Routes = () => {
   
   return (
     <Switch>
-        <PrivateRoute path="/home" exact component={Main} />
+        <Route path="/" exact component={Login} />
+        <PrivateRoute path="/home" component={Main} />
         <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
-        <PrivateRoute path="/ranking" exact component={Ranking} />
+        <PrivateRoute path="/assets-compare/:id/:ticker" component={AssetsCompare} />
+        <PrivateRoute path="/ranking" component={Ranking} />
         <PrivateRoute path="/company/:id/:ticker" component={Company}/>
+        <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
         <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
         
         <Route path="/signup" component={Signup} />
