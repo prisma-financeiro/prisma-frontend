@@ -36,12 +36,6 @@ export const InputControl = styled.div`
   margin: 1.5rem;
 `;
 
-export const ValidatorMessage = styled.div`
-  margin-left: 1.5rem;
-  color: ${({ theme }) => theme.colors.danger};
-  font-size: ${({ theme }) => theme.fontSizes.default};
-`;
-
 export const AccountOptions = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +56,7 @@ export const AccountOptions = styled.div`
 export const SpinnerContainer = styled.div`    
     height: 100%;
 `;
+
 
 export const ConfirmationModalButtonContainer = styled.div`  
   width: 100%;

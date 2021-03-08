@@ -2,39 +2,34 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { AxiosInstance } from 'axios';
 import useAuth from '../contexts/auth';
 import { useHistory } from 'react-router-dom';
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import { HttpStatusCode } from '../services/api';
+import { HttpResponseError, HttpStatusCode } from '../services/api';
 
 const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
     return (props: any) => {
 
         const { signOut } = useAuth();
         const history = useHistory();
-        const [hasBeenSignOut, setHasBeenSignOut] = useState<boolean>(false);
 
         const signOutUserAndRedirectToLogin = (): void => {
-            setHasBeenSignOut(true);
             signOut();
             history.push("/");
-            toast.error("Sua sessão foi encerrada, faça login novamente.");
         }
 
-        const onRejectHandler = (error: any): any => {
+        const onRejectHandler = (error: any): Promise<Error> => {
             console.log("interceptor error");
 
-            if (!error.response) {
-                // toast.error("Ops, parece que algo deu errado. Tente novamente em instântes.");
-                // return Promise.reject(error);
-                return new Promise(() => { });
-            }
+            // if (!error.response) {
+            //     // toast.error("Ops, parece que algo deu errado. Tente novamente em instântes.");
+            //     // return Promise.reject(error);
+            //     return new Promise(() => { });
+            // }
 
-            if (error.response.status === HttpStatusCode.Unauthorized) {
-                !hasBeenSignOut && signOutUserAndRedirectToLogin();
-            }
+            // if (error.response.status === HttpStatusCode.Unauthorized) {
+            //     signOutUserAndRedirectToLogin();
+            //     return new Promise(() => { });
+            // }
 
-            // return Promise.reject(error);
-            return new Promise(() => { });
+            return Promise.reject(error.response ? new HttpResponseError(error.response.data) : error);
         }
 
         useEffect(() => {
@@ -45,7 +40,7 @@ const withErrorHandler = (WrappedComponent: React.FC, axios: AxiosInstance) => {
 
         return (
             <Fragment>
-                <ToastContainer />
+                {/* <ToastContainer /> */}
                 <WrappedComponent {...props} />
             </Fragment>
         )

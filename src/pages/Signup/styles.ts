@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
@@ -8,41 +8,33 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-
-
 export const FormContainer = styled.div`
 ${({ theme }) => `
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
-width: 40rem;
-background: ${theme.colors.background};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 40rem;
+  background: ${theme.colors.background};
 
-> h1 {
-  text-align: center;
-  margin: 3rem 3rem;
-}
+  > h1 {
+    text-align: center;
+    margin: 3rem 3rem;
+  }
 
-> form {
-  width: 90%
-}
+  > form {
+    width: 90%
+  }
 
-@media (max-width: ${theme.deviceWidth.mobile}) {
-  width: 100%;
-  height: 100%;
-}
+  @media (max-width: ${theme.deviceWidth.mobile}) {
+    width: 100%;
+    height: 100%;
+  }
 `}
 `;
 
 export const InputControl = styled.div`
   margin: 1.5rem;
-`;
-
-export const ValidatorMessage = styled.div`
-  margin: 0.3rem;
-  color: ${({ theme }) => theme.colors.danger};
-  font-size: ${({ theme }) => theme.fontSizes.tiny};
 `;
 
 export const AccountOptions = styled.div`

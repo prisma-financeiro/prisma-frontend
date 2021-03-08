@@ -11,7 +11,7 @@ import {
 import IndicatorCard from "../../../components/IndicatorCard";
 import { company } from "../../../services";
 import { SelectOptionType } from "../../../models";
-import { refreshTokenIfExpiredAndDoRequests } from "../../../services/api";
+import useAuth from "../../../contexts/auth";
 
 export enum IndicatorType {
     valuation = 'Valuation',
@@ -33,9 +33,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     const [isChartVisible, setIsChartVisible] = useState(false);
     const [indicatorHistory, setIndicatorHistory] = useState<SelectOptionType[]>([]);
     const [selectedIndicator, setSelectedIndicator] = useState<string>('');
-
-
-
+    const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
     const _getBalanceIndicatorHistory = async (indicatorName: string, type: string) => {
         let formatedValues: SelectOptionType[] = [];
@@ -72,7 +70,7 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     }
 
     const getIndicatorHistory = async (indicatorName: string, type: string) => {
-        refreshTokenIfExpiredAndDoRequests(async () => {
+        await refreshTokenIfExpiredAndDoRequests(async () => {
             if (indicatorType === IndicatorType.valuation) {
                 await _getMarketIndicatorHistory(indicatorName, type);
             } else {
@@ -82,16 +80,16 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     }
 
     const handleSelectionChange = async (indicatorName: string, type: string) => {
-        getIndicatorHistory(indicatorName, type);
+        await getIndicatorHistory(indicatorName, type);
         const selectedIndicatorValue = indicatorSelectionOptions.find(el => el.value === indicatorName)?.label || indicatorSelectionOptions[0].value;
         setSelectedIndicator(selectedIndicatorValue);
     }
 
-    const handleOnCardClick = (indicatorName: string) => {
+    const handleOnCardClick = async (indicatorName: string) => {
         setSelectedIndicator(indicatorName);
         setIsChartVisible(true);
         const selectedIndicator: string = indicatorSelectionOptions.find(el => el.label === indicatorName)?.value || indicatorSelectionOptions[0].value;
-        getIndicatorHistory(selectedIndicator, "TRIMESTRAL");
+        await getIndicatorHistory(selectedIndicator, "TRIMESTRAL");
     }
 
     const handleReturnCardView = () => {

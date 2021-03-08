@@ -1,16 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import storageManager from '../utils/storage';
 import cookieManager from './cookieManager';
-import { refreshToken } from './login';
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import { toast, ToastContainer } from "react-toastify";
 
-dayjs.extend(utc);
-
-export const isHttpStatusError = (statusCode: number): boolean => {
-  return statusCode >= HttpStatusCode.BadRequest;
-}
+// export const isHttpStatusError = (statusCode: number): boolean => {
+//   return statusCode >= HttpStatusCode.BadRequest;
+// }
 
 export enum HttpStatusCode {
   Success = 200,
@@ -18,13 +11,6 @@ export enum HttpStatusCode {
   Unauthorized = 401,
   InternalServerException = 500
 }
-
-class TokenRefreshError extends Error {
-  constructor() {
-    super();
-    this.message = "Não foi possível atualiazar a sessão.";
-  }
-};
 
 export class HttpResponseError extends Error {
   private _status: number;
@@ -44,7 +30,6 @@ export class HttpResponseError extends Error {
   public get code(): string {
     return this._code;
   }
-
 }
 
 // class AxiosWrapper {
@@ -87,7 +72,7 @@ export class HttpResponseError extends Error {
 
 // }
 
-const createRequestInterceptor = (api: AxiosInstance) => {
+const setRequestInterceptor = (api: AxiosInstance) => {
   api.interceptors.request.use((config: AxiosRequestConfig) => {
     const { token } = cookieManager.getCookies();
 
@@ -97,10 +82,19 @@ const createRequestInterceptor = (api: AxiosInstance) => {
 
     return config;
   },
-    () => {
-      return new Promise(() => { });
-    }
+    error => error
+    // () => {
+    //   return new Promise(() => { });
+    // }
   );
+}
+
+const onRejectHandler = (error: any): Promise<Error> => Promise.reject(error.response ? new HttpResponseError(error.response.data) : error);
+
+const setResponseInterceptor = (api: AxiosInstance) => {
+  api.interceptors.response.use(
+    res => res,
+    error => onRejectHandler(error));
 }
 
 const createAxiosApi = () => {
@@ -111,54 +105,55 @@ const createAxiosApi = () => {
 
   api.defaults.withCredentials = true;
 
-  createRequestInterceptor(api);
+  setRequestInterceptor(api);
+  setResponseInterceptor(api);
 
   return api;
 }
 
-const MINUTES_TO_CHECK_EXPIRATION_BEFORE = 5;
+// const MINUTES_TO_CHECK_EXPIRATION_BEFORE = 5;
 
-const isSessionExpired = (expirationDate: Date): boolean => {
-  const currentDatetime = new Date(dayjs().add(MINUTES_TO_CHECK_EXPIRATION_BEFORE, "minutes").utc().format());
-  const expireAt = dayjs(expirationDate).toDate();
+// const isSessionExpired = (expirationDate: Date): boolean => {
+//   const currentDatetime = new Date(dayjs().add(MINUTES_TO_CHECK_EXPIRATION_BEFORE, "minutes").utc().format());
+//   const expireAt = dayjs(expirationDate).toDate();
 
-  return currentDatetime >= expireAt;
-}
+//   return currentDatetime >= expireAt;
+// }
 
-const getNewTokenAndSetNewSessionToLocalstorage = async () => {
-  const newSession = await refreshToken();
+// const getNewTokenAndSetNewSessionToLocalstorage = async () => {
+//   const newSession = await refreshToken();
 
-  if (!newSession) {
-    throw new TokenRefreshError();
-  }
+//   if (!newSession) {
+//     throw new TokenRefreshError();
+//   }
 
-  storageManager.setUserSession(newSession);
-}
+//   storageManager.setUserSession(newSession);
+// }
 
-const getRequestCallFunctionsWrappedIntoPromises = (requestCallFunctions: Function[]): Promise<void>[] => {
-  return requestCallFunctions.map(requestFunction => {
-    return new Promise<void>((resolve, _reject) => {
-      requestFunction();
-      resolve();
-    });
-  });
-}
+// const getRequestCallFunctionsWrappedIntoPromises = (requestCallFunctions: Function[]): Promise<void>[] => {
+//   return requestCallFunctions.map(requestFunction => {
+//     return new Promise<void>((resolve, _reject) => {
+//       requestFunction();
+//       resolve();
+//     });
+//   });
+// }
 
-export const refreshTokenIfExpiredAndDoRequests = async (...args: Function[]) => {
-  try {
-    const session = storageManager.getUserSession();
+// export const refreshTokenIfExpiredAndDoRequests = async (...args: Function[]) => {
+//   try {
+//     const session = storageManager.getUserSession();
 
-    if (isSessionExpired(session.expiresAt)) {
-      await getNewTokenAndSetNewSessionToLocalstorage();
-    }
+//     if (isSessionExpired(session.expiresAt)) {
+//       await getNewTokenAndSetNewSessionToLocalstorage();
+//     }
 
-    const requests = getRequestCallFunctionsWrappedIntoPromises(args);
+//     const requests = getRequestCallFunctionsWrappedIntoPromises(args);
 
-    Promise.all(requests);
-  } catch (error) {
-    // TODO... Signout e toast que a sessao foi encerrada.   
-  }
-}
+//     Promise.all(requests);
+//   } catch (error) {
+//     // TODO... Signout e toast que a sessao foi encerrada.   
+//   }
+// }
 
 const api = createAxiosApi();
 

@@ -26,7 +26,7 @@ import history from '../../../services/history';
 import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import Spinner from '../../../components/Spinner';
-import { refreshTokenIfExpiredAndDoRequests } from '../../../services/api';
+import useAuth from '../../../contexts/auth';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -48,13 +48,14 @@ const MarketToday = () => {
   const device = useBreakpoints();
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
+  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   const handleIbovTableClick = (assetId: number, ticker: string) => {
     history.push(`/company/${assetId}/${ticker}`);
   }
 
-  const getIbovMarketPriceFlutuation = () => {
-    marketIndex.getMarketIndexPriceFlutuation("IBOV")
+  const getIbovMarketPriceFlutuation = async () => {
+    await marketIndex.getMarketIndexPriceFlutuation("IBOV")
       .then((data: MarketIndexPriceFlutuationResult) => {
 
         const flutuation: IndexFlutuationTableData = {
@@ -65,15 +66,12 @@ const MarketToday = () => {
 
         setIbovFlutuationTableLoading(false);
         setIbovFlutuationTable(flutuation);
-      })
-      .catch(() => {
-        setIbovFlutuationTableLoading(false);
       });
   };
 
 
-  const getIfixMarketPriceFlutuation = () => {
-    marketIndex.getMarketIndexPriceFlutuation("IFIX")
+  const getIfixMarketPriceFlutuation = async () => {
+    await marketIndex.getMarketIndexPriceFlutuation("IFIX")
       .then((data: MarketIndexPriceFlutuationResult) => {
 
         if (data) {
@@ -86,9 +84,6 @@ const MarketToday = () => {
           setIfixFlutuationTableLoading(false);
           setIfixFlutuationTable(flutuation);
         }
-      })
-      .catch(() => {
-        setIfixFlutuationTableLoading(false);
       });
   }
 
@@ -96,7 +91,10 @@ const MarketToday = () => {
     refreshTokenIfExpiredAndDoRequests(
       getIbovMarketPriceFlutuation,
       getIfixMarketPriceFlutuation
-    );
+    ).catch(_error => {
+      setIbovFlutuationTableLoading(false);
+      setIfixFlutuationTableLoading(false);
+    })
   }, []);
 
 

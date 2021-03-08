@@ -64,7 +64,9 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
 import withErrorHandler from '../../hocs/withErrorHandler';
-import api, { refreshTokenIfExpiredAndDoRequests } from '../../services/api';
+import api from '../../services/api';
+import useAuth from '../../contexts/auth';
+
 
 interface TickePrice {
   price: number;
@@ -83,6 +85,7 @@ interface StockPriceInfo {
 const Company: React.FC = (props: any) => {
   const INITIAL_STOCK_QUOTE_PERIOD = 5;
   const device = useBreakpoints();
+  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
@@ -107,14 +110,14 @@ const Company: React.FC = (props: any) => {
   const dadosGerais = useRef(null);
   const contato = useRef(null);
 
-  const getCompanyGeneralInformation = () => {
-    company.getCompany(companyId).then(data => {
+  const getCompanyGeneralInformation = async () => {
+    await company.getCompany(companyId).then(data => {
       setCompanyInfo(data);
     });
   }
 
-  const getCurrentTickerPrice = () => {
-    company.getTickerPrice(ticker).then(data => {
+  const getCurrentTickerPrice = async () => {
+    await company.getTickerPrice(ticker).then(async data => {
       const tickerPrice: TickePrice = {
         price: data.price,
         variationValue: data.variationValue,
@@ -124,13 +127,13 @@ const Company: React.FC = (props: any) => {
 
       setTickerPrice(tickerPrice);
 
-      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+      await company.getCompanyMarketIndicator(ticker, tickerPrice.price)
         .then(data => setMarketIndicatorInfo(data));
     });
   }
 
-  const getTickerPriceHistory = () => {
-    company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
+  const getTickerPriceHistory = async () => {
+    await company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
 
       const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
       setStockPriceHistory(formatedData);
@@ -146,8 +149,8 @@ const Company: React.FC = (props: any) => {
     });
   }
 
-  const getAllCompanyIndicators = () => {
-    company.getCompanyIndicator(companyId).then(indicator => {
+  const getAllCompanyIndicators = async () => {
+    await company.getCompanyIndicator(companyId).then(indicator => {
       setBalanceIndicatorInfo(indicator);
     });
   }
@@ -158,7 +161,7 @@ const Company: React.FC = (props: any) => {
       getCurrentTickerPrice,
       getTickerPriceHistory,
       getAllCompanyIndicators
-    );
+    ).catch(error => error);
 
     scrollTo(valuation);
   }, []);
@@ -266,7 +269,7 @@ const Company: React.FC = (props: any) => {
 
   const handleStockQuotePeriodChange = (period: number | null) => {
     refreshTokenIfExpiredAndDoRequests(async () => {
-      company.getTickerHistory(ticker, period)
+      await company.getTickerHistory(ticker, period)
         .then(data => {
           const formatedData = formatStockPriceHistory(data.historicalPrices);
           setStockPriceHistory(formatedData);
@@ -569,4 +572,4 @@ const Company: React.FC = (props: any) => {
   );
 };
 
-export default withErrorHandler(Company, api);
+export default Company;

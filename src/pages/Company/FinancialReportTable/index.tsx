@@ -16,7 +16,7 @@ import {
   TableColumnValue,
   SelectContainer
 } from './styles';
-import { refreshTokenIfExpiredAndDoRequests } from '../../../services/api';
+import useAuth from '../../../contexts/auth';
 
 interface FinancialReportTableProps {
   companyId: number;
@@ -34,6 +34,7 @@ enum PeriodType {
 }
 
 const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, reportType }) => {
+  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   const financialReportsOptions = [
     { value: "t", label: "Trimestre" },
@@ -46,10 +47,10 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   const [selectedPeriodFrom, setSelectedPeriodFrom] = useState<SelectOptionType>();
   const [selectedPeriodTo, setSelectedPeriodTo] = useState<SelectOptionType>();
 
-  const getFinancialReportData = () => {
+  const getFinancialReportData = async () => {
     switch (reportType) {
       case FinancialReportType.CASHFLOW:
-        company.getCashFlowOptions(companyId)
+        await company.getCashFlowOptions(companyId)
           .then((data: any[]) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -59,7 +60,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
+        await company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
           if (hasData(data)) {
             const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
             setTableData(buildTableComponents(formatedTable));
@@ -70,7 +71,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
         break;
 
       case FinancialReportType.BALANCESHEET:
-        company.getBalanceSheetOptions(companyId)
+        await company.getBalanceSheetOptions(companyId)
           .then((data: any[]) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -80,7 +81,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        company.getBalanceSheetData(companyId)
+        await company.getBalanceSheetData(companyId)
           .then((data) => {
             if (hasData(data)) {
               const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
@@ -92,7 +93,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
         break;
 
       case FinancialReportType.INCOMESTATEMENT:
-        company.getIncomeStatementOptions(companyId)
+        await company.getIncomeStatementOptions(companyId)
           .then((data: any) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -102,7 +103,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        company.getIncomeStatementData(companyId)
+        await company.getIncomeStatementData(companyId)
           .then((data) => {
             if (hasData(data.years)) {
               const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
@@ -180,7 +181,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
 
         case FinancialReportType.INCOMESTATEMENT:
 
-          company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
+          await company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
             .then((data) => {
               if (hasData(data.years)) {
                 const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
@@ -319,8 +320,8 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
           isTableLoading={false} />
       </TableScroll>
     ) : (
-        <p>Sem informacoes</p>
-      )}
+      <p>Sem informacoes</p>
+    )}
   </Container>;
 }
 

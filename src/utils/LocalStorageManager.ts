@@ -6,7 +6,7 @@ enum LocalStorageItems {
     Session = "session"
 }
 
-class StorageManager {
+class LocalStorageManager {
 
     private userAccount: Account;
     private userSession: Session;
@@ -57,6 +57,6 @@ class StorageManager {
 
 }
 
-const storageManager = new StorageManager();
+const localStorageManager = new LocalStorageManager();
 
-export default storageManager;
+export default localStorageManager;

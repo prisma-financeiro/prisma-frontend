@@ -3,93 +3,92 @@ import Input from '../../components/Input'
 import Button from '../../components/Button'
 import history from '../../services/history';
 
-import { AccountOptions, ConfirmationModalButtonContainer, Container, FormContainer, InputControl, SpinnerContainer } from './styles';
-import { FiKey, FiLock } from 'react-icons/fi';
+import { Container, FormContainer, InputControl, SpinnerContainer } from './styles';
+import { FiKey } from 'react-icons/fi';
 import * as login from "../../services/login";
-import * as signUp from "../../services/signup";
 import withErrorHandler from '../../hocs/withErrorHandler';
-import api from "../../services/api";
-import useAuth from '../../contexts/auth';
+import api, { HttpResponseError } from "../../services/api";
 import Spinner from '../../components/Spinner';
-import Modal from '../../components/Modal';
 import { toast } from "react-toastify";
-
-const KEY_ENTER = "Enter";
+import Password from '../../components/Password';
+import sessionStorageManager from '../../utils/SessionStorageManager';
+import { DEFAULT_GENERIC_ERROR_MESSAGE } from '../../exceptions';
 
 const ForgotPassword = () => {
 
-    const [isLoadingSendRecoverEmail, setIsLoadingSendRecoverEmail] = useState<boolean>(false);
-    const [isPasswordRecoverEmailSended, setIsPasswordRecoverEmailSended] = useState<boolean>(false);
-    const [isAccountNotConfirmedModalVisible, setIsAccountNotConfirmedModalVisible] = useState<boolean>(false);
-    const [isLoadingResendConfirmation, setIsLoadingResendConfirmation] = useState<boolean>(false);
-    const [email, setEmail] = useState<string>('');
+    const [isLoadingPasswordRecover, setIsLoadingPasswordRecover] = useState<boolean>(false);
+    const [confirmationCode, setConfirmationCode] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [passwordValid, setPasswordValid] = useState<boolean>(false);
 
-    const { signed, signIn } = useAuth();
-
-    if (signed) {
-        history.push("/home");
+    const handleConfirmationCodeChange = (value: string): void => {
+        setConfirmationCode(value);
+    }
+    const handleOnChangePassword = (password: string): void => {
+        setPassword(password);
     }
 
-    const showLoginErrorMessage = (code: string) => {
-        switch (code) {
-            case login.SignInExceptions.NotAuthorizedException:
-                toast.error("E-mail ou senha inválidos.");
-                break;
+    const handlePasswordRulesMatched = () => {
+        setPasswordValid(true);
+    }
 
-            case login.SignInExceptions.UserNotConfirmedException:
-                setIsAccountNotConfirmedModalVisible(true);
-                break;
+    const handlePasswordRulesNotMatched = () => {
+        setPasswordValid(false);
+    }
+
+    const redirectToLoginPage = () => {
+        history.push("/");
+    }
+
+    const showSuccessMessageAndRedirectToLoginPage = () => {
+        redirectToLoginPage();
+        toast.success("Sua senha foi redefinida.");
+    }
+
+    const removeSessionStorageEmail = () => {
+        sessionStorageManager.removePasswordRecoverEmail();
+    }
+
+    const handleForgotPasswordSubmitResponse = () => {
+        setIsLoadingPasswordRecover(false);
+        removeSessionStorageEmail();
+        showSuccessMessageAndRedirectToLoginPage();
+    }
+
+    const getForgotPasswordSubmitErrorMessage = (code: string): string => {
+        switch (code) {
+            case login.ForgotPasswordSubmitError.CodeMismatchException:
+                return "Código de verificação inválido, tente novamente.";
+
+            case login.ForgotPasswordSubmitError.ExpiredCodeException:
+                return "Código de verificação inválido, solicite um novo código.";
 
             default:
-                toast.error("Não foi possível acessar sua conta. Tente mais tarde.");
-                break;
+                return DEFAULT_GENERIC_ERROR_MESSAGE;
         }
     }
 
-    const handleLogin = () => {
-        if (email && password) {
-            setIsLoadingSendRecoverEmail(true);
-
-            login.signIn(email, password)
-                .then(response => {
-                    setIsLoadingSendRecoverEmail(false);
-                    if (response.auth) {
-                        signIn(response);
-                        history.push("/home");
-                    } else {
-                        showLoginErrorMessage(response.code);
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    setIsLoadingSendRecoverEmail(false);
-                });
-        }
+    const handleForgotPasswordSubmitError = (error: HttpResponseError) => {
+        setIsLoadingPasswordRecover(false);
+        const message = getForgotPasswordSubmitErrorMessage(error.code);
+        toast.error(message);
     }
 
-    const handleEmailChange = (email: string) => {
-        setEmail(email);
+    const handlePasswordRecoverSubmit = () => {
+        setIsLoadingPasswordRecover(true);
+
+        const email = sessionStorageManager.getPasswordRecoverEmail();
+        login.forgotPasswordSubmit(email, confirmationCode, password)
+            .then(() => handleForgotPasswordSubmitResponse())
+            .catch((error: HttpResponseError) => handleForgotPasswordSubmitError(error));
     }
 
-    const handleAccountNotConfirmedModalOK = () => {
-        setIsAccountNotConfirmedModalVisible(false);
+    const handleForgotPasswordCancel = (): void => {
+        redirectToLoginPage();
     }
 
-    const handleAccountNotConfirmedModalResendEmail = () => {
-        setIsLoadingResendConfirmation(true);
-        signUp.resendConfirmation(email)
-            .then(_res => {
-                setIsLoadingResendConfirmation(false);
-                setIsAccountNotConfirmedModalVisible(false);
-                toast.success('E-mail de confirmação reenviado!');
-            });
-    }
-
-    const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === KEY_ENTER) {
-            handleLogin();
-        }
+    const isSubmitAllowed = (): boolean => {
+        return !!confirmationCode && passwordValid;
     }
 
     return (
@@ -102,52 +101,38 @@ const ForgotPassword = () => {
                             type="input"
                             placeholder="Código de recuperação"
                             icon={<FiKey />}
-                            value={email}
+                            value={confirmationCode}
                             required={true}
-                            onChange={(event) => handleEmailChange(event.target.value)}
+                            onChange={(event) => handleConfirmationCodeChange(event.target.value)}
                         />
                     </InputControl>
-                    <InputControl>
-                        <Input
-                            type="password"
-                            placeholder="Nova senha"
-                            icon={<FiLock />}
-                            value={password}
-                            required={true}
-                            onChange={(event) => setPassword(event.target.value)}
-                            onKeyDown={(event) => handlePasswordKeyDown(event)}
-                        />
-                    </InputControl>
-                    <InputControl>
-                        <Input
-                            type="password"
-                            placeholder="Confirmação da nova senha"
-                            icon={<FiLock />}
-                            value={password}
-                            required={true}
-                            onChange={(event) => setPassword(event.target.value)}
-                            onKeyDown={(event) => handlePasswordKeyDown(event)}
-                        />
-                    </InputControl>
+                    <Password
+                        onChangePassword={(password) => handleOnChangePassword(password)}
+                        onPasswordRulesMatched={() => handlePasswordRulesMatched()}
+                        onPasswordRulesNotMatched={() => handlePasswordRulesNotMatched()}
+                    />
                     <InputControl>
                         <Button
                             variant="primary"
-                            onClick={() => handleLogin()}
-                            disabled={!email || !password || isLoadingSendRecoverEmail}
+                            onClick={() => handlePasswordRecoverSubmit()}
+                            disabled={!isSubmitAllowed()}
                         >
                             {
-                                isLoadingSendRecoverEmail ?
+                                isLoadingPasswordRecover ?
                                     <SpinnerContainer>
                                         <Spinner />
                                     </SpinnerContainer>
                                     : 'Redefinir'
                             }
                         </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={() => handleForgotPasswordCancel()}
+                        >
+                            Cancelar
+                        </Button>
                     </InputControl>
                 </form>
-                <AccountOptions>
-                    <a href='/login'>Entrar na sua conta.</a>
-                </AccountOptions>
             </FormContainer>
         </Container>
     );

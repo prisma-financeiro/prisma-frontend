@@ -9,6 +9,8 @@ import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import ForgotPassword from '../pages/ForgotPassword';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Routes = () => {
 
@@ -27,6 +29,7 @@ const Routes = () => {
 
         <Route render={() => <Redirect to="/home" />} />
       </Switch>
+      <ToastContainer />
     </>
   );
 }
