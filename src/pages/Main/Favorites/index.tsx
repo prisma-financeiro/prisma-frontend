@@ -10,6 +10,7 @@ import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Typeahead from '../../../components/Typeahead';
 import { AssetType } from '../../../models';
 import Button from '../../../components/Button';
+import AssetSelectModal from '../../../components/AssetSelectModal';
 
 interface CardData {
   id: number
@@ -20,6 +21,11 @@ interface CardData {
   variationReal: number,
   variationPercentage: number,
   type: AssetType
+}
+
+interface CompanyIdentification {
+  companyId: number, 
+  companyTicker: string
 }
 
 const Favorites = () => {
@@ -57,18 +63,27 @@ const Favorites = () => {
     setIsModalOpen(false);
   }
 
-  const handleModalConfirmed = () => {
+  const handleModalConfirmed = (selectedItems: CompanyIdentification[]) => {
+    const newCards: CardData[] = selectedItems.map((item, index) => {
+      return {
+        ...fakeData,
+        type: AssetType.Stock,
+        id: item.companyId,
+        tickerCode: item.companyTicker
+      }
+    });
     setIsModalOpen(false);
+    setFavoritedCards([...favoritedCards, ...newCards]);
   }
 
-  const handleSelectedOption = (type: AssetType, companyId: number, companyTicker: string) => {
-    // chamada para o backend para adicionar o card a lista salva pelo usuário
-    const newCard: CardData = fakeData;
-    newCard.type = type;
-    newCard.id = Math.random();
-    newCard.tickerCode = companyTicker;
-    setFavoritedCards([...favoritedCards, newCard]);
-  }
+  // const handleSelectedOption = (type: AssetType, companyId: number, companyTicker: string) => {
+  //   // chamada para o backend para adicionar o card a lista salva pelo usuário
+  //   const newCard: CardData = fakeData;
+  //   newCard.type = type;
+  //   newCard.id = Math.random();
+  //   newCard.tickerCode = companyTicker;
+  //   setFavoritedCards([...favoritedCards, newCard]);
+  // }
 
   const renderFavoriteCards = (assetType: AssetType) => {
     return favoritedCards.find(card => card.type === assetType) && (
@@ -141,7 +156,7 @@ const Favorites = () => {
         {assetsTypes.map(assetType => renderFavoriteCards(assetType))}
 
       </Accordion>
-      <Modal
+      {/* <Modal
         title="Adicionar um favorito"
         show={isModalOpen}
         showButtons={false}
@@ -153,7 +168,13 @@ const Favorites = () => {
             handleSelectedOption(type, companyId, companyTicker)
           }
           } />
-      </Modal>
+      </Modal> */}
+      <AssetSelectModal 
+        show={isModalOpen} 
+        modalClosed={handleCloseModal}
+        modalConfirmed={handleModalConfirmed}
+        isMulti={true}
+        maxSelection={CARDS_LIMIT - favoritedCards.length}/>
     </>
   );
 };
