@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+
+import { company as CompanyService } from "../../../services";
+import { user as UserService } from "../../../services";
+
+import FavoritedCard from '../../../components/FavoritedCard';
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
+import Button from '../../../components/Button';
+import AssetSelectModal from '../../../components/AssetSelectModal';
+
+import { AssetType, CompanyInfo, UserAccount } from '../../../models';
+
 import {
   DataWrapper,
   SubHeader,
   ButtonContainer
 } from './styles';
-import FavoritedCard from '../../../components/FavoritedCard';
-import Modal from '../../../components/Modal';
-import Accordion, { AccordionSizes } from '../../../components/Accordion';
-import Typeahead from '../../../components/Typeahead';
-import { AssetType } from '../../../models';
-import Button from '../../../components/Button';
-import AssetSelectModal from '../../../components/AssetSelectModal';
+import { storageKey } from '../../../utils';
+
 
 interface CardData {
   id: number
@@ -23,9 +29,10 @@ interface CardData {
   type: AssetType
 }
 
-interface CompanyIdentification {
-  companyId: number, 
-  companyTicker: string
+interface AssetIdentification {
+  assetId: number, 
+  assetTicker: string,
+  assetType: AssetType
 }
 
 const Favorites = () => {
@@ -34,17 +41,6 @@ const Favorites = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
   const assetsTypes: AssetType[] = [AssetType.Stock, AssetType.Reit, AssetType.Fund, AssetType.Crypto, AssetType.Index];
-
-  const fakeData: CardData = {
-    id: 1,
-    companyLogo: 'https://media.glassdoor.com/sqll/382606/magazine-luiza-squarelogo-1564520166281.png',
-    tickerCode: 'MGLU3',
-    companyName: 'Magazine Luiza',
-    stockPrice: 10.58,
-    variationReal: -0.18,
-    variationPercentage: -0.51,
-    type: AssetType.Stock
-  }
 
   const createNewCompanyTickerCard = () => {
     handleShowModal();
@@ -63,27 +59,34 @@ const Favorites = () => {
     setIsModalOpen(false);
   }
 
-  const handleModalConfirmed = (selectedItems: CompanyIdentification[]) => {
-    const newCards: CardData[] = selectedItems.map((item, index) => {
-      return {
-        ...fakeData,
-        type: AssetType.Stock,
-        id: item.companyId,
-        tickerCode: item.companyTicker
-      }
-    });
+  const handleModalConfirmed = async (selectedAssets: AssetIdentification[]) => {
+    const newCards: CardData[] = [];
+    for await (const asset of selectedAssets) {
+      //await UserService.setUserFavorite(userAccount.id, asset.companyId, assetType, asset.companyTicker)
+      newCards.push(await getAssetInformation(asset.assetId, asset.assetTicker, AssetType.Stock));
+      
+    }
     setIsModalOpen(false);
     setFavoritedCards([...favoritedCards, ...newCards]);
   }
 
-  // const handleSelectedOption = (type: AssetType, companyId: number, companyTicker: string) => {
-  //   // chamada para o backend para adicionar o card a lista salva pelo usuário
-  //   const newCard: CardData = fakeData;
-  //   newCard.type = type;
-  //   newCard.id = Math.random();
-  //   newCard.tickerCode = companyTicker;
-  //   setFavoritedCards([...favoritedCards, newCard]);
-  // }
+  const getAssetInformation = async (companyId: number, tickerCode: string, assetType: AssetType) => {
+    
+    const company: CompanyInfo = await CompanyService.getCompany(companyId);
+    const tickerPriceInfo = await CompanyService.getTickerPrice(tickerCode);
+    const cardData: CardData = {
+      id: company.id,
+      companyName: company.name,
+      companyLogo: company.logo,
+      tickerCode: tickerCode,
+      stockPrice: tickerPriceInfo.price,
+      variationReal: tickerPriceInfo.variationValue,
+      variationPercentage: tickerPriceInfo.variationPercentage,
+      type: assetType,
+    }
+
+    return cardData;
+  }
 
   const renderFavoriteCards = (assetType: AssetType) => {
     return favoritedCards.find(card => card.type === assetType) && (
@@ -156,19 +159,6 @@ const Favorites = () => {
         {assetsTypes.map(assetType => renderFavoriteCards(assetType))}
 
       </Accordion>
-      {/* <Modal
-        title="Adicionar um favorito"
-        show={isModalOpen}
-        showButtons={false}
-        modalClosed={handleCloseModal}
-        modalConfirmed={handleModalConfirmed}>
-        <Typeahead
-          redirect={false}
-          selectedOption={(type: AssetType, companyId: number, companyTicker: string) => {
-            handleSelectedOption(type, companyId, companyTicker)
-          }
-          } />
-      </Modal> */}
       <AssetSelectModal 
         show={isModalOpen} 
         modalClosed={handleCloseModal}

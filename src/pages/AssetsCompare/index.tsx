@@ -15,7 +15,7 @@ import { getCompany, getCompanyIndicator, getTickerPrice } from '../../services/
 import { RiVipDiamondLine, RiPercentLine, RiFireLine } from 'react-icons/ri';
 import { FiTrendingUp } from 'react-icons/fi';
 
-import { CompanyInfo } from '../../models';
+import { CompanyInfo, AssetType } from '../../models';
 
 import { AssetSorting } from './AssetSorting';
 
@@ -77,13 +77,14 @@ export interface Asset {
   totalPuntuation?: number
 }
 
-interface CompanyIdentification {
-  companyId: number, 
-  companyTicker: string
+interface AssetIdentification {
+  assetId: number, 
+  assetTicker: string,
+  assetType: AssetType
 }
 
 interface AssetCompareProps {
-  preLoadedCompanyId?: CompanyIdentification; 
+  preLoadedCompanyId?: AssetIdentification; 
 }
 
 const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
@@ -155,16 +156,16 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
     inline: "start",
   });
 
-  const loadAssets = async (selectedAssetList: CompanyIdentification[]) => {
+  const loadAssets = async (selectedAssetList: AssetIdentification[]) => {
     setIsloading(true);
     const formatedAssetList: Asset[] = [...assetList];
 
     for await (const asset of selectedAssetList) {
-      const company: CompanyInfo = await getCompany(asset.companyId);
-      const companyIndicators = await getCompanyIndicator(asset.companyId);
-      const tickerInfo = await getTickerPrice(asset.companyTicker);
+      const company: CompanyInfo = await getCompany(asset.assetId);
+      const companyIndicators = await getCompanyIndicator(asset.assetId);
+      const tickerInfo = await getTickerPrice(asset.assetTicker);
 
-      const formatedAsset: Asset = createAsset(company, companyIndicators, tickerInfo, asset.companyTicker);
+      const formatedAsset: Asset = createAsset(company, companyIndicators, tickerInfo, asset.assetTicker);
       formatedAssetList.push(formatedAsset);
     }
 
@@ -273,9 +274,9 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
     setIsModalOpen(false);
   }
 
-  const handleModalConfirmed = async (selectedItems: CompanyIdentification[]) => {
+  const handleModalConfirmed = async (selectedItems: AssetIdentification[]) => {
     setIsModalOpen(false);
-    setPlaceholderNumber(prev => [...prev, ...selectedItems.map(asset => asset.companyId)]);
+    setPlaceholderNumber(prev => [...prev, ...selectedItems.map(asset => asset.assetId)]);
     loadAssets(selectedItems);
   }
 

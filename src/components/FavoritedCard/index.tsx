@@ -29,13 +29,12 @@ interface FavoritedCardProps {
   variationPercentage?: number;
   emptyCard?: boolean;
   backgroundDarker?: boolean;
-  hoverEffect?: boolean;
   roundedCorners?: boolean;
   addNewCardCallback: () => void;
   removeCardCallback: () => void;
 }
 
-const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyId, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, hoverEffect = true, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
+const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyId, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
   const device = useBreakpoints();
 
   const navigateToCompany = () => {
@@ -46,7 +45,6 @@ const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, 
     <Container
       backgroundDarker={backgroundDarker}
       roundedCorners={roundedCorners}
-      whileHover={hoverEffect ? { scale: 1.02 } : {}}
       >
       { emptyCard ? (
         <ButtonContent 

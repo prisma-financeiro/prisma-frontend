@@ -37,7 +37,6 @@ const VerticalAsset: React.FC<VerticalAssetProps> = ({ asset, onAssetRemove }) =
     <Container>
       <AssetHeader>
         <FavoritedCard
-          hoverEffect={false}
           roundedCorners={false}
           backgroundDarker={true}
           key={asset.id}
