@@ -90,16 +90,16 @@ export const Footer = styled.div`
 export const NavigateToCompanyButton = styled(motion.button)`
   ${({ theme }) => css`
       display: none;
-      height: 35px;
-      width: 35px;
+      height: 3rem;
+      width: 3rem;
       border-radius: 50%;
       background-color: ${theme.colors.primary};
       color: ${theme.colors.background};
 
       @media (max-width: ${theme.deviceWidth.tablet}) {
         display: flex;
-        height: 30px;
-        width: 30px;
+        height: 2.5rem;
+        width: 2.5rem;
       }
   `}
 `

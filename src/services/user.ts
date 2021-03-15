@@ -9,7 +9,7 @@ export const getUserFavorites = (userId: string) => {
   return api.get(`/user/${userId}/favorites`);
 };
 
-export const setUserFavorite = (userId: string, assetId: number, assetType: AssetType, tickerCode?: string) => {
+export const addUserFavorite = (userId: string, assetId: number, assetType: AssetType, tickerCode?: string) => {
   return api.post(`/user/${userId}/favorites`, {
     assetId,
     assetType,
