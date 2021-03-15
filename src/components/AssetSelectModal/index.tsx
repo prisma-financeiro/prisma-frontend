@@ -28,9 +28,10 @@ import {
   ListItemImage,
   ListItemType } from './styles';
 
-interface CompanyIdentification {
-  companyId: number, 
-  companyTicker: string
+interface AssetIdentification {
+  assetId: number,
+  assetTicker: string,
+  assetType: AssetType
 }
 
 interface ModalProps {
@@ -38,7 +39,7 @@ interface ModalProps {
   isMulti?: boolean;
   maxSelection?: number;
   modalClosed: () => void;
-  modalConfirmed: (selectedItems: CompanyIdentification[]) => void;
+  modalConfirmed: (selectedItems: AssetIdentification[]) => void;
 }
 
 const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelection = 10, modalClosed, modalConfirmed }) => {
@@ -49,7 +50,7 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
   const [showOptionList, setShowOptionList] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [selectedItems, setSelectedItems] = useState<CompanyIdentification[]>([]);
+  const [selectedItems, setSelectedItems] = useState<AssetIdentification[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -76,8 +77,8 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
     })
 }
 
-  const removeSelectedItem = (companyTicker: string) => {
-    setSelectedItems(prev => [...prev.filter(company => company.companyTicker !== companyTicker)]);
+  const removeSelectedItem = (assetTicker: string) => {
+    setSelectedItems(prev => [...prev.filter(asset => asset.assetTicker !== assetTicker)]);
   }
 
   const formatResponseType = (assetType: AssetType) => {
@@ -107,8 +108,8 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
    return responseName;
   }
 
-  const handleItemClick = (id: number, ticker: string) => {
-    setSelectedItems(prev => [...prev, {companyId: id, companyTicker: ticker}]);
+  const handleItemClick = (id: number, ticker: string, type: AssetType) => {
+    setSelectedItems(prev => [...prev, {assetId: id, assetTicker: ticker, assetType: type}]);
     setShowOptionList(false);
     setIsLoading(false);
     setInputValue('');
@@ -134,7 +135,7 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
       return (
         <ListItem 
           key={index} 
-          onMouseDown={() => handleItemClick(typeaheadOption.id, typeaheadOption.code)}>
+          onMouseDown={() => handleItemClick(typeaheadOption.id, typeaheadOption.code, typeaheadOption.type)}>
           <ListItemImage>
             <Logo imageUrl={typeaheadOption.image}/>
           </ListItemImage>
@@ -209,8 +210,8 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
                     fontSize={theme.fontSizes.small}
                     backgroundColor={theme.colors.secondary} 
                     color={theme.colors.background}
-                    onRemove={() => removeSelectedItem(item.companyTicker)}>
-                      {item.companyTicker}
+                    onRemove={() => removeSelectedItem(item.assetTicker)}>
+                      {item.assetTicker}
                   </Badge>
                 ))}
               </MultiSelectedItems>
