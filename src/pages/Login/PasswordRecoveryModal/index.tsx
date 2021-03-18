@@ -9,8 +9,7 @@ import { DEFAULT_GENERIC_ERROR_MESSAGE, HttpResponseError } from "../../../excep
 import history from "../../../services/history";
 import { forgotPassword, ForgotPasswordError } from "../../../services/login";
 import sessionStorageManager from "../../../utils/SessionStorageManager";
-import { InputControl, SpinnerContainer } from "../styles";
-import { ButtonContainer } from "./styles";
+import { InputControl, SpinnerContainer, ButtonContainer } from "./styles";
 
 interface PasswordRecoveryModalProps {
     onClose: () => void;

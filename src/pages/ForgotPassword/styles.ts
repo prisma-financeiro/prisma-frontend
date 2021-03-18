@@ -12,7 +12,7 @@ export const Container = styled.div`
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  ju stify-content: flex-start;
+  justify-content: flex-start;
   align-items: center;
   width: 40rem;
   background: ${({ theme }) => theme.colors.background};

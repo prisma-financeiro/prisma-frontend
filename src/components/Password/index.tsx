@@ -115,7 +115,7 @@ const Password: React.FC<PasswordProps> = ({ onChangePassword, onPasswordRulesMa
                             match={passwordRules.containUpperCaseLetter}
                         />
                         <PasswordRule
-                            text='Senha precisa conter um catactere especial.'
+                            text='Senha precisa conter um caracter especial.'
                             match={passwordRules.containSpecialCharacter}
                         />
                         <PasswordRule
