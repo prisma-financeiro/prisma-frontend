@@ -5,6 +5,7 @@ import {
     Title
 } from './styles';
 import Logo from '../Logo';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface CompanyHeaderProps {
     companyLogo: string;
@@ -15,7 +16,8 @@ interface CompanyHeaderProps {
 }
 
 const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, companyName, assetId, onClick }) => {
-
+    const device = useBreakpoints();
+    
     const handleClick = () => {
         onClick && assetId && onClick(assetId, tickerCode);
     }
@@ -25,7 +27,7 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ companyLogo, tickerCode, 
             <Logo imageUrl={companyLogo} />
             <Title>
                 <h2>{tickerCode}</h2>
-                <p>{companyName}</p>
+                {!device.isMobile && <p>{companyName}</p>}
             </Title>
         </Header>
     );

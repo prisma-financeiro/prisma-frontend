@@ -1,46 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
+
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+import history from '../../services/history';
+
+import StockPrice from '../StockPrice';
+import CompanyHeader from '../CompanyHeader';
+
+import {
+  FiPlus,
+  FiArrowRight
+} from 'react-icons/fi';
 
 import {
   Container,
   CloseButton,
-  ButtonContent
+  ButtonContent,
+  NavigateToCompanyButton,
+  Footer
 } from './styles';
-
-import {
-  FiPlus
-} from 'react-icons/fi';
-import StockPrice from '../StockPrice';
-import CompanyHeader from '../CompanyHeader';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 interface FavoritedCardProps {
   companyLogo?: string;
   tickerCode?: string;
+  companyId?: number;
   companyName?: string;
   stockPrice?: number;
   variationReal?: number;
   variationPercentage?: number;
   emptyCard?: boolean;
+  backgroundDarker?: boolean;
+  roundedCorners?: boolean;
   addNewCardCallback: () => void;
   removeCardCallback: () => void;
 }
 
-const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyName, stockPrice, variationPercentage, variationReal, emptyCard, addNewCardCallback, removeCardCallback }) => {
+const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyId, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
   const device = useBreakpoints();
-  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState<Boolean>(false);
 
-  const handleMouseHover = (isVisible: boolean) => {
-    setIsCloseButtonVisible(isVisible);
+  const navigateToCompany = () => {
+    history.push(`/company/${companyId}/${tickerCode}`);
   }
 
   return (
     <Container
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.99 }}
-      onMouseEnter={() => handleMouseHover(true)}
-      onMouseLeave={() => handleMouseHover(false)}>
+      backgroundDarker={backgroundDarker}
+      roundedCorners={roundedCorners}
+      >
       { emptyCard ? (
-        <ButtonContent onClick={addNewCardCallback}>
+        <ButtonContent 
+          backgroundDarker={backgroundDarker}
+          onClick={addNewCardCallback}>
           <FiPlus
             size={device.isMobile ? 20 : 30}
           />
@@ -57,23 +66,29 @@ const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, 
                 tickerCode={tickerCode}
               />
             }
-            {
-              stockPrice &&
-              variationPercentage &&
-              <StockPrice
-                stockPrice={stockPrice}
-                variationPercentage={variationPercentage}
-                variationValue={variationReal}
-              />
-            }
-            {isCloseButtonVisible && (
-              <CloseButton
+            <Footer>
+              {
+                stockPrice &&
+                variationPercentage &&
+                <StockPrice
+                  stockPrice={stockPrice}
+                  variationPercentage={variationPercentage}
+                  variationValue={variationReal}
+                />
+              }
+              <NavigateToCompanyButton
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={removeCardCallback}>
-                x
-              </CloseButton>
-            )}
+                onClick={navigateToCompany}>
+                <FiArrowRight />
+              </NavigateToCompanyButton>
+            </Footer>
+            <CloseButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={removeCardCallback}>
+              x
+            </CloseButton>
           </>
         )}
     </Container>

@@ -50,7 +50,7 @@ export const HeaderContainer = styled.div`
     z-index: 10;
     border: 0;
     margin-bottom: 3rem;
-    box-shadow: 0px 10px 15px 20px ${theme.colors.darkGrey}, 0px -10px 10px 30px ${theme.colors.darkGrey};
+    box-shadow: 0px 10px 15px -7px black, 0px -10px 10px 30px ${theme.colors.darkGrey};
   
     @media (max-width: 1080px) {
       flex-direction: column;

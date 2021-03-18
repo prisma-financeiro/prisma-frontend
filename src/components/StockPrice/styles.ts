@@ -4,7 +4,8 @@ import { StockPriceSize } from '.';
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 8rem;
+  width: 90%;
+  height: 100%;
 `
 interface PriceProps {
     size: StockPriceSize;
@@ -82,7 +83,7 @@ ${({ theme }) => css`
 
 export const StockVariation = styled.div`
 ${({ theme }) => css`
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     display: flex;
     font-weight: 500;
     color: ${theme.colors.grey};

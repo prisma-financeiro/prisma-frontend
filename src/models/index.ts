@@ -157,8 +157,10 @@ export interface ResponseError {
 }
 
 
-export interface Account {
+export interface UserAccount {
   id: string;
+  name: string;
+  email: string;
   emailVerified: boolean;
 }
 
@@ -170,6 +172,6 @@ export interface Session {
 
 export interface SignIn {
   auth: boolean;
-  account: Account;
+  userAccount: UserAccount;
   session: Session;
 }

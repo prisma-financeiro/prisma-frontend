@@ -5,6 +5,7 @@ export default {
     secondary: '#6ECB96',
     grey: '#8C91A5',
     greyLowerOpacity: '#505050',
+    color4: '#223136',
     lightGrey: '#CCCCCC',
     darkGrey: '#F2F2F2F2',
     success: '#20C05C',
@@ -49,5 +50,8 @@ export default {
   },
   deviceWidth: {
     mobile: '670px',
+    tablet: '1400px',
+    default: '1980px',
+    big: '2500px'
   }
 };

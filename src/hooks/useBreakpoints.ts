@@ -10,6 +10,7 @@ export const useBreakpoints = () => {
     //   const isMobileMid = useMediaQuery({ query: '(max-width: 375px)' });
     //   const isMobileFloor = useMediaQuery({ query: '(max-width: 425px)' });
 
+    const isTablet = useMediaQuery({ query: `(max-width: ${theme.deviceWidth.tablet})` });
     //   const isTabletFloor = useMediaQuery({ query: '(max-width: 426px)' });
     //   const isTabletMid = useMediaQuery({ query: '(max-width: 768px)' });
     //   const isTabletCeil = useMediaQuery({ query: '(max-width: 1024px)' });
@@ -21,7 +22,8 @@ export const useBreakpoints = () => {
     //   const isXHDCeil = useMediaQuery({ query: '(max-width: 4096px)' });
 
     return {
-        isMobile
+        isMobile,
+        isTablet
         // isMobileSmall,
         // isMobileMid,
         // isMobileFloor,

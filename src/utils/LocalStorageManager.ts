@@ -1,4 +1,4 @@
-import { Account, Session } from "../models";
+import { UserAccount, Session } from "../models";
 import storageKey from "./storage-key";
 
 enum LocalStorageItems {
@@ -8,7 +8,7 @@ enum LocalStorageItems {
 
 class LocalStorageManager {
 
-    private userAccount: Account;
+    private userAccount: UserAccount;
     private userSession: Session;
 
     constructor() {
@@ -34,7 +34,7 @@ class LocalStorageManager {
         this.setLocalStorageItem(LocalStorageItems.Session, session);
     }
 
-    public setUserAccount(account: Account) {
+    public setUserAccount(account: UserAccount) {
         this.userAccount = account;
         this.setLocalStorageItem(LocalStorageItems.Account, account);
     }
@@ -43,7 +43,7 @@ class LocalStorageManager {
         return this.userSession;
     }
 
-    public getUserAccount(): Account {
+    public getUserAccount(): UserAccount {
         return this.userAccount;
     }
 

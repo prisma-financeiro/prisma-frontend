@@ -18,15 +18,20 @@ ${({ theme }) => css`
   display: flex;
   flex-direction: row;
   justify-content: start;
-  align-items: center;
-  min-width: 20rem;
+  align-items: flex-start;
+  width: 18rem;
 
   ${(props: HeaderProps) => _getClickableProperties(props, theme)}
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    align-items: center;
+  }
 `}
 `
 
 export const Title = styled.div`
 ${({ theme }) => css`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,13 +39,7 @@ ${({ theme }) => css`
 
   > p {
     color: ${theme.colors.grey};
-    font-size: ${theme.fontSizes.small};
-  }
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    > p {
-      font-size: ${theme.fontSizes.tiny};
-    }
+    font-size: ${theme.fontSizes.tiny};
   }
 `}
 `

@@ -35,6 +35,7 @@
     "redux": "^4.0.5",
     "set-cookie-parser": "^2.4.7",
     "styled-components": "^5.2.1",
+    "typesafe-actions": "^5.1.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
@@ -64,8 +65,6 @@
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.28",
-    "@types/jsonwebtoken": "^8.5.0",
-    "@types/react-redux": "^7.1.11",
     "@types/react-responsive": "^8.0.2",
     "@types/react-toastify": "^4.1.0",
     "@types/set-cookie-parser": "^2.4.0"

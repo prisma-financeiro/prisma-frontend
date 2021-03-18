@@ -6,16 +6,16 @@ import React, {
   PropsWithChildren,
 } from 'react';
 
-import { Session, Account, SignIn } from '../models';
+import { Session, UserAccount, SignIn } from '../models';
 import localStorageManager from '../utils/LocalStorageManager';
 
 export type AuthState = {
-  account: Account;
+  userAccount: UserAccount;
   session: Session;
 };
 
 export type AuthContextProps = {
-  account: Account;
+  userAccount: UserAccount;
   signIn(signIn: SignIn): void;
   signOut(): void;
 };
@@ -26,19 +26,19 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const [data, setData] = useState<AuthState>(() => {
     return {
-      account: localStorageManager.getUserAccount(),
+      userAccount: localStorageManager.getUserAccount(),
       session: localStorageManager.getUserSession(),
     };
   });
 
   const signIn = useCallback((signIn: SignIn) => {
 
-    const { account, session } = signIn;
+    const { userAccount, session } = signIn;
 
-    localStorageManager.setUserAccount(account);
+    localStorageManager.setUserAccount(userAccount);
     localStorageManager.setUserSession(session);
 
-    setData({ account, session });
+    setData({ userAccount, session });
 
   }, []);
 
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const value = React.useMemo(
     () => ({
-      account: data.account,
+      userAccount: data.userAccount,
       signIn,
       signOut
     }),

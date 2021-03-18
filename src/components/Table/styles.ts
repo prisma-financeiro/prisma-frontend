@@ -35,17 +35,12 @@ export const StyledTable = styled(motion.table) <TableStylingProps>`
           background-color: ${showRowHover ? theme.colors.greyLowerOpacity: 'none'};
           cursor: ${showRowHover ? 'pointer' : 'default'};
         }
-
-        :last-child {
-          td {
-            border-bottom: 0;
-          }
-        }
       }
     }
 
     th,
     td {
+      width: 5rem;
       padding: 0.5rem;
       text-align: left;
       border-bottom: ${showBottomBorder ? `1px solid` + theme.colors.greyLowerOpacity : 'none'};
