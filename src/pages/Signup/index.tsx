@@ -11,8 +11,8 @@ import Modal from '../../components/Modal';
 import { signUp } from "../../services/signup";
 import Spinner from '../../components/Spinner';
 import { toast } from "react-toastify";
-import { HttpResponseError } from '../../services/api';
 import Password from '../../components/Password';
+import { HttpResponseError } from '../../exceptions';
 
 const Signup = () => {
 

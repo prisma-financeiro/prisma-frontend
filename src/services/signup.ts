@@ -1,4 +1,5 @@
-import api, { HttpResponseError, HttpStatusCode } from "./api"
+import { HttpResponseError } from "../exceptions";
+import api, { HttpStatusCode } from "./api"
 
 export const SignUpExceptions = {
     UsernameExistsException: 'UsernameExistsException',

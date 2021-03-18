@@ -63,10 +63,6 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
-import withErrorHandler from '../../hocs/withErrorHandler';
-import api from '../../services/api';
-import useAuth from '../../contexts/auth';
-
 
 interface TickePrice {
   price: number;
@@ -85,7 +81,6 @@ interface StockPriceInfo {
 const Company: React.FC = (props: any) => {
   const INITIAL_STOCK_QUOTE_PERIOD = 5;
   const device = useBreakpoints();
-  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
@@ -117,36 +112,40 @@ const Company: React.FC = (props: any) => {
   }
 
   const getCurrentTickerPrice = async () => {
-    await company.getTickerPrice(ticker).then(async data => {
-      const tickerPrice: TickePrice = {
-        price: data.price,
-        variationValue: data.variationValue,
-        variationPercentage: data.variationPercentage,
-        priceDate: data.priceDate,
-      }
+    await company.getTickerPrice(ticker)
+      .then(data => {
+        const tickerPrice: TickePrice = {
+          price: data.price,
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          priceDate: data.priceDate,
+        }
 
-      setTickerPrice(tickerPrice);
+        setTickerPrice(tickerPrice);
 
-      await company.getCompanyMarketIndicator(ticker, tickerPrice.price)
-        .then(data => setMarketIndicatorInfo(data));
-    });
+        company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+          .then(data => {
+            setMarketIndicatorInfo(data);
+          });
+      });
   }
 
   const getTickerPriceHistory = async () => {
-    await company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
+    await company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD)
+      .then((data: TickerHistoryResult) => {
 
-      const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
-      setStockPriceHistory(formatedData);
+        const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
+        setStockPriceHistory(formatedData);
 
-      const stockInfo: StockPriceInfo = {
-        variationValue: data.variationValue,
-        variationPercentage: data.variationPercentage,
-        highest: data.highest,
-        lowest: data.lowest
-      }
+        const stockInfo: StockPriceInfo = {
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          highest: data.highest,
+          lowest: data.lowest
+        }
 
-      setStockPriceInfo(stockInfo);
-    });
+        setStockPriceInfo(stockInfo);
+      });
   }
 
   const getAllCompanyIndicators = async () => {
@@ -156,12 +155,10 @@ const Company: React.FC = (props: any) => {
   }
 
   useEffect(() => {
-    refreshTokenIfExpiredAndDoRequests(
-      getCompanyGeneralInformation,
-      getCurrentTickerPrice,
-      getTickerPriceHistory,
-      getAllCompanyIndicators
-    ).catch(error => error);
+    getCompanyGeneralInformation();
+    getCurrentTickerPrice();
+    getTickerPriceHistory();
+    getAllCompanyIndicators();
 
     scrollTo(valuation);
   }, []);
@@ -267,23 +264,21 @@ const Company: React.FC = (props: any) => {
     }
   ];
 
-  const handleStockQuotePeriodChange = (period: number | null) => {
-    refreshTokenIfExpiredAndDoRequests(async () => {
-      await company.getTickerHistory(ticker, period)
-        .then(data => {
-          const formatedData = formatStockPriceHistory(data.historicalPrices);
-          setStockPriceHistory(formatedData);
+  const handleStockQuotePeriodChange = async (period: number | null) => {
+    await company.getTickerHistory(ticker, period)
+      .then(data => {
+        const formatedData = formatStockPriceHistory(data.historicalPrices);
+        setStockPriceHistory(formatedData);
 
-          const stockInfo = {
-            variationValue: data.variationValue,
-            variationPercentage: data.variationPercentage,
-            highest: data.highest,
-            lowest: data.lowest
-          }
+        const stockInfo = {
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          highest: data.highest,
+          lowest: data.lowest
+        }
 
-          setStockPriceInfo(stockInfo);
-        });
-    });
+        setStockPriceInfo(stockInfo);
+      });
   }
 
   return (

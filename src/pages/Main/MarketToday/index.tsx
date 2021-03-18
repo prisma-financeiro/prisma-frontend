@@ -26,7 +26,6 @@ import history from '../../../services/history';
 import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import Spinner from '../../../components/Spinner';
-import useAuth from '../../../contexts/auth';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -48,7 +47,6 @@ const MarketToday = () => {
   const device = useBreakpoints();
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
-  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   const handleIbovTableClick = (assetId: number, ticker: string) => {
     history.push(`/company/${assetId}/${ticker}`);
@@ -88,13 +86,8 @@ const MarketToday = () => {
   }
 
   useEffect(() => {
-    refreshTokenIfExpiredAndDoRequests(
-      getIbovMarketPriceFlutuation,
-      getIfixMarketPriceFlutuation
-    ).catch(_error => {
-      setIbovFlutuationTableLoading(false);
-      setIfixFlutuationTableLoading(false);
-    })
+    getIbovMarketPriceFlutuation();
+    getIfixMarketPriceFlutuation();
   }, []);
 
 

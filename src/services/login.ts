@@ -1,4 +1,5 @@
-import { Session } from "../models";
+import { HttpResponseError } from "../exceptions";
+import { Session, SignIn } from "../models";
 import api from "./api"
 
 export enum SignInExceptions {
@@ -6,13 +7,20 @@ export enum SignInExceptions {
     NotAuthorizedException = 'NotAuthorizedException'
 }
 
-export const signIn = async (email: string, password: string): Promise<any> => {
-    return api
-        .post('api/v1/signin', {
+export const signIn = async (email: string, password: string): Promise<SignIn> => {
+    try {
+        const signInPayload = {
             email,
             password
-        })
-        .then(response => response.data);
+        };
+
+        const signIn: SignIn = await api.post('api/v1/signin', signInPayload)
+            .then(response => response.data);
+
+        return signIn;
+    } catch (error) {
+        return Promise.reject(new HttpResponseError(error.response.data));
+    }
 }
 
 

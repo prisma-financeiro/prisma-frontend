@@ -16,7 +16,6 @@ import {
   TableColumnValue,
   SelectContainer
 } from './styles';
-import useAuth from '../../../contexts/auth';
 
 interface FinancialReportTableProps {
   companyId: number;
@@ -34,7 +33,6 @@ enum PeriodType {
 }
 
 const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, reportType }) => {
-  const { refreshTokenIfExpiredAndDoRequests } = useAuth();
 
   const financialReportsOptions = [
     { value: "t", label: "Trimestre" },
@@ -47,10 +45,10 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   const [selectedPeriodFrom, setSelectedPeriodFrom] = useState<SelectOptionType>();
   const [selectedPeriodTo, setSelectedPeriodTo] = useState<SelectOptionType>();
 
-  const getFinancialReportData = async () => {
+  const getFinancialReportData = () => {
     switch (reportType) {
       case FinancialReportType.CASHFLOW:
-        await company.getCashFlowOptions(companyId)
+        company.getCashFlowOptions(companyId)
           .then((data: any[]) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -60,7 +58,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        await company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
+        company.getCashFlowData(companyId, PeriodType.Quarter).then(data => {
           if (hasData(data)) {
             const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
             setTableData(buildTableComponents(formatedTable));
@@ -71,7 +69,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
         break;
 
       case FinancialReportType.BALANCESHEET:
-        await company.getBalanceSheetOptions(companyId)
+        company.getBalanceSheetOptions(companyId)
           .then((data: any[]) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -81,7 +79,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        await company.getBalanceSheetData(companyId)
+        company.getBalanceSheetData(companyId)
           .then((data) => {
             if (hasData(data)) {
               const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
@@ -93,7 +91,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
         break;
 
       case FinancialReportType.INCOMESTATEMENT:
-        await company.getIncomeStatementOptions(companyId)
+        company.getIncomeStatementOptions(companyId)
           .then((data: any) => {
             if (data.length > 0) {
               const options = formatSelectOptions(data);
@@ -103,7 +101,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
             }
           });
 
-        await company.getIncomeStatementData(companyId)
+        company.getIncomeStatementData(companyId)
           .then((data) => {
             if (hasData(data.years)) {
               const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
@@ -117,7 +115,7 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   }
 
   useEffect(() => {
-    refreshTokenIfExpiredAndDoRequests(getFinancialReportData);
+    getFinancialReportData();
   }, [companyId, reportType]);
 
   const handleTypeSelectionChange = async (option: SelectOptionType) => {
@@ -155,46 +153,44 @@ const FinancialReportTable: React.FC<FinancialReportTableProps> = ({ companyId, 
   const getTableData = async (companyId: number, periodType: string, periodFrom?: string, periodTo?: string) => {
     let data: FinancialReport[];
 
-    refreshTokenIfExpiredAndDoRequests(async () => {
-      switch (reportType) {
-        case FinancialReportType.CASHFLOW:
-          data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
+    switch (reportType) {
+      case FinancialReportType.CASHFLOW:
+        data = await company.getCashFlowData(companyId, periodType, periodFrom, periodTo);
 
-          if (hasData(data)) {
-            const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
-            setTableData(buildTableComponents(formatedTable));
-          } else {
-            setTableData(null);
-          }
-          break;
+        if (hasData(data)) {
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
 
-        case FinancialReportType.BALANCESHEET:
-          data = await company.getBalanceSheetData(companyId, periodType, periodFrom, periodTo);
+      case FinancialReportType.BALANCESHEET:
+        data = await company.getBalanceSheetData(companyId, periodType, periodFrom, periodTo);
 
-          if (hasData(data)) {
-            const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
-            setTableData(buildTableComponents(formatedTable));
-          } else {
-            setTableData(null);
-          }
-          break;
+        if (hasData(data)) {
+          const formatedTable = formatTableDataStructure(data, selectedPeriodType.value);
+          setTableData(buildTableComponents(formatedTable));
+        } else {
+          setTableData(null);
+        }
+        break;
 
-        case FinancialReportType.INCOMESTATEMENT:
+      case FinancialReportType.INCOMESTATEMENT:
 
-          await company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
-            .then((data) => {
-              if (hasData(data.years)) {
-                const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
-                setTableData(buildTableComponents(formatedTable));
-              } else {
-                setTableData(null);
-              }
-            });
-          break;
-        default:
-          break;
-      }
-    })
+        await company.getIncomeStatementData(companyId, periodType, periodFrom, periodTo)
+          .then((data) => {
+            if (hasData(data.years)) {
+              const formatedTable = formatTableDataStructure(data.years, selectedPeriodType.value, data.lastTwelveMonths);
+              setTableData(buildTableComponents(formatedTable));
+            } else {
+              setTableData(null);
+            }
+          });
+        break;
+      default:
+        break;
+    }
   }
 
   const hasData = (data: FinancialReport[]): boolean => {

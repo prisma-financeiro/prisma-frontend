@@ -6,13 +6,11 @@ import history from '../../services/history';
 import { Container, FormContainer, InputControl, SpinnerContainer } from './styles';
 import { FiKey } from 'react-icons/fi';
 import * as login from "../../services/login";
-import withErrorHandler from '../../hocs/withErrorHandler';
-import api, { HttpResponseError } from "../../services/api";
 import Spinner from '../../components/Spinner';
 import { toast } from "react-toastify";
 import Password from '../../components/Password';
 import sessionStorageManager from '../../utils/SessionStorageManager';
-import { DEFAULT_GENERIC_ERROR_MESSAGE } from '../../exceptions';
+import { DEFAULT_GENERIC_ERROR_MESSAGE, HttpResponseError } from '../../exceptions';
 
 const ForgotPassword = () => {
 
@@ -138,4 +136,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default withErrorHandler(ForgotPassword, api);
+export default ForgotPassword;

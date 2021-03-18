@@ -1,9 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
+import { ConnectionRefusedError, TokenRefreshError } from '../exceptions';
+import { Session } from '../models';
+import localStorageManager from '../utils/LocalStorageManager';
 import cookieManager from './cookieManager';
-
-// export const isHttpStatusError = (statusCode: number): boolean => {
-//   return statusCode >= HttpStatusCode.BadRequest;
-// }
+import history from './history';
+import { refreshToken } from './login';
 
 export enum HttpStatusCode {
   Success = 200,
@@ -12,67 +14,57 @@ export enum HttpStatusCode {
   InternalServerException = 500
 }
 
-export class HttpResponseError extends Error {
-  private _status: number;
-  private _code: string;
-
-  constructor({ status, code, message }: any) {
-    super();
-    this._status = status;
-    this.message = message;
-    this._code = code;
+const handleGetNewSessionResponse = (session: Session) => {
+  if (!session.token) {
+    throw new TokenRefreshError();
   }
 
-  public get status(): number {
-    return this._status;
-  }
+  return session;
+}
 
-  public get code(): string {
-    return this._code;
+const isConnectionRefusedError = (error: any) => {
+  return !error.response;
+}
+
+const handleGetNewSessionError = (error: any) => {
+  if (isConnectionRefusedError(error)) {
+    throw new ConnectionRefusedError();
+  } else {
+    throw new TokenRefreshError();
   }
 }
 
-// class AxiosWrapper {
+const getNewSession = async () => {
+  return await refreshToken()
+    .then((session: Session) => handleGetNewSessionResponse(session))
+    .catch(error => handleGetNewSessionError(error));
+}
 
-//   private axiosApi: AxiosInstance;
+const getNewTokenAndSetNewSessionToLocalstorage = async () => {
+  const newSession = await getNewSession();
+  localStorageManager.setUserSession(newSession);
 
-//   constructor() {    
-//     this.axiosApi = axios.create({
-//       baseURL: process.env.REACT_APP_API_BASE_URL,
-//       headers: { 'Content-Type': 'application/json' },
-//     });
+  return newSession.token;
+}
 
-//     this._setAxiosDefaults();
-//     this._setAxiosRequestInterceptor();
-//   }
+let isRefreshing = false;
+let isConnectionRefused = false;
+let failedQueue: any[] = [];
 
-//   private _setAxiosDefaults(): void {
-//     this.axiosApi.defaults.withCredentials = true;
-//   }
+const processQueue = (error: any, token: string | null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
 
-//   private _setAxiosRequestInterceptor(): void {
-//     this.axiosApi.interceptors.request.use((config: AxiosRequestConfig) => {
-//       const { token } = cookieManager.getCookies();
-
-//       if (token) {
-//         config.headers.authorization = `Bearer ${token}`;
-//       }
-
-//       return config;
-//     },
-//       () => {
-//         return new Promise(() => { });
-//       }
-//     );
-//   }
-
-//   public setResponseInterceptor(onFulfilled: (value: AxiosResponse<any>) => AxiosResponse<any>, onRejected: (error: any) => any) {
-//     this.axiosApi.interceptors.response.use(onFulfilled, onRejected);
-//   }
-
-// }
+  failedQueue = [];
+};
 
 const setRequestInterceptor = (api: AxiosInstance) => {
+
   api.interceptors.request.use((config: AxiosRequestConfig) => {
     const { token } = cookieManager.getCookies();
 
@@ -83,21 +75,71 @@ const setRequestInterceptor = (api: AxiosInstance) => {
     return config;
   },
     error => error
-    // () => {
-    //   return new Promise(() => { });
-    // }
   );
 }
 
-const onRejectHandler = (error: any): Promise<Error> => Promise.reject(error.response ? new HttpResponseError(error.response.data) : error);
-
 const setResponseInterceptor = (api: AxiosInstance) => {
+
   api.interceptors.response.use(
-    res => res,
-    error => onRejectHandler(error));
+    response => {
+      return response;
+    },
+    err => {
+      const originalRequest = err.config;
+
+      if (err.response && err.response.status === 401 && !originalRequest?._retry) {
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then(token => {
+              originalRequest.headers.authorization = `Bearer ${token}`;
+              return axios(originalRequest);
+            })
+            .catch(err => {
+              return Promise.reject(err);
+            });
+        }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        return new Promise((resolve, _reject) => {
+          getNewTokenAndSetNewSessionToLocalstorage()
+            .then(token => {
+              processQueue(null, token);
+              originalRequest.headers.authorization = `Bearer ${token}`;
+              resolve(axios(originalRequest));
+            })
+            .catch(() => {
+              failedQueue = [];
+              history.push("/");
+
+              return new Promise(() => { });
+            })
+            .then(() => {
+              isRefreshing = false;
+            });
+        });
+      }
+
+      if (!err.response && !isConnectionRefused) {
+        isConnectionRefused = true;
+        toast.error("Ops, algo deu errado, tente novamente em instântes.");
+        return new Promise(() => { });
+      }
+
+      if (err.response && isConnectionRefused) {
+        isConnectionRefused = false;
+      }
+
+      return Promise.reject(err);
+    }
+  );
 }
 
 const createAxiosApi = () => {
+
   const api = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
     headers: { 'Content-Type': 'application/json' },
@@ -105,58 +147,12 @@ const createAxiosApi = () => {
 
   api.defaults.withCredentials = true;
 
-  setRequestInterceptor(api);
   setResponseInterceptor(api);
+  setRequestInterceptor(api);
 
   return api;
 }
 
-// const MINUTES_TO_CHECK_EXPIRATION_BEFORE = 5;
-
-// const isSessionExpired = (expirationDate: Date): boolean => {
-//   const currentDatetime = new Date(dayjs().add(MINUTES_TO_CHECK_EXPIRATION_BEFORE, "minutes").utc().format());
-//   const expireAt = dayjs(expirationDate).toDate();
-
-//   return currentDatetime >= expireAt;
-// }
-
-// const getNewTokenAndSetNewSessionToLocalstorage = async () => {
-//   const newSession = await refreshToken();
-
-//   if (!newSession) {
-//     throw new TokenRefreshError();
-//   }
-
-//   storageManager.setUserSession(newSession);
-// }
-
-// const getRequestCallFunctionsWrappedIntoPromises = (requestCallFunctions: Function[]): Promise<void>[] => {
-//   return requestCallFunctions.map(requestFunction => {
-//     return new Promise<void>((resolve, _reject) => {
-//       requestFunction();
-//       resolve();
-//     });
-//   });
-// }
-
-// export const refreshTokenIfExpiredAndDoRequests = async (...args: Function[]) => {
-//   try {
-//     const session = storageManager.getUserSession();
-
-//     if (isSessionExpired(session.expiresAt)) {
-//       await getNewTokenAndSetNewSessionToLocalstorage();
-//     }
-
-//     const requests = getRequestCallFunctionsWrappedIntoPromises(args);
-
-//     Promise.all(requests);
-//   } catch (error) {
-//     // TODO... Signout e toast que a sessao foi encerrada.   
-//   }
-// }
-
-const api = createAxiosApi();
-
-// const api = new AxiosWrapper();
+const api: AxiosInstance = createAxiosApi();
 
 export default api;

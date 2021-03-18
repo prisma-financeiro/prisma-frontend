@@ -7,12 +7,13 @@ import { AccountOptions, ConfirmationModalButtonContainer, Container, FormContai
 import { FiLock, FiMail } from 'react-icons/fi';
 import * as login from "../../services/login";
 import * as signUp from "../../services/signup";
-import { HttpResponseError } from "../../services/api";
 import useAuth from '../../contexts/auth';
 import Spinner from '../../components/Spinner';
 import Modal from '../../components/Modal';
 import { toast } from "react-toastify";
 import PasswordRecoveryModal from './PasswordRecoveryModal';
+import cookieManager from '../../services/cookieManager';
+import { HttpResponseError } from '../../exceptions';
 
 const KEY_ENTER = "Enter";
 
@@ -27,9 +28,14 @@ const Login = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const { signed, signIn } = useAuth();
+    const { signIn } = useAuth();
 
-    if (signed) {
+    const isUserSigned = () => {
+        const { token } = cookieManager.getCookies();
+        return (token && token !== '') as boolean;
+    }
+
+    if (isUserSigned()) {
         history.push("/home");
     }
 
