@@ -2,7 +2,7 @@ import { UserAccount, Session } from "../models";
 import storageKey from "./storage-key";
 
 enum LocalStorageItems {
-    Account = "account",
+    UserAccount = "user_account",
     Session = "session"
 }
 
@@ -12,7 +12,7 @@ class LocalStorageManager {
     private userSession: Session;
 
     constructor() {
-        this.userAccount = this.getItemFromLocalStorage(LocalStorageItems.Account);
+        this.userAccount = this.getItemFromLocalStorage(LocalStorageItems.UserAccount);
         this.userSession = this.getItemFromLocalStorage(LocalStorageItems.Session);
     }
 
@@ -34,9 +34,9 @@ class LocalStorageManager {
         this.setLocalStorageItem(LocalStorageItems.Session, session);
     }
 
-    public setUserAccount(account: UserAccount) {
-        this.userAccount = account;
-        this.setLocalStorageItem(LocalStorageItems.Account, account);
+    public setUserAccount(userAccount: UserAccount) {
+        this.userAccount = userAccount;
+        this.setLocalStorageItem(LocalStorageItems.UserAccount, userAccount);
     }
 
     public getUserSession(): Session {
@@ -48,7 +48,7 @@ class LocalStorageManager {
     }
 
     public removeUserAccount() {
-        this.removeLocalStorageItem(LocalStorageItems.Account);
+        this.removeLocalStorageItem(LocalStorageItems.UserAccount);
     }
 
     public removeUserSession() {

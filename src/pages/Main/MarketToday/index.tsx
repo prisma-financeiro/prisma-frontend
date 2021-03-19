@@ -67,7 +67,8 @@ const MarketToday = () => {
           setIbovFlutuationTable(flutuation);
         }
         setIbovFlutuationTableLoading(false);
-      });
+      })
+      .catch(() => setIbovFlutuationTableLoading(false))
   };
 
   const getIfixMarketPriceFlutuation = () => {
@@ -84,7 +85,8 @@ const MarketToday = () => {
           setIfixFlutuationTable(flutuation);
         }
         setIfixFlutuationTableLoading(false);
-      });
+      })
+      .catch(() => setIbovFlutuationTableLoading(false))
   }
 
   useEffect(() => {

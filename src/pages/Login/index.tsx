@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import history from '../../services/history';
@@ -14,8 +14,6 @@ import { toast } from "react-toastify";
 import PasswordRecoveryModal from './PasswordRecoveryModal';
 import cookieManager from '../../services/cookieManager';
 import { HttpResponseError } from '../../exceptions';
-
-const KEY_ENTER = "Enter";
 
 const Login = () => {
 
@@ -65,7 +63,9 @@ const Login = () => {
         showLoginErrorMessage(error.code);
     }
 
-    const handleLogin = () => {
+    const handleLogin = (event: FormEvent) => {
+        event.preventDefault();
+
         setIsLoading(true);
 
         login.signIn(email, password)
@@ -89,12 +89,6 @@ const Login = () => {
                 setIsAccountNotConfirmedModalVisible(false);
                 toast.success('E-mail de confirmação reenviado!');
             });
-    }
-
-    const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === KEY_ENTER) {
-            handleLogin();
-        }
     }
 
     const handleForgotPasswordClick = () => {
@@ -155,7 +149,7 @@ const Login = () => {
                     getPasswordRecoveryModal()
                 }
                 <h1>Faça seu login</h1>
-                <form>
+                <form onSubmit={(event) => handleLogin(event)}>
                     {getAccountNotConfirmedModal()}
                     <InputControl>
                         <Input
@@ -175,13 +169,12 @@ const Login = () => {
                             value={password}
                             required={true}
                             onChange={(event) => setPassword(event.target.value)}
-                            onKeyDown={(event) => handlePasswordKeyDown(event)}
                         />
                     </InputControl>
                     <InputControl>
                         <Button
                             variant="primary"
-                            onClick={() => handleLogin()}
+                            type="submit"
                             disabled={!email || !password || isLoading}
                         >
                             {

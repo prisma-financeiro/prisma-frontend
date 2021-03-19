@@ -10,7 +10,7 @@ export class ConnectionRefusedError extends Error {
 export class TokenRefreshError extends Error {
     constructor() {
         super();
-        this.message = "Não foi possível atualiazar a sessão.";
+        this.message = "Não foi possível atualizar a sessão.";
     }
 };
 
