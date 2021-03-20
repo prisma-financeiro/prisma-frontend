@@ -1,8 +1,8 @@
 import { CompanyMarketIndicator, IndicatorHistory, CompanyMarketIndicatorHistoryType, TickerHistoryResult, CompanyInfo, FinancialReport } from "../models";
 import api from "./api";
 
-export const getCompany = (id: number): Promise<CompanyInfo> => {
-    return api
+export const getCompany = async (id: number): Promise<CompanyInfo> => {
+    return await api
         .get(`api/v1/company/${id}`)
         .then(res => {
             const companyInfo: CompanyInfo = res.data.data;
@@ -49,14 +49,14 @@ export const getCompany = (id: number): Promise<CompanyInfo> => {
         });
 }
 
-export const getTickerPrice = (ticker: string) => {
-    return api
+export const getTickerPrice = async (ticker: string) => {
+    return await api
         .get(`api/v1/ticker/${ticker}`)
         .then(res => res.data.data);
 }
 
-export const getTickerHistory = (ticker: string, days: number | null): Promise<TickerHistoryResult> => {
-    return api
+export const getTickerHistory = async (ticker: string, days: number | null): Promise<TickerHistoryResult> => {
+    return await api
         .get(`/api/v1/ticker/${ticker}/history`, {
             params: {
                 days
@@ -66,13 +66,13 @@ export const getTickerHistory = (ticker: string, days: number | null): Promise<T
 }
 
 export const getCompanyIndicator = async (companyId: number) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/indicator`)
         .then(res => res.data.data);
 }
 
 export const getCompanyMarketIndicator = async (ticker: string, stockPrice: number): Promise<CompanyMarketIndicator[]> => {
-    return api
+    return await api
         .get(`api/v1/stockpriceindicator/${ticker}`, {
             params: {
                 price: stockPrice
@@ -83,7 +83,7 @@ export const getCompanyMarketIndicator = async (ticker: string, stockPrice: numb
 
 
 export const getCompanyMarketIndicatorHistory = async (ticker: string, indicatorName: string, type: CompanyMarketIndicatorHistoryType, limit?: number): Promise<IndicatorHistory[]> => {
-    return api
+    return await api
         .get(`api/v1/stockpriceindicator/${ticker}/history`, {
             params: {
                 indicator: indicatorName,
@@ -95,7 +95,7 @@ export const getCompanyMarketIndicatorHistory = async (ticker: string, indicator
 }
 
 export const getIncomeStatementData = async (companyId: number, type?: string, from?: string, to?: string) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/incomestatement`, {
             params: {
                 type,
@@ -107,13 +107,13 @@ export const getIncomeStatementData = async (companyId: number, type?: string, f
 }
 
 export const getIncomeStatementOptions = async (companyId: number) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/incomestatement/history`)
         .then(res => res.data.data);
 }
 
 export const getBalanceSheetData = async (companyId: number, type?: string, from?: string, to?: string) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/balancesheet`, {
             params: {
                 type,
@@ -126,13 +126,13 @@ export const getBalanceSheetData = async (companyId: number, type?: string, from
 }
 
 export const getBalanceSheetOptions = async (companyId: number) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/balancesheet/history`)
         .then(res => res.data.data);
 }
 
 export const getCashFlowData = async (companyId: number, type?: string, from?: string, to?: string): Promise<FinancialReport[]> => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/cashflow`, {
             params: {
                 type,
@@ -144,20 +144,20 @@ export const getCashFlowData = async (companyId: number, type?: string, from?: s
 }
 
 export const getCashFlowOptions = async (companyId: number) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/cashflow/history`)
         .then(res => res.data.data);
 }
 
 export const getYearIndicator = async (companyId: number, indicatorName: string) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/yearindicator?indicator=${indicatorName}`)
         .then(res => res.data.data);
 }
 
 
 export const getQuarterIndicator = async (companyId: number, indicatorName: string) => {
-    return api
+    return await api
         .get(`api/v1/company/${companyId}/quarterindicator?indicator=${indicatorName}`)
         .then(res => res.data.data);
 }

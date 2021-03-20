@@ -167,6 +167,7 @@ export interface UserAccount {
 export interface Session {
   signedInAt: Date;
   expiresAt: Date;
+  token: string;
 }
 
 export interface SignIn {

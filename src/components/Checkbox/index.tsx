@@ -7,18 +7,19 @@ interface CheckboxProps {
   checked: boolean
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ checked, children, onChange }) =>  {
-    return (
-      <Container
-        onClick={() => onChange(!checked)}
-      >
-        <input
-          type="checkbox"
-          checked={checked}
-        />
-        <label>{children}</label>
-      </Container>
-    );
+const Checkbox: React.FC<CheckboxProps> = ({ checked, children, onChange }) => {
+  return (
+    <Container
+      onClick={() => onChange(!checked)}
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={() => { }} // To suppress warning
+      />
+      <label>{children}</label>
+    </Container>
+  );
 }
 
 export default Checkbox;

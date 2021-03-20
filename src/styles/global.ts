@@ -86,4 +86,12 @@ export default createGlobalStyle`
     text-align: left;
     padding: 0;
   }
+
+  .Toastify__toast--success {
+    background: ${({ theme }) => theme.colors.success};
+  }
+
+  .Toastify__toast--error {
+    background: ${({ theme }) => theme.colors.danger};
+  }
 `;

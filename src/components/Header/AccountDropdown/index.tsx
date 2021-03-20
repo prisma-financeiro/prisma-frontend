@@ -13,6 +13,7 @@ import useAppTheme from '../../../contexts/theme';
 import useAuth from '../../../contexts/auth';
 import history from '../../../services/history';
 import { signOut as apiSignOut } from "../../../services/login";
+import { toast } from "react-toastify";
 
 const AccountDropdown = () => {
   const { currentTheme, toggleTheme } = useAppTheme();
@@ -30,6 +31,7 @@ const AccountDropdown = () => {
   const handleSignOut = (): void => {
     apiSignOut().then(() => {
       signOut();
+      toast.success("Logout efetuado com sucesso.");
       history.push("/");
     })
   };

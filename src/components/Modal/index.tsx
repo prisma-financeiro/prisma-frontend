@@ -6,7 +6,7 @@ import { Container, Header, CloseIcon, Body, Footer } from './styles';
 import { Backdrop } from '../Backdrop';
 import Button from '../Button';
 
-interface ModalProps {  
+export interface ModalProps {
   title: string;
   show: boolean;
   showButtons: boolean;
@@ -16,17 +16,17 @@ interface ModalProps {
   modalConfirmed: () => void;
 }
 
-const Modal: React.FC<ModalProps>= ({ title, show, showButtons, primaryButtonText, secondaryButtonText, modalClosed, modalConfirmed, children}) => {
+const Modal: React.FC<ModalProps> = ({ title, show, showButtons, primaryButtonText, secondaryButtonText, modalClosed, modalConfirmed, children }) => {
   return <>
-    <Backdrop 
-      show={show} 
-      clicked={modalClosed}/>
+    <Backdrop
+      show={show}
+      clicked={modalClosed} />
     {show && (
       <AnimatePresence>
-        <Container 
-           initial={{ opacity: 0, scale: 0.75 }}
-           animate={{ opacity: 1, scale: 1 }}
-           exit={{ opacity: 0, scale: 0 }}
+        <Container
+          initial={{ opacity: 0, scale: 0.75 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0 }}
         >
           <Header>
             <h1>{title}</h1>

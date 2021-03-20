@@ -64,8 +64,6 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 import { company } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
 import history from '../../services/history';
-import withErrorHandler from '../../hocs/withErrorHandler';
-import api from '../../services/api';
 
 interface TickePrice {
   price: number;
@@ -108,48 +106,63 @@ const Company: React.FC = (props: any) => {
   const dadosGerais = useRef(null);
   const contato = useRef(null);
 
-  useEffect(() => {
-    company.getCompany(companyId).then(data => {
+  const getCompanyGeneralInformation = async () => {
+    await company.getCompany(companyId).then(data => {
       setCompanyInfo(data);
     });
+  }
 
-    company.getTickerPrice(ticker).then(data => {
-      const tickerPrice: TickePrice = {
-        price: data.price,
-        variationValue: data.variationValue,
-        variationPercentage: data.variationPercentage,
-        priceDate: data.priceDate,
-      }
+  const getCurrentTickerPrice = async () => {
+    await company.getTickerPrice(ticker)
+      .then(data => {
+        const tickerPrice: TickePrice = {
+          price: data.price,
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          priceDate: data.priceDate,
+        }
 
-      setTickerPrice(tickerPrice);
+        setTickerPrice(tickerPrice);
 
-      company.getCompanyMarketIndicator(ticker, tickerPrice.price)
-        .then(data => setMarketIndicatorInfo(data))
-        .catch(error => console.log('Algo deu errado', error));
-    });
+        company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+          .then(data => {
+            setMarketIndicatorInfo(data);
+          });
+      });
+  }
 
-    company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD).then((data: TickerHistoryResult) => {
+  const getTickerPriceHistory = async () => {
+    await company.getTickerHistory(ticker, INITIAL_STOCK_QUOTE_PERIOD)
+      .then((data: TickerHistoryResult) => {
 
-      const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
-      setStockPriceHistory(formatedData);
+        const formatedData: TradingViewTableRow[] | null = formatStockPriceHistory(data.historicalPrices);
+        setStockPriceHistory(formatedData);
 
-      const stockInfo: StockPriceInfo = {
-        variationValue: data.variationValue,
-        variationPercentage: data.variationPercentage,
-        highest: data.highest,
-        lowest: data.lowest
-      }
+        const stockInfo: StockPriceInfo = {
+          variationValue: data.variationValue,
+          variationPercentage: data.variationPercentage,
+          highest: data.highest,
+          lowest: data.lowest
+        }
 
-      setStockPriceInfo(stockInfo);
-    }).catch(error => console.log('Algo deu errado', error));
+        setStockPriceInfo(stockInfo);
+      });
+  }
 
-    company.getCompanyIndicator(companyId).then(indicator => {
+  const getAllCompanyIndicators = async () => {
+    await company.getCompanyIndicator(companyId).then(indicator => {
       setBalanceIndicatorInfo(indicator);
     });
+  }
+
+  useEffect(() => {
+    getCompanyGeneralInformation();
+    getCurrentTickerPrice();
+    getTickerPriceHistory();
+    getAllCompanyIndicators();
 
     scrollTo(valuation);
-
-  }, [ticker, companyId]);
+  }, []);
 
   const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -252,8 +265,8 @@ const Company: React.FC = (props: any) => {
     }
   ];
 
-  const handleStockQuotePeriodChange = (period: number | null) => {
-    company.getTickerHistory(ticker, period)
+  const handleStockQuotePeriodChange = async (period: number | null) => {
+    await company.getTickerHistory(ticker, period)
       .then(data => {
         const formatedData = formatStockPriceHistory(data.historicalPrices);
         setStockPriceHistory(formatedData);
@@ -559,4 +572,4 @@ const Company: React.FC = (props: any) => {
   );
 };
 
-export default withErrorHandler(Company, api);
+export default Company;

@@ -9,24 +9,23 @@ import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 
-
 const Routes = () => {
-  
+
   return (
     <Switch>
-        <Route path="/" exact component={Login} />
-        <PrivateRoute path="/home" component={Main} />
-        <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
-        <PrivateRoute path="/assets-compare/:id/:ticker" component={AssetsCompare} />
-        <PrivateRoute path="/ranking" component={Ranking} />
-        <PrivateRoute path="/company/:id/:ticker" component={Company}/>
-        <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
-        <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
-        
-        <Route path="/signup" component={Signup} />
-        <Route path="/" component={Login} />
+      <Route path="/" exact component={Login} />
+      <PrivateRoute path="/home" component={Main} />
+      <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
+      <PrivateRoute path="/assets-compare/:id/:ticker" component={AssetsCompare} />
+      <PrivateRoute path="/ranking" component={Ranking} />
+      <PrivateRoute path="/company/:id/:ticker" component={Company} />
+      <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
+      <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
 
-        <Route render={() => <Redirect to="/home" />} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/" component={Login} />
+
+      <Route render={() => <Redirect to="/home" />} />
     </Switch>
   );
 }

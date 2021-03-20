@@ -76,16 +76,16 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
     }
 
     const handleSelectionChange = async (indicatorName: string, type: string) => {
-        getIndicatorHistory(indicatorName, type);
+        await getIndicatorHistory(indicatorName, type);
         const selectedIndicatorValue = indicatorSelectionOptions.find(el => el.value === indicatorName)?.label || indicatorSelectionOptions[0].value;
         setSelectedIndicator(selectedIndicatorValue);
     }
 
-    const handleOnCardClick = (indicatorName: string) => {
+    const handleOnCardClick = async (indicatorName: string) => {
         setSelectedIndicator(indicatorName);
         setIsChartVisible(true);
         const selectedIndicator: string = indicatorSelectionOptions.find(el => el.label === indicatorName)?.value || indicatorSelectionOptions[0].value;
-        getIndicatorHistory(selectedIndicator, "TRIMESTRAL");
+        await getIndicatorHistory(selectedIndicator, "TRIMESTRAL");
     }
 
     const handleReturnCardView = () => {

@@ -5,19 +5,16 @@ import React, {
   useContext,
   PropsWithChildren,
 } from 'react';
-import { Session, UserAccount, SignIn } from '../models';
 
-import cookieManager from '../services/cookieManager';
-import { storageKey } from '../utils';
+import { Session, UserAccount, SignIn } from '../models';
+import localStorageManager from '../utils/LocalStorageManager';
 
 export type AuthState = {
-  signed: boolean;
   userAccount: UserAccount;
   session: Session;
 };
 
 export type AuthContextProps = {
-  signed: boolean;
   userAccount: UserAccount;
   signIn(signIn: SignIn): void;
   signOut(): void;
@@ -26,17 +23,11 @@ export type AuthContextProps = {
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
+
   const [data, setData] = useState<AuthState>(() => {
-
-    const { token } = cookieManager.getCookies();
-
-    const userAccount = localStorage.getItem(storageKey('userAccount'));
-    const session = localStorage.getItem(storageKey('session'));
-
     return {
-      signed: (token && token !== '') as boolean,
-      userAccount: userAccount ? JSON.parse(userAccount) : {},
-      session: session ? JSON.parse(session) : {},
+      userAccount: localStorageManager.getUserAccount(),
+      session: localStorageManager.getUserSession(),
     };
   });
 
@@ -44,17 +35,17 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
     const { userAccount, session } = signIn;
 
-    localStorage.setItem(storageKey('userAccount'), JSON.stringify(userAccount));
-    localStorage.setItem(storageKey('session'), JSON.stringify(session));
+    localStorageManager.setUserAccount(userAccount);
+    localStorageManager.setUserSession(session);
 
-    setData({ signed: true, userAccount, session });
+    setData({ userAccount, session });
 
   }, []);
 
   const signOut = useCallback(() => {
 
-    localStorage.removeItem(storageKey('userAccount'));
-    localStorage.removeItem(storageKey('session'));
+    localStorageManager.removeUserAccount();
+    localStorageManager.removeUserSession();
 
     setData({} as AuthState);
 
@@ -62,10 +53,9 @@ export const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const value = React.useMemo(
     () => ({
-      signed: data.signed,
       userAccount: data.userAccount,
       signIn,
-      signOut,
+      signOut
     }),
     [data, signIn, signOut],
   );

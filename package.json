@@ -18,7 +18,9 @@
     "axios": "^0.21.0",
     "chart.js": "^2.9.4",
     "date-fns": "^2.16.1",
+    "dayjs": "^1.10.4",
     "framer-motion": "^2.6.0",
+    "jsonwebtoken": "^8.5.1",
     "lightweight-charts": "^3.2.0",
     "polished": "^3.6.5",
     "react": "^17.0.1",
@@ -29,6 +31,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-select": "^3.1.1",
+    "react-toastify": "^7.0.3",
+    "redux": "^4.0.5",
     "set-cookie-parser": "^2.4.7",
     "styled-components": "^5.2.1",
     "typesafe-actions": "^5.1.0",
@@ -62,6 +66,7 @@
   "devDependencies": {
     "@types/chart.js": "^2.9.28",
     "@types/react-responsive": "^8.0.2",
+    "@types/react-toastify": "^4.1.0",
     "@types/set-cookie-parser": "^2.4.0"
   }
 }
