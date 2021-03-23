@@ -31,7 +31,8 @@ import {
 interface AssetIdentification {
   assetId: number,
   assetTicker: string,
-  assetType: AssetType
+  assetType: AssetType,
+  assetTickerId: number
 }
 
 interface ModalProps {
@@ -108,8 +109,8 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
    return responseName;
   }
 
-  const handleItemClick = (id: number, ticker: string, type: AssetType) => {
-    setSelectedItems(prev => [...prev, {assetId: id, assetTicker: ticker, assetType: type}]);
+  const handleItemClick = (id: number, ticker: string, type: AssetType, tickerId: number) => {
+    setSelectedItems(prev => [...prev, {assetId: id, assetTicker: ticker, assetType: type, assetTickerId: tickerId}]);
     setShowOptionList(false);
     setIsLoading(false);
     setInputValue('');
@@ -135,7 +136,7 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
       return (
         <ListItem 
           key={index} 
-          onMouseDown={() => handleItemClick(typeaheadOption.id, typeaheadOption.code, typeaheadOption.type)}>
+          onMouseDown={() => handleItemClick(typeaheadOption.id, typeaheadOption.code, typeaheadOption.type, typeaheadOption.tickerId)}>
           <ListItemImage>
             <Logo imageUrl={typeaheadOption.image}/>
           </ListItemImage>

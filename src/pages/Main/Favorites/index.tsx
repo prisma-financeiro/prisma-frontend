@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { company as CompanyService } from "../../../services";
 import { user as UserService } from "../../../services";
 
 import FavoritedCard from '../../../components/FavoritedCard';
@@ -8,47 +7,43 @@ import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Button from '../../../components/Button';
 import AssetSelectModal from '../../../components/AssetSelectModal';
 
-import { AssetType, CompanyInfo, UserAccount } from '../../../models';
+import { AssetType, FavoriteAsset } from '../../../models';
 
 import {
   DataWrapper,
   SubHeader,
   ButtonContainer
 } from './styles';
-import { storageKey } from '../../../utils';
-
-
-interface CardData {
-  id: number
-  companyLogo: string,
-  tickerCode: string,
-  companyName: string,
-  stockPrice: number,
-  variationReal: number,
-  variationPercentage: number,
-  type: AssetType
-}
 
 interface AssetIdentification {
   assetId: number, 
   assetTicker: string,
-  assetType: AssetType
+  assetType: AssetType,
+  assetTickerId: number
 }
 
 const Favorites = () => {
 
-  const [favoritedCards, setFavoritedCards] = useState<CardData[]>([]);
+  const [favoritedCards, setFavoritedCards] = useState<FavoriteAsset[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
   const assetsTypes: AssetType[] = [AssetType.Stock, AssetType.Reit, AssetType.Fund, AssetType.Crypto, AssetType.Index];
+
+  useEffect(() => {
+    UserService.getUserFavorites()
+      .then(favoritedCards => {
+        setFavoritedCards(favoritedCards);
+      });
+  }, []);
 
   const createNewCompanyTickerCard = () => {
     handleShowModal();
   }
 
-  const removeCompanyTickerCard = (tickerId: number) => {
-    //chamada para o backend para remover o card da lista salva pelo usuario;
-    setFavoritedCards(favoritedCards.filter(ticker => ticker.id !== tickerId));
+  const removeCompanyTickerCard = async (favoriteId: number) => {
+    UserService.deleteUserFavorite(favoriteId).then(() => {
+      setFavoritedCards(favoritedCards.filter(favorite => favorite.id !== favoriteId));
+    });
   }
 
   const handleShowModal = () => {
@@ -60,32 +55,15 @@ const Favorites = () => {
   }
 
   const handleModalConfirmed = async (selectedAssets: AssetIdentification[]) => {
-    const newCards: CardData[] = [];
+    const newCards: FavoriteAsset[] = [];
+
     for await (const asset of selectedAssets) {
-      //await UserService.setUserFavorite(userAccount.id, asset.companyId, assetType, asset.companyTicker)
-      newCards.push(await getAssetInformation(asset.assetId, asset.assetTicker, AssetType.Stock));
-      
+      const newCard = await UserService.addUserFavorite(asset.assetTickerId)
+      newCards.push(newCard);
     }
+
     setIsModalOpen(false);
     setFavoritedCards([...favoritedCards, ...newCards]);
-  }
-
-  const getAssetInformation = async (companyId: number, tickerCode: string, assetType: AssetType) => {
-    
-    const company: CompanyInfo = await CompanyService.getCompany(companyId);
-    const tickerPriceInfo = await CompanyService.getTickerPrice(tickerCode);
-    const cardData: CardData = {
-      id: company.id,
-      companyName: company.name,
-      companyLogo: company.logo,
-      tickerCode: tickerCode,
-      stockPrice: tickerPriceInfo.price,
-      variationReal: tickerPriceInfo.variationValue,
-      variationPercentage: tickerPriceInfo.variationPercentage,
-      type: assetType,
-    }
-
-    return cardData;
   }
 
   const renderFavoriteCards = (assetType: AssetType) => {
@@ -98,19 +76,19 @@ const Favorites = () => {
         </SubHeader>
 
         <DataWrapper>
-          {favoritedCards.map(card => {
-            return card.type === assetType && (
+          {favoritedCards.map(favorite => {
+            return favorite.type === assetType && (
               <FavoritedCard
-                key={card.id}
-                companyLogo={card.companyLogo}
-                companyName={card.companyName}
-                tickerCode={card.tickerCode}
-                companyId={card.id}
-                stockPrice={card.stockPrice}
-                variationPercentage={card.variationPercentage}
-                variationReal={card.variationReal}
+                key={favorite.id}
+                companyLogo={favorite.companyLogo}
+                companyName={favorite.companyName}
+                tickerCode={favorite.tickerCode}
+                companyId={favorite.companyId}
+                stockPrice={favorite.stockPrice}
+                variationPercentage={favorite.variationPercentage}
+                variationReal={favorite.variationReal}
                 addNewCardCallback={() => { }}
-                removeCardCallback={() => removeCompanyTickerCard(card.id)}
+                removeCardCallback={() => removeCompanyTickerCard(favorite.id)}
               />
             );
           })}

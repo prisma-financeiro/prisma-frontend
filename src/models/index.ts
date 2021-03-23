@@ -58,6 +58,19 @@ export interface SearchResult {
   name: string;
   type: AssetType;
   image: string;
+  tickerId: number;
+}
+
+export interface FavoriteAsset {
+  id: number
+  companyLogo: string,
+  tickerCode: string,
+  companyName: string,
+  companyId: number,
+  stockPrice: number,
+  variationReal: number,
+  variationPercentage: number,
+  type: AssetType
 }
 
 export enum AssetType {

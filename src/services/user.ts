@@ -1,27 +1,24 @@
 import api from "./api";
-import { UserAccount, AssetType } from "../models";
+import { UserAccount, FavoriteAsset } from "../models";
 
 export const getUserAccount = (userId: string): Promise<UserAccount> => {
-  return api.get(`/user/${userId}`);
+  return api.get(`/user/${userId}`).then(res => res.data);
 };
 
-export const getUserFavorites = (userId: string) => {
-  return api.get(`/user/${userId}/favorites`);
+export const getUserFavorites = (): Promise<FavoriteAsset[]> => {
+  return api.get(`/api/v1/favorites`).then(res => res.data);
 };
 
-export const addUserFavorite = (userId: string, assetId: number, assetType: AssetType, tickerCode?: string) => {
-  return api.post(`/user/${userId}/favorites`, {
-    assetId,
-    assetType,
-    tickerCode
-  });
+export const addUserFavorite = (tickerId: number): Promise<FavoriteAsset> => {
+  return api.post(`/api/v1/favorites`, {
+    tickerId: tickerId
+  }).then(res => res.data);
 }
 
-export const deleteUserFavorite = (userId: string, assetId: number, tickerCode?: string) => {
-  return api.delete(`/user/${userId}/favorites`, {
+export const deleteUserFavorite = (favoriteId: number) => {
+  return api.delete(`/api/v1/favorites`, {
     data: {
-      assetId,
-      tickerCode
+      favoriteId
     }
   });
 }
