@@ -109,8 +109,9 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
    return responseName;
   }
 
-  const handleItemClick = (id: number, ticker: string, type: AssetType, tickerId: number) => {
-    setSelectedItems(prev => [...prev, {assetId: id, assetTicker: ticker, assetType: type, assetTickerId: tickerId}]);
+  const handleItemClick = (searchResult: SearchResult) => {
+    const {id, code, type, tickerId} = searchResult;
+    setSelectedItems(prev => [...prev, {assetId: id, assetTicker: code, assetType: type, assetTickerId: tickerId}]);
     setShowOptionList(false);
     setIsLoading(false);
     setInputValue('');
@@ -132,23 +133,23 @@ const AssetSelectModal: React.FC<ModalProps>= ({ show, isMulti = false, maxSelec
   }
 
   const renderOptionList = (
-    searchResults.map((typeaheadOption, index) => {
+    searchResults.map((searchResult, index) => {
       return (
         <ListItem 
           key={index} 
-          onMouseDown={() => handleItemClick(typeaheadOption.id, typeaheadOption.code, typeaheadOption.type, typeaheadOption.tickerId)}>
+          onMouseDown={() => handleItemClick(searchResult)}>
           <ListItemImage>
-            <Logo imageUrl={typeaheadOption.image}/>
+            <Logo imageUrl={searchResult.image}/>
           </ListItemImage>
           <ListItemBody>
-            <h2>{typeaheadOption.code}</h2>
-            <p>{formatReponseName(typeaheadOption.name)}</p>
+            <h2>{searchResult.code}</h2>
+            <p>{formatReponseName(searchResult.name)}</p>
           </ListItemBody>
           <ListItemType>
             <Badge 
               fontSize={theme.fontSizes.small}
               backgroundColor={theme.colors.secondary} 
-              color={theme.colors.background}>{formatResponseType(typeaheadOption.type)}
+              color={theme.colors.background}>{formatResponseType(searchResult.type)}
             </Badge>
           </ListItemType>
         </ListItem>
