@@ -1,4 +1,5 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import {
   Container,
@@ -61,15 +62,16 @@ import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTable
 
 import { formatStandard, formatCurrencyCompact } from "../../utils";
 
-import { company } from "../../services";
+import { company, user as UserService } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
 import history from '../../services/history';
 
-interface TickePrice {
+interface TickerInformation {
   price: number;
   variationValue: number;
   variationPercentage: number;
   priceDate?: string;
+  tickerId: number;
 }
 
 interface StockPriceInfo {
@@ -87,7 +89,7 @@ const Company: React.FC = (props: any) => {
   let companyId = props.match.params.id;
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
-  const [tickerPrice, setTickerPrice] = useState<TickePrice>();
+  const [tickerInformation, setTickerInformation] = useState<TickerInformation>();
   const [balanceIndicatorInfo, setBalanceIndicatorInfo] = useState<any>();
   const [marketIndicatorInfo, setMarketIndicatorInfo] = useState<any>();
   const [stockPriceHistory, setStockPriceHistory] = useState<TradingViewTableRow[] | null>();
@@ -115,16 +117,17 @@ const Company: React.FC = (props: any) => {
   const getCurrentTickerPrice = async () => {
     await company.getTickerPrice(ticker)
       .then(data => {
-        const tickerPrice: TickePrice = {
+        const tickerInfo: TickerInformation = {
           price: data.price,
           variationValue: data.variationValue,
           variationPercentage: data.variationPercentage,
           priceDate: data.priceDate,
+          tickerId: data.tickerId
         }
 
-        setTickerPrice(tickerPrice);
+        setTickerInformation(tickerInfo);
 
-        company.getCompanyMarketIndicator(ticker, tickerPrice.price)
+        company.getCompanyMarketIndicator(ticker, tickerInfo.price)
           .then(data => {
             setMarketIndicatorInfo(data);
           });
@@ -162,7 +165,7 @@ const Company: React.FC = (props: any) => {
     getAllCompanyIndicators();
 
     scrollTo(valuation);
-  }, []);
+  }, [ticker]);
 
   const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
     behavior: "smooth",
@@ -286,6 +289,18 @@ const Company: React.FC = (props: any) => {
     history.push(`/assets-compare/${assetId}/${assetTicker}`);
   }
 
+  const handleAssetToFavorites = (assetTickerId: number | undefined) => {
+    if (assetTickerId) {
+      UserService.addUserFavorite(assetTickerId).then(() => {
+        toast.success(`${ticker} foi adicionado aos seus favoritos.`);
+      }).catch(() => {
+        toast.error('Oops, algo deu errado, tente novamente mais tarde.');
+      })
+    } else {
+      toast.error('Oops, algo deu errado, tente novamente mais tarde.');
+    }
+  }
+
   return (
     <Container>
       {
@@ -303,7 +318,7 @@ const Company: React.FC = (props: any) => {
             device.isMobile &&
             <>
               < ButtonContainer >
-                <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
+                <Button onClick={() => handleAssetToFavorites(tickerInformation?.tickerId)} disabled={!tickerInformation} variant="secondary">Seguir</Button>
                 <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
               </ButtonContainer>
               <Divider />
@@ -313,9 +328,9 @@ const Company: React.FC = (props: any) => {
             <div>
               <Title>Valor Atual</Title>
               <StockPrice
-                stockPrice={tickerPrice ? tickerPrice.price : 0}
-                variationPercentage={tickerPrice ? tickerPrice.variationPercentage : 0}
-                variationValue={tickerPrice ? tickerPrice.variationValue : 0}
+                stockPrice={tickerInformation ? tickerInformation.price : 0}
+                variationPercentage={tickerInformation ? tickerInformation.variationPercentage : 0}
+                variationValue={tickerInformation ? tickerInformation.variationValue : 0}
               />
             </div>
             <div>
@@ -336,7 +351,7 @@ const Company: React.FC = (props: any) => {
           {
             !device.isMobile &&
             <ButtonContainer>
-              <Button onClick={() => alert('test')} variant="secondary">Seguir</Button>
+              <Button onClick={() => handleAssetToFavorites(tickerInformation?.tickerId)} disabled={!tickerInformation}  variant="secondary">Seguir</Button>
               <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
             </ButtonContainer>
           }
