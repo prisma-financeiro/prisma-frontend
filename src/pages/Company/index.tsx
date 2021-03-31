@@ -1,6 +1,11 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addFavorite, deleteFavorite } from '../../store/actions';
+import { Store } from '../../store/types';
+
 import {
   Container,
   AccordionContent,
@@ -87,6 +92,9 @@ const Company: React.FC = (props: any) => {
 
   let ticker = props.match.params.ticker;
   let companyId = props.match.params.id;
+
+  const dispatch = useDispatch();
+  const favorites = useSelector((state: Store) => state.user.customization.favorites);
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerInformation, setTickerInformation] = useState<TickerInformation>();
@@ -289,15 +297,54 @@ const Company: React.FC = (props: any) => {
     history.push(`/assets-compare/${assetId}/${assetTicker}`);
   }
 
-  const handleAssetToFavorites = (assetTickerId: number | undefined) => {
+  const handleAddAssetToFavorites = (assetTickerId: number | undefined) => {
     if (assetTickerId) {
-      UserService.addUserFavorite(assetTickerId).then(() => {
+      UserService.addUserFavorite(assetTickerId).then(favorite => {
+        dispatch(addFavorite(favorite));
         toast.success(`${ticker} foi adicionado aos seus favoritos.`);
       }).catch(() => {
         toast.error('Oops, algo deu errado, tente novamente mais tarde.');
       })
     } else {
       toast.error('Oops, algo deu errado, tente novamente mais tarde.');
+    }
+  }
+
+  const handleRemoveAssetFromFavorites = (favoriteId: number | undefined) => {
+    if (favoriteId) {
+      UserService.deleteUserFavorite(favoriteId).then(favorite => {
+        dispatch(deleteFavorite(favoriteId));
+        toast.success(`${ticker} foi removido dos seus favoritos.`);
+      }).catch(() => {
+        toast.error('Oops, algo deu errado, tente novamente mais tarde.');
+      })
+    } else {
+      toast.error('Oops, algo deu errado, tente novamente mais tarde.');
+    }
+  }
+
+  const renderFavoriteButton = () => {
+    const favorite = favorites.find(favorite => favorite.tickerCode === ticker);
+    
+    console.log(favorites)
+    if (favorite) {
+      return (
+        <Button 
+          onClick={() => handleRemoveAssetFromFavorites(favorite.id)} 
+          disabled={!tickerInformation}  
+          variant="secondary">
+            Remover Favorito
+        </Button> 
+      )
+    } else {
+      return (
+        <Button 
+          onClick={() => handleAddAssetToFavorites(tickerInformation?.tickerId)} 
+          disabled={!tickerInformation}  
+          variant="secondary">
+          Adicionar Favorito
+        </Button>
+      )
     }
   }
 
@@ -318,7 +365,7 @@ const Company: React.FC = (props: any) => {
             device.isMobile &&
             <>
               < ButtonContainer >
-                <Button onClick={() => handleAssetToFavorites(tickerInformation?.tickerId)} disabled={!tickerInformation} variant="secondary">Seguir</Button>
+                {renderFavoriteButton()}
                 <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
               </ButtonContainer>
               <Divider />
@@ -351,7 +398,7 @@ const Company: React.FC = (props: any) => {
           {
             !device.isMobile &&
             <ButtonContainer>
-              <Button onClick={() => handleAssetToFavorites(tickerInformation?.tickerId)} disabled={!tickerInformation}  variant="secondary">Seguir</Button>
+              {renderFavoriteButton()}
               <Button onClick={() => handleAssetCompare(companyInfo?.id, ticker)} variant="primary">Comparar</Button>
             </ButtonContainer>
           }

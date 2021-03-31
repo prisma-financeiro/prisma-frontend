@@ -188,3 +188,12 @@ export interface SignIn {
   userAccount: UserAccount;
   session: Session;
 }
+
+export interface UserCustomization {
+  favorites: FavoriteAsset[]
+}
+
+export interface User {
+  account: UserAccount
+  customization: UserCustomization
+}
