@@ -10,21 +10,26 @@ import history from './services/history';
 import Routes from './routes';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import store from './store/store';
+
 
 const App: React.FC = () => {
 
   const { currentTheme } = useAppTheme();
 
   return (
-    <ThemeProvider theme={themes[currentTheme]}>
-      <AuthProvider>
-        <Router history={history}>
-          <Routes />
-          <GlobalStyle />
-        </Router>
-        <ToastContainer />
-      </AuthProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={themes[currentTheme]}>
+        <AuthProvider>
+          <Router history={history}>
+            <Routes />
+            <GlobalStyle />
+          </Router>
+          <ToastContainer />
+        </AuthProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

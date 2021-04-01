@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addFavorite, fetchFavorite, deleteFavorite } from '../../../store/actions';
+import { Store } from '../../../store/types';
+
 import { user as UserService } from "../../../services";
 
 import FavoritedCard from '../../../components/FavoritedCard';
@@ -24,17 +29,20 @@ interface AssetIdentification {
 
 const Favorites = () => {
 
-  const [favoritedCards, setFavoritedCards] = useState<FavoriteAsset[]>([]);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state: Store) => state.user.customization.favorites);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
   const assetsTypes: AssetType[] = [AssetType.Stock, AssetType.Reit, AssetType.Fund, AssetType.Crypto, AssetType.Index];
 
+
   useEffect(() => {
     UserService.getUserFavorites()
-      .then(favoritedCards => {
-        setFavoritedCards(favoritedCards);
+      .then(favorites => {
+        dispatch(fetchFavorite(favorites));
       });
-  }, []);
+  }, [dispatch]);
 
   const createNewCompanyTickerCard = () => {
     handleShowModal();
@@ -42,7 +50,7 @@ const Favorites = () => {
 
   const removeCompanyTickerCard = async (favoriteId: number) => {
     UserService.deleteUserFavorite(favoriteId).then(() => {
-      setFavoritedCards(favoritedCards.filter(favorite => favorite.id !== favoriteId));
+      dispatch(deleteFavorite(favoriteId));
     });
   }
 
@@ -58,16 +66,16 @@ const Favorites = () => {
     const newCards: FavoriteAsset[] = [];
 
     for await (const asset of selectedAssets) {
-      const newCard = await UserService.addUserFavorite(asset.assetTickerId)
+      const newCard: FavoriteAsset = await UserService.addUserFavorite(asset.assetTickerId)
       newCards.push(newCard);
+      dispatch(addFavorite(newCard));
     }
 
     setIsModalOpen(false);
-    setFavoritedCards([...favoritedCards, ...newCards]);
   }
 
   const renderFavoriteCards = (assetType: AssetType) => {
-    return favoritedCards.find(card => card.type === assetType) && (
+    return favorites.find(card => card.type === assetType) && (
       <React.Fragment key={assetType}>
         <SubHeader>
           <h3>
@@ -76,7 +84,7 @@ const Favorites = () => {
         </SubHeader>
 
         <DataWrapper>
-          {favoritedCards.map(favorite => {
+          {favorites.map(favorite => {
             return favorite.type === assetType && (
               <FavoritedCard
                 key={favorite.id}
@@ -114,7 +122,7 @@ const Favorites = () => {
         title="Meus Favoritos"
         size={AccordionSizes.large}>
 
-        {favoritedCards.length === 0 && (
+        {favorites.length === 0 && (
           <FavoritedCard
             emptyCard={true}
             removeCardCallback={() => { }}
@@ -122,12 +130,12 @@ const Favorites = () => {
           />
         )}
 
-        {favoritedCards.length > 0 && (
+        {favorites.length > 0 && (
           <ButtonContainer>
             <Button
               onClick={handleShowModal}
               variant="primary"
-              disabled={favoritedCards.length >= CARDS_LIMIT}
+              disabled={favorites.length >= CARDS_LIMIT}
             >
               Adicionar
             </Button>
@@ -142,7 +150,7 @@ const Favorites = () => {
         modalClosed={handleCloseModal}
         modalConfirmed={handleModalConfirmed}
         isMulti={true}
-        maxSelection={CARDS_LIMIT - favoritedCards.length}/>
+        maxSelection={CARDS_LIMIT - favorites.length}/>
     </>
   );
 };
