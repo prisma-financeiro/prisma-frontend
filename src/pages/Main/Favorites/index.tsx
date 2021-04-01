@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Creators, FavoritesStore } from '../../../store/ducks/favorites';
+import { Creators } from '../../../store/ducks/favorites';
+import { ApplicationState } from '../../../store/ducks';
 
 import FavoritedCard from '../../../components/FavoritedCard';
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
 import Button from '../../../components/Button';
 import AssetSelectModal from '../../../components/AssetSelectModal';
 
-import { AssetType } from '../../../models';
+import { AssetType, FavoriteAsset } from '../../../models';
 
 import {
   DataWrapper,
@@ -27,7 +28,7 @@ interface AssetIdentification {
 const Favorites = () => {
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state: FavoritesStore) => state.favorites);
+  const favorites: FavoriteAsset[] = useSelector((state: ApplicationState) => state.favoriteState.favorites);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;

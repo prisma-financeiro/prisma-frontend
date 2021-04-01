@@ -3,7 +3,8 @@ import { toast } from 'react-toastify';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Creators, FavoritesStore } from '../../store/ducks/favorites';
+import { Creators } from '../../store/ducks/favorites';
+import { ApplicationState } from '../../store/ducks';
 
 import {
   Container,
@@ -93,7 +94,7 @@ const Company: React.FC = (props: any) => {
   let companyId = props.match.params.id;
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state: FavoritesStore) => state.favorites);
+  const favorites = useSelector((state: ApplicationState) => state.favoriteState.favorites);
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerInformation, setTickerInformation] = useState<TickerInformation>();

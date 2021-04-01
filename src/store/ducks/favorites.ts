@@ -1,5 +1,5 @@
 import { ThunkAction } from "redux-thunk";
-import { Action } from "redux";
+import { Action, Reducer } from "redux";
 
 import { user as UserService } from "../../services";
 import { FavoriteAsset } from "../../models";
@@ -8,12 +8,16 @@ export const ADD_FAVORITE = "ADD_FAVORITE";
 export const DELETE_FAVORITE = "DELETE_FAVORITE";
 export const SET_FAVORITES = "SET_FAVORITES";
 
-export interface FavoritesStore {
+export interface FavoritesState {
   favorites: FavoriteAsset[]
 }
 
+const initialState: FavoritesState = {
+  favorites: []
+}
+
 export type ActionTypes = 
-| { type: typeof ADD_FAVORITE; 
+| { type: typeof ADD_FAVORITE;
     payload: {
       favorite: FavoriteAsset;
     }
@@ -38,18 +42,11 @@ const addFavorite = (favorite: FavoriteAsset, favorites: FavoriteAsset[]): Favor
   return [...favorites];
 }
 
-const fetchFavorites = (favorites: FavoriteAsset[]): FavoriteAsset[] => {
-  return [...favorites];
-}
-
-export default function favoriteReducer(state: FavoritesStore = {
-  favorites: []
-}, action: ActionTypes) {
+const favoriteReducer: Reducer<FavoritesState, ActionTypes> = (state = initialState, action: ActionTypes) => {
   switch(action.type) {
     case "SET_FAVORITES":
       return {
-        ...state,
-        favorites: fetchFavorites(action.payload.favorites)
+        favorites: action.payload.favorites
       }
     case "ADD_FAVORITE":
       return {
@@ -64,7 +61,6 @@ export default function favoriteReducer(state: FavoritesStore = {
   }
 }
 
-
 export const Creators = {
   addFavorite: (favorite: FavoriteAsset): ActionTypes => ({ 
     type: ADD_FAVORITE, 
@@ -78,21 +74,23 @@ export const Creators = {
   
   setFavorites: (favorites: FavoriteAsset[]): ActionTypes => ({ 
     type: SET_FAVORITES, 
-    payload: { favorites} 
+    payload: { favorites } 
   }),
   
-  handleFetchFavorites: (): ThunkAction<void, FavoritesStore, unknown, Action<string>> => async (dispatch) => {
+  handleFetchFavorites: (): ThunkAction<void, FavoritesState, unknown, Action<string>> => async (dispatch) => {
     const favorites = await UserService.getUserFavorites();
     dispatch(Creators.setFavorites(favorites));
   },
   
-  handleAddFavorite: (tickerId: number): ThunkAction<void, FavoritesStore, unknown, Action<string>> => async (dispatch) => {
+  handleAddFavorite: (tickerId: number): ThunkAction<void, FavoritesState, unknown, Action<string>> => async (dispatch) => {
     const favorite = await UserService.addUserFavorite(tickerId);
     dispatch(Creators.addFavorite(favorite));
   },
   
-  handleDeleteFavorite: (favoriteId: number): ThunkAction<void, FavoritesStore, unknown, Action<string>> => async (dispatch) => {
+  handleDeleteFavorite: (favoriteId: number): ThunkAction<void, FavoritesState, unknown, Action<string>> => async (dispatch) => {
     await UserService.deleteUserFavorite(favoriteId);
     dispatch(Creators.deleteFavorite(favoriteId));
   },
 }
+
+export default favoriteReducer;

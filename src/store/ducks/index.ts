@@ -1,7 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 
-import favoriteReducer from './favorites';
+import favoriteReducer, { FavoritesState } from './favorites';
 
-export default combineReducers({
-  favoriteReducer
+export interface ApplicationState {
+  favoriteState: FavoritesState
+}
+
+export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>({
+  favoriteState: favoriteReducer
 });
