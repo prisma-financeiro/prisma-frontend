@@ -11,7 +11,7 @@ import Routes from './routes';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
-import store from './store/store';
+import store from './store';
 
 
 const App: React.FC = () => {
