@@ -32,20 +32,34 @@ export const Wrapper = styled.div`
 `;
 
 export const AnimatedLeftNav = styled(motion.div)`
-  width: 23%;
-  min-width: 30rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  flex: 1 100%;
+  max-width: 30%;
+  position: fixed;
+  left: 1.5rem;
+  top: 1.1rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxlarge};
   font-weight: 700;
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) { 
     width: 0;
     min-width: 0;
+    display: none;
   }
 `;
+
+export const Logo = styled(motion.div)`
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    max-width: 5rem;
+    height: auto;
+    margin: 0.5rem 0.5rem 0.5rem 1rem;
+  }
+`
 
 export const AnimatedRightNav = styled(motion.div)`
   display: flex;
@@ -56,20 +70,26 @@ export const AnimatedRightNav = styled(motion.div)`
   min-width: 20rem;
   max-width: 40rem;
 
-  @media (max-width: 670px) { 
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) { 
     width: 15%;
     min-width: 10rem;
   }
 `;
 
 export const MenuItems = styled.div`  
-  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 30rem;
   display: flex;
   flex-direction: row;
   justify-content: start;  
   align-items: center;
   height: 100%;  
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.grey};
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) { 
+    margin-left: 1rem;
+  }
 `;
 
 export const MenuItem = styled.div`
@@ -82,8 +102,8 @@ export const MenuItem = styled.div`
   text-align: center;
 
   :hover {
-    color: ${({ theme }) => theme.colors.lightGrey};
-    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.lightGrey};
+    color: ${({ theme }) => theme.colors.secondary};
+    border-bottom: 0.3rem solid ${({ theme }) => theme.colors.primary};
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {

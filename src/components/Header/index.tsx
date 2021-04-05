@@ -1,6 +1,18 @@
 import React, { memo, useState } from 'react';
 import history from '../../services/history';
 
+import { TOP_NAVIGATION } from '../../constants';
+
+import { FiSearch } from 'react-icons/fi';
+import AccountDropdown from './AccountDropdown';
+import Typeahead from '../Typeahead';
+import Modal from '../Modal';
+import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
+
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+
+import { PrismaLogo } from '../../assets';
+
 import {
   AnimatedContainer,
   Wrapper,
@@ -8,16 +20,9 @@ import {
   AnimatedRightNav,
   MenuItems,
   MenuItem,
-  Icon
+  Icon,
+  Logo
 } from './styles';
-import AccountDropdown from './AccountDropdown';
-import { CONTAINER_ANIMATION, NAVS_ANIMATION } from './animations';
-import { TOP_NAVIGATION } from '../../constants';
-
-import Typeahead from '../Typeahead';
-import { FiSearch } from 'react-icons/fi';
-import Modal from '../Modal';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
 
 const Header = () => {
 
@@ -52,6 +57,10 @@ const Header = () => {
     >
       <Wrapper>
         <AnimatedLeftNav variants={NAVS_ANIMATION}>
+          <Logo>
+            <PrismaLogo onClick={() => handleNavigation('/home')}/>
+            Prisma
+          </Logo>
         </AnimatedLeftNav>
         <MenuItems>
           {Object.entries(TOP_NAVIGATION).map(([key, value]) => (
