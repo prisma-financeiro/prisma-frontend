@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addFavorite, fetchFavorite, deleteFavorite } from '../../../store/actions';
-import { Store } from '../../../store/types';
-
-import { user as UserService } from "../../../services";
+import { Creators } from '../../../store/ducks/favorites';
+import { ApplicationState } from '../../../store/ducks';
 
 import FavoritedCard from '../../../components/FavoritedCard';
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
@@ -30,7 +28,7 @@ interface AssetIdentification {
 const Favorites = () => {
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state: Store) => state.user.customization.favorites);
+  const favorites: FavoriteAsset[] = useSelector((state: ApplicationState) => state.favoriteState.favorites);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const CARDS_LIMIT = 10;
@@ -38,10 +36,7 @@ const Favorites = () => {
 
 
   useEffect(() => {
-    UserService.getUserFavorites()
-      .then(favorites => {
-        dispatch(fetchFavorite(favorites));
-      });
+    dispatch(Creators.handleFetchFavorites());
   }, [dispatch]);
 
   const createNewCompanyTickerCard = () => {
@@ -49,9 +44,7 @@ const Favorites = () => {
   }
 
   const removeCompanyTickerCard = async (favoriteId: number) => {
-    UserService.deleteUserFavorite(favoriteId).then(() => {
-      dispatch(deleteFavorite(favoriteId));
-    });
+    dispatch(Creators.handleDeleteFavorite(favoriteId));
   }
 
   const handleShowModal = () => {
@@ -63,12 +56,9 @@ const Favorites = () => {
   }
 
   const handleModalConfirmed = async (selectedAssets: AssetIdentification[]) => {
-    const newCards: FavoriteAsset[] = [];
 
     for await (const asset of selectedAssets) {
-      const newCard: FavoriteAsset = await UserService.addUserFavorite(asset.assetTickerId)
-      newCards.push(newCard);
-      dispatch(addFavorite(newCard));
+      dispatch(Creators.handleAddFavorite(asset.assetTickerId));
     }
 
     setIsModalOpen(false);

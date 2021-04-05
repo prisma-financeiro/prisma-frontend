@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addFavorite, deleteFavorite } from '../../store/actions';
-import { Store } from '../../store/types';
+import { Creators } from '../../store/ducks/favorites';
+import { ApplicationState } from '../../store/ducks';
 
 import {
   Container,
@@ -94,7 +94,7 @@ const Company: React.FC = (props: any) => {
   let companyId = props.match.params.id;
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state: Store) => state.user.customization.favorites);
+  const favorites = useSelector((state: ApplicationState) => state.favoriteState.favorites);
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerInformation, setTickerInformation] = useState<TickerInformation>();
@@ -300,7 +300,7 @@ const Company: React.FC = (props: any) => {
   const handleAddAssetToFavorites = (assetTickerId: number | undefined) => {
     if (assetTickerId) {
       UserService.addUserFavorite(assetTickerId).then(favorite => {
-        dispatch(addFavorite(favorite));
+        dispatch(Creators.addFavorite(favorite));
         toast.success(`${ticker} foi adicionado aos seus favoritos.`);
       }).catch(() => {
         toast.error('Oops, algo deu errado, tente novamente mais tarde.');
@@ -313,7 +313,7 @@ const Company: React.FC = (props: any) => {
   const handleRemoveAssetFromFavorites = (favoriteId: number | undefined) => {
     if (favoriteId) {
       UserService.deleteUserFavorite(favoriteId).then(favorite => {
-        dispatch(deleteFavorite(favoriteId));
+        dispatch(Creators.deleteFavorite(favoriteId));
         toast.success(`${ticker} foi removido dos seus favoritos.`);
       }).catch(() => {
         toast.error('Oops, algo deu errado, tente novamente mais tarde.');

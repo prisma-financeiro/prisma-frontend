@@ -189,11 +189,6 @@ export interface SignIn {
   session: Session;
 }
 
-export interface UserCustomization {
-  favorites: FavoriteAsset[]
-}
-
 export interface User {
   account: UserAccount
-  customization: UserCustomization
 }

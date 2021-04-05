@@ -1,21 +1,11 @@
 import styled, { css } from 'styled-components';
 
-export const IconContainer = styled.div`
-  ${({ theme }) => css`
-    position:absolute;
-    bottom:1rem;
-    right:1rem;
-    width:2.5rem;
-    height:2.5rem;
-    font-size: ${theme.fontSizes.xlarge};
-    color: ${theme.colors.greyLowerOpacity};
-
-  `}  
-`;
-
 export const Container = styled.div`
   ${({ theme }) => css`
-    position:relative;
+    position: relative;
+    display: flex;
+    border-radius: ${theme.radio.small};
+    background-color: ${theme.colors.darkGrey};
 
     :focus-within {
       ${IconContainer} {
@@ -27,16 +17,29 @@ export const Container = styled.div`
 
 export const StyledInput = styled.input`
   ${({ theme }) => css`
-    width: 100%;
+    width: 90%;
     padding: 1rem;
+    color: ${theme.colors.grey};
     border-radius: ${theme.radio.small};
     background-color: ${theme.colors.darkGrey};
-    color: ${theme.colors.grey};
     outline: none;
     border: none;
 
     :focus {
       outline: none;
     }
+  `}  
+`;
+
+export const IconContainer = styled.div`
+  ${({ theme }) => css`
+    position:absolute;
+    bottom:1rem;
+    right:1rem;
+    width:2.5rem;
+    height:2.5rem;
+    font-size: ${theme.fontSizes.xlarge};
+    color: ${theme.colors.greyLowerOpacity};
+
   `}  
 `;
