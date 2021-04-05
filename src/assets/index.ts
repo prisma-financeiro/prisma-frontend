@@ -1,0 +1,1 @@
+export { ReactComponent as PrismaLogo } from './images/prisma-logo.svg';

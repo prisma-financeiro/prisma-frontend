@@ -8,6 +8,7 @@ import Company from '../pages/Company';
 import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import Portfolio from '../pages/Portfolio';
 
 const Routes = () => {
 
@@ -21,6 +22,7 @@ const Routes = () => {
       <PrivateRoute path="/company/:id/:ticker" component={Company} />
       <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
       <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
+      <PrivateRoute path="/portfolio" exact component={Portfolio} />
 
       <Route path="/signup" component={Signup} />
       <Route path="/" component={Login} />

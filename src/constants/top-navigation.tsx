@@ -5,6 +5,8 @@ import {
   FiHome
 } from 'react-icons/fi';
 
+import { IoWalletOutline } from 'react-icons/io5';
+
 
 export default {
   'Início': {
@@ -14,5 +16,9 @@ export default {
   'Comparar Ativos': {
     icon: <FiActivity />,
     route: '/assets-compare'
+  },
+  'Carteira': {
+    icon: <IoWalletOutline />,
+    route: '/portfolio'
   }
 } as const;
