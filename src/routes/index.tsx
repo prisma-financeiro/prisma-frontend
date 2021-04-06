@@ -16,12 +16,11 @@ const Routes = () => {
     <Switch>
       <Route path="/" exact component={Login} />
       <PrivateRoute path="/home" component={Main} />
-      <PrivateRoute path="/assets-compare" exact component={AssetsCompare} />
-      <PrivateRoute path="/assets-compare/:id/:ticker" component={AssetsCompare} />
+      <PrivateRoute path="/compare-assets" exact component={AssetsCompare} />
+      <PrivateRoute path="/compare-assets/:id/:ticker" component={AssetsCompare} />
       <PrivateRoute path="/ranking" component={Ranking} />
-      <PrivateRoute path="/company/:id/:ticker" component={Company} />
-      <PrivateRoute path="/assets-explorer" component={AssetsExplorer} />
-      <PrivateRoute path="/assets-explorer" exact component={AssetsExplorer} />
+      <PrivateRoute path="/assets" exact component={AssetsExplorer} />
+      <PrivateRoute path="/assets/company/:id/:ticker" component={Company} />
       <PrivateRoute path="/portfolio" exact component={Portfolio} />
 
       <Route path="/signup" component={Signup} />

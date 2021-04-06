@@ -108,8 +108,8 @@ export const MenuItem = styled.div<{isActive: boolean}>`
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    margin-right: 4rem;
-    margin-left: 3rem;    
+    margin-right: 2rem;
+    margin-left: 1.5rem;    
 
     > p {
       display: none;

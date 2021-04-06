@@ -59,5 +59,32 @@ export const sideBarOptionLanding: SideBarOption[] = [
       },
     ]
   }
+];
 
+export const sideBarOptionAssets: SideBarOption[] = [
+  {
+    title: 'Lista de Ativos',
+    items: [
+      {
+        name: 'Ações',
+        icon: <RiFileChartLine />,
+        expand: false,
+      },
+      {
+        name: 'Fundos Imobiliarios',
+        icon: <BsBuilding />,
+        expand: false,
+      },
+      {
+        name: 'Fundos de investimentos',
+        icon: <BsBriefcase />,
+        expand: false,
+      },
+      {
+        name: 'Criptomoedas',
+        icon: <BiBitcoin />,
+        expand: false,
+      },
+    ]
+  }
 ];

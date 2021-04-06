@@ -56,7 +56,7 @@ const MarketToday = () => {
   const theme = themes[currentTheme];
 
   const handleIbovTableClick = (assetId: number, ticker: string) => {
-    dispatch(Creators.navigate(`/company/${assetId}/${ticker}`));
+    dispatch(Creators.navigate(`/assets/company/${assetId}/${ticker}`));
   }
 
   const getIbovMarketPriceFlutuation = () => {

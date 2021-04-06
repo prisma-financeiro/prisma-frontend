@@ -42,7 +42,7 @@ const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, 
   const dispatch = useDispatch();
 
   const navigateToCompany = () => {
-    dispatch(Creators.navigate(`/company/${companyId}/${tickerCode}`));
+    dispatch(Creators.navigate(`/assets/company/${companyId}/${tickerCode}`));
   }
 
   return (

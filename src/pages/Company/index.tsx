@@ -295,7 +295,7 @@ const Company: React.FC = (props: any) => {
   }
 
   const handleAssetCompare = (assetId: number | undefined, assetTicker: string) => {
-    dispatch(ApplicationCreators.navigate(`/assets-compare/${assetId}/${assetTicker}`));
+    dispatch(ApplicationCreators.navigate(`/compare-assets/${assetId}/${assetTicker}`));
   }
 
   const handleAddAssetToFavorites = (assetTickerId: number | undefined) => {

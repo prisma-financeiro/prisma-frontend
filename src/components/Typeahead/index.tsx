@@ -96,7 +96,7 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
 
     if (redirect) {
       if (type === AssetType.Stock) {
-        dispatch(Creators.navigate(`/company/${id}/${ticker}`));
+        dispatch(Creators.navigate(`/assets/company/${id}/${ticker}`));
       }
       // Outras rotas aqui de acordo com o tipo de resultado
 
