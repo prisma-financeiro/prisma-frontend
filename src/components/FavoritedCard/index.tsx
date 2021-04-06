@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { useBreakpoints } from '../../hooks/useBreakpoints';
-import history from '../../services/history';
-
-import StockPrice from '../StockPrice';
-import CompanyHeader from '../CompanyHeader';
-
 import {
   FiPlus,
   FiArrowRight
 } from 'react-icons/fi';
+
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../store/ducks/application';
+
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+
+import StockPrice from '../StockPrice';
+import CompanyHeader from '../CompanyHeader';
 
 import {
   Container,
@@ -35,10 +37,12 @@ interface FavoritedCardProps {
 }
 
 const FavoritedCard: React.FC<FavoritedCardProps> = ({ companyLogo, tickerCode, companyId, companyName, stockPrice, variationPercentage, variationReal, emptyCard, backgroundDarker = false, roundedCorners = true, addNewCardCallback, removeCardCallback }) => {
+  
   const device = useBreakpoints();
+  const dispatch = useDispatch();
 
   const navigateToCompany = () => {
-    history.push(`/company/${companyId}/${tickerCode}`);
+    dispatch(Creators.navigate(`/company/${companyId}/${tickerCode}`));
   }
 
   return (

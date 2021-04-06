@@ -7,7 +7,6 @@ import {
 
 import { IoWalletOutline } from 'react-icons/io5';
 
-
 export default {
   'Início': {
     icon: <FiHome />,

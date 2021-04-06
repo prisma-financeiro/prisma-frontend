@@ -11,11 +11,15 @@ import useEventListener from '../../../hooks/useEventListener';
 import { removeHashFromColor } from '../../../utils';
 import useAppTheme from '../../../contexts/theme';
 import useAuth from '../../../contexts/auth';
-import history from '../../../services/history';
 import { signOut as apiSignOut } from "../../../services/login";
 import { toast } from "react-toastify";
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../../store/ducks/application';
 
 const AccountDropdown = () => {
+
+  const dispatch = useDispatch();
+  
   const { currentTheme, toggleTheme } = useAppTheme();
   const { darkGrey, secondary } = useTheme().colors;
 
@@ -32,7 +36,7 @@ const AccountDropdown = () => {
     apiSignOut().then(() => {
       signOut();
       toast.success("Logout efetuado com sucesso.");
-      history.push("/");
+      dispatch(Creators.navigate('/'));
     })
   };
 

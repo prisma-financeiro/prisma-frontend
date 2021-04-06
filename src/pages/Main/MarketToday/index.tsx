@@ -1,4 +1,25 @@
 import React, { useEffect, useState } from 'react';
+
+import {
+  FiTrendingUp,
+  FiTrendingDown,
+} from 'react-icons/fi';
+
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../../store/ducks/application';
+
+import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
+import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import { marketIndex } from '../../../services';
+import useAppTheme from '../../../contexts/theme';
+import * as themes from '../../../styles/themes';
+
+import Accordion, { AccordionSizes } from '../../../components/Accordion';
+import Table from '../../../components/Table';
+import StockPrice from '../../../components/StockPrice';
+import CompanyHeader from '../../../components/CompanyHeader';
+import Spinner from '../../../components/Spinner';
+
 import {
   DataWrapper,
   SubHeader,
@@ -9,23 +30,6 @@ import {
   TableTitle,
   SpinnerContainer
 } from './styles';
-
-import {
-  FiTrendingUp,
-  FiTrendingDown,
-} from 'react-icons/fi';
-
-import Accordion, { AccordionSizes } from '../../../components/Accordion';
-import Table from '../../../components/Table';
-import StockPrice from '../../../components/StockPrice';
-import CompanyHeader from '../../../components/CompanyHeader';
-import useAppTheme from '../../../contexts/theme';
-import * as themes from '../../../styles/themes';
-import { marketIndex } from '../../../services';
-import history from '../../../services/history';
-import { MarketIndexPriceFlutuationResult, MarketIndexPriceFlutuationResultTicker } from '../../../models';
-import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import Spinner from '../../../components/Spinner';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -39,6 +43,9 @@ interface IndexFlutuationTableData {
 }
 
 const MarketToday = () => {
+
+  const dispatch = useDispatch();
+  
   const [isIbovFlutuationTableLoading, setIbovFlutuationTableLoading] = useState<boolean>(true);
   const [isIfixFlutuationTableLoading, setIfixFlutuationTableLoading] = useState<boolean>(true);
   const [ibovFlutuationTable, setIbovFlutuationTable] = useState<IndexFlutuationTableData>();
@@ -49,7 +56,7 @@ const MarketToday = () => {
   const theme = themes[currentTheme];
 
   const handleIbovTableClick = (assetId: number, ticker: string) => {
-    history.push(`/company/${assetId}/${ticker}`);
+    dispatch(Creators.navigate(`/company/${assetId}/${ticker}`));
   }
 
   const getIbovMarketPriceFlutuation = () => {

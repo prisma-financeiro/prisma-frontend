@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Creators } from '../../store/ducks/favorites';
-import { ApplicationState } from '../../store/ducks';
+import { Creators as ApplicationCreators } from '../../store/ducks/application';
+import { GlobalState } from '../../store/ducks';
 
 import {
   Container,
@@ -94,7 +95,7 @@ const Company: React.FC = (props: any) => {
   let companyId = props.match.params.id;
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state: ApplicationState) => state.favoriteState.favorites);
+  const favorites = useSelector((state: GlobalState) => state.favoriteState.favorites);
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>();
   const [tickerInformation, setTickerInformation] = useState<TickerInformation>();
@@ -294,7 +295,7 @@ const Company: React.FC = (props: any) => {
   }
 
   const handleAssetCompare = (assetId: number | undefined, assetTicker: string) => {
-    history.push(`/assets-compare/${assetId}/${assetTicker}`);
+    dispatch(ApplicationCreators.navigate(`/assets-compare/${assetId}/${assetTicker}`));
   }
 
   const handleAddAssetToFavorites = (assetTickerId: number | undefined) => {

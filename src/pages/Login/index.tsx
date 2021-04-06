@@ -1,22 +1,37 @@
 import React, { FormEvent, useState } from 'react';
-import Input from '../../components/Input'
-import Button from '../../components/Button'
-import history from '../../services/history';
+import { toast } from "react-toastify";
 
-import { AccountOptions, ConfirmationModalButtonContainer, Container, FormContainer, InputControl, SpinnerContainer } from './styles';
 import { FiLock, FiMail } from 'react-icons/fi';
+
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../store/ducks/application';
+
 import * as login from "../../services/login";
 import * as signUp from "../../services/signup";
-import useAuth from '../../contexts/auth';
-import Spinner from '../../components/Spinner';
-import Modal from '../../components/Modal';
-import { toast } from "react-toastify";
-import PasswordRecoveryModal from './PasswordRecoveryModal';
+
 import cookieManager from '../../services/cookieManager';
 import { HttpResponseError } from '../../exceptions';
+import useAuth from '../../contexts/auth';
+
+import Input from '../../components/Input'
+import Button from '../../components/Button'
+import Spinner from '../../components/Spinner';
+import Modal from '../../components/Modal';
+import PasswordRecoveryModal from './PasswordRecoveryModal';
+
+import { 
+    AccountOptions, 
+    ConfirmationModalButtonContainer, 
+    Container, 
+    FormContainer, 
+    InputControl, 
+    SpinnerContainer 
+} from './styles';
 
 const Login = () => {
 
+    const dispatch = useDispatch();
+    
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isPasswordRecoveryModalVisible, setIsPasswordRecoveryModalVisible] = useState<boolean>(false);
 
@@ -34,7 +49,7 @@ const Login = () => {
     }
 
     if (isUserSigned()) {
-        history.push("/home");
+        dispatch(Creators.navigate('/home'));
     }
 
     const showLoginErrorMessage = (code: string) => {
@@ -55,7 +70,7 @@ const Login = () => {
     const handleSignInResponse = (response: any) => {
         setIsLoading(false);
         signIn(response);
-        history.push("/home");
+        dispatch(Creators.navigate('/home'));
     }
 
     const handleSignInError = (error: HttpResponseError) => {
