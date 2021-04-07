@@ -39,7 +39,6 @@ export const Creators = {
 
   navigate: (route: string): ThunkAction<void, ApplicationState, unknown, Action<string>> => (dispatch) => {
     history.push(route);
-    console.log(route);
     dispatch(Creators.setRoute(route));
   },
 }
