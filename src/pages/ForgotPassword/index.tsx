@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import history from '../../services/history';
+
+import { Creators } from '../../store/ducks/application';
+import { useDispatch } from 'react-redux';
 
 import { Container, FormContainer, InputControl, SpinnerContainer } from './styles';
 import { FiKey } from 'react-icons/fi';
@@ -13,6 +15,8 @@ import sessionStorageManager from '../../utils/SessionStorageManager';
 import { DEFAULT_GENERIC_ERROR_MESSAGE, HttpResponseError } from '../../exceptions';
 
 const ForgotPassword = () => {
+
+    const dispatch = useDispatch();
 
     const [isLoadingPasswordRecover, setIsLoadingPasswordRecover] = useState<boolean>(false);
     const [confirmationCode, setConfirmationCode] = useState<string>('');
@@ -35,7 +39,7 @@ const ForgotPassword = () => {
     }
 
     const redirectToLoginPage = () => {
-        history.push("/");
+        dispatch(Creators.navigate('/'));
     }
 
     const showSuccessMessageAndRedirectToLoginPage = () => {

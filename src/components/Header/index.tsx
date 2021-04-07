@@ -23,9 +23,15 @@ import {
   Icon,
   Logo
 } from './styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { GlobalState } from '../../store/ducks';
+import { Creators } from '../../store/ducks/application';
 
 const Header = () => {
 
+  const dispatch = useDispatch();
+  const currentRoute: string = useSelector((state: GlobalState) => state.applicationState.route);
+  
   history.listen( () => handleCloseModal());
 
   const device = useBreakpoints();
@@ -33,7 +39,7 @@ const Header = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
 
   const handleNavigation = (route: string) => {
-    history.push(`${route}`);
+    dispatch(Creators.navigate(route));
   }
 
   const handleShowModal = () => {
@@ -48,6 +54,10 @@ const Header = () => {
     setIsSearchModalOpen(false);
   }
 
+  const isRouteMatching = (route: string) => {
+    return currentRoute.includes(route);
+  }
+
   return (
     <AnimatedContainer
       variants={CONTAINER_ANIMATION}
@@ -57,20 +67,23 @@ const Header = () => {
     >
       <Wrapper>
         <AnimatedLeftNav variants={NAVS_ANIMATION}>
-          <Logo>
-            <PrismaLogo onClick={() => handleNavigation('/home')}/>
+          <Logo onClick={() => handleNavigation('/home')}>
+            <PrismaLogo />
             Prisma
           </Logo>
         </AnimatedLeftNav>
         <MenuItems>
           {Object.entries(TOP_NAVIGATION).map(([key, value]) => (
-            <MenuItem key={key} onClick={() => handleNavigation(value.route)}>
+            <MenuItem 
+              key={key} 
+              onClick={() => handleNavigation(value.route)} 
+              isActive={isRouteMatching(value.route)}>
               <Icon>{value.icon}</Icon>
               <p>{key}</p>
             </MenuItem>
           ))}
           {device.isMobile && (
-            <MenuItem key="search-icon" onClick={() => handleShowModal()}>
+            <MenuItem key="search-icon" onClick={() => handleShowModal()} isActive={false}>
               <Icon>
                 <FiSearch/>
               </Icon>

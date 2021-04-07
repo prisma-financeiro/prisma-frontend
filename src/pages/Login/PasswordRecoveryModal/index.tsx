@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { FiMail } from "react-icons/fi";
 import { toast } from "react-toastify";
+
+import { useDispatch } from "react-redux";
+import { Creators } from "../../../store/ducks/application";
+
+import { forgotPassword, ForgotPasswordError } from "../../../services/login";
+import sessionStorageManager from "../../../utils/SessionStorageManager";
+
+import { DEFAULT_GENERIC_ERROR_MESSAGE, HttpResponseError } from "../../../exceptions";
+
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import Modal from "../../../components/Modal";
 import Spinner from "../../../components/Spinner";
-import { DEFAULT_GENERIC_ERROR_MESSAGE, HttpResponseError } from "../../../exceptions";
-import history from "../../../services/history";
-import { forgotPassword, ForgotPasswordError } from "../../../services/login";
-import sessionStorageManager from "../../../utils/SessionStorageManager";
+
 import { InputControl, SpinnerContainer, ButtonContainer } from "./styles";
 
 interface PasswordRecoveryModalProps {
@@ -17,6 +23,8 @@ interface PasswordRecoveryModalProps {
 }
 
 const PasswordRecoveryModal: React.FC<PasswordRecoveryModalProps> = ({ onClose, email }) => {
+
+    const dispatch = useDispatch();
 
     const [isPasswordRecoveryModalVisible, setIsPasswordRecoveryModalVisible] = useState<boolean>(true);
     const [isLoadingPasswordRecoveryEmailSend, setIsLoadingPasswordRecoveryEmailSend] = useState<boolean>(false);
@@ -50,7 +58,7 @@ const PasswordRecoveryModal: React.FC<PasswordRecoveryModalProps> = ({ onClose, 
                 setIsLoadingPasswordRecoveryEmailSend(false);
 
                 sessionStorageManager.setPasswordRecoverEmail(passwordRecoveryEmail);
-                history.push("/forgotpassword");
+                dispatch(Creators.navigate('/forgotpassword'));
                 toast.success("Código de recuperação enviado para seu e-mail.");
             })
             .catch(error => {

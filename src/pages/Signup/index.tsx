@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
+import { toast } from "react-toastify";
+
+import { FiMail } from 'react-icons/fi';
+
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../store/ducks/application';
+
+import { HttpResponseError } from '../../exceptions';
+import { signUp } from "../../services/signup";
+
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import history from '../../services/history';
-
-import { AccountOptions, Container, FormContainer, InputControl, SpinnerContainer } from './styles';
-import { FiMail } from 'react-icons/fi';
 import Checkbox from '../../components/Checkbox';
 import Modal from '../../components/Modal';
-
-import { signUp } from "../../services/signup";
 import Spinner from '../../components/Spinner';
-import { toast } from "react-toastify";
 import Password from '../../components/Password';
-import { HttpResponseError } from '../../exceptions';
+
+import { 
+    AccountOptions, 
+    Container, 
+    FormContainer, 
+    InputControl, 
+    SpinnerContainer 
+} from './styles';
 
 const Signup = () => {
+    
+    const dispatch = useDispatch();
 
     const [isSignUpLoading, setIsSignUpLoading] = useState<boolean>(false);
     const [isTermsAndConditionsAccepted, setIsTermsAndConditionsAccepted] = useState<boolean>(false);
@@ -60,7 +72,7 @@ const Signup = () => {
 
     const closeSignUpSuccessModelAndRedirectToLogin = () => {
         setIsSignUpSuccessModalVisible(false)
-        history.push("/");
+        dispatch(Creators.navigate('/'));
     }
 
     const handleSignUpSuccessModalClosed = () => {

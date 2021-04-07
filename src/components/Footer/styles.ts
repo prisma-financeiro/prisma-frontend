@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 import { transparentize } from 'polished';
 import { motion } from 'framer-motion';
 
-import { Wrapper as HeaderWrapper } from '../Header/styles';
-
 export const AnimatedContainer = styled(motion.footer)`
   flex-shrink: 0;
   display: flex;

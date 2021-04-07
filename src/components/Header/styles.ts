@@ -92,7 +92,7 @@ export const MenuItems = styled.div`
   }
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = styled.div<{isActive: boolean}>`
   margin-right: 5rem;
   margin-left: 1rem;
   display: flex;
@@ -100,6 +100,7 @@ export const MenuItem = styled.div`
   align-items: center;
   cursor: pointer;
   text-align: center;
+  color: ${({ theme, isActive }) => isActive ? theme.colors.primary : theme.colors.grey};
 
   :hover {
     color: ${({ theme }) => theme.colors.secondary};
@@ -107,8 +108,8 @@ export const MenuItem = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    margin-right: 4rem;
-    margin-left: 3rem;    
+    margin-right: 2rem;
+    margin-left: 1.5rem;    
 
     > p {
       display: none;

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import history from '../../services/history';
+
+import { useDispatch } from 'react-redux';
+import { Creators } from '../../store/ducks/application';
 
 import { FiSearch } from 'react-icons/fi';
 import { search } from '../../services/search';
@@ -32,6 +34,7 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
 
   const { currentTheme } = useAppTheme();
   const theme = themes[currentTheme];
+  const dispatch = useDispatch();
 
   const [showOptionList, setShowOptionList] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
@@ -93,7 +96,7 @@ const Typeahead: React.FC<TypeaheadProps> = ({ redirect, isMulti = false, placeh
 
     if (redirect) {
       if (type === AssetType.Stock) {
-        history.push(`/company/${id}/${ticker}`);
+        dispatch(Creators.navigate(`/assets/company/${id}/${ticker}`));
       }
       // Outras rotas aqui de acordo com o tipo de resultado
 
