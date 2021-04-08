@@ -1,23 +1,20 @@
-import React, { useState, useRef, MutableRefObject, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useParams } from "react-router-dom";
-
-import MainContent from '../../components/MainContent';
-import { SideBarOption } from '../../constants/sidebar-navigation';
-import SideBar from '../../components/SideBar';
-
-import VerticalHeader from './VerticalHeader';
-import VerticalAsset from './VerticalAsset';
 
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import { getCompany, getCompanyIndicator, getTickerPrice } from '../../services/company';
 
-import { RiVipDiamondLine, RiPercentLine, RiFireLine } from 'react-icons/ri';
-import { FiTrendingUp } from 'react-icons/fi';
-
 import { CompanyInfo, AssetType } from '../../models';
 
+import MainContent from '../../components/MainContent';
+import { getSideBarOptionsAssetCompare } from '../../constants/sidebar-navigation';
+import SideBar from '../../components/SideBar';
+import AssetSelectModal from '../../components/AssetSelectModal';
+
 import { AssetSorting } from './AssetSorting';
+import VerticalHeader from './VerticalHeader';
+import VerticalAsset from './VerticalAsset';
 
 import { 
   Container, 
@@ -27,7 +24,6 @@ import {
   AssetVerticalList, 
   HorizontalScroll 
 } from './styles';
-import AssetSelectModal from '../../components/AssetSelectModal';
 
 interface IndicatorProps {
   value: number,
@@ -83,11 +79,7 @@ interface AssetIdentification {
   assetType: AssetType
 }
 
-interface AssetCompareProps {
-  preLoadedCompanyId?: AssetIdentification; 
-}
-
-const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
+const AssetsCompare: React.FC = () => {
   
   const device = useBreakpoints();
 
@@ -117,44 +109,6 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
       getCompanyInfos();
     }
   }, [id, ticker]);
-
-  const sideBarOptionCompany: SideBarOption[] = [
-    {
-      title: 'Indicadores',
-      items: [
-        {
-          name: 'Valuation',
-          icon: <RiVipDiamondLine />,
-          expand: false,
-          onClick: () => scrollTo(valuation),
-        },
-        {
-          name: 'Rentabilidade',
-          icon: <RiPercentLine />,
-          expand: false,
-          onClick: () => scrollTo(rentabilidade),
-        },
-        {
-          name: 'Eficiência',
-          icon: <FiTrendingUp />,
-          expand: false,
-          onClick: () => scrollTo(eficiencia),
-        },
-        {
-          name: 'Endividamento',
-          icon: <RiFireLine />,
-          expand: false,
-          onClick: () => scrollTo(endividamento),
-        },
-      ]
-    },
-  ];
-
-  const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-    inline: "start",
-  });
 
   const loadAssets = async (selectedAssetList: AssetIdentification[]) => {
     setIsloading(true);
@@ -289,7 +243,11 @@ const AssetsCompare: React.FC<AssetCompareProps> = (props) => {
       <AnimatedWrapper>
         {
           !device.isTablet &&
-          <SideBar sideBarOptions={sideBarOptionCompany} />
+          <SideBar 
+            sideBarOptions={
+              getSideBarOptionsAssetCompare(valuation, rentabilidade, eficiencia, endividamento)
+            } 
+          />
         }
         <MainContent>
           <ComparatorContainer>

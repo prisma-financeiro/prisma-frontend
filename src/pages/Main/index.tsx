@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { useBreakpoints } from '../../hooks/useBreakpoints';
-import { getSideBarOptionLanding } from '../../constants/sidebar-navigation';
+import { getSideBarOptionsLanding, scrollTo } from '../../constants/sidebar-navigation';
 import { DASHBOARD_ANIMATION } from './animations';
 
 import SideBar from '../../components/SideBar';
@@ -18,11 +18,16 @@ import {
 const Main = () => {
   const device = useBreakpoints();
 
+  const top = useRef(null);
   const stocks = useRef(null);
   const marketToday = useRef(null);
 
+  useEffect(() => {
+    scrollTo(top);
+  })
+
   return (
-    <Container>
+    <Container ref={top}>
       <AnimatedWrapper
         variants={DASHBOARD_ANIMATION}
         initial="unMounted"
@@ -33,7 +38,7 @@ const Main = () => {
         {
           !device.isTablet &&
           <SideBar 
-            sideBarOptions={getSideBarOptionLanding(stocks, marketToday)} 
+            sideBarOptions={getSideBarOptionsLanding(stocks, marketToday)} 
           />
         }
         <MainContent>

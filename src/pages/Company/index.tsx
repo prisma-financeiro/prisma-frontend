@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +6,37 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Creators } from '../../store/ducks/favorites';
 import { Creators as ApplicationCreators } from '../../store/ducks/application';
 import { GlobalState } from '../../store/ducks';
+
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+import { company, user as UserService } from "../../services";
+
+import SideBar from '../../components/SideBar';
+import MainContent from '../../components/MainContent';
+import { getSideBarOptionsCompany, scrollTo } from '../../constants/sidebar-navigation';
+import Accordion, { AccordionSizes } from '../../components/Accordion';
+import LineChart from '../../components/LineChart';
+import StockPrice, { StockPriceSize } from '../../components/StockPrice';
+import SegmentCard from '../../components/SegmentCard';
+import PeriodSelector from '../../components/PeriodSelector';
+import CompanyHeader from '../../components/CompanyHeader';
+import { Divider } from '../../components/ContentDivider/styles';
+
+import {
+  formatStockPriceHistory,
+  indicatorList
+} from './utils';
+import { formatStandard, formatCurrencyCompact } from "../../utils";
+
+import FinancialReportTable from './FinancialReportTable';
+import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
+
+import { 
+  TickerHistoryResult, 
+  TickerHistoryResultHighestLowest, 
+  TradingViewTableRow, 
+  FinancialReportType, 
+  CompanyInfo 
+} from '../../models';
 
 import {
   Container,
@@ -22,54 +53,6 @@ import {
   QuoteInfoContainer,
   ContatoContainer,
 } from './styles';
-
-import {
-  FiTrendingUp,
-} from 'react-icons/fi';
-
-import {
-  RiVipDiamondLine,
-  RiPercentLine,
-  RiHandCoinLine,
-  RiExchangeFundsLine,
-  RiBuilding4Line,
-  RiFireLine
-} from 'react-icons/ri';
-
-import {
-  BiLineChart,
-  BiSpreadsheet
-} from 'react-icons/bi';
-
-import {
-  HiOutlineDocumentReport,
-  HiOutlineMail
-} from 'react-icons/hi';
-
-import { BsBuilding } from 'react-icons/bs';
-
-import SideBar from '../../components/SideBar';
-import MainContent from '../../components/MainContent';
-import { SideBarOption, getSideBarOptionsCompany } from '../../constants/sidebar-navigation';
-import Accordion, { AccordionSizes } from '../../components/Accordion';
-import LineChart from '../../components/LineChart';
-import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
-import StockPrice, { StockPriceSize } from '../../components/StockPrice';
-import SegmentCard from '../../components/SegmentCard';
-import {
-  formatStockPriceHistory,
-  indicatorList
-} from './utils';
-import PeriodSelector from '../../components/PeriodSelector';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
-import CompanyHeader from '../../components/CompanyHeader';
-import { Divider } from '../../components/ContentDivider/styles';
-import { TickerHistoryResult, TickerHistoryResultHighestLowest, TradingViewTableRow, FinancialReportType, CompanyInfo } from '../../models';
-
-import { formatStandard, formatCurrencyCompact } from "../../utils";
-
-import { company, user as UserService } from "../../services";
-import FinancialReportTable from './FinancialReportTable';
 
 interface TickerInformation {
   price: number;
@@ -103,6 +86,7 @@ const Company: React.FC = (props: any) => {
   const [stockPriceHistory, setStockPriceHistory] = useState<TradingViewTableRow[] | null>();
   const [stockPriceInfo, setStockPriceInfo] = useState<StockPriceInfo>();
 
+  const top = useRef(null);
   const valuation = useRef(null);
   const rentabilidade = useRef(null);
   const eficiencia = useRef(null);
@@ -171,15 +155,7 @@ const Company: React.FC = (props: any) => {
     getCurrentTickerPrice();
     getTickerPriceHistory();
     getAllCompanyIndicators();
-
-    scrollTo(valuation);
   }, [ticker]);
-
-  const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-    inline: "start",
-  });
 
   const handleStockQuotePeriodChange = async (period: number | null) => {
     await company.getTickerHistory(ticker, period)
@@ -254,7 +230,7 @@ const Company: React.FC = (props: any) => {
   }
 
   return (
-    <Container>
+    <Container ref={top}>
       {
         !device.isTablet &&
         <SideBar 
