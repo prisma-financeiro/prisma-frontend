@@ -1,12 +1,16 @@
 import React from 'react';
 
 import FavoritedCard from '../../../components/FavoritedCard';
+import Hint from '../../../components/Hint';
+
+import indicators from '../../../utils/indicators-description';
 
 import { 
   Container, 
   Title, 
   Field,
-  AssetHeader } from './styles';
+  AssetHeader,
+  HintContainer } from './styles';
 
 interface VerticalHeaderProps {
   anchor: {
@@ -22,8 +26,19 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
 
   const valuationFieldNames = ['P/L', 'LPA', 'VPA'];
   const rentabilidadeFieldNames = ['ROE', 'ROA', 'ROIC'];
-  const endividamentoFieldNames = ['Liq. Corrente', 'Passivos / Ativos', 'PL / Ativos', 'Dívida Liq. / EBIT', 'Dívida Liq. / EBITDA', 'Dívida Liq. / PL'];
-  const eficienciaFieldNames = ['Margen Bruta', 'Margen Líquida', 'Margen EBIT', 'Margen EBIT'];
+  const endividamentoFieldNames = ['Liq. Corrente', 'Passivos/Ativos', 'PL/Ativos', 'Dívida Liq./EBIT', 'Dívida Liq./EBITDA', 'Dívida Liq./PL'];
+  const eficienciaFieldNames = ['Margem Bruta', 'Margem Líquida', 'Margem EBIT', 'Margem EBITDA'];
+
+  const renderFields = (indicatorFieldNames: string[]) => {
+    return indicatorFieldNames.map((field, index) => (
+      <Field key={index}>
+        {field} 
+        <HintContainer>
+          <Hint title={field} content={indicators[field]}/>
+        </HintContainer>
+      </Field>)
+    )
+  }
 
   return (
     <Container>
@@ -41,28 +56,28 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
         <Title thinnerHeight={true}>
           Valuation
         </Title>
-        {valuationFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
+        {renderFields(valuationFieldNames)}
       </div>
 
       <div ref={anchor.rentabilidade}>
         <Title>
           Rentabilidade
         </Title>
-        {rentabilidadeFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
+        {renderFields(rentabilidadeFieldNames)}
       </div>
 
       <div ref={anchor.endividamento}>
         <Title>
           Endividamento
         </Title>
-        {endividamentoFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
+        {renderFields(endividamentoFieldNames)}
       </div>
 
       <div  ref={anchor.eficiencia}>
         <Title>
           Eficiência
         </Title>
-        {eficienciaFieldNames.map((field, index) => <Field key={index}>{field}</Field>)}
+        {renderFields(eficienciaFieldNames)}
       </div>
 
     </Container>
