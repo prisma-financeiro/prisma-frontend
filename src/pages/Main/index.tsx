@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { Container, AnimatedWrapper } from './styles';
+import { useBreakpoints } from '../../hooks/useBreakpoints';
+import { getSideBarOptionLanding } from '../../constants/sidebar-navigation';
+import { DASHBOARD_ANIMATION } from './animations';
+
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
-import { DASHBOARD_ANIMATION } from './animations';
-import { sideBarOptionLanding } from '../../constants';
+
 import Favorites from './Favorites';
 import MarketToday from './MarketToday';
-import { useBreakpoints } from '../../hooks/useBreakpoints';
+
+import { 
+  Container, 
+  AnimatedWrapper 
+} from './styles';
 
 const Main = () => {
   const device = useBreakpoints();
+
+  const stocks = useRef(null);
+  const marketToday = useRef(null);
 
   return (
     <Container>
@@ -23,11 +32,13 @@ const Main = () => {
       >
         {
           !device.isTablet &&
-          <SideBar sideBarOptions={sideBarOptionLanding} />
+          <SideBar 
+            sideBarOptions={getSideBarOptionLanding(stocks, marketToday)} 
+          />
         }
         <MainContent>
-          <Favorites />
-          <MarketToday />
+          <Favorites anchor={stocks}/>
+          <MarketToday anchor={marketToday}/>
         </MainContent>
       </AnimatedWrapper>
     </Container>

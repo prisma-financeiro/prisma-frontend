@@ -50,7 +50,7 @@ import { BsBuilding } from 'react-icons/bs';
 
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
-import { SideBarOption } from '../../constants/sidebar-navigation';
+import { SideBarOption, getSideBarOptionsCompany } from '../../constants/sidebar-navigation';
 import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
 import CompanyIndicator, { IndicatorType } from './CompanyIndicator';
@@ -182,101 +182,6 @@ const Company: React.FC = (props: any) => {
     inline: "start",
   });
 
-  const sideBarOptionCompany: SideBarOption[] = [
-    {
-      title: 'Indicadores',
-      items: [
-        {
-          name: 'Valuation',
-          icon: <RiVipDiamondLine />,
-          expand: false,
-          onClick: () => scrollTo(valuation),
-        },
-        {
-          name: 'Rentabilidade',
-          icon: <RiPercentLine />,
-          expand: false,
-          onClick: () => scrollTo(rentabilidade),
-        },
-        {
-          name: 'Eficiência',
-          icon: <FiTrendingUp />,
-          expand: false,
-          onClick: () => scrollTo(eficiencia),
-        },
-        {
-          name: 'Endividamento',
-          icon: <RiFireLine />,
-          expand: false,
-          onClick: () => scrollTo(endividamento),
-        },
-      ]
-    },
-    {
-      title: 'Histórico',
-      items: [
-        {
-          name: 'Cotação',
-          icon: <BiLineChart />,
-          expand: false,
-          onClick: () => scrollTo(cotacao),
-        },
-        {
-          name: 'Proventos',
-          icon: <RiHandCoinLine />,
-          expand: false,
-          onClick: () => scrollTo(proventos),
-        }
-      ]
-    },
-    {
-      title: 'Relatórios Financeiros',
-      items: [
-        {
-          name: 'Demonstração de Resultado',
-          icon: <HiOutlineDocumentReport />,
-          expand: false,
-          onClick: () => scrollTo(dre),
-        },
-        {
-          name: 'Balanço Patrimonial',
-          icon: <BiSpreadsheet />,
-          expand: false,
-          onClick: () => scrollTo(balancoPatrimonial),
-        },
-        {
-          name: 'Fluxo de Caixa',
-          icon: <RiExchangeFundsLine />,
-          expand: false,
-          onClick: () => scrollTo(fluxoCaixa),
-        }
-      ]
-    },
-    {
-      title: 'Sobre a Empresa',
-      items: [
-        {
-          name: 'Mercado de atuação',
-          icon: <BsBuilding />,
-          expand: false,
-          onClick: () => scrollTo(mercadoAtuacao),
-        },
-        {
-          name: 'Dados Gerais',
-          icon: <RiBuilding4Line />,
-          expand: false,
-          onClick: () => scrollTo(dadosGerais),
-        },
-        {
-          name: 'Contato',
-          icon: <HiOutlineMail />,
-          expand: false,
-          onClick: () => scrollTo(contato),
-        },
-      ]
-    }
-  ];
-
   const handleStockQuotePeriodChange = async (period: number | null) => {
     await company.getTickerHistory(ticker, period)
       .then(data => {
@@ -353,7 +258,22 @@ const Company: React.FC = (props: any) => {
     <Container>
       {
         !device.isTablet &&
-        <SideBar sideBarOptions={sideBarOptionCompany} />
+        <SideBar 
+          sideBarOptions={
+            getSideBarOptionsCompany(
+              valuation, 
+              rentabilidade,
+              eficiencia,
+              endividamento,
+              cotacao,
+              proventos,
+              dre,
+              balancoPatrimonial,
+              fluxoCaixa,
+              mercadoAtuacao,
+              dadosGerais,
+              contato)
+          } />
       }
       <MainContent>
         <HeaderContainer>

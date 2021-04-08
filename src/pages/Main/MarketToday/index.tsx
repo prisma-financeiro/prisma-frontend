@@ -42,7 +42,12 @@ interface IndexFlutuationTableData {
   highestDrop: IndexFlutuationTableRow[];
 }
 
-const MarketToday = () => {
+interface MarketTodayProps {
+  anchor?: React.MutableRefObject<any>;
+}
+
+
+const MarketToday: React.FC<MarketTodayProps> = ({ anchor }) => {
 
   const dispatch = useDispatch();
   
@@ -207,7 +212,8 @@ const MarketToday = () => {
   return (
     <Accordion
       title="Mercado hoje"
-      size={AccordionSizes.large}>
+      size={AccordionSizes.large}
+      anchor={anchor}>
       <SubHeader>
         <p>Ibovespa</p>
       </SubHeader>

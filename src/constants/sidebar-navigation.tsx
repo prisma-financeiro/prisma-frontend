@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 
-import { BiBitcoin } from 'react-icons/bi';
+import { BiBitcoin, BiLineChart, BiSpreadsheet } from 'react-icons/bi';
 
 import { BsBuilding, BsBriefcase } from 'react-icons/bs';
 
-import { RiFileChartLine, RiFundsLine } from 'react-icons/ri';
+import { RiFileChartLine, RiFundsLine, RiVipDiamondLine, RiPercentLine, RiFireLine, RiHandCoinLine, RiExchangeFundsLine, RiBuilding4Line } from 'react-icons/ri';
+import { FiTrendingUp } from 'react-icons/fi';
+import { HiOutlineDocumentReport, HiOutlineMail } from 'react-icons/hi';
 
 export interface SideBarOption {
   title: string;
@@ -18,73 +20,151 @@ export interface SideBarItem {
   onClick?: () => {};
 }
 
-export const sideBarOptionLanding: SideBarOption[] = [
+const scrollTo = (ref: MutableRefObject<any>) => ref.current.scrollIntoView({
+  behavior: "smooth",
+  block: "center",
+  inline: "start",
+});
+
+export const getSideBarOptionLanding= (stock: MutableRefObject<any>, marketToday: MutableRefObject<any>): SideBarOption[]  => {
+  return [
+    {
+      title: 'Seus Favoritos',
+      items: [
+        {
+          name: 'Ações',
+          icon: <RiFileChartLine />,
+          expand: false,
+          onClick: () => scrollTo(stock),
+        },
+      ]
+    },
+    {
+      title: 'Mercado Hoje',
+      items: [
+        {
+          name: 'IBOV',
+          icon: <RiFundsLine />,
+          expand: false,
+          onClick: () => scrollTo(marketToday),
+        },
+        {
+          name: 'IFIX',
+          icon: <BsBuilding />,
+          expand: false,
+          onClick: () => scrollTo(marketToday),
+        },
+      ]
+    }
+  ]
+};
+
+export const getSideBarOptionsCompany = (
+  valuation: MutableRefObject<any>,
+  rentabilidade: MutableRefObject<any>,
+  eficiencia: MutableRefObject<any>,
+  endividamento: MutableRefObject<any>,
+  cotacao: MutableRefObject<any>,
+  proventos: MutableRefObject<any>,
+  dre: MutableRefObject<any>,
+  balancoPatrimonial: MutableRefObject<any>,
+  fluxoCaixa: MutableRefObject<any>,
+  mercadoAtuacao: MutableRefObject<any>,
+  dadosGerais: MutableRefObject<any>,
+  contato: MutableRefObject<any>,
+): SideBarOption[] => {
+  return [
   {
-    title: 'Seus Favoritos',
+    title: 'Indicadores',
     items: [
       {
-        name: 'Ações',
-        icon: <RiFileChartLine />,
+        name: 'Valuation',
+        icon: <RiVipDiamondLine />,
         expand: false,
+        onClick: () => scrollTo(valuation),
       },
       {
-        name: 'Fundos Imobiliarios',
-        icon: <BsBuilding />,
+        name: 'Rentabilidade',
+        icon: <RiPercentLine />,
         expand: false,
+        onClick: () => scrollTo(rentabilidade),
       },
       {
-        name: 'Fundos de investimentos',
-        icon: <BsBriefcase />,
+        name: 'Eficiência',
+        icon: <FiTrendingUp />,
         expand: false,
+        onClick: () => scrollTo(eficiencia),
       },
       {
-        name: 'Criptomoedas',
-        icon: <BiBitcoin />,
+        name: 'Endividamento',
+        icon: <RiFireLine />,
         expand: false,
+        onClick: () => scrollTo(endividamento),
       },
     ]
   },
   {
-    title: 'Mercado Hoje',
+    title: 'Histórico',
     items: [
       {
-        name: 'IBOV',
-        icon: <RiFundsLine />,
+        name: 'Cotação',
+        icon: <BiLineChart />,
         expand: false,
+        onClick: () => scrollTo(cotacao),
       },
       {
-        name: 'IFIX',
-        icon: <BsBuilding />,
+        name: 'Proventos',
+        icon: <RiHandCoinLine />,
         expand: false,
-      },
+        onClick: () => scrollTo(proventos),
+      }
     ]
-  }
-];
-
-export const sideBarOptionAssets: SideBarOption[] = [
+  },
   {
-    title: 'Lista de Ativos',
+    title: 'Relatórios Financeiros',
     items: [
       {
-        name: 'Ações',
-        icon: <RiFileChartLine />,
+        name: 'Demonstração de Resultado',
+        icon: <HiOutlineDocumentReport />,
         expand: false,
+        onClick: () => scrollTo(dre),
       },
       {
-        name: 'Fundos Imobiliarios',
+        name: 'Balanço Patrimonial',
+        icon: <BiSpreadsheet />,
+        expand: false,
+        onClick: () => scrollTo(balancoPatrimonial),
+      },
+      {
+        name: 'Fluxo de Caixa',
+        icon: <RiExchangeFundsLine />,
+        expand: false,
+        onClick: () => scrollTo(fluxoCaixa),
+      }
+    ]
+  },
+  {
+    title: 'Sobre a Empresa',
+    items: [
+      {
+        name: 'Mercado de atuação',
         icon: <BsBuilding />,
         expand: false,
+        onClick: () => scrollTo(mercadoAtuacao),
       },
       {
-        name: 'Fundos de investimentos',
-        icon: <BsBriefcase />,
+        name: 'Dados Gerais',
+        icon: <RiBuilding4Line />,
         expand: false,
+        onClick: () => scrollTo(dadosGerais),
       },
       {
-        name: 'Criptomoedas',
-        icon: <BiBitcoin />,
+        name: 'Contato',
+        icon: <HiOutlineMail />,
         expand: false,
+        onClick: () => scrollTo(contato),
       },
     ]
   }
 ];
+}

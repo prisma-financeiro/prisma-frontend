@@ -25,7 +25,11 @@ interface AssetIdentification {
   assetTickerId: number
 }
 
-const Favorites = () => {
+interface FavoritesProps {
+  anchor?: React.MutableRefObject<any>;
+}
+
+const Favorites: React.FC<FavoritesProps> = ({ anchor }) => {
 
   const dispatch = useDispatch();
   const favorites: FavoriteAsset[] = useSelector((state: GlobalState) => state.favoriteState.favorites);
@@ -110,7 +114,8 @@ const Favorites = () => {
     <>
       <Accordion
         title="Meus Favoritos"
-        size={AccordionSizes.large}>
+        size={AccordionSizes.large}
+        anchor={anchor}>
 
         {favorites.length === 0 && (
           <FavoritedCard
