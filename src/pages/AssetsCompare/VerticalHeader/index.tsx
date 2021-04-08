@@ -29,6 +29,17 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
   const endividamentoFieldNames = ['Liq. Corrente', 'Passivos/Ativos', 'PL/Ativos', 'Dívida Liq./EBIT', 'Dívida Liq./EBITDA', 'Dívida Liq./PL'];
   const eficienciaFieldNames = ['Margem Bruta', 'Margem Líquida', 'Margem EBIT', 'Margem EBITDA'];
 
+  const renderFields = (indicatorFieldNames: string[]) => {
+    return indicatorFieldNames.map((field, index) => (
+      <Field key={index}>
+        {field} 
+        <HintContainer>
+          <Hint title={field} content={indicators[field]}/>
+        </HintContainer>
+      </Field>)
+    )
+  }
+
   return (
     <Container>
       <AssetHeader>
@@ -45,53 +56,28 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({ anchor, openModal }) =>
         <Title thinnerHeight={true}>
           Valuation
         </Title>
-
-        {valuationFieldNames.map((field, index) => 
-          <Field key={index}>
-            {field} 
-            <HintContainer>
-              <Hint title={field} content={indicators[field]}/>
-            </HintContainer>
-          </Field>)}
+        {renderFields(valuationFieldNames)}
       </div>
 
       <div ref={anchor.rentabilidade}>
         <Title>
           Rentabilidade
         </Title>
-        {rentabilidadeFieldNames.map((field, index) => 
-          <Field key={index}>
-            {field}
-            <HintContainer>
-              <Hint title={field} content={indicators[field]}/>
-            </HintContainer>
-          </Field>)}
+        {renderFields(rentabilidadeFieldNames)}
       </div>
 
       <div ref={anchor.endividamento}>
         <Title>
           Endividamento
         </Title>
-        {endividamentoFieldNames.map((field, index) => 
-          <Field key={index}>
-            {field}
-            <HintContainer>
-              <Hint title={field} content={indicators[field]}/>
-            </HintContainer>
-          </Field>)}
+        {renderFields(endividamentoFieldNames)}
       </div>
 
       <div  ref={anchor.eficiencia}>
         <Title>
           Eficiência
         </Title>
-        {eficienciaFieldNames.map((field, index) => 
-          <Field key={index}>
-            {field}
-            <HintContainer>
-              <Hint title={field} content={indicators[field]}/>
-            </HintContainer>
-          </Field>)}
+        {renderFields(eficienciaFieldNames)}
       </div>
 
     </Container>
