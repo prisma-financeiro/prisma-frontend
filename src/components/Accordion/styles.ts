@@ -33,7 +33,6 @@ export const ContentHeader = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
-    cursor: pointer;
 
     > h2 {   
       color: ${theme.colors.h2};

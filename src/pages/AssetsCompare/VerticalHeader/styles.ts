@@ -34,6 +34,7 @@ export const Field = styled.div`
     height: 4rem;
     margin-top: 0.5rem;
     background: ${theme.colors.background};
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,4 +60,9 @@ export const AssetHeader = styled.div`
     align-items: center;
     padding-bottom: 3.3rem;
   `}  
+`;
+
+export const HintContainer = styled.div`
+  position: absolute;
+  right: 0.5rem;
 `;

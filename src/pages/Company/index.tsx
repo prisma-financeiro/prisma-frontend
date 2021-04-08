@@ -70,7 +70,6 @@ import { formatStandard, formatCurrencyCompact } from "../../utils";
 
 import { company, user as UserService } from "../../services";
 import FinancialReportTable from './FinancialReportTable';
-import history from '../../services/history';
 
 interface TickerInformation {
   price: number;

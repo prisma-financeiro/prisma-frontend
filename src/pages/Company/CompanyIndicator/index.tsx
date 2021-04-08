@@ -1,16 +1,25 @@
 import React, { useState } from "react";
+
 import { FiArrowLeft } from "react-icons/fi";
+
+import { company } from "../../../services";
+import { SelectOptionType } from "../../../models";
+import indicators from "../../../utils/indicators-description";
+
 import Accordion, { AccordionSizes } from '../../../components/Accordion';
+import IndicatorCard from "../../../components/IndicatorCard";
+import Hint from "../../../components/Hint";
+
 import IndicatorChart from "../IndicatorChart";
+
 import {
     CardContainer,
     ChartContainer,
     IconContainer,
-    Container
+    Container,
+    TitleContainer,
+    HintContainer
 } from "./styles";
-import IndicatorCard from "../../../components/IndicatorCard";
-import { company } from "../../../services";
-import { SelectOptionType } from "../../../models";
 
 export enum IndicatorType {
     valuation = 'Valuation',
@@ -93,9 +102,16 @@ const CompanyIndicator: React.FC<CompanyIndicatorOptions> = ({ companyId, ticker
         setIsChartVisible(false);
     }
 
-    const getTitle = (selectedIndicator: string): string => {
+    const getTitle = (selectedIndicator: string): string | JSX.Element => {
         const title = `Indicadores - ${indicatorType}`;
-        return selectedIndicator ? `${title} - ${selectedIndicator}` : title;
+        return selectedIndicator ? (
+            <TitleContainer>
+                {title} - {selectedIndicator}
+                <HintContainer>
+                    <Hint title={selectedIndicator} content={indicators[selectedIndicator]}/>
+                </HintContainer>
+            </TitleContainer>
+         ) : title;
     }
 
     return (

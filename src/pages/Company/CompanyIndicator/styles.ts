@@ -42,16 +42,27 @@ export const IconContainer = styled(motion.div)`
   ${({ theme }) => css`
     display: flex;
     flex-direction: row;
-    color: ${theme.colors.primary};
-    font-size: ${theme.fontSizes.xlarge};
+    justify-content: space-between;
     margin-bottom: 2rem;
     width: 2rem;
-    height: 2rem;
-    
+    color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes.xlarge};
+
     :hover {
-        cursor: pointer;
-        background: ${theme.colors.greyLowerOpacity};
-        border-radius: 50%;
+      cursor: pointer;
+      background: ${theme.colors.greyLowerOpacity};
+      border-radius: 50%;
     }
   `}
 `;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const HintContainer = styled.div`
+  margin-left: 1rem;
+  padding-top: 0.5rem;
+`
