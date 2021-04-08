@@ -13,7 +13,7 @@ export enum AccordionSizes {
 
 interface AccordionProps {
   size: AccordionSizes;
-  title: string;
+  title: React.ReactNode | string;
   anchor?: React.MutableRefObject<any>;
 }
 
@@ -27,10 +27,10 @@ const Accordion: React.FC<AccordionProps> = ({ title, size, children, anchor }) 
       transition={DEFAULT_TRANSITION}
       size={size}
     >
-      <ContentHeader onClick={() => setToggle(!toggled)} >
+      <ContentHeader>
         <h2>{title}</h2>
-        <ButtonWrapper>
-          {toggled ? <FiChevronDown onClick={() => setToggle(!toggled)} /> : <FiChevronUp />}
+        <ButtonWrapper onClick={() => setToggle(!toggled)}>
+          {toggled ? <FiChevronDown /> : <FiChevronUp />}
         </ButtonWrapper>
       </ContentHeader>
       { !toggled && (

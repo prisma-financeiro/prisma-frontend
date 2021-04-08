@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container, SelectContainer } from './styles';
-import BarChart from '../../../components/BarChart';
 import useAppTheme from '../../../contexts/theme';
 import * as themes from '../../../styles/themes';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import Select from '../../../components/Select';
 import { SelectOptionType } from '../../../models';
+
+import BarChart from '../../../components/BarChart';
+import Select from '../../../components/Select';
+
+import { 
+    Container, 
+    SelectContainer
+} from './styles';
 
 export interface IndicatorData {
     label: string;
