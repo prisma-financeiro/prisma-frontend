@@ -13,7 +13,7 @@ export interface PrivateRouteProps extends RouteProps {
 const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
 
   const isUserSigned = () => {
-    const { token } = cookieManager.getCookies();
+    const token = cookieManager.getCookie('token');
     return (token && token !== '') as boolean;
   }
 
