@@ -15,11 +15,11 @@ interface PeriodSelectorProps {
 const PeriodSelector: React.FC<PeriodSelectorProps> = ({ onPeriodChange }) => {
 
   const periods: Period[] = [
-    {label: '5 Dias', value: 5, selected: true},
+    {label: '5 Dias', value: 5, selected: false},
     {label: '30 Dias', value: 30, selected: false},
     {label: '6 Meses', value: 180, selected: false},
     {label: '1 Ano', value: 365, selected: false},
-    {label: '5 Anos', value: 1825, selected: false},
+    {label: '5 Anos', value: 1825, selected: true},
     {label: 'Máx', value: null, selected: false},
   ]
 
