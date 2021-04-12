@@ -70,7 +70,7 @@ interface StockPriceInfo {
 }
 
 const Company: React.FC = (props: any) => {
-  const INITIAL_STOCK_QUOTE_PERIOD = 5;
+  const INITIAL_STOCK_QUOTE_PERIOD = 1825;
   const device = useBreakpoints();
 
   let ticker = props.match.params.ticker;
