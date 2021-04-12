@@ -66,7 +66,7 @@ const processQueue = (error: any, token: string | null) => {
 const setRequestInterceptor = (api: AxiosInstance) => {
 
   api.interceptors.request.use((config: AxiosRequestConfig) => {
-    const { token } = cookieManager.getCookies();
+    const token = cookieManager.getCookie('token');
 
     if (token) {
       config.headers.authorization = `Bearer ${token}`;

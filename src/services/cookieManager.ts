@@ -1,20 +1,21 @@
-import setCookie from "set-cookie-parser";
-
-interface Cookies {
-    token: string;
-}
-
 class CookieManager {
 
-    public getCookies(): Cookies {
-        var cookies = setCookie.parse(document.cookie, {
-            decodeValues: true,
-            map: true
-        });
+    public getCookie(cookieName: string) {
+        const name = cookieName + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieList = decodedCookie.split(';');
+        for(let i = 0; i <cookieList.length; i++) {
+            var cookie = cookieList[i];
+            
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
 
-        return {
-            token: cookies?.token?.value
-        };
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return "";
     }
 }
 

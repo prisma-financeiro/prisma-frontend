@@ -44,7 +44,7 @@ const Login = () => {
     const { signIn } = useAuth();
 
     const isUserSigned = () => {
-        const { token } = cookieManager.getCookies();
+        const token = cookieManager.getCookie('token');
         return (token && token !== '') as boolean;
     }
 
