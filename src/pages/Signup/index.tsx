@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 
-import { FiMail } from 'react-icons/fi';
+import { FiMail, FiUser } from 'react-icons/fi';
 
 import { useDispatch } from 'react-redux';
 import { Creators } from '../../store/ducks/application';
@@ -32,6 +32,7 @@ const Signup = () => {
     const [isTermsAndConditionsAccepted, setIsTermsAndConditionsAccepted] = useState<boolean>(false);
     const [isTermsAndConditionsModalVisible, setIsTermsAndConditionsModalVisible] = useState<boolean>(false);
     const [isSignUpSuccessModalVisible, setIsSignUpSuccessModalVisible] = useState<boolean>(false);
+    const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
@@ -48,7 +49,7 @@ const Signup = () => {
 
     const handleSignupSubmit = () => {
         setIsSignUpLoading(true);
-        signUp(email, password)
+        signUp(name, email, password, isTermsAndConditionsAccepted)
             .then(() => handleSignUpResponse())
             .catch((error: HttpResponseError) => handleSignUpError(error));
     }
@@ -83,6 +84,10 @@ const Signup = () => {
         closeSignUpSuccessModelAndRedirectToLogin();
     }
 
+    const handleNameChange = (newName: string) => {
+        setName(newName);
+    }
+
     const handleEmailChange = (newEmail: string) => {
         setEmail(newEmail);
     }
@@ -110,6 +115,15 @@ const Signup = () => {
             <FormContainer>
                 <h1>Cadastre-se</h1>
                 <form>
+                    <InputControl>
+                        <Input 
+                            type="text" 
+                            placeholder="Nome" 
+                            name="nome"
+                            icon={<FiUser/>}
+                            onChange={(event) => handleNameChange(event.target.value)} 
+                        />
+                    </InputControl>
                     <InputControl>
                         <Input
                             type="email"

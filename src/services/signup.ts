@@ -7,11 +7,13 @@ export const SignUpExceptions = {
     InvalidParameterException: 'InvalidParameterException',
 }
 
-export const signUp = async (email: string, password: string): Promise<any> => {
+export const signUp = async (name: string, email: string, password: string, termsAndConditionsAccepted: boolean): Promise<any> => {
     return api
         .post('api/v1/signup', {
+            name,
             email,
-            password
+            password,
+            termsAndConditionsAccepted
         })
         .then(response => {
             if (response.status === HttpStatusCode.Success) {

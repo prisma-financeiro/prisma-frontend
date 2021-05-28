@@ -214,7 +214,7 @@ const Company: React.FC = (props: any) => {
           onClick={() => handleRemoveAssetFromFavorites(favorite.id)} 
           disabled={!tickerInformation}  
           variant="secondary">
-            Remover Favorito
+            Desfavoritar
         </Button> 
       )
     } else {
@@ -223,7 +223,7 @@ const Company: React.FC = (props: any) => {
           onClick={() => handleAddAssetToFavorites(tickerInformation?.tickerId)} 
           disabled={!tickerInformation}  
           variant="secondary">
-          Adicionar Favorito
+          Favoritar
         </Button>
       )
     }
