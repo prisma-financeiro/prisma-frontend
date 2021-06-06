@@ -56,3 +56,14 @@ export const AccountOptions = styled.div`
 export const SpinnerContainer = styled.div`    
     height: 100%;
 `;
+
+export const ModalContent = styled.div`
+  height: 100%;
+  width: 100%;
+`
+
+export const IframeContent = styled.iframe`
+  height: 100%;
+  width: 100%;
+  padding: 0;
+`

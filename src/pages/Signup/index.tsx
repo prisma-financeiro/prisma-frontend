@@ -21,7 +21,9 @@ import {
     Container, 
     FormContainer, 
     InputControl, 
-    SpinnerContainer 
+    SpinnerContainer,
+    ModalContent,
+    IframeContent
 } from './styles';
 
 const Signup = () => {
@@ -143,15 +145,21 @@ const Signup = () => {
                             onChange={(checked) => handleTermsAndConditionsCheckboxClick(checked)}
                             checked={isTermsAndConditionsAccepted}
                         />
-                        Li e aceito os <a onClick={() => handleTermsAndConditionsLinkClick()}><u>Termos e Condições</u></a>
+                        Li e aceito os <a onClick={() => handleTermsAndConditionsLinkClick()}><u>Termos de Uso e a Política de Privacidade</u></a>
                         <Modal
-                            title="Termos e Condições"
+                            title="Termos de Uso e Política de Privacidade"
                             show={isTermsAndConditionsModalVisible}
                             showButtons={true}
                             primaryButtonText={"Aceito"}
                             secondaryButtonText={"Cancelar"}
                             modalClosed={handleTermsAndConditionsModalClosed}
                             modalConfirmed={handleTermsAndConditionsModalConfirmed}>
+                                <ModalContent>
+                                    <IframeContent
+                                        src="https://docs.google.com/document/d/e/2PACX-1vQMmAMeJbOOnm23xnTnRE9VOohEUog8AZYoZS5e2-YTqMqC_YOViwkr5isXl1cnS--BxJYsit3Qoi5x/pub?embedded=true"
+                                    >
+                                    </IframeContent>
+                                </ModalContent>
                         </Modal>
                     </InputControl>
                     <InputControl>
