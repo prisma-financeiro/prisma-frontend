@@ -45,9 +45,13 @@ export const NavButton = styled(Button)`
   ${({ theme }) => css`
     width: 100%;
     padding: 1.2rem 1.6rem;
-    justify-content: space-between;
+    justify-content: start;
     font-size: ${theme.fontSizes.default};
     background: ${theme.colors.darkGrey};
+
+    > svg {
+      margin-right: 1rem;
+    }
 
     :hover {
       background: ${theme.colors.background};

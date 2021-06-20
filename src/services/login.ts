@@ -68,3 +68,13 @@ export const refreshToken = async (): Promise<Session> => {
         .get('api/v1/refreshtoken')
         .then(response => response.data);
 }
+
+export const changePassword = async (email: string, oldPassword: string, newPassword: string): Promise<void> => {
+    return api
+        .post('api/v1/changepassword', {
+            email,
+            oldPassword,
+            newPassword,
+        })
+        .then(response => response.data);
+}

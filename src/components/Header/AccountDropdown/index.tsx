@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 
 import { useTheme } from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
-import { FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 
 import { Container, AnimatedDropdown, NavButton } from './styles';
 import { DROP_DOWN_ANIMATION } from './animations';
@@ -51,6 +51,10 @@ const AccountDropdown = () => {
     [setIsDropdownVisible],
   );
 
+  const navigateToProfile = () => {
+    dispatch(Creators.navigate('/profile'));
+  }
+
   useEventListener('click', handleCloseDropdown, {
     enabled: isDropdownVisible,
   });
@@ -74,9 +78,14 @@ const AccountDropdown = () => {
             ref={dropdownRef}
           >
             <ul>
+              {/* //todo: include better light-mode colors 
               <NavButton onClick={toggleTheme}>
                 {currentTheme === 'light' ? <FiMoon /> : <FiSun />}
                 Alterar Tema
+              </NavButton> */}
+              <NavButton onClick={navigateToProfile}>
+                <FiUser />
+                Meu Perfil
               </NavButton>
               <NavButton onClick={handleSignOut}>
                 <FiLogOut />

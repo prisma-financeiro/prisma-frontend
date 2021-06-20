@@ -25,6 +25,16 @@ const variants = {
   transparent: css`
     background: transparent;
   `,
+  danger: css`
+    background: ${({ theme }) => theme.colors.danger};
+    border: 0.1rem solid ${({ theme }) => theme.colors.danger};
+    color: ${({ theme }) => theme.colors.background};
+
+    :hover {
+      background: ${({ theme }) => theme.colors.dangerLight};
+      color: ${({ theme }) => theme.colors.background};
+    }
+`,
 };
 
 export const Container = styled.button<ButtonProps>`
