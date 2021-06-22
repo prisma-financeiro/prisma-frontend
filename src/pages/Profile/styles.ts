@@ -18,6 +18,7 @@ export const Container = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+  margin-top: 1rem;
   min-width: 20rem;
   max-width: 30rem;
 `;

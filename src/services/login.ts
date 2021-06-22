@@ -1,5 +1,5 @@
 import { HttpResponseError } from "../exceptions";
-import { Session, SignIn } from "../models";
+import { Session, SignIn, UserAccount } from "../models";
 import api from "./api"
 
 export enum SignInExceptions {
@@ -76,5 +76,11 @@ export const changePassword = async (email: string, oldPassword: string, newPass
             oldPassword,
             newPassword,
         })
+        .then(response => response.data);
+}
+
+export const deleteUserAccount = async (): Promise<UserAccount> => {
+    return api
+        .post('api/v1/deleteUser')
         .then(response => response.data);
 }

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import Modal from '../../components/Modal';
 import Password from '../../components/Password';
 import localStorageManager from '../../utils/LocalStorageManager';
 import { toast } from "react-toastify";
@@ -15,24 +16,30 @@ import {
   PasswordContainer,
   AccordionContent } from './styles';
 import Accordion, { AccordionSizes } from '../../components/Accordion';
+import { UserAccount } from '../../models';
 
 const Profile: React.FC = () => {
-
 
   const [oldPassword, setOldPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
+  const [userAccount, setUserAccount] = useState<UserAccount>();
 
-  const userAccount = localStorageManager.getUserAccount();
+  useEffect(()=> {
+    setUserAccount(localStorageManager.getUserAccount())
+  }, []);
 
   const handleChangePassword = () => {
-    login.changePassword(userAccount.email, oldPassword, newPassword)
+    if (userAccount) {
+      login.changePassword(userAccount.email, oldPassword, newPassword)
       .then(() => {
-        toast.success("Sua senha foi redefinida.");
+        toast.success("Sua senha foi redefinida");
       })
       .catch(() => {
         toast.error("Algo deu errado, tente novamente em instantes");
       })
+    }
   }
 
   const handlePasswordChange = (password: string) => {
@@ -51,17 +58,39 @@ const Profile: React.FC = () => {
     setOldPassword(e.target.value);
   }
 
+  const handleAccountDeletion = () => {
+    login.deleteUserAccount()
+      .then(userAccount => {
+        localStorageManager.setUserAccount(userAccount);
+        setUserAccount(userAccount);
+        toast.success("Sua conta foi marcada para exclusão e será excluída em 30 dias");
+        setIsConfirmationModalOpen(false);
+      })
+      .catch(() => {
+        toast.error("Algo deu errado, tente novamente em instantes");
+        setIsConfirmationModalOpen(false);
+      })
+  }
+
+  const openConfirmationModal = () => {
+    setIsConfirmationModalOpen(true);
+  }
+
+  const closeConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
+  }
+
   return (
     <Container>
-      <h1>Olá {userAccount.name}</h1>
+      <h1>Olá, {userAccount?.name}</h1>
         <Accordion title='Dados Pessoais' size={AccordionSizes.medium}>
           <PersonalInformationBlock>
             <FiUser />
-            <p>{userAccount.name}</p>
+            <p>{userAccount?.name}</p>
           </PersonalInformationBlock>
           <PersonalInformationBlock>
             <FiMail />
-            <p>{userAccount.email}</p>
+            <p>{userAccount?.email}</p>
           </PersonalInformationBlock>
         </Accordion>
         <Accordion title='Mudança de senha' size={AccordionSizes.medium}>
@@ -85,13 +114,27 @@ const Profile: React.FC = () => {
             </ButtonContainer>
           </AccordionContent>
         </Accordion>
-        <Accordion title='Exclusao de conta' size={AccordionSizes.medium}>
+        <Accordion title='Exclusão de conta' size={AccordionSizes.medium}>
           <AccordionContent>
-            <ButtonContainer>
-              <Button variant="danger">Excluir minha conta</Button>
-            </ButtonContainer>
+            {userAccount?.accountStatus === '3' ? 
+              <p>Sua conta será excluída em 30 dias.</p>
+              : 
+              <ButtonContainer>
+                <Button variant="danger" onClick={openConfirmationModal}>Excluir minha conta</Button>
+              </ButtonContainer>
+            }
           </AccordionContent>
         </Accordion>
+        <Modal
+        title="Exclusão de Conta"
+        show={isConfirmationModalOpen}
+        showButtons={true}
+        primaryButtonText="Excluir minha conta"
+        secondaryButtonText="Voltar"
+        modalClosed={closeConfirmationModal}
+        modalConfirmed={handleAccountDeletion}>
+          <p>Você tem certeza que deseja excluir a sua conta?</p>
+      </Modal>
     </Container>
   );
 }

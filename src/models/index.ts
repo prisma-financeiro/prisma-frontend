@@ -174,7 +174,7 @@ export interface UserAccount {
   id: string;
   name: string;
   email: string;
-  emailVerified: boolean;
+  accountStatus: string;
 }
 
 export interface Session {
