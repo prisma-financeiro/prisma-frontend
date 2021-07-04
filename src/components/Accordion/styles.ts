@@ -20,8 +20,8 @@ export const AnimatedAccordion = styled(motion.div)`
     flex-direction: column;
 
     @media (max-width: ${theme.deviceWidth.mobile}) {
-      width: 100%;
-      margin-bottom: 0;
+      width: 95%;
+      margin: 1rem;
       border-radius: ${theme.radio.tiny};
       padding: 1.0rem;
     }
