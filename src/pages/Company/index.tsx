@@ -12,7 +12,7 @@ import { company, user as UserService } from "../../services";
 
 import SideBar from '../../components/SideBar';
 import MainContent from '../../components/MainContent';
-import { getSideBarOptionsCompany, scrollTo } from '../../constants/sidebar-navigation';
+import { getSideBarOptionsCompany } from '../../constants/sidebar-navigation';
 import Accordion, { AccordionSizes } from '../../components/Accordion';
 import LineChart from '../../components/LineChart';
 import StockPrice, { StockPriceSize } from '../../components/StockPrice';

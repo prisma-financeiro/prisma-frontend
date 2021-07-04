@@ -28,7 +28,7 @@ const Hint: React.FC<HintProps> = ({ title, content }) => {
       showButtons={false}
       modalClosed={handleCloseModal}
       modalConfirmed={handleModalConfirmed}>
-      { content }
+        <div dangerouslySetInnerHTML={{__html: content}} />
     </Modal>
   </>
 }

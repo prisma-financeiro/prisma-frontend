@@ -21,7 +21,7 @@ import {
   MenuItems,
   MenuItem,
   Icon,
-  Logo
+  Logo,
 } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { GlobalState } from '../../store/ducks';
@@ -101,6 +101,7 @@ const Header = () => {
         title="Encontre um ativo"
         show={isSearchModalOpen}
         showButtons={false}
+        allowScrolling={false}
         modalClosed={handleCloseModal}
         modalConfirmed={handleModalConfirmed}>
         <Typeahead redirect={true}/>
