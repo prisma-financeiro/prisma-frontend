@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiLock } from "react-icons/fi";
 import Input from "../Input";
 import { PasswordRule } from "./PasswordRule";
-import { InputControl, ValidatorMessage } from "./styles";
+import { Container, ValidatorMessage } from "./styles";
 
 interface PasswordRules {
     containLowerCaseLetter: boolean;
@@ -24,12 +24,14 @@ const CONTAIN_SPECIAL_CHARACTER_REGEXP = "(?=.[!@#$%^&])";
 const CONTAIN_AT_LEAST_EIGHT_CHARACHTERS_REGEXP = "(?=.{8,})";
 
 interface PasswordProps {
+    passwordPlaceholder: string,
+    confirmationPlaceholder: string,
     onChangePassword: (password: string) => void;
     onPasswordRulesMatched: () => void;
     onPasswordRulesNotMatched: () => void;
 }
 
-const Password: React.FC<PasswordProps> = ({ onChangePassword, onPasswordRulesMatched, onPasswordRulesNotMatched }) => {
+const Password: React.FC<PasswordProps> = ({ passwordPlaceholder, confirmationPlaceholder, onChangePassword, onPasswordRulesMatched, onPasswordRulesNotMatched }) => {
 
     const [isPasswordRulesVisible, setIsPasswordRulesVisible] = useState<boolean>(false);
     const [password, setPassword] = useState<SignUpInput<string>>({} as SignUpInput<string>);
@@ -91,21 +93,19 @@ const Password: React.FC<PasswordProps> = ({ onChangePassword, onPasswordRulesMa
     }
 
     return (
-        <>
-            <InputControl>
-                <Input
-                    type="password"
-                    placeholder="Senha"
-                    name="senha"
-                    icon={<FiLock />}
-                    onChange={(event) => handlePasswordChange(event.target.value)}
-                    onBlur={() => handlePasswordInputBlur()}
-                    onFocus={() => handlePasswordInputFocus()}
-                />
-            </InputControl>
+        <Container>
+            <Input
+                type="password"
+                placeholder={passwordPlaceholder}
+                name="senha"
+                icon={<FiLock />}
+                onChange={(event) => handlePasswordChange(event.target.value)}
+                onBlur={() => handlePasswordInputBlur()}
+                onFocus={() => handlePasswordInputFocus()}
+            />
             {
                 isPasswordRulesVisible ?
-                    <InputControl>
+                    <>
                         <PasswordRule
                             text='Senha precisa conter uma letra minúscula.'
                             match={passwordRules.containLowerCaseLetter}
@@ -126,28 +126,26 @@ const Password: React.FC<PasswordProps> = ({ onChangePassword, onPasswordRulesMa
                             text='Senha precisa conter no mínimo 8 dígitos.'
                             match={passwordRules.containAtLeastEightCharacters}
                         />
-                    </InputControl>
+                    </>
                     :
                     null
             }
-            <InputControl>
-                <Input
-                    type="password"
-                    placeholder="Confirmação de senha"
-                    name="confirmacaoSenha"
-                    icon={<FiLock />}
-                    onChange={(event) => handlePasswordConfirmationChange(event.target.value)}
-                />
-                {
-                    passwordConfirmation.value && !passwordConfirmation.valid ?
-                        <ValidatorMessage>
-                            <p>A senha e a confirmação de senha devem ser iguais.</p>
-                        </ValidatorMessage>
-                        :
-                        null
-                }
-            </InputControl>
-        </>
+            <Input
+                type="password"
+                placeholder={confirmationPlaceholder}
+                name="confirmacaoSenha"
+                icon={<FiLock />}
+                onChange={(event) => handlePasswordConfirmationChange(event.target.value)}
+            />
+            {
+                passwordConfirmation.value && !passwordConfirmation.valid ?
+                    <ValidatorMessage>
+                        <p>A senha e a confirmação de senha devem ser iguais.</p>
+                    </ValidatorMessage>
+                    :
+                    null
+            }
+        </Container>
     )
 }
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const FormContainer = styled.div`
-${({ theme }) => `
+${({ theme }) => css`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

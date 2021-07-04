@@ -109,6 +109,8 @@ const ForgotPassword = () => {
                         />
                     </InputControl>
                     <Password
+                        passwordPlaceholder="Senha"
+                        confirmationPlaceholder="Confirme a senha"
                         onChangePassword={(password) => handleOnChangePassword(password)}
                         onPasswordRulesMatched={() => handlePasswordRulesMatched()}
                         onPasswordRulesNotMatched={() => handlePasswordRulesNotMatched()}

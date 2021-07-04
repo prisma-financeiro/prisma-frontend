@@ -9,6 +9,7 @@ import AssetsExplorer from '../pages/AssetsExplorer';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import Portfolio from '../pages/Portfolio';
+import Profile from '../pages/Profile';
 
 const Routes = () => {
 
@@ -22,6 +23,7 @@ const Routes = () => {
       <PrivateRoute path="/assets" exact component={AssetsExplorer} />
       <PrivateRoute path="/assets/company/:id/:ticker" component={Company} />
       <PrivateRoute path="/portfolio" exact component={Portfolio} />
+      <PrivateRoute path="/profile" exact component={Profile} />
 
       <Route path="/signup" component={Signup} />
       <Route path="/" component={Login} />

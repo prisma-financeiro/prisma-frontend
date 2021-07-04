@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export const InputControl = styled.div`
-  margin: 1.5rem;
+export const Container = styled.div`
+  > * {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 export const ValidatorMessage = styled.div`

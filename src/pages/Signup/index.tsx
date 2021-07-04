@@ -135,11 +135,15 @@ const Signup = () => {
                             onChange={(event) => handleEmailChange(event.target.value)}
                         />
                     </InputControl>
-                    <Password
-                        onChangePassword={(password) => handlePasswordChange(password)}
-                        onPasswordRulesMatched={() => handlePasswordRulesMatched()}
-                        onPasswordRulesNotMatched={() => handlePasswordRulesNotMatched()}
-                    />
+                    <InputControl>
+                        <Password
+                            passwordPlaceholder="Senha"
+                            confirmationPlaceholder="Confirme a senha"
+                            onChangePassword={(password) => handlePasswordChange(password)}
+                            onPasswordRulesMatched={() => handlePasswordRulesMatched()}
+                            onPasswordRulesNotMatched={() => handlePasswordRulesNotMatched()}
+                        />
+                    </InputControl>
                     <InputControl>
                         <Checkbox
                             onChange={(checked) => handleTermsAndConditionsCheckboxClick(checked)}
