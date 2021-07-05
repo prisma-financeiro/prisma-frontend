@@ -30,6 +30,7 @@ import {
   TableTitle,
   SpinnerContainer
 } from './styles';
+import cutString from '../../../utils/string-shortener';
 
 interface IndexFlutuationTableRow {
   ticker: JSX.Element;
@@ -116,7 +117,7 @@ const MarketToday: React.FC<MarketTodayProps> = ({ anchor }) => {
           <CompanyHeader
             assetId={item.assetId}
             companyLogo={item.logo}
-            companyName={item.name}
+            companyName={cutString(item.name, 25)}
             tickerCode={item.ticker}
           />
         ),
@@ -140,7 +141,7 @@ const MarketToday: React.FC<MarketTodayProps> = ({ anchor }) => {
           <CompanyHeader
             assetId={item.assetId}
             companyLogo={item.logo}
-            companyName={item.name}
+            companyName={cutString(item.name, 25)}
             tickerCode={item.ticker}
           />
         ),
@@ -163,7 +164,7 @@ const MarketToday: React.FC<MarketTodayProps> = ({ anchor }) => {
           <CompanyHeader
             assetId={item.assetId}
             companyLogo={item.logo}
-            companyName={item.name}
+            companyName={cutString(item.name, 25)}
             tickerCode={item.ticker}
           />
         ),
@@ -186,7 +187,7 @@ const MarketToday: React.FC<MarketTodayProps> = ({ anchor }) => {
           <CompanyHeader
             assetId={item.assetId}
             companyLogo={item.logo}
-            companyName={item.name}
+            companyName={cutString(item.name, 25)}
             tickerCode={item.ticker}
           />
         ),

@@ -12,11 +12,24 @@ export interface ModalProps {
   showButtons: boolean;
   primaryButtonText?: string;
   secondaryButtonText?: string;
+  allowScrolling?: boolean;
   modalClosed: () => void;
   modalConfirmed: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, show, showButtons, primaryButtonText, secondaryButtonText, modalClosed, modalConfirmed, children }) => {
+const Modal: React.FC<ModalProps> = (props) => {
+
+  const {
+    title, 
+    show, 
+    showButtons, 
+    primaryButtonText, 
+    secondaryButtonText, 
+    allowScrolling = true,
+    modalClosed, 
+    modalConfirmed
+  } = props;
+
   return <>
     <Backdrop
       show={show}
@@ -37,8 +50,8 @@ const Modal: React.FC<ModalProps> = ({ title, show, showButtons, primaryButtonTe
               <FiX />
             </CloseIcon>
           </Header>
-          <Body>
-            {children}
+          <Body allowScrolling={allowScrolling}>
+            {props.children}
           </Body>
           {showButtons && (
             <Footer>
